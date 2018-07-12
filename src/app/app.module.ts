@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFirestore } from '../../node_modules/angularfire2/firestore';
+import { AngularFireAuth } from '../../node_modules/angularfire2/auth';
 
 
 const config = {
@@ -20,7 +22,8 @@ const config = {
     AngularFireModule.initializeApp(config),
     AngularFireDatabaseModule
   ],
+  providers: [ AngularFirestore, AngularFireAuth ],
   declarations: [ AppComponent ],
   bootstrap:    [ AppComponent ]
 })
-export class AppModule;
+export class AppModule { }
