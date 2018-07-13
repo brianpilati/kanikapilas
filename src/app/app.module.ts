@@ -3,8 +3,11 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFirestore } from '../../node_modules/angularfire2/firestore';
-import { AngularFireAuth } from '../../node_modules/angularfire2/auth';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { SongDetailComponent } from './song-detail/song-detail.component';
+import { SongsComponent } from './songs/songs.component';
+import { UkuleleRoutingModule } from './ukulele-routing.module';
 
 
 const config = {
@@ -20,10 +23,11 @@ const config = {
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(config),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    UkuleleRoutingModule
   ],
   providers: [ AngularFirestore, AngularFireAuth ],
-  declarations: [ AppComponent ],
+  declarations: [ AppComponent, SongDetailComponent, SongsComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }
