@@ -9,6 +9,8 @@ import { SongDetailComponent } from './song-detail/song-detail.component';
 import { SongsComponent } from './songs/songs.component';
 import { SongsService } from './songs-service/songs.service';
 import { UkuleleRoutingModule } from './ukulele-routing.module';
+import { UserAuthenticationService } from './user-authentication/user-authentication.service';
+import { LoginComponent } from './login/login.component';
 
 
 const config = {
@@ -27,8 +29,8 @@ const config = {
     AngularFireDatabaseModule,
     UkuleleRoutingModule
   ],
-  providers: [ AngularFirestore, AngularFireAuth, SongsService ],
-  declarations: [ AppComponent, SongDetailComponent, SongsComponent ],
+  providers: [ AngularFirestore, AngularFireAuth, SongsService, UserAuthenticationService ],
+  declarations: [ AppComponent, SongDetailComponent, SongsComponent, LoginComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

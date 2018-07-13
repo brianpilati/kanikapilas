@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { SongsService } from '../songs-service/songs.service';
 
 @Component({
   selector: 'app-song-detail',
@@ -8,10 +9,12 @@ import { AngularFirestore } from 'angularfire2/firestore';
   styleUrls: ['./song-detail.component.css']
 })
 export class SongDetailComponent implements OnInit {
-  song = {};
+  song: any;
   showError = false;
 
-  constructor(private route: ActivatedRoute, private db: AngularFirestore) {}
+  constructor(private route: ActivatedRoute, private songsService: SongsService) {
+    this.song = {};
+  }
 
   ngOnInit(): void {
     this.getSong();
@@ -19,13 +22,8 @@ export class SongDetailComponent implements OnInit {
 
   getSong(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    console.log('detail', id);
-    this.db.doc(`songs/${id}`).valueChanges().subscribe(_song_ => {
-        this.song = _song_;
-        console.log(3222, _song_, this.song);
-      }, error => {
-        this.showError = true;
-        console.log('sweet', error);
-      });
+    this.songsService.getSong(id).subscribe(song => {
+      this.song = song;
+    });
   }
 }
