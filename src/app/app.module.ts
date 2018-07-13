@@ -7,6 +7,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { SongDetailComponent } from './song-detail/song-detail.component';
 import { SongsComponent } from './songs/songs.component';
+import { SongsService } from './songs-service/songs.service';
 import { UkuleleRoutingModule } from './ukulele-routing.module';
 
 
@@ -26,7 +27,7 @@ const config = {
     AngularFireDatabaseModule,
     UkuleleRoutingModule
   ],
-  providers: [ AngularFirestore, AngularFireAuth ],
+  providers: [ AngularFirestore, AngularFireAuth, SongsService ],
   declarations: [ AppComponent, SongDetailComponent, SongsComponent ],
   bootstrap:    [ AppComponent ]
 })
