@@ -5,8 +5,8 @@
   </h1>
 </div>
 <ul>
-  <li *ngFor="let user of users | async">
-    {{ user.firstName}}
+  <li *ngFor="let song of songs | async">
+    {{ song.title}} -> {{ song.public}} -> {{song.uid}}
   </li>
 </ul>
  
