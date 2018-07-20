@@ -15,6 +15,7 @@ export class SongsComponent implements OnInit {
   title = 'hello';
 
   songs: Observable<any[]>;
+  sortedSongs: Promise<any>;
   user: any;
   constructor(db: AngularFirestore, afAuth: AngularFireAuth, private userAuthentication: UserAuthenticationService,
   private songService: SongsService) {
@@ -26,5 +27,12 @@ export class SongsComponent implements OnInit {
       this.user = user;
     });
     this.songs = this.songService.getSongs();
+  }
+
+  sortSong(letter: string): void {
+    this.songService.getSortedSongs(letter).then(sortedSongs => {
+      this.sortedSongs = sortedSongs;
+      console.log('sorted songs: ', this.sortedSongs);
+    });
   }
 }

@@ -30,6 +30,23 @@ export class SongsService {
     return this.songs;
   }
 
+  getSortedSongs(letter: string): Promise<any> {
+    console.log('letter', letter);
+    const songs = [];
+    return this.firebaseDb.firestore.collection('songs').orderBy('title').startAt(letter).endAt(letter + '~').get().then(collection => {
+      console.log(collection);
+      collection.forEach((song) => {
+        console.log(song.id, song.data());
+        songs.push(Object.assign({
+          uid: song.id},
+          song.data()
+        ));
+      });
+
+      return songs;
+    });
+  }
+
   getSong(id: string): any {
     return this.firebaseDb.doc(`songs/${id}`).valueChanges().pipe(
       map(_song_ => { console.log(_song_); return _song_; }),

@@ -1,0 +1,7 @@
+.song-image {
+  width: 600px;
+  border: 1px solid red;
+  pointer-events: none !important;
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}

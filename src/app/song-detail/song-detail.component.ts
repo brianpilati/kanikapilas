@@ -26,4 +26,8 @@ export class SongDetailComponent implements OnInit {
       this.song = song;
     });
   }
+
+  getSongImage(): string {
+    return 'assets/africa.png';
+  }
 }

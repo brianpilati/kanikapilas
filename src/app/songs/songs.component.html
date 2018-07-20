@@ -13,4 +13,19 @@
   </ul>
    
   Here  ::{{user.firstName}}::
+
+  <span (click)="sortSong('A')">A</span>
+  |
+  <span (click)="sortSong('B')">B</span>
+  |
+  <span (click)="sortSong('M')">M</span>
+
+  <ul>
+    <li *ngFor="let song of sortedSongs">
+        <a routerLink="/songs/{{song.uid}}">
+          {{ song.title}} -> {{ song.public}} -> {{song.uid}}
+        </a>
+    </li>
+  </ul>
+
   
