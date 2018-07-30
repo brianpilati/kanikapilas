@@ -3,7 +3,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { UserAuthenticationService } from '../user-authentication/user-authentication.service';
 import { Observable, empty } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { Router } from '../../../node_modules/@angular/router';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'

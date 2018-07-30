@@ -11,6 +11,8 @@ import { SongsService } from './songs-service/songs.service';
 import { UkuleleRoutingModule } from './ukulele-routing.module';
 import { UserAuthenticationService } from './user-authentication/user-authentication.service';
 import { LoginComponent } from './login/login.component';
+import { PLATFORM_ID, APP_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 
 const config = {
@@ -24,7 +26,7 @@ const config = {
 
 @NgModule({
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'beb-ukulele-kanikapilas' }),
     AngularFireModule.initializeApp(config),
     AngularFireDatabaseModule,
     UkuleleRoutingModule
@@ -33,4 +35,14 @@ const config = {
   declarations: [ AppComponent, SongDetailComponent, SongsComponent, LoginComponent ],
   bootstrap:    [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(APP_ID) private appId: string) {
+    const platform = isPlatformBrowser(platformId) ?
+      'in the browser' : 'on the server';
+    console.log(`Running ${platform} with appId=${appId}`);
+  }
+}
+
+
