@@ -25,3 +25,21 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+## Tutorial on Mysql Async/Await
+https://medium.com/@matthagemann/create-a-mysql-database-middleware-with-node-js-8-and-async-await-6984a09d49f4
+
+## You will need to have a server/db_configuration.js file in the following format
+
+```
+var mysql = require('mysql')
+
+module.exports = mysql.createPool({
+  connectionLimit: 10,
+  host: 'host_name | localhost',
+  user: 'mysql_user',
+  password: 'mysql_user_password',
+  database: 'database_name',
+  socketPath: '/opt/local/var/run/mysql56/mysqld.sock'
+});
+```
