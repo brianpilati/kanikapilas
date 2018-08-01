@@ -1,0 +1,10 @@
+-- MySQL dump 10.11
+--
+-- Host: localhost    Database: kanikapilas 
+-- ------------------------------------------------------
+-- Server version	5.6.34
+
+DROP DATABASE IF EXISTS `kanikapilas`;
+CREATE DATABASE `kanikapilas`;
+
+USE `kanikapilas`;

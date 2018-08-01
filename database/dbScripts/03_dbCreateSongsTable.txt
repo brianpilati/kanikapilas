@@ -1,0 +1,17 @@
+-- MySQL dump 10.11
+--
+-- Host: localhost    Database: kanikapilas 
+-- ------------------------------------------------------
+-- Server version	5.6.34
+
+USE `kanikapilas`;
+
+DROP TABLE IF EXISTS `songs`;
+
+CREATE TABLE `songs` (
+  `id` INT(10) UNSIGNED UNIQUE NOT NULL auto_increment,
+  `title` VARCHAR(255),
+  `artist` VARCHAR(255),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='The Songs Table';

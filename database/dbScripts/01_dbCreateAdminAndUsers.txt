@@ -1,0 +1,17 @@
+-- MySQL dump 10.11
+--
+-- Host: localhost    Database: mysql
+-- ------------------------------------------------------
+-- Server version	5.6.34
+
+USE `mysql`;
+
+LOCK TABLES `user` WRITE;
+INSERT INTO `user` (HOST, USER, PASSWORD, SELECT_PRIV, UPDATE_PRIV, CREATE_PRIV, DROP_PRIV, DELETE_PRIV) VALUES ('localhost','kanikapilas',password(''),'Y','Y','Y','Y','Y');
+UNLOCK TABLES;
+
+LOCK TABLES `db` WRITE;
+INSERT INTO `db` (HOST, DB, USER, SELECT_PRIV, INSERT_PRIV, UPDATE_PRIV, DELETE_PRIV, CREATE_PRIV, DROP_PRIV) VALUES ('%','kanikapilas','kanikapilas','Y','Y','Y','Y','Y','Y');
+UNLOCK TABLES;
+
+FLUSH PRIVILEGES;
