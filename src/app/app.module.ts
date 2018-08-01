@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { SongDetailComponent } from './song-detail/song-detail.component';
 import { SongsComponent } from './songs/songs.component';
@@ -9,6 +10,7 @@ import { UkuleleRoutingModule } from './ukulele-routing.module';
 @NgModule({
   imports: [
     BrowserModule,
+    HttpClientModule,
     UkuleleRoutingModule
   ],
   providers: [ SongsService ],

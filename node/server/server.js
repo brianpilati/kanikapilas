@@ -1,3 +1,4 @@
+/*
 var mysql = require('mysql');
 var fs = require('fs');
 var pool = require('./database');
@@ -24,3 +25,16 @@ const server = http.createServer((req, res) => {
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
 });
+*/
+
+var express = require('express')
+var app = express()
+
+// respond with "hello world" when a GET request is made to the homepage
+app.get('/songs', function (req, res) {
+  console.log('called');
+  res.status(200).json({ title: 'Africa' });
+})
+
+
+app.listen(3000, () => console.log('Example app listening on port 3000!'))
