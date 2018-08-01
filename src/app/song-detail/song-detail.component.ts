@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AngularFirestore } from 'angularfire2/firestore';
 import { SongsService } from '../songs-service/songs.service';
 
 @Component({
@@ -21,10 +20,12 @@ export class SongDetailComponent implements OnInit {
   }
 
   getSong(): void {
+    /*
     const id = this.route.snapshot.paramMap.get('id');
     this.songsService.getSong(id).subscribe(song => {
       this.song = song;
     });
+    */
   }
 
   getSongImage(): string {

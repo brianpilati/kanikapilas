@@ -15,3 +15,7 @@ CREATE TABLE `songs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='The Songs Table';
+
+INSERT INTO songs (title, artist) VALUES
+    ('Africa', 'Toto'),
+    ('Manic Monday', 'Cindy Lauper');

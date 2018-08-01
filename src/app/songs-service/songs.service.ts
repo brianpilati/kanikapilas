@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, empty, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { shareReplay, map, catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SongsService {
-  songs: Observable<any[]>;
-  private apiUrl = 'api';  // URL to web api
-
+  private songsCache$: Observable<any[]>;
+  private apiUrl = 'http://localhost:3000/api';  // URL to web api
+  private CACHE_SIZE = 1;
 
   constructor(
     private http: HttpClient,
@@ -18,9 +18,22 @@ export class SongsService {
   ) { }
 
   getSongs(): Observable<any[]> {
+    console.log(this.songsCache$);
+    if (!this.songsCache$) {
+      console.log('not cached');
+      this.songsCache$ = this.requestSongs().pipe(
+        shareReplay(this.CACHE_SIZE)
+      )
+    }
+
+    return this.songsCache$;
+  }
+
+  requestSongs(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/songs`)
       .pipe(
-        catchError(this.handleError('getSongs', []))
+        tap(songs => this.log('fetched songs')),
+        catchError(this.handleError('getSongs - error', []))
       );
   }
   /*
@@ -66,6 +79,6 @@ export class SongsService {
   /** Log a HeroService message with the MessageService */
   private log(message: string) {
     // this.messageService.add(`HeroService: ${message}`);
-    console.log(`HeroService: ${message}`);
+    console.log(`SongService: ${message}`);
   }
 }

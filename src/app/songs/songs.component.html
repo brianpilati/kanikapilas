@@ -5,9 +5,9 @@
     </h1>
   </div>
   <ul>
-    <li *ngFor="let song of songs | async">
-        <a routerLink="/songs/{{song.uid}}">
-          {{ song.title}} -> {{ song.public}} -> {{song.uid}}
+    <li *ngFor="let song of songs">
+        <a routerLink="/songs/{{song.id}}">
+          {{ song.title}} -> {{ song.artist}} -> {{song.id}}
         </a>
     </li>
   </ul>

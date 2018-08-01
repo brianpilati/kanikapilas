@@ -1,40 +1,25 @@
-/*
-var mysql = require('mysql');
-var fs = require('fs');
-var pool = require('./database');
-
-const http = require('http');
-const hostname = '127.0.0.1';
-const port = 3000;
-
-async function getUsers() {
-  return await pool.query('SELECT * FROM user');
-}
-
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  getUsers().then(function(result) {
-    result.forEach(function(user) {
-      res.write(user.User + '\n');
-    });
-    res.end('\n');
-  });
-});
-
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
-});
-*/
-
+var pool = require('../lib/database');
 var express = require('express')
+var cors = require('cors')
 var app = express()
 
-// respond with "hello world" when a GET request is made to the homepage
-app.get('/songs', function (req, res) {
-  console.log('called');
-  res.status(200).json({ title: 'Africa' });
-})
+async function getSongs() {
+  return await pool.query('SELECT * FROM songs');
+}
 
+var corsOptions = {
+  origin: 'http://localhost:4200',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.get('/api/songs', cors(corsOptions), function (req, res) {
+  const songs = [];
+  getSongs().then(function(result) {
+    result.forEach(function(song) {
+      songs.push(song);
+    });
+    res.status(200).json(songs);
+  });
+})
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))

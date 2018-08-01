@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { UserAuthenticationService } from '../user-authentication/user-authentication.service';
 import { SongsService } from '../songs-service/songs.service';
 
 @Component({
@@ -14,25 +11,25 @@ import { SongsService } from '../songs-service/songs.service';
 export class SongsComponent implements OnInit {
   title = 'hello';
 
-  songs: Observable<any[]>;
+  songs: any[];
   sortedSongs: Promise<any>;
   user: any;
-  constructor(db: AngularFirestore, afAuth: AngularFireAuth, private userAuthentication: UserAuthenticationService,
-  private songService: SongsService) {
+  constructor(private songService: SongsService) {
     this.user = {};
   }
 
   ngOnInit() {
-    this.userAuthentication.getUser().subscribe(user => {
-      this.user = user;
+    this.songService.getSongs().subscribe(songs => {
+      this.songs = songs;
     });
-    this.songs = this.songService.getSongs();
   }
 
+  /*
   sortSong(letter: string): void {
     this.songService.getSortedSongs(letter).then(sortedSongs => {
       this.sortedSongs = sortedSongs;
       console.log('sorted songs: ', this.sortedSongs);
     });
   }
+  */
 }
