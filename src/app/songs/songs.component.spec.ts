@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { SongsComponent } from './songs.component';
+import { TestSongs } from '../../testing/test-songs';
 
 describe('SongsComponent', () => {
   let component: SongsComponent;
@@ -37,5 +38,18 @@ describe('SongsComponent', () => {
       }]);
 
       expect(component.songs).toEqual([{ id: 1, title: 'Africa', artist: 'Toto' }]);
+  }));
+
+  it('should test sortSong', inject([HttpTestingController],
+    (httpMock: HttpTestingController) => {
+      expect(component.sortedSongs).toEqual([]);
+
+      component.sortSongs('a');
+
+      const request = httpMock.expectOne('http://localhost:3000/api/songs');
+      expect(request.request.method).toEqual('GET');
+      request.flush(TestSongs);
+
+      expect(component.sortedSongs).toEqual([{ id: 1, title: 'Africa', artist: 'Toto' }]);
   }));
 });

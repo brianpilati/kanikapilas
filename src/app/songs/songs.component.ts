@@ -10,10 +10,11 @@ import { Song } from '../models/song';
 
 export class SongsComponent implements OnInit {
   songs: Song[];
-  sortedSongs: Promise<any>;
+  sortedSongs: Song[];
 
   constructor(private songService: SongsService) { 
     this.songs = [];
+    this.sortedSongs = [];
   }
 
   ngOnInit() {
@@ -22,12 +23,9 @@ export class SongsComponent implements OnInit {
     });
   }
 
-  /*
-  sortSong(letter: string): void {
-    this.songService.getSortedSongs(letter).then(sortedSongs => {
+  sortSongs(letter: string): void {
+    this.songService.getSortedSongs(letter).subscribe(sortedSongs => {
       this.sortedSongs = sortedSongs;
-      console.log('sorted songs: ', this.sortedSongs);
     });
   }
-  */
 }
