@@ -28,7 +28,6 @@ export class SongsService {
   }
 
   getSong(id: string): Observable<any> {
-    console.log(`${this.apiUrl}/${id}`);
     return this.http.get<any>(`${this.apiUrl}/${id}`)
       .pipe(
         tap(song => this.log('fetched song')),
