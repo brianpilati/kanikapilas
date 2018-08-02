@@ -11,16 +11,16 @@
     </li>
   </ul>
    
-  <span (click)="sortSong('A')">A</span>
+  <span (click)="sortSongs('A')">A</span>
   |
-  <span (click)="sortSong('B')">B</span>
+  <span (click)="sortSongs('B')">B</span>
   |
-  <span (click)="sortSong('M')">M</span>
+  <span (click)="sortSongs('M')">M</span>
 
   <ul>
     <li *ngFor="let song of sortedSongs">
         <a routerLink="/songs/{{song.uid}}">
-          {{ song.title}} -> {{ song.public}} -> {{song.uid}}
+          {{ song.title}} -> {{ song.artist}} -> {{song.id}}
         </a>
     </li>
   </ul>
