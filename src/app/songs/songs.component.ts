@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { SongsService } from '../songs-service/songs.service';
 
 @Component({
@@ -9,13 +8,11 @@ import { SongsService } from '../songs-service/songs.service';
 })
 
 export class SongsComponent implements OnInit {
-  title = 'hello';
-
   songs: any[];
   sortedSongs: Promise<any>;
-  user: any;
-  constructor(private songService: SongsService) {
-    this.user = {};
+
+  constructor(private songService: SongsService) { 
+    this.songs = [];
   }
 
   ngOnInit() {

@@ -1,9 +1,3 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-    <h1>
-      Welcome to {{ title }}!
-    </h1>
-  </div>
   <ul>
     <li *ngFor="let song of songs">
         <a routerLink="/songs/{{song.id}}">
@@ -17,8 +11,6 @@
     </li>
   </ul>
    
-  Here  ::{{user.firstName}}::
-
   <span (click)="sortSong('A')">A</span>
   |
   <span (click)="sortSong('B')">B</span>

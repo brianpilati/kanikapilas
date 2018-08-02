@@ -47,7 +47,7 @@ describe('SongDetailComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should test getSong', fakeAsync(inject([HttpTestingController],
+  it('should test getSong', inject([HttpTestingController],
     (httpMock: HttpTestingController) => {
       expect(component.song).toEqual({});
 
@@ -60,7 +60,7 @@ describe('SongDetailComponent', () => {
       });
 
       expect(component.song).toEqual({ id: 1, title: 'Africa', artist: 'Toto' });
-  })));
+  }));
 
   it('should test getSongImage',() => {
       expect(component.getSongImage()).toBe('assets/africa.png');
