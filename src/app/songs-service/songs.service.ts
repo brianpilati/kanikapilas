@@ -9,7 +9,7 @@ import { shareReplay, map, catchError, tap } from 'rxjs/operators';
 })
 export class SongsService {
   private songsCache$: Observable<any[]>;
-  private apiUrl = 'http://localhost:3000/api';  // URL to web api
+  private apiUrl = 'http://localhost:3000/api/songs';  // URL to web api
   private CACHE_SIZE = 1;
 
   constructor(
@@ -30,7 +30,7 @@ export class SongsService {
   }
 
   requestSongs(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/songs`)
+    return this.http.get<any[]>(`${this.apiUrl}`)
       .pipe(
         tap(songs => this.log('fetched songs')),
         catchError(this.handleError('getSongs - error', []))
