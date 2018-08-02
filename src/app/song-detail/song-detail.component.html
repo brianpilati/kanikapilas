@@ -1,9 +1,20 @@
-<p>
- <a routerLink="/">Back</a>
-</p>
-<p>
-  {{song.title}}
-</p>
+<div *ngIf="song" name="selectedSongDetails">
+
+  <h2>{{ song.title | uppercase }} Details</h2>
+  <div><span>id: </span>{{song.id}}</div>
+  <div>
+      <label>title:
+          <input [(ngModel)]="song.title" placeholder="Song Title"/>
+      </label>
+  </div>
 <p>
   <img class="song-image" src="assets/{{song.imageSrc}}">
 </p>
+  <div>
+      <button name="saveButton" (click)="save()">save</button>
+  </div>
+  <div>
+      <button name="goBackButton" (click)="goBack()">go back</button>
+  </div>
+</div>
+

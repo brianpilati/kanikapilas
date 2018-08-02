@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+
 import { SongsService } from '../songs-service/songs.service';
 import { Song } from '../models/song';
 
@@ -9,9 +11,13 @@ import { Song } from '../models/song';
   styleUrls: ['./song-detail.component.css']
 })
 export class SongDetailComponent implements OnInit {
-  song: Song;
+  @Input() song: Song;
 
-  constructor(private route: ActivatedRoute, private songsService: SongsService) {
+  constructor(
+    private route: ActivatedRoute,
+    private location: Location,
+    private songsService: SongsService
+  ) {
     this.song = new Song();
   }
 
@@ -25,4 +31,14 @@ export class SongDetailComponent implements OnInit {
       this.song = song;
     });
   }
+
+  goBack(): void {
+    this.location.back();
+  }
+
+  /*
+  save(): void {
+    this.heroService.updateHero(this.hero).subscribe(() => this.goBack());
+  }
+  */
 }

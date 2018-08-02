@@ -1,5 +1,6 @@
 import { tick, async, ComponentFixture, TestBed, inject, fakeAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Location } from '@angular/common';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from '../../testing/in-memory-data.service';
@@ -7,6 +8,7 @@ import { InMemoryDataService }  from '../../testing/in-memory-data.service';
 import { SongDetailComponent } from './song-detail.component';
 import { ActivatedRoute } from '../../../node_modules/@angular/router';
 import { Song } from '../models/song';
+import { FormsModule } from '../../../node_modules/@angular/forms';
 
 const activatedRouteMock =  {
   snapshot: {
@@ -21,10 +23,16 @@ const activatedRouteMock =  {
 describe('SongDetailComponent', () => {
   let component: SongDetailComponent;
   let fixture: ComponentFixture<SongDetailComponent>;
+  let locationServiceSpy;
+  let compiled;
 
   beforeEach(async(() => {
+    locationServiceSpy = jasmine.createSpyObj('Location', ['back']);
+    locationServiceSpy.back.and.returnValue(22);
+
     TestBed.configureTestingModule({
       imports: [
+        FormsModule,
         HttpClientTestingModule,
         RouterTestingModule
       ],
@@ -33,6 +41,10 @@ describe('SongDetailComponent', () => {
         { 
           provide: ActivatedRoute, 
           useValue: activatedRouteMock 
+        },
+        {
+          provide: Location,
+          useValue: locationServiceSpy
         } 
       ]
     })
@@ -41,6 +53,7 @@ describe('SongDetailComponent', () => {
       fixture = TestBed.createComponent(SongDetailComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
+      compiled = fixture.debugElement.nativeElement;
     });
   }));
 
@@ -62,6 +75,21 @@ describe('SongDetailComponent', () => {
 
       expect(component.song).toEqual({ id: 1, title: 'Africa', artist: 'Toto' });
   }));
+
+  describe('goBack', () => {
+    it('should handle a goBack event', () => {
+      component.goBack();
+      expect(locationServiceSpy.back).toHaveBeenCalledWith();
+    });
+
+    it('should handle a goBack html event', () => {
+      fixture.detectChanges();
+      const backButton = compiled.querySelector('[name="goBackButton"]');
+      expect(backButton.textContent).toBe('go back');
+      backButton.click();
+      expect(locationServiceSpy.back).toHaveBeenCalledWith();
+    });
+  });
 });
 
 describe('SongDetailComponent with Fake Data', () => {
@@ -71,6 +99,7 @@ describe('SongDetailComponent with Fake Data', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        FormsModule,
         HttpClientTestingModule,
         HttpClientInMemoryWebApiModule.forRoot(
           InMemoryDataService, { 
@@ -85,7 +114,7 @@ describe('SongDetailComponent with Fake Data', () => {
         { 
           provide: ActivatedRoute, 
           useValue: activatedRouteMock 
-        } 
+        }
       ]
     })
     .compileComponents()
@@ -109,4 +138,24 @@ describe('SongDetailComponent with Fake Data', () => {
       expect(component.song).toEqual({ id: 1, title: 'Africa', artist: 'Toto' });
     });
   }));
+
+  /*
+  it('should handle an updateSong html event', () => {
+    fixture.detectChanges();
+    let compiled = fixture.debugElement.nativeElement;
+    component.song.title = 'brian';
+    const saveButton = compiled.querySelector('[name="saveButton"]');
+    expect(saveButton.textContent).toBe('save');
+    saveButton.click();
+
+    fixture.whenStable().then(() => {
+      expect(component.song).toEqual(
+        Object({
+          id: 14,
+          name: 'brian'
+        })
+      );
+    });
+  });
+  */
 });
