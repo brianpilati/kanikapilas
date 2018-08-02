@@ -25,7 +25,7 @@ describe('SongDetailComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-         RouterTestingModule
+        RouterTestingModule
       ],
       declarations: [ SongDetailComponent ],
       providers: [ 

@@ -31,15 +31,15 @@ export class SongsService {
     return this.http.get<any>(`${this.apiUrl}/${id}`)
       .pipe(
         tap(song => this.log('fetched song')),
-        catchError(this.handleError('getSong - error', []))
+        // catchError(this.handleError('getSong - error', []))
       );
   }
 
   requestSongs(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}`)
       .pipe(
-        tap(songs => this.log('fetched songs')),
-        catchError(this.handleError('getSongs - error', []))
+        tap(songs => this.log('fetched songs'))// ,
+        // catchError(this.handleError('getSongs - error', []))
       );
   }
   /*
@@ -63,19 +63,6 @@ export class SongsService {
 
   */
 
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-   
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-   
-      // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
-   
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
   /** Log a HeroService message with the MessageService */
   private log(message: string) {
     // this.messageService.add(`HeroService: ${message}`);
