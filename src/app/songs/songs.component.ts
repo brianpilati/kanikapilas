@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SongsService } from '../songs-service/songs.service';
+import { Song } from '../models/song';
 
 @Component({
   selector: 'app-songs',
@@ -8,7 +9,7 @@ import { SongsService } from '../songs-service/songs.service';
 })
 
 export class SongsComponent implements OnInit {
-  songs: any[];
+  songs: Song[];
   sortedSongs: Promise<any>;
 
   constructor(private songService: SongsService) { 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SongsService } from '../songs-service/songs.service';
+import { Song } from '../models/song';
 
 @Component({
   selector: 'app-song-detail',
@@ -8,11 +9,11 @@ import { SongsService } from '../songs-service/songs.service';
   styleUrls: ['./song-detail.component.css']
 })
 export class SongDetailComponent implements OnInit {
-  song: any;
+  song: Song;
   showError = false;
 
   constructor(private route: ActivatedRoute, private songsService: SongsService) {
-    this.song = {};
+    this.song = new Song();
   }
 
   ngOnInit(): void {

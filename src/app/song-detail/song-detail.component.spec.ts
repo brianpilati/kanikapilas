@@ -6,6 +6,7 @@ import { InMemoryDataService }  from '../../testing/in-memory-data.service';
 
 import { SongDetailComponent } from './song-detail.component';
 import { ActivatedRoute } from '../../../node_modules/@angular/router';
+import { Song } from '../models/song';
 
 const activatedRouteMock =  {
   snapshot: {
@@ -49,7 +50,7 @@ describe('SongDetailComponent', () => {
 
   it('should test getSong', inject([HttpTestingController],
     (httpMock: HttpTestingController) => {
-      expect(component.song).toEqual({});
+      expect(component.song).toEqual(new Song());
 
       const request = httpMock.expectOne('http://localhost:3000/api/songs/1');
       expect(request.request.method).toEqual('GET');
@@ -103,7 +104,7 @@ describe('SongDetailComponent with Fake Data', () => {
   });
 
   it('should test getSong whenStable', fakeAsync(() => {
-    expect(component.song).toEqual({});
+    expect(component.song).toEqual(new Song());
 
     fixture.detectChanges();
     tick(1501);
