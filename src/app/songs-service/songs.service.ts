@@ -18,15 +18,22 @@ export class SongsService {
   ) { }
 
   getSongs(): Observable<any[]> {
-    console.log(this.songsCache$);
     if (!this.songsCache$) {
-      console.log('not cached');
       this.songsCache$ = this.requestSongs().pipe(
         shareReplay(this.CACHE_SIZE)
       )
     }
 
     return this.songsCache$;
+  }
+
+  getSong(id: string): Observable<any> {
+    console.log(`${this.apiUrl}/${id}`);
+    return this.http.get<any>(`${this.apiUrl}/${id}`)
+      .pipe(
+        tap(song => this.log('fetched song')),
+        catchError(this.handleError('getSong - error', []))
+      );
   }
 
   requestSongs(): Observable<any[]> {
@@ -55,12 +62,6 @@ export class SongsService {
     });
   }
 
-  getSong(id: string): any {
-    return this.firebaseDb.doc(`songs/${id}`).valueChanges().pipe(
-      map(_song_ => { console.log(_song_); return _song_; }),
-      catchError(error => { console.log(error);  this.router.navigate(['/login']); return empty(); })
-    );
-  }
   */
 
   private handleError<T> (operation = 'operation', result?: T) {

@@ -20,12 +20,11 @@ export class SongDetailComponent implements OnInit {
   }
 
   getSong(): void {
-    /*
     const id = this.route.snapshot.paramMap.get('id');
     this.songsService.getSong(id).subscribe(song => {
+      console.log(song);
       this.song = song;
     });
-    */
   }
 
   getSongImage(): string {
