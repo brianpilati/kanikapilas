@@ -28,14 +28,6 @@ export class SongsService {
     return this.songsCache$;
   }
 
-  getSong(id: string): Observable<Song> {
-    return this.http.get<Song>(`${this.apiUrl}/${id}`)
-      .pipe(
-        tap(song => this.log('fetched song')),
-        // catchError(this.handleError('getSong - error', []))
-      );
-  }
-
   requestSongs(): Observable<Song[]> {
     return this.http.get<Song[]>(`${this.apiUrl}`)
       .pipe(
@@ -43,30 +35,45 @@ export class SongsService {
         // catchError(this.handleError('getSongs - error', []))
       );
   }
-  /*
 
-  getSortedSongs(letter: string): Promise<any> {
-    console.log('letter', letter);
-    const songs = [];
-    return this.firebaseDb.firestore.collection('songs').orderBy('title').startAt(letter).endAt(letter + '~').get().then(collection => {
-      console.log(collection);
-      collection.forEach((song) => {
-        console.log(song.id, song.data());
-        songs.push(Object.assign({
-          uid: song.id},
-          song.data()
-        ));
-      });
-
-      return songs;
-    });
+  getSortedSongs(letter: string): Observable<Song[]> {
+    return this.getSongs().pipe(
+      map(songs =>
+        songs.filter(
+          song => new RegExp(`^${letter}`, 'i').test(song.title)
+        )
+      )
+    );
   }
 
-  */
+  getSong(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`)
+      .pipe(
+        tap(song => this.log('fetched song'))// ,
+        // catchError(this.handleError('getSong - error', []))
+      );
+  }
 
-  /** Log a HeroService message with the MessageService */
   private log(message: string) {
     // this.messageService.add(`HeroService: ${message}`);
-    console.log(`SongService: ${message}`);
   }
+  /**
+ * Handle Http operation that failed.
+ * Let the app continue.
+ * @param operation - name of the operation that failed
+ * @param result - optional value to return as the observable result
+private handleError<T> (operation = 'operation', result?: T) {
+  return (error: any): Observable<T> => {
+
+    // TODO: send the error to remote logging infrastructure
+    console.error(error); // log to console instead
+
+    // TODO: better job of transforming error for user consumption
+    this.log(`${operation} failed: ${error.message}`);
+
+    // Let the app keep running by returning an empty result.
+    return of(result as T);
+  };
+}
+ */
 }

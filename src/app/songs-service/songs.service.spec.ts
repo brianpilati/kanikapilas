@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { SongsService } from './songs.service';
+import { TestSongs } from '../../testing/test-songs';
 
 describe('SongsService', () => {
   let songsService: SongsService;
@@ -55,12 +56,12 @@ describe('SongsService', () => {
   it('should test getSong', inject([HttpTestingController],
     (httpMock: HttpTestingController) => {
 
-      songsService.getSong('22').subscribe(songs => {
-        expect(songs).toEqual([{
+      songsService.getSong('22').subscribe(song => {
+        expect(song[0]).toEqual({
           id: 22,
           title: 'Africa',
           artist: 'Toto'
-        }]);
+        });
       })
 
       const request = httpMock.expectOne('http://localhost:3000/api/songs/22');
@@ -70,5 +71,47 @@ describe('SongsService', () => {
         title: 'Africa',
         artist: 'Toto'
       }]);
+  }));
+
+  it('should test getSortedSongs', inject([HttpTestingController],
+    (httpMock: HttpTestingController) => {
+
+      songsService.getSortedSongs('A').subscribe(songs => {
+        expect(songs).toEqual([{
+          id: 1,
+          title: 'Africa',
+          artist: 'Toto'
+        }]);
+      })
+
+      const request = httpMock.expectOne('http://localhost:3000/api/songs');
+      expect(request.request.method).toEqual('GET');
+      request.flush(TestSongs);
+
+      songsService.getSortedSongs('M').subscribe(songs => {
+        expect(songs).toEqual([{
+          id: 2,
+          title: 'Manic Monday',
+          artist: 'The Bangles'
+        }]);
+      })
+
+      httpMock.expectNone('http://localhost:3000/api/songs');
+
+      songsService.getSortedSongs('m').subscribe(songs => {
+        expect(songs).toEqual([{
+          id: 2,
+          title: 'Manic Monday',
+          artist: 'The Bangles'
+        }]);
+      })
+
+      httpMock.expectNone('http://localhost:3000/api/songs');
+
+      songsService.getSortedSongs('z').subscribe(songs => {
+        expect(songs).toEqual([]);
+      })
+
+      httpMock.expectNone('http://localhost:3000/api/songs');
   }));
 });

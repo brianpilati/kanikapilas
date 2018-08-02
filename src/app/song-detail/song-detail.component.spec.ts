@@ -62,10 +62,6 @@ describe('SongDetailComponent', () => {
 
       expect(component.song).toEqual({ id: 1, title: 'Africa', artist: 'Toto' });
   }));
-
-  it('should test getSongImage',() => {
-      expect(component.getSongImage()).toBe('assets/africa.png');
-  });
 });
 
 describe('SongDetailComponent with Fake Data', () => {

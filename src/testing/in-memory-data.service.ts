@@ -1,11 +1,10 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
 
+import { TestSongs as songs } from './test-songs';
+
+
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
-    const songs = [
-      { id: 1, title: 'Africa', artist: 'Toto' },
-      { id: 2, title: 'Manic Monday', artist: 'The Bangles' }
-    ];
     return {songs};
   }
 }

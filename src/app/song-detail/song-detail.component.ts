@@ -10,7 +10,6 @@ import { Song } from '../models/song';
 })
 export class SongDetailComponent implements OnInit {
   song: Song;
-  showError = false;
 
   constructor(private route: ActivatedRoute, private songsService: SongsService) {
     this.song = new Song();
@@ -25,9 +24,5 @@ export class SongDetailComponent implements OnInit {
     this.songsService.getSong(id).subscribe(song => {
       this.song = song;
     });
-  }
-
-  getSongImage(): string {
-    return 'assets/africa.png';
   }
 }
