@@ -74,7 +74,7 @@
             "styles": ["styles.css"],
             "scripts": [],
             "assets": ["src/favicon.ico", "src/assets"],
-            "codeCoverageExclude": ["dist/tutorial-core/**/*", "dist/tutorial/**/*"]
+            "codeCoverageExclude": ["src/testing/**/*"]
           }
         },
         "lint": {

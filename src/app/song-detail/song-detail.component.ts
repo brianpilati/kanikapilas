@@ -60,7 +60,6 @@ export class SongDetailComponent implements OnInit {
   }
 
   save(): void {
-    console.log('how');
     if (this.songForm.valid) {
       this.songsService.updateSong(<Song>this.songForm.value).subscribe(() => this.goBack());
     }
