@@ -66,8 +66,8 @@ export class SongsService {
       .put<Song>(`${this.apiUrl}`, song, this.httpOptions);
       /*
       .pipe(
-        tap(_ => this.errorHandlingService.log('HeroService', `updated hero id=${hero.id}`)),
-        catchError(this.errorHandlingService.handleError<any>('HeroService', 'updateHero'))
+        // tap(_ => this.errorHandlingService.log('HeroService', `updated hero id=${hero.id}`)),
+        catchError(this.handleError('getSong - error', []))
       );
       */
   }
@@ -93,5 +93,5 @@ private handleError<T> (operation = 'operation', result?: T) {
     return of(result as T);
   };
 }
- */
+*/
 }

@@ -76,6 +76,38 @@ describe('SongDetailComponent', () => {
       expect(component.song).toEqual({ id: 1, title: 'Africa', artist: 'Toto' });
   }));
 
+  it('should test getSong', inject([HttpTestingController],
+    (httpMock: HttpTestingController) => {
+      let request = httpMock.expectOne('http://localhost:3000/api/songs/1');
+      expect(request.request.method).toEqual('GET');
+      request.flush({
+        id: 1,
+        title: 'Africa',
+        artist: 'Toto'
+      });
+    fixture.detectChanges();
+
+    let compiled = fixture.debugElement.nativeElement;
+    component.song.title = 'brian';
+    const saveButton = compiled.querySelector('[name="saveButton"]');
+    expect(saveButton.textContent).toBe('save');
+    saveButton.click();
+
+      request = httpMock.expectOne('http://localhost:3000/api/songs');
+      expect(request.request.method).toEqual('PUT');
+
+
+    fixture.whenStable().then(() => {
+      expect(component.song).toEqual(
+        Object({
+          id: 1,
+          title: 'brian',
+          artist: 'Toto'
+        })
+      );
+    });
+  }));
+
   describe('goBack', () => {
     it('should handle a goBack event', () => {
       component.goBack();
@@ -138,24 +170,4 @@ describe('SongDetailComponent with Fake Data', () => {
       expect(component.song).toEqual({ id: 1, title: 'Africa', artist: 'Toto' });
     });
   }));
-
-  /*
-  it('should handle an updateSong html event', () => {
-    fixture.detectChanges();
-    let compiled = fixture.debugElement.nativeElement;
-    component.song.title = 'brian';
-    const saveButton = compiled.querySelector('[name="saveButton"]');
-    expect(saveButton.textContent).toBe('save');
-    saveButton.click();
-
-    fixture.whenStable().then(() => {
-      expect(component.song).toEqual(
-        Object({
-          id: 14,
-          name: 'brian'
-        })
-      );
-    });
-  });
-  */
 });
