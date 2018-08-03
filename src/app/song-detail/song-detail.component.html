@@ -1,25 +1,58 @@
 <div *ngIf="song" name="selectedSongDetails">
-
-  <h2>{{ song.title | uppercase }} Details</h2>
-  <div><span>id: </span>{{song.id}}</div>
-  <div>
-      <label>Title:
-          <input [(ngModel)]="song.title" placeholder="Song Title"/>
-      </label>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start">
+    <div fxFlex="25">
+      <button mat-button color="primary" name="goBackButton" (click)="goBack()">
+        <mat-icon>chevron_left</mat-icon>
+        Return to Songs 
+      </button>
+    </div>
   </div>
-  <div>
-      <label>Artist:
-          <input [(ngModel)]="song.artist" placeholder="Song Artist"/>
-      </label>
-  </div>
-<p>
-  <img class="song-image" src="assets/{{song.imageSrc}}">
-</p>
-  <div>
-      <button name="saveButton" (click)="save()">save</button>
-  </div>
-  <div>
-      <button name="goBackButton" (click)="goBack()">go back</button>
-  </div>
+  <form
+    [formGroup]="songForm"
+    class="song-form"
+    (ngSubmit)="save()"
+  >
+    <div fxLayout="column" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
+      <div fxFlex="fill" class="center">
+        <h2>{{ song.title | uppercase }}</h2>
+      </div>
+      <div>
+          <mat-form-field class="song-full-width">
+            <input
+              matInput
+              formControlName="title"
+              placeholder="Title"
+            >
+          </mat-form-field>
+          <mat-form-field class="song-full-width">
+            <input
+              matInput
+              formControlName="artist"
+              placeholder="Artist"
+            >
+          </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
+        <div>
+          <button
+            type="submit"
+            name="saveButton"
+            [disabled]="!songForm.valid"
+            mat-button color="accent"
+          >
+            Save
+          </button>
+        </div>
+        <div>
+          <button
+            type="button"
+            (click)="resetForm()"
+            mat-button color="warn"
+          >
+            Reset Form
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
-

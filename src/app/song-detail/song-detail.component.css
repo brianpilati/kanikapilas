@@ -1,7 +1,13 @@
-.song-image {
-  width: 600px;
-  border: 1px solid red;
-  pointer-events: none !important;
-  -webkit-transform: scaleX(-1);
-  transform: scaleX(-1);
+.center {
+  text-align: center;
+}
+
+.song-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.song-full-width {
+  width: 100%;
 }

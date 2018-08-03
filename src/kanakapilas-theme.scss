@@ -1,0 +1,158 @@
+@import '../node_modules/@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+/* For use in src/lib/core/theming/_palette.scss */
+$kanakapilas-primary: (
+  50: #fef8ed,
+  100: #fceed3,
+  200: #fae3b6,
+  300: #f7d898,
+  400: #f6cf82,
+  500: #f4c76c,
+  600: #f3c164,
+  700: #f1ba59,
+  800: #efb34f,
+  900: #eca63d,
+  A100: #ffffff,
+  A200: #ffffff,
+  A400: #ffedd3,
+  A700: #ffe2b9,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000
+  )
+);
+
+/*
+$kanakapilas-accent: (
+  50 : #e4e8f2,
+  100 : #bcc6e0,
+  200 : #90a0cb,
+  300 : #647ab6,
+  400 : #425ea6,
+  500 : #214196,
+  600 : #1d3b8e,
+  700 : #183283,
+  800 : #142a79,
+  900 : #0b1c68,
+  A100 : #9ba9ff,
+  A200 : #687dff,
+  A400 : #3552ff,
+  A700 : #1b3cff,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #ffffff,
+      400 : #ffffff,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #ffffff,
+      A700 : #ffffff,
+  )
+);
+*/
+
+$kanakapilas-accent: (
+  50: #f6fcfe,
+  100: #e8f7fe,
+  200: #d9f1fd,
+  300: #c9ebfc,
+  400: #bee7fb,
+  500: #b2e3fa,
+  600: #abe0f9,
+  700: #a2dcf9,
+  800: #99d8f8,
+  900: #8ad0f6,
+  A100: #ffffff,
+  A200: #ffffff,
+  A400: #ffffff,
+  A700: #ffffff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #000000,
+    900: #000000,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000
+  )
+);
+
+$kanakapilas-warn: (
+  50: #f9eaea,
+  100: #f1caca,
+  200: #e8a6a6,
+  300: #de8282,
+  400: #d76868,
+  500: #d04d4d,
+  600: #cb4646,
+  700: #c43d3d,
+  800: #be3434,
+  900: #b32525,
+  A100: #fff0f0,
+  A200: #ffbdbd,
+  A400: #ff8a8a,
+  A700: #ff7070,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000
+  )
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://www.google.com/design/spec/style/color.html
+$candy-app-primary: mat-palette($kanakapilas-primary);
+$candy-app-accent: mat-palette($kanakapilas-accent);
+
+// The warn palette is optional (defaults to red).
+$candy-app-warn: mat-palette($kanakapilas-warn);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($candy-app-theme);

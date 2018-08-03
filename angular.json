@@ -19,7 +19,11 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["node_modules/material-design-icons/iconfont/material-icons.css", "src/styles.css"],
+            "styles": [
+              "node_modules/material-design-icons/iconfont/material-icons.css",
+              "src/kanakapilas-theme.scss",
+              "src/styles.css"
+            ],
             "scripts": []
           },
           "configurations": {
