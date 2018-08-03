@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
+import 'hammerjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, MatSliderModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { SongDetailComponent } from './song-detail/song-detail.component';
@@ -23,6 +24,7 @@ import { UkuleleRoutingModule } from './ukulele-routing.module';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatSliderModule,
     ReactiveFormsModule,
     UkuleleRoutingModule
   ],

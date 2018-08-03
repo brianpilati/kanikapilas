@@ -31,6 +31,15 @@
               placeholder="Artist"
             >
           </mat-form-field>
+          <mat-slider
+            color="primary"
+            thumbLabel=true
+            [displayWith]="formatLabel"
+            tickInterval="1"
+            min="1"
+            max="5"
+          ></mat-slider>
+          <mat-icon>star</mat-icon>
       </div>
       <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
         <div>

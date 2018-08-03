@@ -64,4 +64,12 @@ export class SongDetailComponent implements OnInit {
       this.songsService.updateSong(<Song>this.songForm.value).subscribe(() => this.goBack());
     }
   }
+
+  formatLabel(value: number | null) {
+    if (!value) {
+      return 0;
+    }
+
+    return value;
+  }
 }

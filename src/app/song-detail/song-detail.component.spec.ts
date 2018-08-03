@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SongDetailComponent } from './song-detail.component';
 import { ActivatedRoute } from '@angular/router';
 import { Song } from '../models/song';
-import { MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, MatSliderModule } from '@angular/material';
 import { NoopAnimationsModule } from '../../../node_modules/@angular/platform-browser/animations';
 
 const activatedRouteMock = {
@@ -40,6 +40,7 @@ describe('SongDetailComponent', () => {
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
+        MatSliderModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
         RouterTestingModule
@@ -218,6 +219,7 @@ describe('SongDetailComponent with Fake Data', () => {
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
+        MatSliderModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
         RouterTestingModule
