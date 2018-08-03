@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { SongsService } from './songs.service';
 import { TestSongs } from '../../testing/test-songs';
+import { Song } from '../models/song';
 
 describe('SongsService', () => {
   let songsService: SongsService;
@@ -113,5 +114,26 @@ describe('SongsService', () => {
       })
 
       httpMock.expectNone('http://localhost:3000/api/songs');
+  }));
+
+  it('should test updateSong', inject([HttpTestingController],
+    (httpMock: HttpTestingController) => {
+      const song = <Song> {
+        id: 22,
+        title: 'Brian',
+        artist: 'Pilati'
+      };
+
+      songsService.updateSong(song).subscribe(song => {
+        expect(song[0]).toEqual({
+          id: 22,
+          title: 'Brian',
+          artist: 'Pilati'
+        });
+      })
+
+      const request = httpMock.expectOne('http://localhost:3000/api/songs');
+      expect(request.request.method).toEqual('PUT');
+      request.flush([song]);
   }));
 });

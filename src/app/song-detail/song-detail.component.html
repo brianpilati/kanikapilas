@@ -3,8 +3,13 @@
   <h2>{{ song.title | uppercase }} Details</h2>
   <div><span>id: </span>{{song.id}}</div>
   <div>
-      <label>title:
+      <label>Title:
           <input [(ngModel)]="song.title" placeholder="Song Title"/>
+      </label>
+  </div>
+  <div>
+      <label>Artist:
+          <input [(ngModel)]="song.artist" placeholder="Song Artist"/>
       </label>
   </div>
 <p>

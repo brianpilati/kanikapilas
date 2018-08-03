@@ -13,6 +13,13 @@ export class SongsService {
   private apiUrl = 'http://localhost:3000/api/songs';  // URL to web api
   private CACHE_SIZE = 1;
 
+  private httpOptions = {
+    headers: new HttpHeaders(
+      {
+        'Content-Type': 'application/json'
+     })
+  };
+
   constructor(
     private http: HttpClient,
     private router: Router
@@ -46,12 +53,23 @@ export class SongsService {
     );
   }
 
-  getSong(id: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`)
+  getSong(id: string): Observable<Song> {
+    return this.http.get<Song>(`${this.apiUrl}/${id}`)
       .pipe(
         tap(song => this.log('fetched song'))// ,
         // catchError(this.handleError('getSong - error', []))
       );
+  }
+
+  updateSong(song: Song): Observable<Song> {
+    return this.http
+      .put<Song>(`${this.apiUrl}`, song, this.httpOptions);
+      /*
+      .pipe(
+        tap(_ => this.errorHandlingService.log('HeroService', `updated hero id=${hero.id}`)),
+        catchError(this.errorHandlingService.handleError<any>('HeroService', 'updateHero'))
+      );
+      */
   }
 
   private log(message: string) {

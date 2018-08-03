@@ -1,7 +1,23 @@
 var pool = require('../lib/database');
 var express = require('express')
 var cors = require('cors')
+var bodyParser = require('body-parser')
 var app = express()
+
+var corsOptions = {
+  origin: 'http://localhost:4200',
+  optionsSuccessStatus: 200
+}
+
+app.use(bodyParser.json())
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, Content-Type");
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  next();
+
+});
 
 async function getSongs() {
   return await pool.query('SELECT * FROM songs');
@@ -11,16 +27,23 @@ async function getSong(songId) {
   return await pool.query(`SELECT * FROM songs WHERE id = ${songId}`);
 }
 
+async function updateSong(song) {
+  return await pool.query(`
+    UPDATE
+      songs
+    SET
+      title = '${song.title}',
+      artist = '${song.artist}'
+    WHERE
+      id = ${song.id}
+  `);
+}
+
 function returnError(res, code, message) {
   res.status(code).send(Object({
     status: code,
     error: message
   }));
-}
-
-var corsOptions = {
-  origin: 'http://localhost:4200',
-  optionsSuccessStatus: 200
 }
 
 app.get('/api/songs', cors(corsOptions), function (req, res) {
@@ -41,6 +64,13 @@ app.get('/api/songs/:songId', cors(corsOptions), function (req, res) {
       returnError(res, 404,'Sorry, we cannot find that!');
     }
   });
+})
+
+app.put('/api/songs', cors(corsOptions), function (req, res) {
+  updateSong(req.body).then(function() {
+    res.status(200);
+    res.send();
+  })
 })
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
