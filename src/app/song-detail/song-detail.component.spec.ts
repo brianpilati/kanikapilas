@@ -11,7 +11,7 @@ import { SongDetailComponent } from './song-detail.component';
 import { ActivatedRoute } from '@angular/router';
 import { Song } from '../models/song';
 import { MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, MatSliderModule } from '@angular/material';
-import { NoopAnimationsModule } from '../../../node_modules/@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 const activatedRouteMock = {
   snapshot: {
@@ -153,6 +153,11 @@ describe('SongDetailComponent', () => {
         })
       );
     }));
+  });
+
+  it('should handle a formatLabel event', () => {
+    expect(component.formatLabel(null)).toBe(0);
+    expect(component.formatLabel(5)).toBe(5);
   });
 
   it('should handle a resetForm event', () => {

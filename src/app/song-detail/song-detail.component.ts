@@ -66,10 +66,6 @@ export class SongDetailComponent implements OnInit {
   }
 
   formatLabel(value: number | null) {
-    if (!value) {
-      return 0;
-    }
-
-    return value;
+    return value ? value : 0;
   }
 }
