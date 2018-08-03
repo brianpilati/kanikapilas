@@ -10,61 +10,46 @@ import { Song } from '../models/song';
 })
 export class SongsService {
   private songsCache$: Observable<Song[]>;
-  private apiUrl = 'http://localhost:3000/api/songs';  // URL to web api
+  private apiUrl = 'http://localhost:3000/api/songs'; // URL to web api
   private CACHE_SIZE = 1;
 
   private httpOptions = {
-    headers: new HttpHeaders(
-      {
-        'Content-Type': 'application/json'
-     })
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
   };
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
   getSongs(): Observable<Song[]> {
     if (!this.songsCache$) {
-      this.songsCache$ = this.requestSongs().pipe(
-        shareReplay(this.CACHE_SIZE)
-      )
+      this.songsCache$ = this.requestSongs().pipe(shareReplay(this.CACHE_SIZE));
     }
 
     return this.songsCache$;
   }
 
   requestSongs(): Observable<Song[]> {
-    return this.http.get<Song[]>(`${this.apiUrl}`)
-      .pipe(
-        tap(songs => this.log('fetched songs'))// ,
-        // catchError(this.handleError('getSongs - error', []))
-      );
-  }
-
-  getSortedSongs(letter: string): Observable<Song[]> {
-    return this.getSongs().pipe(
-      map(songs =>
-        songs.filter(
-          song => new RegExp(`^${letter}`, 'i').test(song.title)
-        )
-      )
+    return this.http.get<Song[]>(`${this.apiUrl}`).pipe(
+      tap(songs => this.log('fetched songs')) // ,
+      // catchError(this.handleError('getSongs - error', []))
     );
   }
 
+  getSortedSongs(letter: string): Observable<Song[]> {
+    return this.getSongs().pipe(map(songs => songs.filter(song => new RegExp(`^${letter}`, 'i').test(song.title))));
+  }
+
   getSong(id: string): Observable<Song> {
-    return this.http.get<Song>(`${this.apiUrl}/${id}`)
-      .pipe(
-        tap(song => this.log('fetched song'))// ,
-        // catchError(this.handleError('getSong - error', []))
-      );
+    return this.http.get<Song>(`${this.apiUrl}/${id}`).pipe(
+      tap(song => this.log('fetched song')) // ,
+      // catchError(this.handleError('getSong - error', []))
+    );
   }
 
   updateSong(song: Song): Observable<Song> {
-    return this.http
-      .put<Song>(`${this.apiUrl}`, song, this.httpOptions);
-      /*
+    return this.http.put<Song>(`${this.apiUrl}`, song, this.httpOptions);
+    /*
       .pipe(
         // tap(_ => this.errorHandlingService.log('HeroService', `updated hero id=${hero.id}`)),
         catchError(this.handleError('getSong - error', []))

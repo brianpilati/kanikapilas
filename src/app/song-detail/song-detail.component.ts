@@ -11,13 +11,10 @@ import { Song } from '../models/song';
   styleUrls: ['./song-detail.component.css']
 })
 export class SongDetailComponent implements OnInit {
-  @Input() song: Song;
+  @Input()
+  song: Song;
 
-  constructor(
-    private route: ActivatedRoute,
-    private location: Location,
-    private songsService: SongsService
-  ) {
+  constructor(private route: ActivatedRoute, private location: Location, private songsService: SongsService) {
     this.song = new Song();
   }
 

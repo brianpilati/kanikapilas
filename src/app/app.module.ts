@@ -10,14 +10,9 @@ import { SongsService } from './songs-service/songs.service';
 import { UkuleleRoutingModule } from './ukulele-routing.module';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    UkuleleRoutingModule
-  ],
-  providers: [ SongsService ],
-  declarations: [ AppComponent, SongDetailComponent, SongsComponent ],
-  bootstrap:    [ AppComponent ]
+  imports: [BrowserModule, FormsModule, HttpClientModule, UkuleleRoutingModule],
+  providers: [SongsService],
+  declarations: [AppComponent, SongDetailComponent, SongsComponent],
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

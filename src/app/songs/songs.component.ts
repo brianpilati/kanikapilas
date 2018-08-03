@@ -7,12 +7,11 @@ import { Song } from '../models/song';
   templateUrl: './songs.component.html',
   styleUrls: ['./songs.component.css']
 })
-
 export class SongsComponent implements OnInit {
   songs: Song[];
   sortedSongs: Song[];
 
-  constructor(private songService: SongsService) { 
+  constructor(private songService: SongsService) {
     this.songs = [];
     this.sortedSongs = [];
   }

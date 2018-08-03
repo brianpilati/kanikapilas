@@ -12,44 +12,45 @@ describe('SongsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientTestingModule],
-      declarations: [ SongsComponent ]
+      declarations: [SongsComponent]
     })
-    .compileComponents().then(() => {
-      fixture = TestBed.createComponent(SongsComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(SongsComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+      });
   }));
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should test getSongs', inject([HttpTestingController],
-    (httpMock: HttpTestingController) => {
-      expect(component.songs).toEqual([]);
+  it('should test getSongs', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+    expect(component.songs).toEqual([]);
 
-      const request = httpMock.expectOne('http://localhost:3000/api/songs');
-      expect(request.request.method).toEqual('GET');
-      request.flush([{
+    const request = httpMock.expectOne('http://localhost:3000/api/songs');
+    expect(request.request.method).toEqual('GET');
+    request.flush([
+      {
         id: 1,
         title: 'Africa',
         artist: 'Toto'
-      }]);
+      }
+    ]);
 
-      expect(component.songs).toEqual([{ id: 1, title: 'Africa', artist: 'Toto' }]);
+    expect(component.songs).toEqual([{ id: 1, title: 'Africa', artist: 'Toto' }]);
   }));
 
-  it('should test sortSong', inject([HttpTestingController],
-    (httpMock: HttpTestingController) => {
-      expect(component.sortedSongs).toEqual([]);
+  it('should test sortSong', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+    expect(component.sortedSongs).toEqual([]);
 
-      component.sortSongs('a');
+    component.sortSongs('a');
 
-      const request = httpMock.expectOne('http://localhost:3000/api/songs');
-      expect(request.request.method).toEqual('GET');
-      request.flush(TestSongs);
+    const request = httpMock.expectOne('http://localhost:3000/api/songs');
+    expect(request.request.method).toEqual('GET');
+    request.flush(TestSongs);
 
-      expect(component.sortedSongs).toEqual([{ id: 1, title: 'Africa', artist: 'Toto' }]);
+    expect(component.sortedSongs).toEqual([{ id: 1, title: 'Africa', artist: 'Toto' }]);
   }));
 });
