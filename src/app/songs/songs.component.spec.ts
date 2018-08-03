@@ -35,11 +35,12 @@ describe('SongsComponent', () => {
       {
         id: 1,
         title: 'Africa',
-        artist: 'Toto'
+        artist: 'Toto',
+        stars: 1
       }
     ]);
 
-    expect(component.songs).toEqual([{ id: 1, title: 'Africa', artist: 'Toto' }]);
+    expect(component.songs).toEqual([{ id: 1, title: 'Africa', artist: 'Toto', stars: 1 }]);
   }));
 
   it('should test sortSong', inject([HttpTestingController], (httpMock: HttpTestingController) => {
@@ -51,6 +52,6 @@ describe('SongsComponent', () => {
     expect(request.request.method).toEqual('GET');
     request.flush(TestSongs);
 
-    expect(component.sortedSongs).toEqual([{ id: 1, title: 'Africa', artist: 'Toto' }]);
+    expect(component.sortedSongs).toEqual([{ id: 1, title: 'Africa', artist: 'Toto', stars: 1 }]);
   }));
 });

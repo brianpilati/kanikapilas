@@ -79,10 +79,16 @@ describe('SongDetailComponent', () => {
     request.flush({
       id: 1,
       title: 'Africa',
-      artist: 'Toto'
+      artist: 'Toto',
+      stars: 1
     });
 
-    expect(component.song).toEqual({ id: 1, title: 'Africa', artist: 'Toto' });
+    expect(component.song).toEqual({
+      id: 1,
+      title: 'Africa',
+      artist: 'Toto',
+      stars: 1
+    });
   }));
 
   describe('save', () => {
@@ -92,7 +98,8 @@ describe('SongDetailComponent', () => {
       request.flush({
         id: 1,
         title: 'Africa',
-        artist: 'Toto'
+        artist: 'Toto',
+        stars: 1
       });
       fixture.detectChanges();
 
@@ -106,7 +113,8 @@ describe('SongDetailComponent', () => {
       expect(request.request.body).toEqual({
         id: 1,
         title: 'brian',
-        artist: 'Toto'
+        artist: 'Toto',
+        stars: 1
       });
       expect(request.request.method).toEqual('PUT');
 
@@ -115,7 +123,8 @@ describe('SongDetailComponent', () => {
           Object({
             id: 1,
             title: 'Africa',
-            artist: 'Toto'
+            artist: 'Toto',
+            stars: 1
           })
         );
 
@@ -123,7 +132,8 @@ describe('SongDetailComponent', () => {
           Object({
             id: 1,
             title: 'brian',
-            artist: 'Toto'
+            artist: 'Toto',
+            stars: 1
           })
         );
       });
@@ -135,7 +145,8 @@ describe('SongDetailComponent', () => {
       request.flush({
         id: 1,
         title: 'Africa',
-        artist: 'Toto'
+        artist: 'Toto',
+        stars: 1
       });
       fixture.detectChanges();
 
@@ -149,10 +160,52 @@ describe('SongDetailComponent', () => {
         Object({
           id: 1,
           title: '',
-          artist: 'Toto'
+          artist: 'Toto',
+          stars: 1
         })
       );
     }));
+  });
+
+  it('should handle a starsChanged event', () => {
+    fixture.detectChanges();
+    const originalSong = {
+      id: 2222,
+      title: 'title - changed',
+      artist: 'artist - changed',
+      stars: 1
+    };
+
+    component.songForm.setValue(Object.assign(component.songForm.value, originalSong));
+
+    component.starsChanged();
+
+    expect(component.stars).toEqual(['primary', 'black', 'black', 'black', 'black']);
+
+    component.songForm.get('stars').setValue(5);
+    component.starsChanged();
+
+    expect(component.stars).toEqual(['primary', 'primary', 'primary', 'primary', 'primary']);
+
+    component.songForm.get('stars').setValue(2);
+    component.starsChanged();
+
+    expect(component.stars).toEqual(['primary', 'primary', 'black', 'black', 'black']);
+
+    component.songForm.get('stars').setValue(4);
+    component.starsChanged();
+
+    expect(component.stars).toEqual(['primary', 'primary', 'primary', 'primary', 'black']);
+
+    component.songForm.get('stars').setValue(1);
+    component.starsChanged();
+
+    expect(component.stars).toEqual(['primary', 'black', 'black', 'black', 'black']);
+
+    component.songForm.get('stars').setValue(0);
+    component.starsChanged();
+
+    expect(component.stars).toEqual(['black', 'black', 'black', 'black', 'black']);
   });
 
   it('should handle a resetForm event', () => {
@@ -160,7 +213,8 @@ describe('SongDetailComponent', () => {
     const originalSong = {
       id: 2222,
       title: 'title - changed',
-      artist: 'artist - changed'
+      artist: 'artist - changed',
+      stars: 1
     };
     component.song = originalSong;
 
@@ -168,19 +222,27 @@ describe('SongDetailComponent', () => {
       Object.assign(component.songForm.value, {
         id: 2222,
         title: 'title - changed',
-        artist: 'artist - changed'
+        artist: 'artist - changed',
+        stars: 2
       })
     );
 
     expect(component.songForm.value).toEqual({
       id: 2222,
       title: 'title - changed',
-      artist: 'artist - changed'
+      artist: 'artist - changed',
+      stars: 2
     });
+
+    component.starsChanged();
+
+    expect(component.stars).toEqual(['primary', 'primary', 'black', 'black', 'black']);
 
     component.resetForm();
 
     expect(component.songForm.value).toEqual(originalSong);
+
+    expect(component.stars).toEqual(['primary', 'black', 'black', 'black', 'black']);
   });
 
   describe('goBack', () => {
@@ -252,14 +314,27 @@ describe('SongDetailComponent with Fake Data', () => {
     'should test getSong whenStable',
     fakeAsync(() => {
       expect(component.song).toEqual(new Song());
+      expect(component.stars).toEqual(Array(5).fill('black'));
 
       fixture.detectChanges();
       tick(1501);
 
       fixture.whenStable().then(() => {
-        expect(component.song).toEqual({ id: 1, title: 'Africa', artist: 'Toto' });
+        expect(component.song).toEqual({
+          id: 1,
+          title: 'Africa',
+          artist: 'Toto',
+          stars: 1
+        });
 
-        expect(component.songForm.value).toEqual({ id: 1, title: 'Africa', artist: 'Toto' });
+        expect(component.songForm.value).toEqual({
+          id: 1,
+          title: 'Africa',
+          artist: 'Toto',
+          stars: 1
+        });
+
+        expect(component.stars).toEqual(['primary', 'black', 'black', 'black', 'black']);
       });
     })
   );

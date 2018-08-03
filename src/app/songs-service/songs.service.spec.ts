@@ -30,7 +30,8 @@ describe('SongsService', () => {
         {
           id: 1,
           title: 'Africa',
-          artist: 'Toto'
+          artist: 'Toto',
+          stars: 1
         }
       ]);
     });
@@ -41,7 +42,8 @@ describe('SongsService', () => {
       {
         id: 1,
         title: 'Africa',
-        artist: 'Toto'
+        artist: 'Toto',
+        stars: 1
       }
     ]);
 
@@ -50,7 +52,8 @@ describe('SongsService', () => {
         {
           id: 1,
           title: 'Africa',
-          artist: 'Toto'
+          artist: 'Toto',
+          stars: 1
         }
       ]);
     });
@@ -63,7 +66,8 @@ describe('SongsService', () => {
       expect(song[0]).toEqual({
         id: 22,
         title: 'Africa',
-        artist: 'Toto'
+        artist: 'Toto',
+        stars: 1
       });
     });
 
@@ -73,7 +77,8 @@ describe('SongsService', () => {
       {
         id: 22,
         title: 'Africa',
-        artist: 'Toto'
+        artist: 'Toto',
+        stars: 1
       }
     ]);
   }));
@@ -84,7 +89,8 @@ describe('SongsService', () => {
         {
           id: 1,
           title: 'Africa',
-          artist: 'Toto'
+          artist: 'Toto',
+          stars: 1
         }
       ]);
     });
@@ -98,7 +104,8 @@ describe('SongsService', () => {
         {
           id: 2,
           title: 'Manic Monday',
-          artist: 'The Bangles'
+          artist: 'The Bangles',
+          stars: 2
         }
       ]);
     });
@@ -110,7 +117,8 @@ describe('SongsService', () => {
         {
           id: 2,
           title: 'Manic Monday',
-          artist: 'The Bangles'
+          artist: 'The Bangles',
+          stars: 2
         }
       ]);
     });
@@ -128,19 +136,27 @@ describe('SongsService', () => {
     const song = <Song>{
       id: 22,
       title: 'Brian',
-      artist: 'Pilati'
+      artist: 'Pilati',
+      stars: 1
     };
 
     songsService.updateSong(song).subscribe(_song_ => {
       expect(_song_[0]).toEqual({
         id: 22,
         title: 'Brian',
-        artist: 'Pilati'
+        artist: 'Pilati',
+        stars: 1
       });
     });
 
     const request = httpMock.expectOne('http://localhost:3000/api/songs');
     expect(request.request.method).toEqual('PUT');
+    expect(request.request.body).toEqual({
+      id: 22,
+      title: 'Brian',
+      artist: 'Pilati',
+      stars: 1
+    });
     request.flush([song]);
   }));
 });
