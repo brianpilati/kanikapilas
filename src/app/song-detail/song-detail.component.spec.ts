@@ -1,4 +1,5 @@
 import { tick, async, ComponentFixture, TestBed, inject, fakeAsync } from '@angular/core/testing';
+import 'hammerjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Location } from '@angular/common';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';

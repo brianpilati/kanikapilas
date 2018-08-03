@@ -12,10 +12,11 @@ CREATE TABLE `songs` (
   `id` INT(10) UNSIGNED UNIQUE NOT NULL auto_increment,
   `title` VARCHAR(255),
   `artist` VARCHAR(255),
+  `stars` INT(1),
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='The Songs Table';
 
-INSERT INTO songs (title, artist) VALUES
-    ('Africa', 'Toto'),
-    ('Manic Monday', 'Cindy Lauper');
+INSERT INTO songs (title, artist, stars) VALUES
+    ('Africa', 'Toto', 1),
+    ('Manic Monday', 'Cindy Lauper', 3);
