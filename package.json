@@ -14,7 +14,8 @@
     "e2e": "ng e2e",
     "coverage": "ng test --watch=false --code-coverage",
     "format:fix": "pretty-quick --staged",
-    "precommit": "run-s format:fix lint coverage",
+    "precommit": "run-s format:fix",
+    "prepush": "run-s format:fix lint coverage",
     "format:check": "prettier --config ./.prettierrc --list-different \"src/{app,environments,assets}/**/*{.ts,.js,.json,.css,.scss}\"",
     "format:all": "prettier --config ./.prettierrc --write \"src/{app,environments,assets}/**/*{.ts,.js,.json,.css,.scss}\""
   },
