@@ -1,5 +1,5 @@
 <div *ngIf="song" name="selectedSongDetails">
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start">
+  <div fxLayout="row" fxLayout.xl="column" fxLayoutAlign="start">
     <div fxFlex="25">
       <button mat-button color="primary" name="goBackButton" (click)="goBack()">
         <mat-icon>chevron_left</mat-icon>
@@ -9,39 +9,49 @@
   </div>
   <form
     [formGroup]="songForm"
-    class="song-form"
     (ngSubmit)="save()"
   >
-    <div fxLayout="column" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
-      <div fxFlex="fill" class="center">
-        <h2>{{ song.title | uppercase }}</h2>
+    <div fxLayout="column" fxLayout.xl="column" fxLayoutAlign="space-evenly center">
+      <div fxFlex="fill" class="center title">
+        <span class="song-title">
+          {{ song.title | uppercase }}
+        </span>
+        <span *ngFor="let color of stars">
+          <mat-icon color="{{color}}" class="song-stars">star</mat-icon>
+        </span>
       </div>
-      <div>
-          <mat-form-field class="song-full-width">
-            <input
-              matInput
-              formControlName="title"
-              placeholder="Title"
-            >
-          </mat-form-field>
-          <mat-form-field class="song-full-width">
-            <input
-              matInput
-              formControlName="artist"
-              placeholder="Artist"
-            >
-          </mat-form-field>
-          <mat-slider
-            color="primary"
-            thumbLabel=true
-            [displayWith]="formatLabel"
-            tickInterval="1"
-            min="1"
-            max="5"
-          ></mat-slider>
-          <mat-icon>star</mat-icon>
+      <div
+        class="song-form-container"
+      >
+        <mat-form-field class="song-full-width">
+          <input
+            matInput
+            formControlName="title"
+            placeholder="Title"
+          >
+        </mat-form-field>
+        <mat-form-field class="song-full-width">
+          <input
+            matInput
+            formControlName="artist"
+            placeholder="Artist"
+          >
+        </mat-form-field>
       </div>
-      <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-evenly center">
+      <div class="song-form-container">
+        <label>Stars</label>
+        <br>
+        <mat-slider
+          (change)="starsChanged()"
+          color="primary"
+          thumbLabel=true
+          formControlName="stars"
+          min="0"
+          max="5"
+          placeholder="Number of stars"
+        ></mat-slider>
+      </div>
+      <div fxLayout="row" fxLayout.xl="column" fxLayoutAlign="space-evenly center">
         <div>
           <button
             type="submit"

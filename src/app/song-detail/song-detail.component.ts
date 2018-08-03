@@ -15,6 +15,7 @@ export class SongDetailComponent implements OnInit {
   @Input()
   song: Song;
 
+  public stars: string[];
   public songForm: FormGroup;
 
   constructor(
@@ -23,6 +24,7 @@ export class SongDetailComponent implements OnInit {
     private location: Location,
     private songsService: SongsService
   ) {
+    this.stars = Array(5).fill('black');
     this.song = new Song();
     this.createForm();
   }
@@ -31,7 +33,8 @@ export class SongDetailComponent implements OnInit {
     this.songForm = this.formatBuilder.group({
       id: ['', Validators.required],
       title: ['', Validators.required],
-      artist: ['', Validators.required]
+      artist: ['', Validators.required],
+      stars: [1, [Validators.required, Validators.min(1), Validators.max(5)]]
     });
   }
 
@@ -41,6 +44,8 @@ export class SongDetailComponent implements OnInit {
 
   private setSongValues(): void {
     this.songForm.setValue(Object.assign(this.songForm.value, this.song));
+
+    this.starsChanged();
   }
 
   private getSong(): void {
@@ -59,13 +64,15 @@ export class SongDetailComponent implements OnInit {
     this.setSongValues();
   }
 
+  starsChanged(): void {
+    this.stars.forEach((star, $index, starArray) => {
+      starArray[$index] = $index < this.songForm.get('stars').value ? 'primary' : 'black';
+    });
+  }
+
   save(): void {
     if (this.songForm.valid) {
       this.songsService.updateSong(<Song>this.songForm.value).subscribe(() => this.goBack());
     }
-  }
-
-  formatLabel(value: number | null) {
-    return value ? value : 0;
   }
 }

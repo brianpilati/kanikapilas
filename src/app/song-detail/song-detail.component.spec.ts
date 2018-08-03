@@ -155,11 +155,6 @@ describe('SongDetailComponent', () => {
     }));
   });
 
-  it('should handle a formatLabel event', () => {
-    expect(component.formatLabel(null)).toBe(0);
-    expect(component.formatLabel(5)).toBe(5);
-  });
-
   it('should handle a resetForm event', () => {
     fixture.detectChanges();
     const originalSong = {
