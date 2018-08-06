@@ -27,34 +27,37 @@ async function getSong(songId) {
 }
 
 async function updateSong(song) {
-  return await pool.query(`
+  return await pool.query(
+    `
     UPDATE
       songs
     SET
-      title = '${song.title}',
-      artist = '${song.artist}',
-      stars = '${song.stars}'
+      ?
     WHERE
       id = ${song.id}
-  `);
+  `,
+    {
+      title: song.title,
+      artist: song.artist,
+      stars: song.stars
+    }
+  );
 }
 
 async function insertSong(song) {
-  return await pool.query(`
+  return await pool.query(
+    `
     INSERT INTO
       songs
-    (
-      'title',
-      'artist',
-      'stars'
-    )
-    VALUES 
-    (
-      '${song.title}',
-      '${song.artist}',
-      '${song.stars}'
-    )
-  `);
+    SET
+      ?
+  `,
+    {
+      title: song.title,
+      artist: song.artist,
+      stars: song.stars
+    }
+  );
 }
 
 function returnError(res, code, message) {
@@ -94,9 +97,14 @@ app.put('/api/songs', cors(corsOptions), function(req, res) {
 });
 
 app.post('/api/songs', cors(corsOptions), function(req, res) {
-  insertSong(req.body).then(function(song) {
-    console.log(song);
-    res.status(200).json(song.pop());
+  insertSong(req.body).then(function(response) {
+    getSong(response.insertId).then(function(song) {
+      if (song.length) {
+        res.status(200).json(song.pop());
+      } else {
+        returnError(res, 404, 'Sorry, we cannot find that!');
+      }
+    });
   });
 });
 
