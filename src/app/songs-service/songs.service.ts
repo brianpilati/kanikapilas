@@ -56,6 +56,16 @@ export class SongsService {
     );
   }
 
+  saveSong(song: Song): Observable<Song> {
+    return this.http.post<Song>(`${this.apiUrl}`, song, this.httpOptions);
+    /*
+      .pipe(
+        // tap(_ => this.errorHandlingService.log('HeroService', `updated hero id=${hero.id}`)),
+        catchError(this.handleError('getSong - error', []))
+      );
+      */
+  }
+
   updateSong(song: Song): Observable<Song> {
     return this.http.put<Song>(`${this.apiUrl}`, song, this.httpOptions);
     /*

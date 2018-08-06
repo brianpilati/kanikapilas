@@ -16,7 +16,6 @@ export class SongsComponent implements OnInit {
   ngOnInit() {
     this.songService.getSongByFirstLetter().subscribe(songTitles => {
       this.songTitles = songTitles;
-      console.log(songTitles);
     });
   }
 

@@ -38,7 +38,7 @@ describe('SongsComponent', () => {
   }));
 
   it('should test sortSong', inject([HttpTestingController], (httpMock: HttpTestingController) => {
-    expect(component.sortedSongs).toEqual([]);
+    expect(component.sortedSongs).toBeUndefined();
 
     component.sortSongs('a');
 

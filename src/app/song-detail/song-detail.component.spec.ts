@@ -13,11 +13,15 @@ import { Song } from '../models/song';
 import { MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, MatSliderModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+let activatedRouteId: any;
+
+activatedRouteId = 1;
+
 const activatedRouteMock = {
   snapshot: {
     paramMap: {
       get: function() {
-        return 1;
+        return activatedRouteId;
       }
     }
   }
@@ -67,10 +71,6 @@ describe('SongDetailComponent', () => {
       });
   }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   it('should test getSong', inject([HttpTestingController], (httpMock: HttpTestingController) => {
     expect(component.song).toEqual(new Song());
 
@@ -92,7 +92,7 @@ describe('SongDetailComponent', () => {
   }));
 
   describe('save', () => {
-    it('should test save - valid', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+    it('should test savVe - valid', inject([HttpTestingController], (httpMock: HttpTestingController) => {
       let request = httpMock.expectOne('http://localhost:3000/api/songs/1');
       expect(request.request.method).toEqual('GET');
       request.flush({
@@ -261,6 +261,127 @@ describe('SongDetailComponent', () => {
   });
 });
 
+describe('SongDetailComponent with Save and Fake Data', () => {
+  let component: SongDetailComponent;
+  let fixture: ComponentFixture<SongDetailComponent>;
+  let locationServiceSpy;
+
+  beforeEach(async(() => {
+    locationServiceSpy = jasmine.createSpyObj('Location', ['back']);
+    locationServiceSpy.back.and.returnValue(22);
+    activatedRouteId = 'new';
+
+    TestBed.configureTestingModule({
+      imports: [
+        FormsModule,
+        HttpClientTestingModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatSliderModule,
+        NoopAnimationsModule,
+        ReactiveFormsModule,
+        RouterTestingModule
+      ],
+      declarations: [SongDetailComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: activatedRouteMock
+        },
+        {
+          provide: Location,
+          useValue: locationServiceSpy
+        }
+      ]
+    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(SongDetailComponent);
+        component = fixture.componentInstance;
+      });
+  }));
+
+  it('should test getSong whenStable', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+    expect(component.song).toEqual(new Song());
+    expect(component.stars).toEqual(Array(5).fill('black'));
+
+    fixture.detectChanges();
+
+    expect(component.song.id).toBe(0);
+
+    expect(component.songForm.value).toEqual(<Song>{
+      id: 0,
+      title: '',
+      artist: '',
+      stars: 0
+    });
+
+    expect(component.stars).toEqual(['black', 'black', 'black', 'black', 'black']);
+
+    component.songForm.setValue(
+      Object.assign(component.songForm.value, {
+        title: 'New Song',
+        artist: 'new Artist',
+        stars: 2
+      })
+    );
+
+    component.save();
+
+    const request = httpMock.expectOne('http://localhost:3000/api/songs');
+    expect(request.request.body).toEqual({
+      id: 0,
+      title: 'New Song',
+      artist: 'new Artist',
+      stars: 2
+    });
+    expect(request.request.method).toEqual('POST');
+    request.flush({
+      id: 1,
+      title: 'New Song - Response',
+      artist: 'New Artist - Response',
+      stars: 1111
+    });
+
+    expect(component.song).toEqual(
+      Object({
+        id: 1,
+        title: 'New Song - Response',
+        artist: 'New Artist - Response',
+        stars: 1111
+      })
+    );
+
+    expect(component.songForm.value).toEqual(
+      Object({
+        id: 1,
+        title: 'New Song - Response',
+        artist: 'New Artist - Response',
+        stars: 1111
+      })
+    );
+  }));
+
+  it(
+    'should test save whenStable',
+    fakeAsync(() => {
+      expect(component.song).toEqual(new Song());
+
+      fixture.detectChanges();
+      tick(1501);
+
+      component.songForm.get('title').setValue('New Artist');
+
+      component.save();
+
+      tick(1501);
+      expect(locationServiceSpy.back).toHaveBeenCalledWith();
+    })
+  );
+});
+
 describe('SongDetailComponent with Fake Data', () => {
   let component: SongDetailComponent;
   let fixture: ComponentFixture<SongDetailComponent>;
@@ -306,10 +427,6 @@ describe('SongDetailComponent with Fake Data', () => {
       });
   }));
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
   it(
     'should test getSong whenStable',
     fakeAsync(() => {
@@ -336,21 +453,6 @@ describe('SongDetailComponent with Fake Data', () => {
 
         expect(component.stars).toEqual(['primary', 'black', 'black', 'black', 'black']);
       });
-    })
-  );
-
-  it(
-    'should test save whenStable',
-    fakeAsync(() => {
-      expect(component.song).toEqual(new Song());
-
-      fixture.detectChanges();
-      tick(1501);
-
-      component.save();
-
-      tick(1501);
-      expect(locationServiceSpy.back).toHaveBeenCalledWith();
     })
   );
 });

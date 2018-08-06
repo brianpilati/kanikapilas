@@ -50,10 +50,17 @@ export class SongDetailComponent implements OnInit {
 
   private getSong(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.songsService.getSong(id).subscribe(song => {
-      this.song = song;
+    if (id === 'new') {
+      this.song = new Song();
+      this.song.stars = 0;
+      this.song.id = 0;
       this.setSongValues();
-    });
+    } else {
+      this.songsService.getSong(id).subscribe(song => {
+        this.song = song;
+        this.setSongValues();
+      });
+    }
   }
 
   goBack(): void {
@@ -72,7 +79,15 @@ export class SongDetailComponent implements OnInit {
 
   save(): void {
     if (this.songForm.valid) {
-      this.songsService.updateSong(<Song>this.songForm.value).subscribe(() => this.goBack());
+      const requestSong = <Song>this.songForm.value;
+      if (this.songForm.get('id').value === 0) {
+        this.songsService.saveSong(requestSong).subscribe(responseSong => {
+          this.song = responseSong;
+          this.setSongValues();
+        });
+      } else {
+        this.songsService.updateSong(requestSong).subscribe(() => this.goBack());
+      }
     }
   }
 }

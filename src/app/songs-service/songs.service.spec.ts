@@ -176,4 +176,32 @@ describe('SongsService', () => {
     });
     request.flush([song]);
   }));
+
+  it('should test saveSong', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+    const song = <Song>{
+      id: 0,
+      title: 'Brian',
+      artist: 'Pilati',
+      stars: 1
+    };
+
+    songsService.saveSong(song).subscribe(_song_ => {
+      expect(_song_[0]).toEqual({
+        id: 0,
+        title: 'Brian',
+        artist: 'Pilati',
+        stars: 1
+      });
+    });
+
+    const request = httpMock.expectOne('http://localhost:3000/api/songs');
+    expect(request.request.method).toEqual('POST');
+    expect(request.request.body).toEqual({
+      id: 0,
+      title: 'Brian',
+      artist: 'Pilati',
+      stars: 1
+    });
+    request.flush([song]);
+  }));
 });
