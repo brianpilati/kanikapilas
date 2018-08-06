@@ -12,10 +12,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Song } from '../models/song';
 import { MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, MatSliderModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { TestSongs } from '../../testing/test-songs';
 
 let activatedRouteId: any;
 
-activatedRouteId = 1;
+beforeEach(() => {
+  activatedRouteId = 1;
+});
 
 const activatedRouteMock = {
   snapshot: {
@@ -363,24 +366,6 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       })
     );
   }));
-
-  it(
-    'should test save whenStable',
-    fakeAsync(() => {
-      expect(component.song).toEqual(new Song());
-
-      fixture.detectChanges();
-      tick(1501);
-
-      component.songForm.get('title').setValue('New Artist');
-      component.songForm.get('id').setValue(22);
-
-      component.save();
-
-      tick(1501);
-      expect(locationServiceSpy.back).toHaveBeenCalledWith();
-    })
-  );
 });
 
 describe('SongDetailComponent with Fake Data', () => {
@@ -454,6 +439,24 @@ describe('SongDetailComponent with Fake Data', () => {
 
         expect(component.stars).toEqual(['primary', 'black', 'black', 'black', 'black']);
       });
+    })
+  );
+
+  it(
+    'should test save whenStable',
+    fakeAsync(() => {
+      expect(component.song).toEqual(new Song());
+
+      fixture.detectChanges();
+      tick(1501);
+
+      component.songForm.get('title').setValue('New Artist');
+      component.songForm.get('id').setValue(22);
+
+      component.save();
+
+      tick(1501);
+      expect(locationServiceSpy.back).toHaveBeenCalledWith();
     })
   );
 });

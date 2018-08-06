@@ -4,7 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { SongsComponent } from './songs.component';
 import { TestSongs } from '../../testing/test-songs';
-import { MatCardModule } from '@angular/material';
+import { MatCardModule, MatButtonModule } from '@angular/material';
 
 describe('SongsComponent', () => {
   let component: SongsComponent;
@@ -12,7 +12,7 @@ describe('SongsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MatCardModule, RouterTestingModule, HttpClientTestingModule],
+      imports: [MatButtonModule, MatCardModule, RouterTestingModule, HttpClientTestingModule],
       declarations: [SongsComponent]
     })
       .compileComponents()
@@ -33,7 +33,6 @@ describe('SongsComponent', () => {
     const request = httpMock.expectOne('http://localhost:3000/api/songs');
     expect(request.request.method).toEqual('GET');
     request.flush(TestSongs);
-
     expect(component.songTitles).toEqual(['A', 'M']);
   }));
 
