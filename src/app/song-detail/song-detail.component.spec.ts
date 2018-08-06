@@ -92,7 +92,7 @@ describe('SongDetailComponent', () => {
   }));
 
   describe('save', () => {
-    it('should test savVe - valid', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+    it('should test save - valid', inject([HttpTestingController], (httpMock: HttpTestingController) => {
       let request = httpMock.expectOne('http://localhost:3000/api/songs/1');
       expect(request.request.method).toEqual('GET');
       request.flush({
@@ -373,6 +373,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       tick(1501);
 
       component.songForm.get('title').setValue('New Artist');
+      component.songForm.get('id').setValue(22);
 
       component.save();
 

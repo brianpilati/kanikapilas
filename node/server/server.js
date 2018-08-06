@@ -39,6 +39,24 @@ async function updateSong(song) {
   `);
 }
 
+async function insertSong(song) {
+  return await pool.query(`
+    INSERT INTO
+      songs
+    (
+      'title',
+      'artist',
+      'stars'
+    )
+    VALUES 
+    (
+      '${song.title}',
+      '${song.artist}',
+      '${song.stars}'
+    )
+  `);
+}
+
 function returnError(res, code, message) {
   res.status(code).send(
     Object({
@@ -72,6 +90,13 @@ app.put('/api/songs', cors(corsOptions), function(req, res) {
   updateSong(req.body).then(function() {
     res.status(200);
     res.send();
+  });
+});
+
+app.post('/api/songs', cors(corsOptions), function(req, res) {
+  insertSong(req.body).then(function(song) {
+    console.log(song);
+    res.status(200).json(song.pop());
   });
 });
 
