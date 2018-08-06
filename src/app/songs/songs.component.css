@@ -1,0 +1,9 @@
+.song-container {
+  width: 100%;
+  max-width: 800px;
+  align-items: center;
+}
+
+.song-list {
+  margin-top: 20px;
+}

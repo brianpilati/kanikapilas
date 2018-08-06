@@ -1,29 +1,39 @@
-   
-  <div fxLayout="row" fxLayout.xl="column" fxLayoutAlign="start">
-    <div *ngFor="let songTitleLetter of songTitles">
-      <span class="click" (click)="sortSongs(songTitleLetter)">{{songTitleLetter}}</span>
-      |
+<div fxLayout="column" fxLayoutAlign="space-evenly center" class="song-container">
+  <div>
+    <h1>Kanikapilas</h1>
+  </div>
+  <div fxLayout="row" fxLayout.xl="column" fxLayoutAlign="space-evenly center">
+    <div *ngFor="let songTitleLetter of songTitles;
+    let last = last;
+    ">
+      <span (click)="sortSongs(songTitleLetter)">
+        <span class="click hover">{{songTitleLetter}}</span>
+        <span *ngIf="!last">&nbsp;|&nbsp;</span>
+      </span>
+    </div>
+    <div>
+      <a routerLink="/songs/new" class="click">
+        <button color="primary" mat-button>Add Song</button>
+      </a>
     </div>
   </div>
-
-  <ul>
-    <li *ngFor="let song of sortedSongs">
-        <a routerLink="/songs/{{song.uid}}" class="click">
-          {{ song.title}} -> {{ song.artist}} -> {{song.id}}
-        </a>
-    </li>
-  </ul>
-
-  
-  <ul>
-    <li *ngFor="let song of songs">
-        <a routerLink="/songs/{{song.id}}">
-          {{ song.title}} -> {{ song.artist}} -> {{song.id}}
-        </a>
-    </li>
-    <li>
-        <a routerLink="/songs/3">
-          error
-        </a>
-    </li>
-  </ul>
+  <div class="song-list" fxLayout="row" fxLayout.xl="column" fxLayoutAlign="space-evenly center">
+    <div *ngFor="let song of sortedSongs">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>{{song.artist}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="song-content">
+          <p>
+            {{song.title}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <a routerLink="/songs/{{song.id}}" class="click">
+            <button color="primary" mat-button>Edit</button>
+          </a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

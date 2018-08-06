@@ -5,7 +5,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, MatSliderModule } from '@angular/material';
+import {
+  MatButtonModule,
+  MatIconModule,
+  MatInputModule,
+  MatFormFieldModule,
+  MatSliderModule,
+  MatCardModule
+} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { SongDetailComponent } from './song-detail/song-detail.component';
@@ -21,6 +28,7 @@ import { UkuleleRoutingModule } from './ukulele-routing.module';
     FormsModule,
     HttpClientModule,
     MatButtonModule,
+    MatCardModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,

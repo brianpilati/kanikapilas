@@ -8,22 +8,15 @@ import { Song } from '../models/song';
   styleUrls: ['./songs.component.css']
 })
 export class SongsComponent implements OnInit {
-  songs: Song[];
   sortedSongs: Song[];
   songTitles: string[];
 
-  constructor(private songService: SongsService) {
-    this.songs = [];
-    this.sortedSongs = [];
-  }
+  constructor(private songService: SongsService) {}
 
   ngOnInit() {
-    this.songService.getSongs().subscribe(songs => {
-      this.songs = songs;
-      this.songService.getSongByFirstLetter().subscribe(songTitles => {
-        this.songTitles = songTitles;
-        console.log(songTitles);
-      });
+    this.songService.getSongByFirstLetter().subscribe(songTitles => {
+      this.songTitles = songTitles;
+      console.log(songTitles);
     });
   }
 
