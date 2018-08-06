@@ -83,6 +83,23 @@ describe('SongsService', () => {
     ]);
   }));
 
+  it('should test getSongByFirstLetter', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+    songsService.getSongByFirstLetter().subscribe(songs => {
+      expect(songs).toEqual(['A', 'M', 'Z']);
+    });
+
+    const returnTestSongs = Object.assign([], TestSongs);
+    returnTestSongs.unshift(<Song>{
+      id: 2333,
+      title: 'zorro',
+      artist: 'rene',
+      stars: 3
+    });
+    const request = httpMock.expectOne('http://localhost:3000/api/songs');
+    expect(request.request.method).toEqual('GET');
+    request.flush(returnTestSongs);
+  }));
+
   it('should test getSortedSongs', inject([HttpTestingController], (httpMock: HttpTestingController) => {
     songsService.getSortedSongs('A').subscribe(songs => {
       expect(songs).toEqual([
@@ -125,7 +142,7 @@ describe('SongsService', () => {
 
     httpMock.expectNone('http://localhost:3000/api/songs');
 
-    songsService.getSortedSongs('z').subscribe(songs => {
+    songsService.getSortedSongs('y').subscribe(songs => {
       expect(songs).toEqual([]);
     });
 

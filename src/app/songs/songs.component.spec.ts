@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { tick, fakeAsync, async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
@@ -26,22 +26,27 @@ describe('SongsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should test getSongs', inject([HttpTestingController], (httpMock: HttpTestingController) => {
-    expect(component.songs).toEqual([]);
+  it(
+    'should test getSongs',
+    fakeAsync(
+      inject([HttpTestingController], (httpMock: HttpTestingController) => {
+        expect(component.songs).toEqual([]);
 
-    const request = httpMock.expectOne('http://localhost:3000/api/songs');
-    expect(request.request.method).toEqual('GET');
-    request.flush([
-      {
-        id: 1,
-        title: 'Africa',
-        artist: 'Toto',
-        stars: 1
-      }
-    ]);
+        const request = httpMock.expectOne('http://localhost:3000/api/songs');
+        expect(request.request.method).toEqual('GET');
+        request.flush(TestSongs);
 
-    expect(component.songs).toEqual([{ id: 1, title: 'Africa', artist: 'Toto', stars: 1 }]);
-  }));
+        expect(component.songs[0]).toEqual({ id: 1, title: 'Africa', artist: 'Toto', stars: 1 });
+
+        tick(1000);
+
+        fixture.detectChanges();
+        fixture.whenStable().then(() => {
+          expect(component.songTitles).toEqual(['A', 'M']);
+        });
+      })
+    )
+  );
 
   it('should test sortSong', inject([HttpTestingController], (httpMock: HttpTestingController) => {
     expect(component.sortedSongs).toEqual([]);

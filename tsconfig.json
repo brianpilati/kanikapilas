@@ -9,7 +9,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
-    "types": ["hammerjs"],
+    "types": ["hammerjs", "jasmine"],
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2017", "dom"]
   }

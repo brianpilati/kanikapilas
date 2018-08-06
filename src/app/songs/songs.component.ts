@@ -10,6 +10,7 @@ import { Song } from '../models/song';
 export class SongsComponent implements OnInit {
   songs: Song[];
   sortedSongs: Song[];
+  songTitles: string[];
 
   constructor(private songService: SongsService) {
     this.songs = [];
@@ -19,6 +20,10 @@ export class SongsComponent implements OnInit {
   ngOnInit() {
     this.songService.getSongs().subscribe(songs => {
       this.songs = songs;
+      this.songService.getSongByFirstLetter().subscribe(songTitles => {
+        this.songTitles = songTitles;
+        console.log(songTitles);
+      });
     });
   }
 

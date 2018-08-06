@@ -40,6 +40,15 @@ export class SongsService {
     return this.getSongs().pipe(map(songs => songs.filter(song => new RegExp(`^${letter}`, 'i').test(song.title))));
   }
 
+  getSongByFirstLetter(): Observable<string[]> {
+    return this.getSongs().pipe<string[]>(
+      map(songs => songs.map(song => song.title.charAt(0).toUpperCase())),
+      map(songs => {
+        return songs.sort();
+      })
+    );
+  }
+
   getSong(id: string): Observable<Song> {
     return this.http.get<Song>(`${this.apiUrl}/${id}`).pipe(
       tap(song => this.log('fetched song')) // ,
