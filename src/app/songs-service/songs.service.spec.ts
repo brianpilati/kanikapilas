@@ -95,6 +95,13 @@ describe('SongsService', () => {
       artist: 'rene',
       stars: 3
     });
+
+    returnTestSongs.unshift(<Song>{
+      id: 32323,
+      title: 'zorro',
+      artist: 'rene',
+      stars: 3
+    });
     const request = httpMock.expectOne('http://localhost:3000/api/songs');
     expect(request.request.method).toEqual('GET');
     request.flush(returnTestSongs);

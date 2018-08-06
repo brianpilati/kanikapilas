@@ -42,10 +42,7 @@ export class SongsService {
 
   getSongByFirstLetter(): Observable<string[]> {
     return this.getSongs().pipe<string[]>(
-      map(songs => songs.map(song => song.title.charAt(0).toUpperCase())),
-      map(songs => {
-        return songs.sort();
-      })
+      map(songs => Array.from(new Set(songs.map(song => song.title.charAt(0).toUpperCase()).sort())))
     );
   }
 
