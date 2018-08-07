@@ -63,7 +63,7 @@ export class SongDetailComponent implements OnInit {
 
   private parseGenre(): void {
     const dbConstants = this.songForm.get('genre').value;
-    this.genres = dbConstants.split(/,(\s)?/);
+    this.genres = dbConstants.split(/,\s/g);
   }
 
   private setSongValues(): void {
@@ -103,7 +103,15 @@ export class SongDetailComponent implements OnInit {
   }
 
   searchTermSelected(): void {
-    console.log(this.songForm.get('searchTerm').value);
+    const currentGenre = this.songForm.get('genre').value;
+    const searchTerm = this.songForm.get('searchTerm').value;
+    if (currentGenre.length > 0) {
+      this.songForm.get('genre').setValue(`${currentGenre}, ${searchTerm}`);
+    } else {
+      this.songForm.get('genre').setValue(`${searchTerm}`);
+    }
+    this.parseGenre();
+    this.songForm.get('searchTerm').reset();
   }
 
   save(): void {

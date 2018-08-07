@@ -106,8 +106,74 @@ describe('SongDetailComponent', () => {
 
     expect(component.stars).toEqual([true, false, false, false, false]);
 
-    expect(component.genres).toEqual(['Pop', ' ', '80s']);
+    expect(component.genres).toEqual(['Pop', '80s']);
   }));
+
+  it('should test save - valid', () => {
+    component.songForm.get('searchTerm').setValue('Pop');
+
+    component.searchTermSelected();
+
+    expect(component.songForm.value).toEqual({
+      id: '',
+      title: '',
+      artist: '',
+      stars: 1,
+      flowered: false,
+      genre: 'Pop',
+      searchTerm: null
+    });
+
+    expect(component.genres).toEqual(['Pop']);
+
+    component.songForm.get('searchTerm').setValue('80s');
+
+    component.searchTermSelected();
+
+    expect(component.songForm.value).toEqual({
+      id: '',
+      title: '',
+      artist: '',
+      stars: 1,
+      flowered: false,
+      genre: 'Pop, 80s',
+      searchTerm: null
+    });
+
+    expect(component.genres).toEqual(['Pop', '80s']);
+
+    component.songForm.get('searchTerm').setValue('Primary Songs');
+
+    component.searchTermSelected();
+
+    expect(component.songForm.value).toEqual({
+      id: '',
+      title: '',
+      artist: '',
+      stars: 1,
+      flowered: false,
+      searchTerm: null,
+      genre: 'Pop, 80s, Primary Songs'
+    });
+
+    expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs']);
+  });
+
+  component.songForm.get('searchTerm').setValue('Spiritual Songs');
+
+  component.searchTermSelected();
+
+  expect(component.songForm.value).toEqual({
+    id: '',
+    title: '',
+    artist: '',
+    stars: 1,
+    flowered: false,
+    searchTerm: null,
+    genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
+  });
+
+  expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs', 'Spiritual Songs']);
 
   describe('save', () => {
     it('should test save - valid', inject([HttpTestingController], (httpMock: HttpTestingController) => {
@@ -348,7 +414,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       });
   }));
 
-  fit('should test getSong whenStable', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+  it('should test getSong whenStable', inject([HttpTestingController], (httpMock: HttpTestingController) => {
     expect(component.song).toEqual(new Song());
     expect(component.stars).toEqual(Array(5).fill(false));
 
