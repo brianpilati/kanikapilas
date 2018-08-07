@@ -3,8 +3,6 @@ import 'hammerjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Location } from '@angular/common';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from '../../testing/in-memory-data.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SongDetailComponent } from './song-detail.component';
@@ -83,7 +81,7 @@ describe('SongDetailComponent', () => {
       });
   }));
 
-  it('should test getSong', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+  it('should test getSong and default values', inject([HttpTestingController], (httpMock: HttpTestingController) => {
     expect(component.song).toEqual(new Song());
 
     const request = httpMock.expectOne('http://localhost:3000/api/songs/1');
@@ -105,6 +103,10 @@ describe('SongDetailComponent', () => {
       flowered: true,
       genre: 'Pop, 80s'
     });
+
+    expect(component.stars).toEqual([true, false, false, false, false]);
+
+    expect(component.genres).toEqual(['Pop', ' ', '80s']);
   }));
 
   describe('save', () => {
@@ -346,7 +348,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       });
   }));
 
-  it('should test getSong whenStable', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+  fit('should test getSong whenStable', inject([HttpTestingController], (httpMock: HttpTestingController) => {
     expect(component.song).toEqual(new Song());
     expect(component.stars).toEqual(Array(5).fill(false));
 
@@ -377,7 +379,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
 
     component.save();
 
-    const request = httpMock.expectOne('http://localhost:3000/api/songs');
+    let request = httpMock.expectOne('http://localhost:3000/api/songs');
     expect(request.request.body).toEqual({
       id: 0,
       title: 'New Song',
@@ -392,18 +394,16 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       id: 1,
       title: 'New Song - Response',
       artist: 'New Artist - Response',
-      stars: 1111,
+      stars: 3,
       flowered: false,
       genre: 'classics'
     });
-
-    fixture.detectChanges();
 
     expect(component.song).toEqual(<Song>{
       id: 1,
       title: 'New Song - Response',
       artist: 'New Artist - Response',
-      stars: 1111,
+      stars: 3,
       flowered: false,
       genre: 'classics'
     });
@@ -412,7 +412,52 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       id: 1,
       title: 'New Song - Response',
       artist: 'New Artist - Response',
+      stars: 3,
+      flowered: false,
+      searchTerm: '',
+      genre: 'classics'
+    });
+
+    // Update
+    fixture.detectChanges();
+    component.songForm.get('title').setValue('Updated Song');
+
+    component.save();
+
+    request = httpMock.expectOne('http://localhost:3000/api/songs');
+    expect(request.request.body).toEqual({
+      id: 1,
+      title: 'Updated Song',
+      artist: 'New Artist - Response',
+      stars: 3,
+      flowered: false,
+      genre: 'classics',
+      searchTerm: ''
+    });
+    expect(request.request.method).toEqual('PUT');
+    request.flush({
+      id: 1,
+      title: 'Updated Song - Response',
+      artist: 'New Artist - Response',
       stars: 1111,
+      flowered: false,
+      genre: 'classics'
+    });
+
+    expect(component.song).toEqual(<Song>{
+      id: 1,
+      title: 'New Song - Response',
+      artist: 'New Artist - Response',
+      stars: 3,
+      flowered: false,
+      genre: 'classics'
+    });
+
+    expect(component.songForm.value).toEqual({
+      id: 1,
+      title: 'Updated Song',
+      artist: 'New Artist - Response',
+      stars: 3,
       flowered: false,
       searchTerm: '',
       genre: 'classics'
