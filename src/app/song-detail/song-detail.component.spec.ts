@@ -121,7 +121,7 @@ describe('SongDetailComponent', () => {
       stars: 1,
       flowered: false,
       genre: 'Pop',
-      searchTerm: null
+      searchTerm: ''
     });
 
     expect(component.genres).toEqual(['Pop']);
@@ -137,7 +137,7 @@ describe('SongDetailComponent', () => {
       stars: 1,
       flowered: false,
       genre: 'Pop, 80s',
-      searchTerm: null
+      searchTerm: ''
     });
 
     expect(component.genres).toEqual(['Pop', '80s']);
@@ -152,7 +152,7 @@ describe('SongDetailComponent', () => {
       artist: '',
       stars: 1,
       flowered: false,
-      searchTerm: null,
+      searchTerm: '',
       genre: 'Pop, 80s, Primary Songs'
     });
 
@@ -169,7 +169,7 @@ describe('SongDetailComponent', () => {
     artist: '',
     stars: 1,
     flowered: false,
-    searchTerm: null,
+    searchTerm: '',
     genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
   });
 

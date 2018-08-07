@@ -20,7 +20,22 @@ export class SongDetailComponent implements OnInit {
   public stars: boolean[];
   public genres: string[];
   public songForm: FormGroup;
-  options: string[] = ['One', 'Two', 'Three'];
+  options: string[] = [
+    '80s',
+    '90s',
+    "Children's",
+    'Country',
+    'Disney',
+    'Oldies',
+    'Picking',
+    'Pop',
+    'Show Tunes',
+    'Campfire',
+    'Classics',
+    'Fun',
+    'Patriotic',
+    'Spiritual'
+  ];
   filteredOptions: Observable<string[]>;
 
   constructor(
@@ -111,7 +126,7 @@ export class SongDetailComponent implements OnInit {
       this.songForm.get('genre').setValue(`${searchTerm}`);
     }
     this.parseGenre();
-    this.songForm.get('searchTerm').reset();
+    this.songForm.get('searchTerm').setValue('');
   }
 
   save(): void {

@@ -79,7 +79,9 @@
         class="song-form-container"
       >
         <div fxFlex="60%">
-          First
+          <span *ngFor="let genre of genres">
+            {{genre}}
+          </span>
         </div>
         <div fxFlex="40%">
           <mat-form-field>

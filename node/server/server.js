@@ -3,6 +3,8 @@ var express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser');
 var app = express();
+var SongDomain = require('./domains/song');
+const songDomain = new SongDomain(pool);
 
 var corsOptions = {
   origin: 'http://localhost:4200',
@@ -18,52 +20,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-async function getSongs() {
-  return await pool.query('SELECT * FROM songs');
-}
-
-async function getSong(songId) {
-  return await pool.query(`SELECT * FROM songs WHERE id = ${songId}`);
-}
-
-async function updateSong(song) {
-  return await pool.query(
-    `
-    UPDATE
-      songs
-    SET
-      ?
-    WHERE
-      id = ${song.id}
-  `,
-    {
-      title: song.title,
-      artist: song.artist,
-      stars: song.stars,
-      flowered: song.flowered,
-      genre: song.genre
-    }
-  );
-}
-
-async function insertSong(song) {
-  return await pool.query(
-    `
-    INSERT INTO
-      songs
-    SET
-      ?
-  `,
-    {
-      title: song.title,
-      artist: song.artist,
-      stars: song.stars,
-      flowered: song.flowered,
-      genre: song.genre
-    }
-  );
-}
-
 function returnError(res, code, message) {
   res.status(code).send(
     Object({
@@ -75,7 +31,7 @@ function returnError(res, code, message) {
 
 app.get('/api/songs', cors(corsOptions), function(req, res) {
   const songs = [];
-  getSongs().then(function(result) {
+  songDomain.getSongs().then(function(result) {
     result.forEach(function(song) {
       songs.push(song);
     });
@@ -84,7 +40,7 @@ app.get('/api/songs', cors(corsOptions), function(req, res) {
 });
 
 app.get('/api/songs/:songId', cors(corsOptions), function(req, res) {
-  getSong(req.params.songId).then(function(song) {
+  songDomain.getSong(req.params.songId).then(function(song) {
     if (song.length) {
       res.status(200).json(song.pop());
     } else {
@@ -94,15 +50,15 @@ app.get('/api/songs/:songId', cors(corsOptions), function(req, res) {
 });
 
 app.put('/api/songs', cors(corsOptions), function(req, res) {
-  updateSong(req.body).then(function() {
+  songDomain.updateSong(req.body).then(function() {
     res.status(200);
     res.send();
   });
 });
 
 app.post('/api/songs', cors(corsOptions), function(req, res) {
-  insertSong(req.body).then(function(response) {
-    getSong(response.insertId).then(function(song) {
+  songDomain.insertSong(req.body).then(function(response) {
+    songDomain.getSong(response.insertId).then(function(song) {
       if (song.length) {
         res.status(200).json(song.pop());
       } else {
