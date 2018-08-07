@@ -10,9 +10,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SongDetailComponent } from './song-detail.component';
 import { ActivatedRoute } from '@angular/router';
 import { Song } from '../models/song';
-import { MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule, MatSliderModule } from '@angular/material';
+import {
+  MatButtonModule,
+  MatIconModule,
+  MatInputModule,
+  MatFormFieldModule,
+  MatSliderModule,
+  MatSlideToggleModule,
+  MatAutocompleteModule
+} from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { TestSongs } from '../../testing/test-songs';
 
 let activatedRouteId: any;
 
@@ -44,11 +51,13 @@ describe('SongDetailComponent', () => {
       imports: [
         FormsModule,
         HttpClientTestingModule,
+        MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
         MatSliderModule,
+        MatSlideToggleModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
         RouterTestingModule
@@ -79,18 +88,22 @@ describe('SongDetailComponent', () => {
 
     const request = httpMock.expectOne('http://localhost:3000/api/songs/1');
     expect(request.request.method).toEqual('GET');
-    request.flush({
+    request.flush(<Song>{
       id: 1,
       title: 'Africa',
       artist: 'Toto',
-      stars: 1
+      stars: 1,
+      flowered: true,
+      genre: 'Pop, 80s'
     });
 
     expect(component.song).toEqual({
       id: 1,
       title: 'Africa',
       artist: 'Toto',
-      stars: 1
+      stars: 1,
+      flowered: true,
+      genre: 'Pop, 80s'
     });
   }));
 
@@ -98,11 +111,13 @@ describe('SongDetailComponent', () => {
     it('should test save - valid', inject([HttpTestingController], (httpMock: HttpTestingController) => {
       let request = httpMock.expectOne('http://localhost:3000/api/songs/1');
       expect(request.request.method).toEqual('GET');
-      request.flush({
+      request.flush(<Song>{
         id: 1,
         title: 'Africa',
         artist: 'Toto',
-        stars: 1
+        stars: 1,
+        flowered: true,
+        genre: 'Pop, 80s'
       });
       fixture.detectChanges();
 
@@ -117,39 +132,45 @@ describe('SongDetailComponent', () => {
         id: 1,
         title: 'brian',
         artist: 'Toto',
-        stars: 1
+        stars: 1,
+        flowered: true,
+        searchTerm: '',
+        genre: 'Pop, 80s'
       });
       expect(request.request.method).toEqual('PUT');
 
       fixture.whenStable().then(() => {
-        expect(component.song).toEqual(
-          Object({
-            id: 1,
-            title: 'Africa',
-            artist: 'Toto',
-            stars: 1
-          })
-        );
+        expect(component.song).toEqual(<Song>{
+          id: 1,
+          title: 'Africa',
+          artist: 'Toto',
+          stars: 1,
+          flowered: true,
+          genre: 'Pop, 80s'
+        });
 
-        expect(component.songForm.value).toEqual(
-          Object({
-            id: 1,
-            title: 'brian',
-            artist: 'Toto',
-            stars: 1
-          })
-        );
+        expect(component.songForm.value).toEqual({
+          id: 1,
+          title: 'brian',
+          artist: 'Toto',
+          stars: 1,
+          flowered: true,
+          searchTerm: '',
+          genre: 'Pop, 80s'
+        });
       });
     }));
 
     it('should test save - invalid', inject([HttpTestingController], (httpMock: HttpTestingController) => {
       const request = httpMock.expectOne('http://localhost:3000/api/songs/1');
       expect(request.request.method).toEqual('GET');
-      request.flush({
+      request.flush(<Song>{
         id: 1,
         title: 'Africa',
         artist: 'Toto',
-        stars: 1
+        stars: 1,
+        flowered: true,
+        genre: 'Pop, 80s'
       });
       fixture.detectChanges();
 
@@ -164,7 +185,10 @@ describe('SongDetailComponent', () => {
           id: 1,
           title: '',
           artist: 'Toto',
-          stars: 1
+          stars: 1,
+          flowered: true,
+          searchTerm: '',
+          genre: 'Pop, 80s'
         })
       );
     }));
@@ -183,50 +207,53 @@ describe('SongDetailComponent', () => {
 
     component.starsChanged();
 
-    expect(component.stars).toEqual(['primary', 'black', 'black', 'black', 'black']);
+    expect(component.stars).toEqual([true, false, false, false, false]);
 
     component.songForm.get('stars').setValue(5);
     component.starsChanged();
 
-    expect(component.stars).toEqual(['primary', 'primary', 'primary', 'primary', 'primary']);
+    expect(component.stars).toEqual([true, true, true, true, true]);
 
     component.songForm.get('stars').setValue(2);
     component.starsChanged();
 
-    expect(component.stars).toEqual(['primary', 'primary', 'black', 'black', 'black']);
+    expect(component.stars).toEqual([true, true, false, false, false]);
 
     component.songForm.get('stars').setValue(4);
     component.starsChanged();
 
-    expect(component.stars).toEqual(['primary', 'primary', 'primary', 'primary', 'black']);
+    expect(component.stars).toEqual([true, true, true, true, false]);
 
     component.songForm.get('stars').setValue(1);
     component.starsChanged();
 
-    expect(component.stars).toEqual(['primary', 'black', 'black', 'black', 'black']);
+    expect(component.stars).toEqual([true, false, false, false, false]);
 
     component.songForm.get('stars').setValue(0);
     component.starsChanged();
 
-    expect(component.stars).toEqual(['black', 'black', 'black', 'black', 'black']);
+    expect(component.stars).toEqual([false, false, false, false, false]);
   });
 
   it('should handle a resetForm event', () => {
     fixture.detectChanges();
-    const originalSong = {
+    component.song = <Song>{
       id: 2222,
       title: 'title - changed',
       artist: 'artist - changed',
-      stars: 1
+      stars: 1,
+      flowered: true,
+      genre: 'pop, 80s'
     };
-    component.song = originalSong;
 
     component.songForm.setValue(
       Object.assign(component.songForm.value, {
         id: 2222,
         title: 'title - changed',
         artist: 'artist - changed',
-        stars: 2
+        stars: 2,
+        flowered: false,
+        genre: 'classics'
       })
     );
 
@@ -234,18 +261,29 @@ describe('SongDetailComponent', () => {
       id: 2222,
       title: 'title - changed',
       artist: 'artist - changed',
-      stars: 2
+      stars: 2,
+      flowered: false,
+      searchTerm: '',
+      genre: 'classics'
     });
 
     component.starsChanged();
 
-    expect(component.stars).toEqual(['primary', 'primary', 'black', 'black', 'black']);
+    expect(component.stars).toEqual([true, true, false, false, false]);
 
     component.resetForm();
 
-    expect(component.songForm.value).toEqual(originalSong);
+    expect(component.songForm.value).toEqual({
+      id: 2222,
+      title: 'title - changed',
+      artist: 'artist - changed',
+      stars: 1,
+      flowered: true,
+      searchTerm: '',
+      genre: 'pop, 80s'
+    });
 
-    expect(component.stars).toEqual(['primary', 'black', 'black', 'black', 'black']);
+    expect(component.stars).toEqual([true, false, false, false, false]);
   });
 
   describe('goBack', () => {
@@ -278,11 +316,13 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       imports: [
         FormsModule,
         HttpClientTestingModule,
+        MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
         MatSliderModule,
+        MatSlideToggleModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
         RouterTestingModule
@@ -308,26 +348,30 @@ describe('SongDetailComponent with Save and Fake Data', () => {
 
   it('should test getSong whenStable', inject([HttpTestingController], (httpMock: HttpTestingController) => {
     expect(component.song).toEqual(new Song());
-    expect(component.stars).toEqual(Array(5).fill('black'));
+    expect(component.stars).toEqual(Array(5).fill(false));
 
     fixture.detectChanges();
 
     expect(component.song.id).toBe(0);
 
-    expect(component.songForm.value).toEqual(<Song>{
+    expect(component.songForm.value).toEqual({
       id: 0,
       title: '',
       artist: '',
-      stars: 0
+      stars: 0,
+      flowered: false,
+      searchTerm: '',
+      genre: ''
     });
 
-    expect(component.stars).toEqual(['black', 'black', 'black', 'black', 'black']);
+    expect(component.stars).toEqual([false, false, false, false, false]);
 
     component.songForm.setValue(
       Object.assign(component.songForm.value, {
         title: 'New Song',
         artist: 'new Artist',
-        stars: 2
+        stars: 2,
+        genre: '80s'
       })
     );
 
@@ -338,33 +382,39 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       id: 0,
       title: 'New Song',
       artist: 'new Artist',
-      stars: 2
+      stars: 2,
+      flowered: false,
+      genre: '80s',
+      searchTerm: ''
     });
     expect(request.request.method).toEqual('POST');
     request.flush({
       id: 1,
       title: 'New Song - Response',
       artist: 'New Artist - Response',
-      stars: 1111
+      stars: 1111,
+      flowered: false,
+      genre: 'classics'
     });
 
-    expect(component.song).toEqual(
-      Object({
-        id: 1,
-        title: 'New Song - Response',
-        artist: 'New Artist - Response',
-        stars: 1111
-      })
-    );
+    expect(component.song).toEqual(<Song>{
+      id: 1,
+      title: 'New Song - Response',
+      artist: 'New Artist - Response',
+      stars: 1111,
+      flowered: false,
+      genre: 'classics'
+    });
 
-    expect(component.songForm.value).toEqual(
-      Object({
-        id: 1,
-        title: 'New Song - Response',
-        artist: 'New Artist - Response',
-        stars: 1111
-      })
-    );
+    expect(component.songForm.value).toEqual({
+      id: 1,
+      title: 'New Song - Response',
+      artist: 'New Artist - Response',
+      stars: 1111,
+      flowered: false,
+      searchTerm: '',
+      genre: 'classics'
+    });
   }));
 });
 
@@ -385,11 +435,13 @@ describe('SongDetailComponent with Fake Data', () => {
           dataEncapsulation: false,
           delay: 1500
         }),
+        MatAutocompleteModule,
         MatButtonModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
         MatSliderModule,
+        MatSlideToggleModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
         RouterTestingModule
@@ -417,27 +469,32 @@ describe('SongDetailComponent with Fake Data', () => {
     'should test getSong whenStable',
     fakeAsync(() => {
       expect(component.song).toEqual(new Song());
-      expect(component.stars).toEqual(Array(5).fill('black'));
+      expect(component.stars).toEqual(Array(5).fill(false));
 
       fixture.detectChanges();
       tick(1501);
 
       fixture.whenStable().then(() => {
-        expect(component.song).toEqual({
+        expect(component.song).toEqual(<Song>{
           id: 1,
           title: 'Africa',
           artist: 'Toto',
-          stars: 1
+          stars: 1,
+          flowered: false,
+          genre: 'Pop'
         });
 
         expect(component.songForm.value).toEqual({
           id: 1,
           title: 'Africa',
           artist: 'Toto',
-          stars: 1
+          stars: 1,
+          flowered: false,
+          searchTerm: '',
+          genre: 'Pop'
         });
 
-        expect(component.stars).toEqual(['primary', 'black', 'black', 'black', 'black']);
+        expect(component.stars).toEqual([true, false, false, false, false]);
       });
     })
   );

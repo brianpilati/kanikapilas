@@ -5,6 +5,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { SongsComponent } from './songs.component';
 import { TestSongs } from '../../testing/test-songs';
 import { MatCardModule, MatButtonModule } from '@angular/material';
+import { Song } from '../models/song';
 
 describe('SongsComponent', () => {
   let component: SongsComponent;
@@ -45,6 +46,15 @@ describe('SongsComponent', () => {
     expect(request.request.method).toEqual('GET');
     request.flush(TestSongs);
 
-    expect(component.sortedSongs).toEqual([{ id: 1, title: 'Africa', artist: 'Toto', stars: 1 }]);
+    expect(component.sortedSongs).toEqual([
+      <Song>{
+        id: 1,
+        title: 'Africa',
+        artist: 'Toto',
+        stars: 1,
+        flowered: false,
+        genre: 'Pop'
+      }
+    ]);
   }));
 });

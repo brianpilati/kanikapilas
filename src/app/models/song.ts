@@ -3,4 +3,6 @@ export class Song {
   public title: string;
   public artist: string;
   public stars: number;
+  public flowered: boolean;
+  public genre: string;
 }

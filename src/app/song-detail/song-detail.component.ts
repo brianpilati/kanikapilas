@@ -5,6 +5,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { SongsService } from '../songs-service/songs.service';
 import { Song } from '../models/song';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-song-detail',
@@ -15,8 +17,11 @@ export class SongDetailComponent implements OnInit {
   @Input()
   song: Song;
 
-  public stars: string[];
+  public stars: boolean[];
+  public genres: string[];
   public songForm: FormGroup;
+  options: string[] = ['One', 'Two', 'Three'];
+  filteredOptions: Observable<string[]>;
 
   constructor(
     private formatBuilder: FormBuilder,
@@ -24,7 +29,7 @@ export class SongDetailComponent implements OnInit {
     private location: Location,
     private songsService: SongsService
   ) {
-    this.stars = Array(5).fill('black');
+    this.stars = Array(5).fill(false);
     this.song = new Song();
     this.createForm();
   }
@@ -34,18 +39,38 @@ export class SongDetailComponent implements OnInit {
       id: ['', Validators.required],
       title: ['', Validators.required],
       artist: ['', Validators.required],
-      stars: [1, [Validators.required, Validators.min(1), Validators.max(5)]]
+      stars: [1, [Validators.required, Validators.min(1), Validators.max(5)]],
+      flowered: [false, Validators.required],
+      genre: ['', Validators.required],
+      searchTerm: ''
     });
   }
 
   ngOnInit(): void {
     this.getSong();
+
+    this.filteredOptions = this.songForm.get('searchTerm').valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
+    );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  private parseGenre(): void {
+    const dbConstants = this.songForm.get('genre').value;
+    this.genres = dbConstants.split(/,(\s)?/);
   }
 
   private setSongValues(): void {
     this.songForm.setValue(Object.assign(this.songForm.value, this.song));
 
     this.starsChanged();
+    this.parseGenre();
   }
 
   private getSong(): void {
@@ -73,8 +98,12 @@ export class SongDetailComponent implements OnInit {
 
   starsChanged(): void {
     this.stars.forEach((star, $index, starArray) => {
-      starArray[$index] = $index < this.songForm.get('stars').value ? 'primary' : 'black';
+      starArray[$index] = $index < this.songForm.get('stars').value;
     });
+  }
+
+  searchTermSelected(): void {
+    console.log(this.songForm.get('searchTerm').value);
   }
 
   save(): void {

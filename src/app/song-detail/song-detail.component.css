@@ -29,3 +29,16 @@ mat-slider {
   width: 14px;
   height: 14px;
 }
+
+.flower-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.flower-container {
+  margin-left: 10px;
+}
+
+.flower-margin {
+  margin: 10px;
+}

@@ -39,7 +39,9 @@ async function updateSong(song) {
     {
       title: song.title,
       artist: song.artist,
-      stars: song.stars
+      stars: song.stars,
+      flowered: song.flowered,
+      genre: song.genre
     }
   );
 }
@@ -55,7 +57,9 @@ async function insertSong(song) {
     {
       title: song.title,
       artist: song.artist,
-      stars: song.stars
+      stars: song.stars,
+      flowered: song.flowered,
+      genre: song.genre
     }
   );
 }

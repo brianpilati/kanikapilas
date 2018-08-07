@@ -27,11 +27,13 @@ describe('SongsService', () => {
   it('should test getSongs', inject([HttpTestingController], (httpMock: HttpTestingController) => {
     songsService.getSongs().subscribe(songs => {
       expect(songs).toEqual([
-        {
+        <Song>{
           id: 1,
           title: 'Africa',
           artist: 'Toto',
-          stars: 1
+          stars: 1,
+          flowered: false,
+          genre: 'Pop'
         }
       ]);
     });
@@ -39,21 +41,25 @@ describe('SongsService', () => {
     const request = httpMock.expectOne('http://localhost:3000/api/songs');
     expect(request.request.method).toEqual('GET');
     request.flush([
-      {
+      <Song>{
         id: 1,
         title: 'Africa',
         artist: 'Toto',
-        stars: 1
+        stars: 1,
+        flowered: false,
+        genre: 'Pop'
       }
     ]);
 
     songsService.getSongs().subscribe(songs => {
       expect(songs).toEqual([
-        {
+        <Song>{
           id: 1,
           title: 'Africa',
           artist: 'Toto',
-          stars: 1
+          stars: 1,
+          flowered: false,
+          genre: 'Pop'
         }
       ]);
     });
@@ -93,14 +99,18 @@ describe('SongsService', () => {
       id: 2333,
       title: 'zorro',
       artist: 'rene',
-      stars: 3
+      stars: 3,
+      flowered: true,
+      genre: 'classics'
     });
 
     returnTestSongs.unshift(<Song>{
       id: 32323,
       title: 'zorro',
       artist: 'rene',
-      stars: 3
+      stars: 3,
+      flowered: false,
+      genre: '80s'
     });
     const request = httpMock.expectOne('http://localhost:3000/api/songs');
     expect(request.request.method).toEqual('GET');
@@ -110,11 +120,13 @@ describe('SongsService', () => {
   it('should test getSortedSongs', inject([HttpTestingController], (httpMock: HttpTestingController) => {
     songsService.getSortedSongs('A').subscribe(songs => {
       expect(songs).toEqual([
-        {
+        <Song>{
           id: 1,
           title: 'Africa',
           artist: 'Toto',
-          stars: 1
+          stars: 1,
+          flowered: false,
+          genre: 'Pop'
         }
       ]);
     });
@@ -125,11 +137,13 @@ describe('SongsService', () => {
 
     songsService.getSortedSongs('M').subscribe(songs => {
       expect(songs).toEqual([
-        {
+        <Song>{
           id: 2,
           title: 'Manic Monday',
           artist: 'The Bangles',
-          stars: 2
+          stars: 2,
+          flowered: true,
+          genre: '80s'
         }
       ]);
     });
@@ -138,11 +152,13 @@ describe('SongsService', () => {
 
     songsService.getSortedSongs('m').subscribe(songs => {
       expect(songs).toEqual([
-        {
+        <Song>{
           id: 2,
           title: 'Manic Monday',
           artist: 'The Bangles',
-          stars: 2
+          stars: 2,
+          flowered: true,
+          genre: '80s'
         }
       ]);
     });
@@ -161,15 +177,19 @@ describe('SongsService', () => {
       id: 22,
       title: 'Brian',
       artist: 'Pilati',
-      stars: 1
+      stars: 1,
+      flowered: false,
+      genre: 'Disney'
     };
 
     songsService.updateSong(song).subscribe(_song_ => {
-      expect(_song_[0]).toEqual({
+      expect(_song_[0]).toEqual(<Song>{
         id: 22,
         title: 'Brian',
         artist: 'Pilati',
-        stars: 1
+        stars: 1,
+        flowered: false,
+        genre: 'Disney'
       });
     });
 
@@ -179,7 +199,9 @@ describe('SongsService', () => {
       id: 22,
       title: 'Brian',
       artist: 'Pilati',
-      stars: 1
+      stars: 1,
+      flowered: false,
+      genre: 'Disney'
     });
     request.flush([song]);
   }));
@@ -189,15 +211,19 @@ describe('SongsService', () => {
       id: 0,
       title: 'Brian',
       artist: 'Pilati',
-      stars: 1
+      stars: 1,
+      flowered: false,
+      genre: 'Disney'
     };
 
     songsService.saveSong(song).subscribe(_song_ => {
-      expect(_song_[0]).toEqual({
+      expect(_song_[0]).toEqual(<Song>{
         id: 0,
         title: 'Brian',
         artist: 'Pilati',
-        stars: 1
+        stars: 1,
+        flowered: false,
+        genre: 'Disney'
       });
     });
 
@@ -207,7 +233,9 @@ describe('SongsService', () => {
       id: 0,
       title: 'Brian',
       artist: 'Pilati',
-      stars: 1
+      stars: 1,
+      flowered: false,
+      genre: 'Disney'
     });
     request.flush([song]);
   }));

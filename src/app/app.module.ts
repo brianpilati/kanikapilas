@@ -11,7 +11,9 @@ import {
   MatInputModule,
   MatFormFieldModule,
   MatSliderModule,
-  MatCardModule
+  MatCardModule,
+  MatSlideToggleModule,
+  MatAutocompleteModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -27,12 +29,14 @@ import { UkuleleRoutingModule } from './ukulele-routing.module';
     FlexLayoutModule,
     FormsModule,
     HttpClientModule,
+    MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
     MatSliderModule,
+    MatSlideToggleModule,
     ReactiveFormsModule,
     UkuleleRoutingModule
   ],

@@ -17,7 +17,19 @@
           {{ song.title | uppercase }}
         </span>
         <span *ngFor="let color of stars">
-          <mat-icon color="{{color}}" class="song-stars">star</mat-icon>
+          <mat-icon
+            *ngIf="color"
+            color="primary"
+            class="song-stars"
+          >star</mat-icon>
+        </span>
+        <span 
+          *ngIf="songForm.get('flowered').value"
+          class="flower-container"
+        >
+          <img
+            src="assets/icons/flower_icon.png" class="flower-icon"
+         >
         </span>
       </div>
       <div
@@ -50,6 +62,46 @@
           max="5"
           placeholder="Number of stars"
         ></mat-slider>
+      </div>
+      <div class="song-form-container">
+        <label>Flowered</label>
+        <br>
+        <mat-slide-toggle
+          class="flower-margin"
+          color="primary"
+          formControlName="flowered"
+        >
+        </mat-slide-toggle>
+      </div>
+      <div
+        fxLayout="row"
+        fxLayoutAlign="space-evenly center"
+        class="song-form-container"
+      >
+        <div fxFlex="60%">
+          First
+        </div>
+        <div fxFlex="40%">
+          <mat-form-field>
+            <input
+              type="text"
+              placeholder="Genre"
+              aria-label="Number"
+              matInput
+              formControlName="searchTerm"
+              [matAutocomplete]="auto"
+            >
+            <mat-autocomplete
+              autoActiveFirstOption
+              #auto="matAutocomplete"
+              (optionSelected)="searchTermSelected()"
+            >
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
       </div>
       <div fxLayout="row" fxLayout.xl="column" fxLayoutAlign="space-evenly center">
         <div>
