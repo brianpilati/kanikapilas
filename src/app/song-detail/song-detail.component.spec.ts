@@ -138,26 +138,26 @@ describe('SongDetailComponent', () => {
         genre: 'Pop, 80s'
       });
       expect(request.request.method).toEqual('PUT');
+      request.flush({});
+      expect(locationServiceSpy.back).toHaveBeenCalledWith();
 
-      fixture.whenStable().then(() => {
-        expect(component.song).toEqual(<Song>{
-          id: 1,
-          title: 'Africa',
-          artist: 'Toto',
-          stars: 1,
-          flowered: true,
-          genre: 'Pop, 80s'
-        });
+      expect(component.song).toEqual(<Song>{
+        id: 1,
+        title: 'Africa',
+        artist: 'Toto',
+        stars: 1,
+        flowered: true,
+        genre: 'Pop, 80s'
+      });
 
-        expect(component.songForm.value).toEqual({
-          id: 1,
-          title: 'brian',
-          artist: 'Toto',
-          stars: 1,
-          flowered: true,
-          searchTerm: '',
-          genre: 'Pop, 80s'
-        });
+      expect(component.songForm.value).toEqual({
+        id: 1,
+        title: 'brian',
+        artist: 'Toto',
+        stars: 1,
+        flowered: true,
+        searchTerm: '',
+        genre: 'Pop, 80s'
       });
     }));
 
@@ -397,6 +397,8 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       genre: 'classics'
     });
 
+    fixture.detectChanges();
+
     expect(component.song).toEqual(<Song>{
       id: 1,
       title: 'New Song - Response',
@@ -415,105 +417,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       searchTerm: '',
       genre: 'classics'
     });
+
+    expect(locationServiceSpy.back).toHaveBeenCalledWith();
   }));
-});
-
-describe('SongDetailComponent with Fake Data', () => {
-  let component: SongDetailComponent;
-  let fixture: ComponentFixture<SongDetailComponent>;
-  let locationServiceSpy;
-
-  beforeEach(async(() => {
-    locationServiceSpy = jasmine.createSpyObj('Location', ['back']);
-    locationServiceSpy.back.and.returnValue(22);
-
-    TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        HttpClientTestingModule,
-        HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
-          dataEncapsulation: false,
-          delay: 1500
-        }),
-        MatAutocompleteModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatSliderModule,
-        MatSlideToggleModule,
-        NoopAnimationsModule,
-        ReactiveFormsModule,
-        RouterTestingModule
-      ],
-      declarations: [SongDetailComponent],
-      providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: activatedRouteMock
-        },
-        {
-          provide: Location,
-          useValue: locationServiceSpy
-        }
-      ]
-    })
-      .compileComponents()
-      .then(() => {
-        fixture = TestBed.createComponent(SongDetailComponent);
-        component = fixture.componentInstance;
-      });
-  }));
-
-  it(
-    'should test getSong whenStable',
-    fakeAsync(() => {
-      expect(component.song).toEqual(new Song());
-      expect(component.stars).toEqual(Array(5).fill(false));
-
-      fixture.detectChanges();
-      tick(1501);
-
-      fixture.whenStable().then(() => {
-        expect(component.song).toEqual(<Song>{
-          id: 1,
-          title: 'Africa',
-          artist: 'Toto',
-          stars: 1,
-          flowered: false,
-          genre: 'Pop'
-        });
-
-        expect(component.songForm.value).toEqual({
-          id: 1,
-          title: 'Africa',
-          artist: 'Toto',
-          stars: 1,
-          flowered: false,
-          searchTerm: '',
-          genre: 'Pop'
-        });
-
-        expect(component.stars).toEqual([true, false, false, false, false]);
-      });
-    })
-  );
-
-  it(
-    'should test save whenStable',
-    fakeAsync(() => {
-      expect(component.song).toEqual(new Song());
-
-      fixture.detectChanges();
-      tick(1501);
-
-      component.songForm.get('title').setValue('New Artist');
-      component.songForm.get('id').setValue(22);
-
-      component.save();
-
-      tick(1501);
-      expect(locationServiceSpy.back).toHaveBeenCalledWith();
-    })
-  );
 });
