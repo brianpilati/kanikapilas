@@ -75,17 +75,9 @@
       </div>
       <div
         fxLayout="row"
-        fxLayoutAlign="space-evenly center"
+        fxLayoutAlign="space-evenly top"
         class="song-form-container"
       >
-        <div fxFlex="60%">
-          <span *ngFor="let genre of genres">
-            <app-song-genre
-              (delete)="deleteGenre($event)"
-              genre="{{genre}}"
-            ></app-song-genre>
-          </span>
-        </div>
         <div fxFlex="40%">
           <mat-form-field>
             <input
@@ -106,6 +98,14 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+        </div>
+        <div fxFlex="60%">
+          <span *ngFor="let genre of genres">
+            <app-song-genre
+              (delete)="deleteGenre($event)"
+              genre="{{genre}}"
+            ></app-song-genre>
+          </span>
         </div>
       </div>
       <div fxLayout="row" fxLayout.xl="column" fxLayoutAlign="space-evenly center">
