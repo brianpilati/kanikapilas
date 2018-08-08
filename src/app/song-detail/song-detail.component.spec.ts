@@ -127,9 +127,9 @@ describe('SongDetailComponent', () => {
 
     expect(component.genres).toEqual(['Pop', 'Spiritual']);
 
-    component.songForm.get('genre').setValue("Pop, 80s and 90s, Spiritual's Songs");
+    component.songForm.get('genre').setValue(`Pop, 80s and 90s, Spiritual's Songs`);
 
-    component.deleteGenre("Spiritual's Songs");
+    component.deleteGenre(`Spiritual's Songs`);
 
     expect(component.songForm.value).toEqual({
       id: '',
@@ -143,7 +143,7 @@ describe('SongDetailComponent', () => {
 
     expect(component.genres).toEqual(['Pop', '80s and 90s']);
 
-    component.songForm.get('genre').setValue("Pop, 80s and 90s, Spiritual's Songs");
+    component.songForm.get('genre').setValue(`Pop, 80s and 90s, Spiritual's Songs`);
 
     component.deleteGenre('Pop');
 
@@ -153,11 +153,11 @@ describe('SongDetailComponent', () => {
       artist: '',
       stars: 1,
       flowered: false,
-      genre: "80s and 90s, Spiritual's Songs",
+      genre: `80s and 90s, Spiritual's Songs`,
       searchTerm: ''
     });
 
-    expect(component.genres).toEqual(['80s and 90s', "Spiritual's Songs"]);
+    expect(component.genres).toEqual(['80s and 90s', `Spiritual's Songs`]);
   });
 
   it('should test searchTermSelected', () => {
@@ -242,7 +242,7 @@ describe('SongDetailComponent', () => {
 
       component.songForm.get('title').setValue('brian');
 
-      const saveButton = compiled.querySelector('[name="saveButton"]');
+      const saveButton = compiled.querySelector('[name=`saveButton`]');
       expect(saveButton.textContent.trim()).toBe('Save');
       saveButton.click();
 
@@ -413,7 +413,7 @@ describe('SongDetailComponent', () => {
 
     it('should handle a goBack html event', () => {
       fixture.detectChanges();
-      const backButton = compiled.querySelector('[name="goBackButton"]');
+      const backButton = compiled.querySelector('[name=`goBackButton`]');
       expect(backButton.textContent.trim()).toBe('chevron_left Return to Songs');
       backButton.click();
       expect(locationServiceSpy.back).toHaveBeenCalledWith();

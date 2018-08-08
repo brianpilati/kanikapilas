@@ -16,10 +16,8 @@
     "format:fix": "pretty-quick --staged",
     "precommit": "run-s format:fix",
     "prepush": "run-s format:fix lint coverage",
-    "format:check": "prettier --config ./.prettierrc --list-different \"src/{app,environments,assets}/**/*{.ts,.js,.json}\"",
-    "format:all": "prettier --config ./.prettierrc --write \"src/{app,environments,assets}/**/*{.ts,.js,.json}\"",
-    "format:css:check": "prettier --config ./.prettierrc_css --list-different \"src/{app,environments,assets}/**/*{.css,.scss}\"",
-    "format:css:all": "prettier --config ./.prettierrc_css --write \"src/{app,environments,assets}/**/*{.css,.scss}\""
+    "format:check": "prettier --config ./.prettierrc --list-different \"src/{app,environments,assets}/**/*{.ts,.js,.json,.css,.scss}\"",
+    "format:all": "prettier --config ./.prettierrc --write \"src/{app,environments,assets}/**/*{.ts,.js,.json,.css,.scss}\""
   },
   "private": true,
   "dependencies": {

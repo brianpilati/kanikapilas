@@ -23,7 +23,7 @@ export class SongDetailComponent implements OnInit {
   options: string[] = [
     '80s',
     '90s',
-    "Children's",
+    `Children's`,
     'Country',
     'Disney',
     'Oldies',
