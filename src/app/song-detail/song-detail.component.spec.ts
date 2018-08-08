@@ -15,7 +15,8 @@ import {
   MatFormFieldModule,
   MatSliderModule,
   MatSlideToggleModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatCardModule
 } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SongGenreComponent } from '../song-genre/song-genre.component';
@@ -52,6 +53,7 @@ describe('SongDetailComponent', () => {
         HttpClientTestingModule,
         MatAutocompleteModule,
         MatButtonModule,
+        MatCardModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,

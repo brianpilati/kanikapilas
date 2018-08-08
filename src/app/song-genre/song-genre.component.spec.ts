@@ -30,14 +30,14 @@ describe('SongGenreComponent', () => {
   });
 
   it('should have a remove container', () => {
-    const genreContainer = compiled.querySelector('.delete');
+    const genreContainer = compiled.querySelector('.genre-delete');
     expect(genreContainer.textContent.trim()).toBe('delete');
   });
 
   it('should handle remove container click', () => {
     component.genre = 'Pop';
 
-    const genreContainer = compiled.querySelector('.delete');
+    const genreContainer = compiled.querySelector('.genre-delete');
     genreContainer.click();
 
     component.delete.subscribe($event => {

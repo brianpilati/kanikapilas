@@ -10,13 +10,18 @@
   border-radius: 2px;
 }
 
-.genre-container .delete {
+.genre-container .genre-delete {
   display: none;
   width: 0;
 }
 
-.genre-container:hover .delete {
+.genre-container:hover .genre-text {
+  opacity: 0.25;
+}
+
+.genre-container:hover .genre-delete {
   position: absolute;
   display: inherit;
   width: 24px;
+  color: black;
 }

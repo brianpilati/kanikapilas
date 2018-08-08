@@ -1,120 +1,141 @@
 <div *ngIf="song" name="selectedSongDetails">
-  <div fxLayout="row" fxLayout.xl="column" fxLayoutAlign="start">
-    <div fxFlex="25">
-      <button mat-button color="primary" name="goBackButton" (click)="goBack()">
-        <mat-icon>chevron_left</mat-icon>
-        Return to Songs 
-      </button>
-    </div>
-  </div>
-  <form
-    [formGroup]="songForm"
-    (ngSubmit)="save()"
+  <div
+    fxLayout="column"
+    fxLayout.xl="column"
+    fxLayoutAlign="space-evenly center"
   >
-    <div fxLayout="column" fxLayout.xl="column" fxLayoutAlign="space-evenly center">
-      <div fxFlex="fill" class="center title">
-        <span class="song-title">
-          {{ song.title | uppercase }}
-        </span>
-        <span *ngFor="let color of stars">
-          <mat-icon
-            *ngIf="color"
-            color="primary"
-            class="song-stars"
-          >star</mat-icon>
-        </span>
-        <span 
-          *ngIf="songForm.get('flowered').value"
-          class="flower-container"
-        >
-          <img
-            src="assets/icons/flower_icon.png" class="flower-icon"
-         >
-        </span>
-      </div>
-      <div
-        class="song-form-container"
-      >
-        <mat-form-field class="song-full-width">
-          <input
-            matInput
-            formControlName="title"
-            placeholder="Title"
-          >
-        </mat-form-field>
-        <mat-form-field class="song-full-width">
-          <input
-            matInput
-            formControlName="artist"
-            placeholder="Artist"
-          >
-        </mat-form-field>
-      </div>
-      <div class="song-form-container">
-        <label>Stars</label>
-        <br>
-        <mat-slider
-          (change)="starsChanged()"
-          color="primary"
-          thumbLabel=true
-          formControlName="stars"
-          min="0"
-          max="5"
-          placeholder="Number of stars"
-        ></mat-slider>
-      </div>
-      <div class="song-form-container">
-        <label>Flowered</label>
-        <br>
-        <mat-slide-toggle
-          class="flower-margin"
-          color="primary"
-          formControlName="flowered"
-        >
-        </mat-slide-toggle>
-      </div>
+    <mat-card>
       <div
         fxLayout="row"
-        fxLayoutAlign="space-evenly top"
-        class="song-form-container"
+        fxLayoutAlign="start"
       >
-        <div fxFlex="40%">
-          <mat-form-field>
-            <input
-              type="text"
-              placeholder="Genre"
-              aria-label="Number"
-              matInput
-              formControlName="searchTerm"
-              [matAutocomplete]="auto"
-            >
-            <mat-autocomplete
-              autoActiveFirstOption
-              #auto="matAutocomplete"
-              (optionSelected)="searchTermSelected()"
-            >
-              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                {{option}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-        <div fxFlex="60%">
-          <span *ngFor="let genre of genres">
-            <app-song-genre
-              (delete)="deleteGenre($event)"
-              genre="{{genre}}"
-            ></app-song-genre>
-          </span>
+        <div fxFlex="25">
+          <button mat-button color="primary" name="goBackButton" (click)="goBack()">
+            <mat-icon>chevron_left</mat-icon>
+            Return to Songs 
+          </button>
         </div>
       </div>
-      <div fxLayout="row" fxLayout.xl="column" fxLayoutAlign="space-evenly center">
+    </mat-card>
+    <mat-card>
+      <form
+        [formGroup]="songForm"
+      >
+        <div fxLayout="column"
+          fxLayoutAlign="space-evenly center"
+        >
+          <div fxFlex="fill" class="center title">
+            <span class="song-title">
+              {{ song.title | uppercase }}
+            </span>
+            <span *ngFor="let color of stars">
+              <mat-icon
+                *ngIf="color"
+                color="primary"
+                class="song-stars"
+              >star</mat-icon>
+            </span>
+            <span 
+              *ngIf="songForm.get('flowered').value"
+              class="flower-container"
+            >
+              <img
+                src="assets/icons/flower_icon.png" class="flower-icon"
+            >
+            </span>
+          </div>
+          <div
+            class="song-form-container"
+          >
+            <mat-form-field class="song-full-width">
+              <input
+                matInput
+                formControlName="title"
+                placeholder="Title"
+              >
+            </mat-form-field>
+            <mat-form-field class="song-full-width">
+              <input
+                matInput
+                formControlName="artist"
+                placeholder="Artist"
+              >
+            </mat-form-field>
+          </div>
+          <div class="song-form-container">
+            <label>Stars</label>
+            <br>
+            <mat-slider
+              (change)="starsChanged()"
+              color="primary"
+              thumbLabel=true
+              formControlName="stars"
+              min="0"
+              max="5"
+              placeholder="Number of stars"
+            ></mat-slider>
+          </div>
+          <div class="song-form-container">
+            <label>Flowered</label>
+            <br>
+            <mat-slide-toggle
+              class="flower-margin"
+              color="primary"
+              formControlName="flowered"
+            >
+            </mat-slide-toggle>
+          </div>
+          <div
+            fxLayout="row"
+            fxLayoutAlign="space-evenly top"
+            class="song-form-container"
+          >
+            <div fxFlex="40%">
+              <mat-form-field>
+                <input
+                  type="text"
+                  placeholder="Genre"
+                  aria-label="Number"
+                  matInput
+                  formControlName="searchTerm"
+                  [matAutocomplete]="auto"
+                >
+                <mat-autocomplete
+                  autoActiveFirstOption
+                  #auto="matAutocomplete"
+                  (optionSelected)="searchTermSelected()"
+                >
+                  <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <div fxFlex="60%">
+              <span *ngFor="let genre of genres">
+                <app-song-genre
+                  (delete)="deleteGenre($event)"
+                  genre="{{genre}}"
+                ></app-song-genre>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-card>
+    <mat-card>
+      <div
+        fxLayout="row"
+        fxLayoutAlign="space-evenly center"
+        class="button-container"
+      >
         <div>
           <button
-            type="submit"
+            (click)="save()"
             name="saveButton"
             [disabled]="!songForm.valid"
-            mat-button color="accent"
+            mat-raised-button
+            color="accent"
           >
             Save
           </button>
@@ -123,12 +144,13 @@
           <button
             type="button"
             (click)="resetForm()"
-            mat-button color="warn"
+            mat-raised-button
+            color="warn"
           >
             Reset Form
           </button>
         </div>
       </div>
-    </div>
-  </form>
+    </mat-card>
+  </div>
 </div>

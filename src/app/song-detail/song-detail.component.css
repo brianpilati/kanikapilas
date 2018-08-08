@@ -42,3 +42,11 @@ mat-slider {
 .flower-margin {
   margin: 10px;
 }
+
+.button-container {
+  margin: 10px;
+}
+
+mat-card {
+  width: 550px;
+}
