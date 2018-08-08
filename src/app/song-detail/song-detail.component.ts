@@ -44,6 +44,7 @@ export class SongDetailComponent implements OnInit {
     private location: Location,
     private songsService: SongsService
   ) {
+    this.genres = [];
     this.stars = Array(5).fill(false);
     this.song = new Song();
     this.createForm();
@@ -73,7 +74,9 @@ export class SongDetailComponent implements OnInit {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+    return this.options
+      .filter(option => this.genres.indexOf(option) < 0)
+      .filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
   private setSongValues(): void {
@@ -127,12 +130,14 @@ export class SongDetailComponent implements OnInit {
   searchTermSelected(): void {
     const currentGenre = this.songForm.get('genre').value;
     const searchTerm = this.songForm.get('searchTerm').value;
-    if (currentGenre.length > 0) {
-      this.songForm.get('genre').setValue(`${currentGenre}, ${searchTerm}`);
-    } else {
-      this.songForm.get('genre').setValue(`${searchTerm}`);
+    if (currentGenre.match(searchTerm) === null) {
+      if (currentGenre.length > 0) {
+        this.songForm.get('genre').setValue(`${currentGenre}, ${searchTerm}`);
+      } else {
+        this.songForm.get('genre').setValue(`${searchTerm}`);
+      }
+      this.parseGenre();
     }
-    this.parseGenre();
     this.songForm.get('searchTerm').setValue('');
   }
 

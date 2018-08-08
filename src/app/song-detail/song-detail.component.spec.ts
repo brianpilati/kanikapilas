@@ -160,6 +160,76 @@ describe('SongDetailComponent', () => {
     expect(component.genres).toEqual(['80s and 90s', `Spiritual's Songs`]);
   });
 
+  it('should test filteredOptions', () => {
+    let filteredOptions: string[] = [];
+
+    component.filteredOptions.subscribe(options => {
+      filteredOptions = options;
+    });
+
+    component.songForm.get('searchTerm').setValue('Pop');
+
+    expect(filteredOptions).toEqual(['Pop']);
+
+    component.searchTermSelected();
+
+    expect(filteredOptions).toEqual([
+      '80s',
+      '90s',
+      `Children's`,
+      'Country',
+      'Disney',
+      'Oldies',
+      'Picking',
+      'Show Tunes',
+      'Campfire',
+      'Classics',
+      'Fun',
+      'Patriotic',
+      'Spiritual'
+    ]);
+
+    component.songForm.get('searchTerm').setValue('Patriotic');
+
+    expect(filteredOptions).toEqual(['Patriotic']);
+
+    component.searchTermSelected();
+
+    expect(filteredOptions).toEqual([
+      '80s',
+      '90s',
+      `Children's`,
+      'Country',
+      'Disney',
+      'Oldies',
+      'Picking',
+      'Show Tunes',
+      'Campfire',
+      'Classics',
+      'Fun',
+      'Spiritual'
+    ]);
+
+    component.deleteGenre('Pop');
+    component.songForm.get('searchTerm').setValue('');
+
+    expect(filteredOptions).toEqual([
+      '80s',
+      '90s',
+      `Children's`,
+      'Country',
+      'Disney',
+      'Oldies',
+      'Picking',
+      'Pop',
+      'Show Tunes',
+      'Campfire',
+      'Classics',
+      'Fun',
+      'Spiritual'
+    ]);
+  });
+
   it('should test searchTermSelected', () => {
     component.songForm.get('searchTerm').setValue('Pop');
 
@@ -210,6 +280,22 @@ describe('SongDetailComponent', () => {
     expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs']);
 
     component.songForm.get('searchTerm').setValue('Spiritual Songs');
+
+    component.searchTermSelected();
+
+    expect(component.songForm.value).toEqual({
+      id: '',
+      title: '',
+      artist: '',
+      stars: 1,
+      flowered: false,
+      searchTerm: '',
+      genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
+    });
+
+    expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs', 'Spiritual Songs']);
+
+    component.songForm.get('searchTerm').setValue('Pop');
 
     component.searchTermSelected();
 
