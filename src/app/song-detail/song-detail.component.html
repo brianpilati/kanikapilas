@@ -80,7 +80,10 @@
       >
         <div fxFlex="60%">
           <span *ngFor="let genre of genres">
-            {{genre}}
+            <app-song-genre
+              (delete)="deleteGenre($event)"
+              genre="{{genre}}"
+            ></app-song-genre>
           </span>
         </div>
         <div fxFlex="40%">

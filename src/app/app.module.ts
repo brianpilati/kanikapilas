@@ -21,6 +21,7 @@ import { SongDetailComponent } from './song-detail/song-detail.component';
 import { SongsComponent } from './songs/songs.component';
 import { SongsService } from './songs-service/songs.service';
 import { UkuleleRoutingModule } from './ukulele-routing.module';
+import { SongGenreComponent } from './song-genre/song-genre.component';
 
 @NgModule({
   imports: [
@@ -41,7 +42,7 @@ import { UkuleleRoutingModule } from './ukulele-routing.module';
     UkuleleRoutingModule
   ],
   providers: [SongsService],
-  declarations: [AppComponent, SongDetailComponent, SongsComponent],
+  declarations: [AppComponent, SongDetailComponent, SongsComponent, SongGenreComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

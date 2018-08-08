@@ -117,6 +117,10 @@ export class SongDetailComponent implements OnInit {
     });
   }
 
+  deleteGenre(deleteInput: string): void {
+    console.log('found', deleteInput);
+  }
+
   searchTermSelected(): void {
     const currentGenre = this.songForm.get('genre').value;
     const searchTerm = this.songForm.get('searchTerm').value;
