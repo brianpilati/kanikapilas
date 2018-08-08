@@ -18,6 +18,7 @@ import {
   MatAutocompleteModule
 } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SongGenreComponent } from '../song-genre/song-genre.component';
 
 let activatedRouteId: any;
 
@@ -60,7 +61,7 @@ describe('SongDetailComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule
       ],
-      declarations: [SongDetailComponent],
+      declarations: [SongDetailComponent, SongGenreComponent],
       providers: [
         {
           provide: ActivatedRoute,
@@ -109,7 +110,57 @@ describe('SongDetailComponent', () => {
     expect(component.genres).toEqual(['Pop', '80s']);
   }));
 
-  it('should test save - valid', () => {
+  it('should test deleteGenre', () => {
+    component.songForm.get('genre').setValue('Pop, 80s and 90s, Spiritual');
+
+    component.deleteGenre('80s and 90s');
+
+    expect(component.songForm.value).toEqual({
+      id: '',
+      title: '',
+      artist: '',
+      stars: 1,
+      flowered: false,
+      genre: 'Pop, Spiritual',
+      searchTerm: ''
+    });
+
+    expect(component.genres).toEqual(['Pop', 'Spiritual']);
+
+    component.songForm.get('genre').setValue("Pop, 80s and 90s, Spiritual's Songs");
+
+    component.deleteGenre("Spiritual's Songs");
+
+    expect(component.songForm.value).toEqual({
+      id: '',
+      title: '',
+      artist: '',
+      stars: 1,
+      flowered: false,
+      genre: 'Pop, 80s and 90s',
+      searchTerm: ''
+    });
+
+    expect(component.genres).toEqual(['Pop', '80s and 90s']);
+
+    component.songForm.get('genre').setValue("Pop, 80s and 90s, Spiritual's Songs");
+
+    component.deleteGenre('Pop');
+
+    expect(component.songForm.value).toEqual({
+      id: '',
+      title: '',
+      artist: '',
+      stars: 1,
+      flowered: false,
+      genre: "80s and 90s, Spiritual's Songs",
+      searchTerm: ''
+    });
+
+    expect(component.genres).toEqual(['80s and 90s', "Spiritual's Songs"]);
+  });
+
+  it('should test searchTermSelected', () => {
     component.songForm.get('searchTerm').setValue('Pop');
 
     component.searchTermSelected();
@@ -157,23 +208,23 @@ describe('SongDetailComponent', () => {
     });
 
     expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs']);
+
+    component.songForm.get('searchTerm').setValue('Spiritual Songs');
+
+    component.searchTermSelected();
+
+    expect(component.songForm.value).toEqual({
+      id: '',
+      title: '',
+      artist: '',
+      stars: 1,
+      flowered: false,
+      searchTerm: '',
+      genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
+    });
+
+    expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs', 'Spiritual Songs']);
   });
-
-  component.songForm.get('searchTerm').setValue('Spiritual Songs');
-
-  component.searchTermSelected();
-
-  expect(component.songForm.value).toEqual({
-    id: '',
-    title: '',
-    artist: '',
-    stars: 1,
-    flowered: false,
-    searchTerm: '',
-    genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
-  });
-
-  expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs', 'Spiritual Songs']);
 
   describe('save', () => {
     it('should test save - valid', inject([HttpTestingController], (httpMock: HttpTestingController) => {
@@ -395,7 +446,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
         ReactiveFormsModule,
         RouterTestingModule
       ],
-      declarations: [SongDetailComponent],
+      declarations: [SongDetailComponent, SongGenreComponent],
       providers: [
         {
           provide: ActivatedRoute,

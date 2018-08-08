@@ -13,7 +13,6 @@ export class SongGenreComponent implements OnInit {
   delete = new EventEmitter<string>();
 
   deleteGenre() {
-    console.log('here', this.genre);
     this.delete.emit(this.genre);
   }
 

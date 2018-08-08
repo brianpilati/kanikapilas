@@ -76,11 +76,6 @@ export class SongDetailComponent implements OnInit {
     return this.options.filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  private parseGenre(): void {
-    const dbConstants = this.songForm.get('genre').value;
-    this.genres = dbConstants.split(/,\s/g);
-  }
-
   private setSongValues(): void {
     this.songForm.setValue(Object.assign(this.songForm.value, this.song));
 
@@ -117,8 +112,16 @@ export class SongDetailComponent implements OnInit {
     });
   }
 
+  private parseGenre(): void {
+    const dbConstants = this.songForm.get('genre').value;
+    this.genres = dbConstants.split(/,\s/g);
+  }
+
   deleteGenre(deleteInput: string): void {
-    console.log('found', deleteInput);
+    var genreRegex = new RegExp(`(,\\s${deleteInput})|(${deleteInput}(,\\s)?)`, 'g');
+    this.songForm.get('genre').setValue(this.songForm.get('genre').value.replace(genreRegex, ''));
+
+    this.parseGenre();
   }
 
   searchTermSelected(): void {
