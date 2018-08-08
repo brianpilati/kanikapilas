@@ -118,7 +118,7 @@ export class SongDetailComponent implements OnInit {
   }
 
   deleteGenre(deleteInput: string): void {
-    var genreRegex = new RegExp(`(,\\s${deleteInput})|(${deleteInput}(,\\s)?)`, 'g');
+    const genreRegex = new RegExp(`(,\\s${deleteInput})|(${deleteInput}(,\\s)?)`, 'g');
     this.songForm.get('genre').setValue(this.songForm.get('genre').value.replace(genreRegex, ''));
 
     this.parseGenre();
