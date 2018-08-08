@@ -242,7 +242,7 @@ describe('SongDetailComponent', () => {
 
       component.songForm.get('title').setValue('brian');
 
-      const saveButton = compiled.querySelector('[name=`saveButton`]');
+      const saveButton = compiled.querySelector('[name="saveButton"]');
       expect(saveButton.textContent.trim()).toBe('Save');
       saveButton.click();
 
@@ -413,7 +413,7 @@ describe('SongDetailComponent', () => {
 
     it('should handle a goBack html event', () => {
       fixture.detectChanges();
-      const backButton = compiled.querySelector('[name=`goBackButton`]');
+      const backButton = compiled.querySelector('[name="goBackButton"]');
       expect(backButton.textContent.trim()).toBe('chevron_left Return to Songs');
       backButton.click();
       expect(locationServiceSpy.back).toHaveBeenCalledWith();
