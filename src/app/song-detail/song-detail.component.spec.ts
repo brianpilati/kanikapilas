@@ -525,6 +525,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
         HttpClientTestingModule,
         MatAutocompleteModule,
         MatButtonModule,
+        MatCardModule,
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
