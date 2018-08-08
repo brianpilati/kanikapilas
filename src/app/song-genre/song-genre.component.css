@@ -10,12 +10,12 @@
   border-radius: 2px;
 }
 
-.genre-container .remove {
+.genre-container .delete {
   display: none;
   width: 0;
 }
 
-.genre-container:hover .remove {
+.genre-container:hover .delete {
   position: absolute;
   display: inherit;
   width: 24px;
