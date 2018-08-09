@@ -53,6 +53,7 @@ describe('SongsComponent', () => {
         artist: 'Toto',
         stars: 1,
         flowered: false,
+        imageName: 'africa',
         genre: 'Pop'
       }
     ]);

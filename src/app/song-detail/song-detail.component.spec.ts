@@ -95,6 +95,7 @@ describe('SongDetailComponent', () => {
       artist: 'Toto',
       stars: 1,
       flowered: true,
+      imageName: 'africa',
       genre: 'Pop, 80s'
     });
 
@@ -104,6 +105,7 @@ describe('SongDetailComponent', () => {
       artist: 'Toto',
       stars: 1,
       flowered: true,
+      imageName: 'africa',
       genre: 'Pop, 80s'
     });
 
@@ -111,6 +113,35 @@ describe('SongDetailComponent', () => {
 
     expect(component.genres).toEqual(['Pop', '80s']);
   }));
+
+  describe('updateImageName', () => {
+    it('should test updateImageName with no space', () => {
+      component.songForm.get('imageName').setValue('');
+      component.songForm.get('title').setValue('africa');
+
+      component.updateImageName();
+
+      expect(component.songForm.get('imageName').value).toBe('africa.png');
+    });
+
+    it('should test updateImageName with a space', () => {
+      component.songForm.get('title').setValue('MANIC MONDAY');
+
+      component.updateImageName();
+
+      expect(component.songForm.get('imageName').value).toBe('manic_monday.png');
+    });
+
+    it('should test not updateImageName with a space', () => {
+      component.songForm.get('title').setValue('MANIC MONDAY');
+      component.updateImageName();
+
+      component.songForm.get('title').setValue('MANIC MONDAY 2');
+      component.updateImageName();
+
+      expect(component.songForm.get('imageName').value).toBe('manic_monday.png');
+    });
+  });
 
   it('should test deleteGenre', () => {
     component.songForm.get('genre').setValue('Pop, 80s and 90s, Spiritual');
@@ -123,6 +154,7 @@ describe('SongDetailComponent', () => {
       artist: '',
       stars: 1,
       flowered: false,
+      imageName: '',
       genre: 'Pop, Spiritual',
       searchTerm: ''
     });
@@ -139,6 +171,7 @@ describe('SongDetailComponent', () => {
       artist: '',
       stars: 1,
       flowered: false,
+      imageName: '',
       genre: 'Pop, 80s and 90s',
       searchTerm: ''
     });
@@ -155,6 +188,7 @@ describe('SongDetailComponent', () => {
       artist: '',
       stars: 1,
       flowered: false,
+      imageName: '',
       genre: `80s and 90s, Spiritual's Songs`,
       searchTerm: ''
     });
@@ -243,6 +277,7 @@ describe('SongDetailComponent', () => {
       artist: '',
       stars: 1,
       flowered: false,
+      imageName: '',
       genre: 'Pop',
       searchTerm: ''
     });
@@ -259,6 +294,7 @@ describe('SongDetailComponent', () => {
       artist: '',
       stars: 1,
       flowered: false,
+      imageName: '',
       genre: 'Pop, 80s',
       searchTerm: ''
     });
@@ -275,6 +311,7 @@ describe('SongDetailComponent', () => {
       artist: '',
       stars: 1,
       flowered: false,
+      imageName: '',
       searchTerm: '',
       genre: 'Pop, 80s, Primary Songs'
     });
@@ -291,6 +328,7 @@ describe('SongDetailComponent', () => {
       artist: '',
       stars: 1,
       flowered: false,
+      imageName: '',
       searchTerm: '',
       genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
     });
@@ -307,6 +345,7 @@ describe('SongDetailComponent', () => {
       artist: '',
       stars: 1,
       flowered: false,
+      imageName: '',
       searchTerm: '',
       genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
     });
@@ -324,6 +363,7 @@ describe('SongDetailComponent', () => {
         artist: 'Toto',
         stars: 1,
         flowered: true,
+        imageName: 'africa',
         genre: 'Pop, 80s'
       });
       fixture.detectChanges();
@@ -341,6 +381,7 @@ describe('SongDetailComponent', () => {
         artist: 'Toto',
         stars: 1,
         flowered: true,
+        imageName: 'africa',
         searchTerm: '',
         genre: 'Pop, 80s'
       });
@@ -354,6 +395,7 @@ describe('SongDetailComponent', () => {
         artist: 'Toto',
         stars: 1,
         flowered: true,
+        imageName: 'africa',
         genre: 'Pop, 80s'
       });
 
@@ -363,6 +405,7 @@ describe('SongDetailComponent', () => {
         artist: 'Toto',
         stars: 1,
         flowered: true,
+        imageName: 'africa',
         searchTerm: '',
         genre: 'Pop, 80s'
       });
@@ -377,6 +420,7 @@ describe('SongDetailComponent', () => {
         artist: 'Toto',
         stars: 1,
         flowered: true,
+        imageName: 'africa',
         genre: 'Pop, 80s'
       });
       fixture.detectChanges();
@@ -394,6 +438,7 @@ describe('SongDetailComponent', () => {
           artist: 'Toto',
           stars: 1,
           flowered: true,
+          imageName: 'africa',
           searchTerm: '',
           genre: 'Pop, 80s'
         })
@@ -450,6 +495,7 @@ describe('SongDetailComponent', () => {
       artist: 'artist - changed',
       stars: 1,
       flowered: true,
+      imageName: 'title - changed',
       genre: 'pop, 80s'
     };
 
@@ -460,6 +506,7 @@ describe('SongDetailComponent', () => {
         artist: 'artist - changed',
         stars: 2,
         flowered: false,
+        imageName: 'title - changed',
         genre: 'classics'
       })
     );
@@ -470,6 +517,7 @@ describe('SongDetailComponent', () => {
       artist: 'artist - changed',
       stars: 2,
       flowered: false,
+      imageName: 'title - changed',
       searchTerm: '',
       genre: 'classics'
     });
@@ -486,6 +534,7 @@ describe('SongDetailComponent', () => {
       artist: 'artist - changed',
       stars: 1,
       flowered: true,
+      imageName: 'title - changed',
       searchTerm: '',
       genre: 'pop, 80s'
     });
@@ -568,6 +617,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       artist: '',
       stars: 0,
       flowered: false,
+      imageName: '',
       searchTerm: '',
       genre: ''
     });
@@ -579,7 +629,8 @@ describe('SongDetailComponent with Save and Fake Data', () => {
         title: 'New Song',
         artist: 'new Artist',
         stars: 2,
-        genre: '80s'
+        genre: '80s',
+        imageName: 'new_song'
       })
     );
 
@@ -592,6 +643,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       artist: 'new Artist',
       stars: 2,
       flowered: false,
+      imageName: 'new_song',
       genre: '80s',
       searchTerm: ''
     });
@@ -602,6 +654,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       artist: 'New Artist - Response',
       stars: 3,
       flowered: false,
+      imageName: 'new_song',
       genre: 'classics'
     });
 
@@ -611,6 +664,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       artist: 'New Artist - Response',
       stars: 3,
       flowered: false,
+      imageName: 'new_song',
       genre: 'classics'
     });
 
@@ -620,6 +674,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       artist: 'New Artist - Response',
       stars: 3,
       flowered: false,
+      imageName: 'new_song',
       searchTerm: '',
       genre: 'classics'
     });
@@ -637,6 +692,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       artist: 'New Artist - Response',
       stars: 3,
       flowered: false,
+      imageName: 'new_song',
       genre: 'classics',
       searchTerm: ''
     });
@@ -647,6 +703,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       artist: 'New Artist - Response',
       stars: 1111,
       flowered: false,
+      imageName: 'new_song',
       genre: 'classics'
     });
 
@@ -656,6 +713,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       artist: 'New Artist - Response',
       stars: 3,
       flowered: false,
+      imageName: 'new_song',
       genre: 'classics'
     });
 
@@ -666,6 +724,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       stars: 3,
       flowered: false,
       searchTerm: '',
+      imageName: 'new_song',
       genre: 'classics'
     });
 

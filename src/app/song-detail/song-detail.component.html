@@ -52,6 +52,7 @@
                 matInput
                 formControlName="title"
                 placeholder="Title"
+                (change)="updateImageName()"
               >
             </mat-form-field>
             <mat-form-field class="song-full-width">
@@ -59,6 +60,13 @@
                 matInput
                 formControlName="artist"
                 placeholder="Artist"
+              >
+            </mat-form-field>
+            <mat-form-field class="song-full-width">
+              <input
+                matInput
+                formControlName="imageName"
+                placeholder="Image Name"
               >
             </mat-form-field>
           </div>

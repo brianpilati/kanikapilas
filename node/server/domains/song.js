@@ -26,7 +26,8 @@ class SongDomain {
         artist: song.artist,
         stars: song.stars,
         flowered: song.flowered,
-        genre: song.genre
+        genre: song.genre,
+        imageName: song.imageName
       }
     );
   }
@@ -44,7 +45,8 @@ class SongDomain {
         artist: song.artist,
         stars: song.stars,
         flowered: song.flowered,
-        genre: song.genre
+        genre: song.genre,
+        imageName: song.imageName
       }
     );
   }

@@ -126,6 +126,7 @@ describe('SongsService', () => {
           artist: 'Toto',
           stars: 1,
           flowered: false,
+          imageName: 'africa',
           genre: 'Pop'
         }
       ]);
@@ -143,6 +144,7 @@ describe('SongsService', () => {
           artist: 'The Bangles',
           stars: 2,
           flowered: true,
+          imageName: 'manic_monday',
           genre: '80s'
         }
       ]);
@@ -158,6 +160,7 @@ describe('SongsService', () => {
           artist: 'The Bangles',
           stars: 2,
           flowered: true,
+          imageName: 'manic_monday',
           genre: '80s'
         }
       ]);
@@ -179,6 +182,7 @@ describe('SongsService', () => {
       artist: 'Pilati',
       stars: 1,
       flowered: false,
+      imageName: 'brian',
       genre: 'Disney'
     };
 
@@ -189,6 +193,7 @@ describe('SongsService', () => {
         artist: 'Pilati',
         stars: 1,
         flowered: false,
+        imageName: 'brian',
         genre: 'Disney'
       });
     });
@@ -201,6 +206,7 @@ describe('SongsService', () => {
       artist: 'Pilati',
       stars: 1,
       flowered: false,
+      imageName: 'brian',
       genre: 'Disney'
     });
     request.flush([song]);
@@ -213,6 +219,7 @@ describe('SongsService', () => {
       artist: 'Pilati',
       stars: 1,
       flowered: false,
+      imageName: 'brian',
       genre: 'Disney'
     };
 
@@ -223,6 +230,7 @@ describe('SongsService', () => {
         artist: 'Pilati',
         stars: 1,
         flowered: false,
+        imageName: 'brian',
         genre: 'Disney'
       });
     });
@@ -235,6 +243,7 @@ describe('SongsService', () => {
       artist: 'Pilati',
       stars: 1,
       flowered: false,
+      imageName: 'brian',
       genre: 'Disney'
     });
     request.flush([song]);

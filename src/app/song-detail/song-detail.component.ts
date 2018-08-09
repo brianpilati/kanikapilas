@@ -53,11 +53,12 @@ export class SongDetailComponent implements OnInit {
   createForm() {
     this.songForm = this.formatBuilder.group({
       id: ['', Validators.required],
-      title: ['', Validators.required],
-      artist: ['', Validators.required],
+      title: ['', [Validators.required, Validators.maxLength(255)]],
+      artist: ['', [Validators.required, Validators.maxLength(255)]],
       stars: [1, [Validators.required, Validators.min(1), Validators.max(5)]],
       flowered: [false, Validators.required],
       genre: ['', Validators.required],
+      imageName: ['', [Validators.required, Validators.maxLength(355)]],
       searchTerm: ''
     });
   }
@@ -113,6 +114,17 @@ export class SongDetailComponent implements OnInit {
     this.stars.forEach((star, $index, starArray) => {
       starArray[$index] = $index < this.songForm.get('stars').value;
     });
+  }
+
+  updateImageName(): void {
+    if (this.songForm.get('imageName').value === '') {
+      this.songForm.get('imageName').setValue(
+        `${this.songForm
+          .get('title')
+          .value.replace(/\s+/g, '_')
+          .toLowerCase()}.png`
+      );
+    }
   }
 
   private parseGenre(): void {

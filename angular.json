@@ -66,6 +66,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+            "poll": 3000,
             "codeCoverage": false,
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
