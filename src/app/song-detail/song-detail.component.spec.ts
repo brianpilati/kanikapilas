@@ -114,6 +114,11 @@ describe('SongDetailComponent', () => {
     expect(component.genres).toEqual(['Pop', '80s']);
   }));
 
+  it('should test getImageName', () => {
+    component.songForm.get('imageName').setValue('africa.png');
+    expect(component.getImageSrc()).toBe('assets/africa.png');
+  });
+
   describe('updateImageName', () => {
     it('should test updateImageName with no space', () => {
       component.songForm.get('imageName').setValue('');

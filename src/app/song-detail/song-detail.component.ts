@@ -116,6 +116,10 @@ export class SongDetailComponent implements OnInit {
     });
   }
 
+  getImageSrc(): string {
+    return `assets/${this.songForm.get('imageName').value}`;
+  }
+
   updateImageName(): void {
     if (this.songForm.get('imageName').value === '') {
       this.songForm.get('imageName').setValue(
