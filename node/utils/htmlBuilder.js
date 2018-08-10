@@ -1,8 +1,6 @@
 var headBuilder = require('./headBuilder');
 var bodyBuilder = require('./bodyBuilder');
 
-const siteName = 'Kanikapilas.com';
-
 module.exports = {
   buildHtml: function(song) {
     return `
