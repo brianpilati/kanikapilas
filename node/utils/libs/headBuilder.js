@@ -63,6 +63,7 @@ module.exports = {
         <meta property="article:publisher" content="https://www.facebook.com/kanikapilas" />
         <meta property="article:published_time" content="${song.createdDate}" />
         <meta property="og:url" content="${filePath.getUrlPath(song)}" />
+        <link rel="stylesheet" href="/css/styles.css">
       </head>
     `;
   }

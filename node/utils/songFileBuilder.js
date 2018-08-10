@@ -16,7 +16,7 @@ songDomain.getSongs().then(result => {
       console.log(`The ${songFileName} file was saved!`);
     });
 
-    waterMark.addWaterMark(song.imageName);
+    waterMark.addWaterMark(song);
   });
   pool.end();
 });

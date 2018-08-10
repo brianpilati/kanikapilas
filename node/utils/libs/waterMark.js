@@ -2,17 +2,18 @@
 //'color' : 'rgb(154, 50, 46)'
 var watermark = require('image-watermark');
 var fs = require('fs');
+const filePath = require('./filePath');
 
 class WaterMark {
-  addWaterMark(fileName) {
+  addWaterMark(song) {
     var options = Object({
       text: 'Kanikapilas.com',
-      dstPath: '../../deployment/assets/' + fileName
+      dstPath: filePath.getDestinationImagePath(song)
     });
 
-    var sourceFilePath = '../../src/assets/' + fileName;
+    var sourceFilePath = filePath.getSourceImagePath(song);
 
-    if (fs.existsSync(sourceFilePath) && fileName) {
+    if (fs.existsSync(sourceFilePath)) {
       watermark.embedWatermark(sourceFilePath, options);
       return;
     }
