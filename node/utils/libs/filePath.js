@@ -18,12 +18,8 @@ function buildFileName(name) {
   return name.replace(/\s+/g, '-').toLowerCase();
 }
 
-function buildGenericDirectoryPath(song) {
-  return `${getArtistFirstLetter(song.artist)}/${buildFileName(song.artist)}`;
-}
-
 function buildDirectoryPath(song) {
-  return `${buildGenericDirectoryPath(song)}/${buildFileName(song.title)}`;
+  return `${getArtistFirstLetter(song.artist)}/${buildFileName(song.artist)}/${buildFileName(song.title)}`;
 }
 
 function buildFilePath(song) {
@@ -48,8 +44,9 @@ module.exports = {
     return `../../src/assets/${buildImagePath(song)}`;
   },
   getDestinationImagePath: function(song) {
-    ensureDirectoryExistence(`../../deployment/assets/${buildGenericDirectoryPath(song)}`);
-    return `../../deployment/assets/${buildImagePath(song)}`;
+    const imageFilePath = `../../deployment/assets/${buildImagePath(song)}`;
+    ensureDirectoryExistence(imageFilePath);
+    return imageFilePath;
   },
   getImageUrlPath: function(song) {
     return `http://kanikapilas.com/${buildImagePath(song)}`;

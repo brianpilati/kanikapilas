@@ -63,16 +63,13 @@ module.exports = {
         <meta property="article:publisher" content="https://www.facebook.com/kanikapilas" />
         <meta property="article:published_time" content="${song.createdDate}" />
         <meta property="og:url" content="${filePath.getUrlPath(song)}" />
+        <meta name="twitter:image" content="${filePath.getImageUrlPath(song)}" />
+        <meta name="og:image" content="${filePath.getImageUrlPath(song)}" />
+        <meta name="og:image:secure_url" content="${filePath.getImageUrlPath(song)}" />
+        <meta property="og:image:width" content="392" />
+        <meta property="og:image:height" content="464" />
         <link rel="stylesheet" href="/css/styles.css">
       </head>
     `;
   }
 };
-
-/*
-        <meta name="twitter:image" content="https://kanikapilas.com/uploads/2015/01/Twenty-One-Pilots.jpg" />
-<meta property="og:image" content="https://kanikapilas.com/uploads/2015/01/Twenty-One-Pilots.jpg" />
-<meta property="og:image:secure_url" content="https://kanikapilas.com/uploads/2015/01/Twenty-One-Pilots.jpg" />
-<meta property="og:image:width" content="300" />
-<meta property="og:image:height" content="300" />
-*/
