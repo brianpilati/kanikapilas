@@ -1,4 +1,4 @@
-const filePath = require('./libs/filePath');
+const filePath = require('./filePath');
 const siteName = 'Kanikapilas.com';
 const nowDateTime = getFormattedDate();
 

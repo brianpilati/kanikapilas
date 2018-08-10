@@ -1,7 +1,7 @@
 var fs = require('fs');
 var pool = require('../lib/database');
-var waterMark = require('./waterMark');
-var htmlBuilder = require('./htmlBuilder');
+var waterMark = require('./libs/waterMark');
+var htmlBuilder = require('./libs/htmlBuilder');
 const filePath = require('./libs/filePath');
 var SongDomain = require('../server/domains/song');
 const songDomain = new SongDomain(pool);
