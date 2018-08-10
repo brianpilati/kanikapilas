@@ -1,18 +1,40 @@
 var fs = require('fs');
+var path = require('path');
 var pool = require('../lib/database');
 var waterMark = require('./waterMark');
 var htmlBuilder = require('./htmlBuilder');
 var SongDomain = require('../server/domains/song');
 const songDomain = new SongDomain(pool);
 
-function getFileName(songTitle) {
-  return songTitle.replace(/\s+/g, '_').toLowerCase();
+function ensureDirectoryExistence(filePath) {
+  var dirname = path.dirname(filePath);
+  if (fs.existsSync(dirname)) {
+    return true;
+  }
+  ensureDirectoryExistence(dirname);
+  fs.mkdirSync(dirname);
+}
+
+function getArtistFirstLetter(artist) {
+  return artist.charAt(0).toLowerCase();
+}
+
+function getFileName(name) {
+  return name.replace(/\s+/g, '-').toLowerCase();
+}
+
+function getFilePath(song) {
+  const filePath = `../../deployment/${getArtistFirstLetter(song.artist)}/${getFileName(song.artist)}/${getFileName(
+    song.title
+  )}.html`;
+  ensureDirectoryExistence(filePath);
+  return filePath;
 }
 
 songDomain.getSongs().then(result => {
   result.forEach(song => {
     const songFileName = getFileName(song.title);
-    fs.writeFile(`../../deployment/${songFileName}.html`, htmlBuilder.buildHtml(song), err => {
+    fs.writeFile(getFilePath(song), htmlBuilder.buildHtml(song), err => {
       if (err) {
         return console.log(err);
       }

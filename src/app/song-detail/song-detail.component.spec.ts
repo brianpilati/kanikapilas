@@ -121,7 +121,7 @@ describe('SongDetailComponent', () => {
 
   it('should test getImageDeploymentName', () => {
     component.songForm.get('imageName').setValue('africa.png');
-    expect(component.getImageDeploymentSrc()).toBe('../../deployment/africa.png');
+    expect(component.getImageDeploymentSrc()).toBe('../../assets/africa.png');
   });
 
   describe('updateImageName', () => {
