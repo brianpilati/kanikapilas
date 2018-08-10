@@ -1,3 +1,4 @@
+const filePath = require('./libs/filePath');
 const siteName = 'Kanikapilas.com';
 const nowDateTime = getFormattedDate();
 
@@ -61,7 +62,7 @@ module.exports = {
         <meta property="og:updated_time" content="${nowDateTime}" />
         <meta property="article:publisher" content="https://www.facebook.com/kanikapilas" />
         <meta property="article:published_time" content="${song.createdDate}" />
-        <meta property="og:url" content="https://kanikapilas.com/t/twenty-one-pilots/cant-help-falling-in-love/" />
+        <meta property="og:url" content="${filePath.getUrlPath(song)}" />
       </head>
     `;
   }
