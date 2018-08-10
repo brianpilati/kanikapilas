@@ -7,7 +7,7 @@ const filePath = require('./filePath');
 class WaterMark {
   addWaterMark(song) {
     var options = Object({
-      text: 'Kanikapilas.com',
+      text: 'Do Not Print',
       dstPath: filePath.getDestinationImagePath(song)
     });
 

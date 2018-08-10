@@ -27,7 +27,7 @@ function buildFilePath(song) {
 }
 
 function buildImagePath(song) {
-  return `${buildDirectoryPath(song)}.png`;
+  return `assets/${buildDirectoryPath(song)}.png`;
 }
 
 module.exports = {
@@ -41,15 +41,18 @@ module.exports = {
     return `http://kanikapilas.com/${buildFilePath(song)}`;
   },
   getSourceImagePath: function(song) {
-    return `../../src/assets/${buildImagePath(song)}`;
+    return `../../src/${buildImagePath(song)}`;
   },
   getDestinationImagePath: function(song) {
-    const imageFilePath = `../../deployment/assets/${buildImagePath(song)}`;
+    const imageFilePath = `../../deployment/${buildImagePath(song)}`;
     ensureDirectoryExistence(imageFilePath);
     return imageFilePath;
   },
   getImageUrlPath: function(song) {
     return `http://kanikapilas.com/${buildImagePath(song)}`;
+  },
+  getRelativeImageUrlPath: function(song) {
+    return `/${buildImagePath(song)}`;
   },
   buildFilePath: function(song) {
     const filePath = this.getFilePath(song);
