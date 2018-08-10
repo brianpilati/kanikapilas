@@ -133,7 +133,10 @@
     </mat-card>
     <mat-card>
       <div class="song-image-container">
-        <img class="song-image" [src]="getImageSrc()">
+        <img class="song-image" [src]="getImageAssetSrc()">
+      </div>
+      <div class="song-image-container">
+        <img class="song-image" [src]="getImageDeploymentSrc()">
       </div>
     </mat-card>
     <mat-card>

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { SongsService } from '../songs-service/songs.service';
 import { Song } from '../models/song';
@@ -42,7 +43,8 @@ export class SongDetailComponent implements OnInit {
     private formatBuilder: FormBuilder,
     private route: ActivatedRoute,
     private location: Location,
-    private songsService: SongsService
+    private songsService: SongsService,
+    private sanitizer: DomSanitizer
   ) {
     this.genres = [];
     this.stars = Array(5).fill(false);
@@ -116,8 +118,14 @@ export class SongDetailComponent implements OnInit {
     });
   }
 
-  getImageSrc(): string {
+  getImageAssetSrc(): string {
     return `assets/${this.songForm.get('imageName').value}`;
+  }
+
+  getImageDeploymentSrc(): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      ` http://localhost:3000/assets/${this.songForm.get('imageName').value}`
+    );
   }
 
   updateImageName(): void {

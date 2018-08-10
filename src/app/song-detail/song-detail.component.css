@@ -52,11 +52,13 @@ mat-card {
 }
 
 .song-image-container {
-  width: 100%;
+  width: 275px;
   text-align: center;
+  float: left;
 }
 
 .song-image {
+  width: 250px;
   -moz-transform: scaleX(-1);
   -o-transform: scaleX(-1);
   -webkit-transform: scaleX(-1);

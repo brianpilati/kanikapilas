@@ -1,4 +1,5 @@
 var pool = require('../lib/database');
+var path = require('path');
 var express = require('express');
 var cors = require('cors');
 var bodyParser = require('body-parser');
@@ -10,6 +11,8 @@ var corsOptions = {
   origin: 'http://localhost:4200',
   optionsSuccessStatus: 200
 };
+
+app.use(express.static(path.join(__dirname, '../../deployment')));
 
 app.use(bodyParser.json());
 

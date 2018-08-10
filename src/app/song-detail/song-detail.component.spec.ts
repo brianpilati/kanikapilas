@@ -114,9 +114,14 @@ describe('SongDetailComponent', () => {
     expect(component.genres).toEqual(['Pop', '80s']);
   }));
 
-  it('should test getImageName', () => {
+  it('should test getImageAssetName', () => {
     component.songForm.get('imageName').setValue('africa.png');
-    expect(component.getImageSrc()).toBe('assets/africa.png');
+    expect(component.getImageAssetSrc()).toBe('assets/africa.png');
+  });
+
+  it('should test getImageDeploymentName', () => {
+    component.songForm.get('imageName').setValue('africa.png');
+    expect(component.getImageDeploymentSrc()).toBe('../../deployment/africa.png');
   });
 
   describe('updateImageName', () => {
