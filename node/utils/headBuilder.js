@@ -24,18 +24,6 @@ function getFormattedDate() {
   )}T${formatDigits(now.getUTCHours())}:${formatDigits(now.getUTCMinutes())}:${formatDigits(
     now.getUTCSeconds()
   )}${timezone}`;
-  /*
-        <meta property="og:updated_time" content="2017-09-29T22:02:52+02:00" />
-  getFullYear()	Get the year as a four digit number (yyyy)
-getMonth()	Get the month as a number (0-11)
-getDate()	Get the day as a number (1-31)
-getHours()	Get the hour (0-23)
-getMinutes()	Get the minute (0-59)
-getSeconds()	Get the second (0-59)
-getMilliseconds()	Get the millisecond (0-999)
-getTime()	Get the time (milliseconds since January 1, 1970)
-getDay()	Get the weekday as a number (0-6)
-*/
 }
 
 module.exports = {
@@ -71,6 +59,9 @@ module.exports = {
         ${buildArticleTags(song.genre)}
         <meta property="article:modified_time" content="${nowDateTime}" />
         <meta property="og:updated_time" content="${nowDateTime}" />
+        <meta property="article:publisher" content="https://www.facebook.com/kanikapilas" />
+        <meta property="article:published_time" content="${song.createdDate}" />
+        <meta property="og:url" content="https://kanikapilas.com/t/twenty-one-pilots/cant-help-falling-in-love/" />
       </head>
     `;
   }
@@ -78,9 +69,6 @@ module.exports = {
 
 /*
         <meta name="twitter:image" content="https://kanikapilas.com/uploads/2015/01/Twenty-One-Pilots.jpg" />
-<meta property="og:url" content="https://kanikapilas.com/t/twenty-one-pilots/cant-help-falling-in-love/" />
-<meta property="article:publisher" content="https://www.facebook.com/kanikapilas" />
-<meta property="article:published_time" content="2015-01-24T16:30:11+02:00" />
 <meta property="og:image" content="https://kanikapilas.com/uploads/2015/01/Twenty-One-Pilots.jpg" />
 <meta property="og:image:secure_url" content="https://kanikapilas.com/uploads/2015/01/Twenty-One-Pilots.jpg" />
 <meta property="og:image:width" content="300" />

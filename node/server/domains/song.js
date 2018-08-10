@@ -46,7 +46,8 @@ class SongDomain {
         stars: song.stars,
         flowered: song.flowered,
         genre: song.genre,
-        imageName: song.imageName
+        imageName: song.imageName,
+        createdDate: Date().now
       }
     );
   }
