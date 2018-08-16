@@ -3,6 +3,8 @@ var pool = require('../lib/database');
 var waterMark = require('./libs/waterMark');
 var htmlBuilder = require('./libs/htmlBuilder');
 const filePath = require('./libs/filePath');
+const fileResize = require('./libs/images/fileResize');
+
 var SongDomain = require('../server/domains/song');
 const songDomain = new SongDomain(pool);
 
@@ -16,7 +18,9 @@ songDomain.getSongs().then(result => {
       console.log(`The ${songFileName} file was saved!`);
     });
 
-    waterMark.addWaterMark(song);
+    fileResize.resizeImage(song).then(function() {
+      waterMark.addWaterMark(song);
+    });
   });
   pool.end();
 });

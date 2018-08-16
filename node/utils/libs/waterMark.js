@@ -6,15 +6,15 @@ const filePath = require('./filePath');
 
 class WaterMark {
   addWaterMark(song) {
+    var destinationFilePath = filePath.getDestinationImagePath(song);
+
     var options = Object({
       text: 'Do Not Print',
-      dstPath: filePath.getDestinationImagePath(song)
+      dstPath: destinationFilePath
     });
 
-    var sourceFilePath = filePath.getSourceImagePath(song);
-
-    if (fs.existsSync(sourceFilePath)) {
-      watermark.embedWatermark(sourceFilePath, options);
+    if (fs.existsSync(destinationFilePath)) {
+      watermark.embedWatermark(destinationFilePath, options);
       return;
     }
   }

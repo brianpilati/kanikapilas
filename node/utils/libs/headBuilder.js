@@ -3,13 +3,13 @@ const siteName = 'Kanikapilas.com';
 const nowDateTime = getFormattedDate();
 
 function buildArticleTags(genres) {
+  let articleTags = '';
   if (genres) {
-    let articleTags = '';
     genres.split(/,\s/g).forEach(function(genre) {
       articleTags += `<meta property="article:tag" content="${genre}" />`;
     });
-    return articleTags;
   }
+  return articleTags;
 }
 
 function formatDigits(digit) {
@@ -68,7 +68,7 @@ module.exports = {
         <meta name="og:image:secure_url" content="${filePath.getImageUrlPath(song)}" />
         <meta property="og:image:width" content="392" />
         <meta property="og:image:height" content="464" />
-        <link rel="stylesheet" href="/css/styles.css">
+        <link rel="stylesheet" href="/css/song-styles.css">
       </head>
     `;
   }

@@ -1,34 +1,40 @@
 //https://css-tricks.com/snippets/css/a-guide-to-flexbox/
 const filePath = require('./filePath');
 const fairUsePolicy = require('./fairUsePolicy');
+const adBuilder = require('./adBuilder');
+const titleBuilder = require('./titleBuilder');
+const sizes = require('./enums/font-sizes');
 
 module.exports = {
   buildBody: function(song) {
     return `
       <body>
+        <div class="background-splash"></div>
         <div class="song-page-container">
-          <div class="song-page-header">
-            <div class="song-page-title">
-              ${song.title}
+          <header class="song-page-header">
+            <div class="kanikapilas-title">
+            ${titleBuilder.getSiteTitle(sizes.large)}
             </div>
             <div class="song-page-artist">
-              ${song.artist}
+              ${titleBuilder.title(song.artist, sizes.small)}
             </div>
-          </div>
+          </header>
           <div class="song-page-body">
             <aside class="tshirt-container">
               <div class="tshirt">
-                <iframe style="width:120px;height:240px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" src="//ws-na.amazon-adsystem.com/widgets/q?ServiceVersion=20070822&OneJS=1&Operation=GetAdHtml&MarketPlace=US&source=ac&ref=tf_til&ad_type=product_link&tracking_id=kanikapilas-20&marketplace=amazon&region=US&placement=B07DDYW6ZV&asins=B07DDYW6ZV&linkId=0198b685640b3389a04ac4e35e9a1a66&show_border=true&link_opens_in_new_window=true&price_color=333333&title_color=0066c0&bg_color=ffffff">
-      </iframe>
+                ${adBuilder.buildAd()}
               </div>
               <div class="tshirt">
-                Tshirt 2
+                ${adBuilder.buildAd()}
               </div>
               <div class="tshirt">
-                Tshirt 3
+                ${adBuilder.buildAd()}
               </div>
             </aside>
-            <article class="main">
+            <article class="article">
+              <div class="song-title">
+                ${titleBuilder.title(song.title, sizes.medium)}
+              </div>
               <div>
                 <img class="song-image" src="${filePath.getRelativeImageUrlPath(song)}">
               </div>
