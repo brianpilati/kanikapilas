@@ -2,7 +2,7 @@
 //'color' : 'rgb(154, 50, 46)'
 var watermark = require('image-watermark');
 var fs = require('fs');
-const filePath = require('./filePath');
+const filePath = require('../filePath');
 
 class WaterMark {
   addWaterMark(song) {

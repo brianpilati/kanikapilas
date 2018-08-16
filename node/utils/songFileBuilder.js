@@ -1,6 +1,6 @@
 var fs = require('fs');
 var pool = require('../lib/database');
-var waterMark = require('./libs/waterMark');
+var waterMark = require('./libs/images/waterMark');
 var htmlBuilder = require('./libs/htmlBuilder');
 const filePath = require('./libs/filePath');
 const fileResize = require('./libs/images/fileResize');
