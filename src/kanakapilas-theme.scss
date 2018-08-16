@@ -6,7 +6,7 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 /* For use in src/lib/core/theming/_palette.scss */
-$kanakapilas-primary: (
+$kanikapilas-primary: (
   50: #fef8ed,
   100: #fceed3,
   200: #fae3b6,
@@ -40,7 +40,7 @@ $kanakapilas-primary: (
 );
 
 /*
-$kanakapilas-accent: (
+$kanikapilas-accent: (
   50 : #e4e8f2,
   100 : #bcc6e0,
   200 : #90a0cb,
@@ -74,7 +74,7 @@ $kanakapilas-accent: (
 );
 */
 
-$kanakapilas-accent: (
+$kanikapilas-accent: (
   50: #f6fcfe,
   100: #e8f7fe,
   200: #d9f1fd,
@@ -107,7 +107,7 @@ $kanakapilas-accent: (
   )
 );
 
-$kanakapilas-warn: (
+$kanikapilas-warn: (
   50: #f9eaea,
   100: #f1caca,
   200: #e8a6a6,
@@ -143,11 +143,11 @@ $kanakapilas-warn: (
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://www.google.com/design/spec/style/color.html
-$candy-app-primary: mat-palette($kanakapilas-primary);
-$candy-app-accent: mat-palette($kanakapilas-accent);
+$candy-app-primary: mat-palette($kanikapilas-primary);
+$candy-app-accent: mat-palette($kanikapilas-accent);
 
 // The warn palette is optional (defaults to red).
-$candy-app-warn: mat-palette($kanakapilas-warn);
+$candy-app-warn: mat-palette($kanikapilas-warn);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
