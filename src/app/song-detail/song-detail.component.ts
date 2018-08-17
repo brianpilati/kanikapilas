@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -8,6 +8,7 @@ import { SongsService } from '../songs-service/songs.service';
 import { Song } from '../models/song';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { ImageCoordinates } from '../models/image-coordinates';
 
 @Component({
   selector: 'app-song-detail',
@@ -17,6 +18,9 @@ import { startWith, map } from 'rxjs/operators';
 export class SongDetailComponent implements OnInit {
   @Input()
   song: Song;
+
+  @Output()
+  coordinates = new EventEmitter<ImageCoordinates>();
 
   public stars: boolean[];
   public genres: string[];
@@ -62,7 +66,9 @@ export class SongDetailComponent implements OnInit {
       genre: ['', Validators.required],
       imageName: ['', [Validators.required, Validators.maxLength(355)]],
       searchTerm: '',
-      createdDate: ''
+      createdDate: '',
+      imageTop: [0, Validators.min(0)],
+      imageBottom: [0, Validators.min(0)]
     });
   }
 
@@ -97,12 +103,23 @@ export class SongDetailComponent implements OnInit {
       this.song.stars = 0;
       this.song.id = 0;
       this.setSongValues();
+      this.emitImageCoordinates();
     } else {
       this.songsService.getSong(id).subscribe(song => {
         this.song = song;
         this.setSongValues();
+        this.emitImageCoordinates();
       });
     }
+  }
+
+  private emitImageCoordinates(): void {
+    this.coordinates.emit(<ImageCoordinates>{
+      top: this.songForm.get('imageTop').value,
+      bottom: this.songForm.get('imageBottom').value,
+      left: 0,
+      right: 0
+    });
   }
 
   goBack(): void {
@@ -203,5 +220,10 @@ export class SongDetailComponent implements OnInit {
         this.songsService.updateSong(requestSong).subscribe(() => this.goBack());
       }
     }
+  }
+
+  resize(coordinates: ImageCoordinates): void {
+    this.songForm.get('imageTop').setValue(coordinates.top);
+    this.songForm.get('imageBottom').setValue(coordinates.bottom);
   }
 }

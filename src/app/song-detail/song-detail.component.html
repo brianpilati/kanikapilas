@@ -132,12 +132,15 @@
       </form>
     </mat-card>
     <mat-card class="song-image-parent-container">
-      <div class="song-image-container left">
-        <app-image-resize>
+      <div class="song-image-container">
+        <app-image-resize
+          (resize)="resize($event)"
+          [coordinates]="coordinates"
+        >
           <img class="song-image" [src]="getImageAssetSrc()">
         </app-image-resize>
       </div>
-      <div class="song-image-container right">
+      <div class="song-image-container">
         <img class="song-image" name="deployedImage" [src]="getImageDeploymentSrc()">
       </div>
     </mat-card>

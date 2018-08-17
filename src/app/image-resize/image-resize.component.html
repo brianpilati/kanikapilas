@@ -1,10 +1,12 @@
-<div class="top icon" #topIcon ngDraggable (movingOffset)="movingOffset($event)">
-  <img class="topIcon" src="/assets/icons/flower_icon.png">
+<div class="image-boundary-container" #songBoundary>
+  <div class="top icon" #topIcon ngDraggable (movingOffset)="movingTopOffset($event)" [bounds]="songBoundary" [inBounds]="true" (stopped)="stoppedMoving()" #topIcon>
+    <img class="topIcon" src="/assets/icons/flower_icon.png">
+  </div>
+  <div>
+    <ng-content></ng-content>
+  </div>
+  <div class="bottom icon" #bottomIcon ngDraggable (movingOffset)="movingBottomOffset($event)" [bounds]="songBoundary" [inBounds]="true" (stopped)="stoppedMoving()" #bottomIcon>
+    <img class="bottomIcon" src="/assets/icons/flower_icon.png">
+  </div>
+  <div class="resize-box" #resizeBox></div>
 </div>
-<div class="image-container">
-  <ng-content></ng-content>
-</div>
-<div class="bottom icon" #bottomIcon>
-  <img class="bottomIcon" src="/assets/icons/flower_icon.png">
-</div>
-<div class="resize-box" #resizeBox></div>

@@ -16,11 +16,13 @@ CREATE TABLE `songs` (
   `flowered` BOOLEAN,
   `genre` VARCHAR(1024),
   `imageName` VARCHAR(355),
+  `imageTop` INT(5),
+  `imageBottom` INT(5),
   `createdDate` DATETIME,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='The Songs Table';
 
-INSERT INTO songs (title, artist, stars, flowered, genre, imageName, createdDate) VALUES
-    ('Africa', 'Toto', 1, 1, 'pop, 80s', 'africa', '2018-08-08T10:25:00-06:00'),
-    ('Manic Monday', 'Cindy Lauper', 3, 0, '', '', '2018-08-10T10:26:34-06:00');
+INSERT INTO songs (title, artist, stars, flowered, genre, imageName, imageTop, imageBottom, createdDate) VALUES
+    ('Africa', 'Toto', 1, 1, 'pop, 80s', 'africa', 75, 150, '2018-08-08T10:25:00-06:00'),
+    ('Manic Monday', 'Cindy Lauper', 3, 0, '', '', 20, 200, '2018-08-10T10:26:34-06:00');

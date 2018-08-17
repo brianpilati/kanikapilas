@@ -52,24 +52,19 @@ mat-card {
 }
 
 .song-image-parent-container {
-  height: 500px;
+  height: 1400px;
 }
 
 .song-image-container {
-  width: 275px;
+  width: 400px;
+  height: 700px;
   text-align: center;
-}
-
-.song-image-container.left {
-  position: absolute;
-}
-
-.song-image-container.right {
-  float: right;
+  position: relative;
 }
 
 .song-image {
-  width: 250px;
+  padding: 6px;
+  width: 400px;
   -moz-transform: scaleX(-1);
   -o-transform: scaleX(-1);
   -webkit-transform: scaleX(-1);
