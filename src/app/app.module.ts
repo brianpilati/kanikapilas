@@ -23,9 +23,11 @@ import { SongsService } from './songs-service/songs.service';
 import { UkuleleRoutingModule } from './ukulele-routing.module';
 import { SongGenreComponent } from './song-genre/song-genre.component';
 import { ImageResizeComponent } from './image-resize/image-resize.component';
+import { AngularDraggableModule } from 'angular2-draggable';
 
 @NgModule({
   imports: [
+    AngularDraggableModule,
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,

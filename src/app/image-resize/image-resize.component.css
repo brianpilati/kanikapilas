@@ -5,21 +5,25 @@
 }
 
 .top {
-  top: 0;
-  left: 0;
+  top: -12.5px;
+  left: -12.5px;
 }
 
 .bottom {
-  bottom: 0;
-  right: 0;
+  bottom: -12.5px;
+  right: -12.5px;
 }
 
 .resize-box {
   position: absolute;
   z-index: 1;
-  top: 12.5px;
-  left: 12.5px;
-  bottom: 12.5px;
-  right: 12.5px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  border: 1px solid red;
+}
+
+.image-container {
   border: 1px solid black;
 }

@@ -1,9 +1,9 @@
-<div class="top icon" #topIcon>
+<div class="top icon" #topIcon ngDraggable (movingOffset)="movingOffset($event)">
   <img class="topIcon" src="/assets/icons/flower_icon.png">
 </div>
-<p>
+<div class="image-container">
   <ng-content></ng-content>
-</p>
+</div>
 <div class="bottom icon" #bottomIcon>
   <img class="bottomIcon" src="/assets/icons/flower_icon.png">
 </div>
