@@ -61,7 +61,8 @@ export class SongDetailComponent implements OnInit {
       flowered: [false, Validators.required],
       genre: ['', Validators.required],
       imageName: ['', [Validators.required, Validators.maxLength(355)]],
-      searchTerm: ''
+      searchTerm: '',
+      createdDate: ''
     });
   }
 
@@ -118,14 +119,39 @@ export class SongDetailComponent implements OnInit {
     });
   }
 
+  private getArtistFirstLetter(): string {
+    return this.songForm
+      .get('artist')
+      .value.charAt(0)
+      .toLowerCase();
+  }
+
+  private buildFileName(name: string): string {
+    if (name) {
+      return name.replace(/\s+/g, '-').toLowerCase();
+    }
+  }
+
+  private buildDirectoryPath(): string {
+    const artistName = this.songForm.get('artist').value;
+    const title = this.songForm.get('title').value;
+    return `${this.getArtistFirstLetter()}/${this.buildFileName(artistName)}/${this.buildFileName(title)}`;
+  }
+
+  private buildImagePath(): string {
+    return `assets/${this.buildDirectoryPath()}.png`;
+  }
+
+  getImageUrlPath(): string {
+    return `http://localhost:3000/${this.buildImagePath()}`;
+  }
+
   getImageAssetSrc(): string {
-    return `assets/${this.songForm.get('imageName').value}`;
+    return `${this.buildImagePath()}`;
   }
 
   getImageDeploymentSrc(): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(
-      ` http://localhost:3000/assets/${this.songForm.get('imageName').value}`
-    );
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`${this.getImageUrlPath()}`);
   }
 
   updateImageName(): void {
