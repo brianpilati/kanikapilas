@@ -115,16 +115,18 @@ describe('SongDetailComponent', () => {
   }));
 
   it('should test getImageAssetName', () => {
-    component.songForm.get('imageName').setValue('africa.png');
-    expect(component.getImageAssetSrc()).toBe('assets/africa.png');
+    component.songForm.get('title').setValue('africa');
+    component.songForm.get('artist').setValue('toto');
+    expect(component.getImageAssetSrc()).toBe('assets/t/toto/africa.png');
   });
 
   it('should test getImageDeploymentName', () => {
-    component.songForm.get('imageName').setValue('africa.png');
+    component.songForm.get('title').setValue('africa');
+    component.songForm.get('artist').setValue('toto');
 
     fixture.detectChanges();
     const deployedImage = compiled.querySelector('[name="deployedImage"]');
-    expect(deployedImage.src).toBe('http://localhost:3000/assets/africa.png');
+    expect(deployedImage.src).toBe('http://localhost:3000/assets/t/toto/africa.png');
   });
 
   describe('updateImageName', () => {
@@ -169,7 +171,8 @@ describe('SongDetailComponent', () => {
       flowered: false,
       imageName: '',
       genre: 'Pop, Spiritual',
-      searchTerm: ''
+      searchTerm: '',
+      createdDate: ''
     });
 
     expect(component.genres).toEqual(['Pop', 'Spiritual']);
@@ -186,7 +189,8 @@ describe('SongDetailComponent', () => {
       flowered: false,
       imageName: '',
       genre: 'Pop, 80s and 90s',
-      searchTerm: ''
+      searchTerm: '',
+      createdDate: ''
     });
 
     expect(component.genres).toEqual(['Pop', '80s and 90s']);
@@ -203,7 +207,8 @@ describe('SongDetailComponent', () => {
       flowered: false,
       imageName: '',
       genre: `80s and 90s, Spiritual's Songs`,
-      searchTerm: ''
+      searchTerm: '',
+      createdDate: ''
     });
 
     expect(component.genres).toEqual(['80s and 90s', `Spiritual's Songs`]);
@@ -292,7 +297,8 @@ describe('SongDetailComponent', () => {
       flowered: false,
       imageName: '',
       genre: 'Pop',
-      searchTerm: ''
+      searchTerm: '',
+      createdDate: ''
     });
 
     expect(component.genres).toEqual(['Pop']);
@@ -309,7 +315,8 @@ describe('SongDetailComponent', () => {
       flowered: false,
       imageName: '',
       genre: 'Pop, 80s',
-      searchTerm: ''
+      searchTerm: '',
+      createdDate: ''
     });
 
     expect(component.genres).toEqual(['Pop', '80s']);
@@ -326,7 +333,8 @@ describe('SongDetailComponent', () => {
       flowered: false,
       imageName: '',
       searchTerm: '',
-      genre: 'Pop, 80s, Primary Songs'
+      genre: 'Pop, 80s, Primary Songs',
+      createdDate: ''
     });
 
     expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs']);
@@ -343,6 +351,7 @@ describe('SongDetailComponent', () => {
       flowered: false,
       imageName: '',
       searchTerm: '',
+      createdDate: '',
       genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
     });
 
@@ -360,6 +369,7 @@ describe('SongDetailComponent', () => {
       flowered: false,
       imageName: '',
       searchTerm: '',
+      createdDate: '',
       genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
     });
 
@@ -396,6 +406,7 @@ describe('SongDetailComponent', () => {
         flowered: true,
         imageName: 'africa',
         searchTerm: '',
+        createdDate: '',
         genre: 'Pop, 80s'
       });
       expect(request.request.method).toEqual('PUT');
@@ -420,6 +431,7 @@ describe('SongDetailComponent', () => {
         flowered: true,
         imageName: 'africa',
         searchTerm: '',
+        createdDate: '',
         genre: 'Pop, 80s'
       });
     }));
@@ -453,6 +465,7 @@ describe('SongDetailComponent', () => {
           flowered: true,
           imageName: 'africa',
           searchTerm: '',
+          createdDate: '',
           genre: 'Pop, 80s'
         })
       );
@@ -532,6 +545,7 @@ describe('SongDetailComponent', () => {
       flowered: false,
       imageName: 'title - changed',
       searchTerm: '',
+      createdDate: '',
       genre: 'classics'
     });
 
@@ -549,6 +563,7 @@ describe('SongDetailComponent', () => {
       flowered: true,
       imageName: 'title - changed',
       searchTerm: '',
+      createdDate: '',
       genre: 'pop, 80s'
     });
 
@@ -632,6 +647,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       flowered: false,
       imageName: '',
       searchTerm: '',
+      createdDate: '',
       genre: ''
     });
 
@@ -658,7 +674,8 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       flowered: false,
       imageName: 'new_song',
       genre: '80s',
-      searchTerm: ''
+      searchTerm: '',
+      createdDate: ''
     });
     expect(request.request.method).toEqual('POST');
     request.flush({
@@ -689,6 +706,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       flowered: false,
       imageName: 'new_song',
       searchTerm: '',
+      createdDate: '',
       genre: 'classics'
     });
 
@@ -707,7 +725,8 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       flowered: false,
       imageName: 'new_song',
       genre: 'classics',
-      searchTerm: ''
+      searchTerm: '',
+      createdDate: ''
     });
     expect(request.request.method).toEqual('PUT');
     request.flush({
@@ -737,6 +756,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       stars: 3,
       flowered: false,
       searchTerm: '',
+      createdDate: '',
       imageName: 'new_song',
       genre: 'classics'
     });
