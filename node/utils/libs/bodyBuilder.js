@@ -15,9 +15,6 @@ module.exports = {
             <div class="kanikapilas-title">
             ${titleBuilder.getSiteTitle(sizes.large)}
             </div>
-            <div class="song-page-artist">
-              ${titleBuilder.title(song.artist, sizes.small)}
-            </div>
           </header>
           <div class="song-page-body">
             <aside class="tshirt-container">
@@ -37,6 +34,30 @@ module.exports = {
               </div>
               <div>
                 <img class="song-image" src="${filePath.getRelativeImageUrlPath(song)}">
+              </div>
+              <div class="song-info-container">
+                <div class="song-info-header">
+                  Artist
+                </div>
+                <div class="song-info-content">
+                  ${song.artist}
+                </div>
+              </div>
+              <div class="song-info-container">
+                <div class="song-info-header">
+                  Stars 
+                </div>
+                <div class="song-info-content">
+                  ${song.stars}
+                </div>
+              </div>
+              <div class="song-info-container">
+                <div class="song-info-header">
+                  Genre 
+                </div>
+                <div class="song-info-content">
+                  ${song.genre}
+                </div>
               </div>
               ${fairUsePolicy.getText()}
             </article>
