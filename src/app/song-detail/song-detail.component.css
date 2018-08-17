@@ -51,10 +51,21 @@ mat-card {
   width: 550px;
 }
 
+.song-image-parent-container {
+  height: 500px;
+}
+
 .song-image-container {
   width: 275px;
   text-align: center;
-  float: left;
+}
+
+.song-image-container.left {
+  position: absolute;
+}
+
+.song-image-container.right {
+  float: right;
 }
 
 .song-image {

@@ -22,6 +22,7 @@ import { SongsComponent } from './songs/songs.component';
 import { SongsService } from './songs-service/songs.service';
 import { UkuleleRoutingModule } from './ukulele-routing.module';
 import { SongGenreComponent } from './song-genre/song-genre.component';
+import { ImageResizeComponent } from './image-resize/image-resize.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,7 @@ import { SongGenreComponent } from './song-genre/song-genre.component';
     UkuleleRoutingModule
   ],
   providers: [SongsService],
-  declarations: [AppComponent, SongDetailComponent, SongsComponent, SongGenreComponent],
+  declarations: [AppComponent, ImageResizeComponent, SongDetailComponent, SongGenreComponent, SongsComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -131,11 +131,13 @@
         </div>
       </form>
     </mat-card>
-    <mat-card>
-      <div class="song-image-container">
-        <img class="song-image" [src]="getImageAssetSrc()">
+    <mat-card class="song-image-parent-container">
+      <div class="song-image-container left">
+        <app-image-resize>
+          <img class="song-image" [src]="getImageAssetSrc()">
+        </app-image-resize>
       </div>
-      <div class="song-image-container">
+      <div class="song-image-container right">
         <img class="song-image" name="deployedImage" [src]="getImageDeploymentSrc()">
       </div>
     </mat-card>
