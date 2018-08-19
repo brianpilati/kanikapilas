@@ -56,8 +56,13 @@ export class ImageResizeComponent implements OnInit {
     this.resizeBox.nativeElement.style.bottom = `${-1 * offset.y - this.bottomOffset}px`;
   }
 
-  private convertCoordinate(coordinate: string): number {
-    return parseInt(coordinate.replace('px', '') || '0', 10);
+  private convertCoordinate(coordinate: string, isTop: boolean = true): number {
+    const newNumber = parseInt(coordinate.replace('px', '') || '0', 10);
+
+    if (newNumber % 2) {
+      return isTop ? newNumber - 1 : newNumber + 1;
+    }
+    return newNumber;
   }
 
   stoppedMoving(): void {
@@ -66,7 +71,7 @@ export class ImageResizeComponent implements OnInit {
       top: this.convertCoordinate(style.top),
       left: 0,
       right: 0,
-      bottom: this.convertCoordinate(style.bottom)
+      bottom: this.convertCoordinate(style.bottom, false)
     });
   }
 }
