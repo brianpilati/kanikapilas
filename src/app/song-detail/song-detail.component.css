@@ -56,7 +56,7 @@ mat-card {
 }
 
 .song-image-container {
-  width: 400px;
+  width: 800px;
   height: 700px;
   text-align: center;
   position: relative;
@@ -64,7 +64,7 @@ mat-card {
 
 .song-image {
   padding: 6px;
-  width: 400px;
+  width: 800px;
   -moz-transform: scaleX(-1);
   -o-transform: scaleX(-1);
   -webkit-transform: scaleX(-1);

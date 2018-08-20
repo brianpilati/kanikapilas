@@ -43,9 +43,9 @@ module.exports = {
               <div class="song-title">
                 ${titleBuilder.title(song.title, sizes.medium)}
               </div>
-              <div>
-                <img class="song-image" src="${filePath.getRelativeImageUrlPath(song, 1)}">
+              <div class="song-image-container">
                 <img class="song-image" src="${filePath.getRelativeImageUrlPath(song, 2)}">
+                <img class="song-image" src="${filePath.getRelativeImageUrlPath(song, 1)}">
               </div>
               <div class="info-container">
                 <div class="song-info-container">
