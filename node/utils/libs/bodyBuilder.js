@@ -59,6 +59,22 @@ module.exports = {
                   </div>
                   <div class="song-info">
                     <div class="song-info-header">
+                      First Note:
+                    </div>
+                    <div class="song-info-content">
+                      ${song.firstNote}
+                    </div>
+                  </div>
+                  <div class="song-info">
+                    <div class="song-info-header">
+                      Capo
+                    </div>
+                    <div class="song-info-content">
+                      ${song.capo}
+                    </div>
+                  </div>
+                  <div class="song-info">
+                    <div class="song-info-header">
                       Stars:
                     </div>
                     <div class="song-info-content">
