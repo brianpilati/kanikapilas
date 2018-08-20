@@ -3,7 +3,7 @@ const fs = require('fs');
 const filePath = require('../filePath');
 
 function fixOddPixel(pixel) {
-  return pixel % 2 ? pixel - 1 : pixel;
+  return pixel % 2 ? pixel + 1 : pixel;
 }
 
 function getNewSize(image, location) {
