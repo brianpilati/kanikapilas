@@ -91,7 +91,12 @@ module.exports = {
                   </div>
                 </div>
                 <div class="song-info-strum-pattern">
-                  Login to save and view personalized strum patterns.
+                  <div>
+                    Practice Strum Patterns
+                  </div>
+                  <div>
+                    Login to save and view personalized strum patterns.
+                  </div>
                 </div>
               </div>
               ${fairUsePolicy.getText()}
