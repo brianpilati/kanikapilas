@@ -8,7 +8,7 @@ import { ImageCoordinates } from '../models/image-coordinates';
 describe('ImageResizeComponent', () => {
   let component: ImageResizeComponent;
   let fixture: ComponentFixture<ImageResizeComponent>;
-  let coordinates = new EventEmitter<ImageCoordinates>();
+  const coordinates = new EventEmitter<ImageCoordinates>();
 
   function emitCoordinates() {
     coordinates.emit(<ImageCoordinates>{
@@ -59,15 +59,15 @@ describe('ImageResizeComponent', () => {
 
   describe('stoppedMoving', () => {
     it('should verify stoppedMoving values - even', () => {
-      let coordinates: ImageCoordinates;
+      let testCoordinates: ImageCoordinates;
       component.resizeBox.nativeElement.style.top = '100px';
       component.resizeBox.nativeElement.style.bottom = '400px';
       component.resize.subscribe((_coordinates_: ImageCoordinates) => {
-        coordinates = _coordinates_;
+        testCoordinates = _coordinates_;
       });
 
       component.stoppedMoving();
-      expect(coordinates).toEqual(<ImageCoordinates>{
+      expect(testCoordinates).toEqual(<ImageCoordinates>{
         top: 160,
         left: 0,
         right: 0,
@@ -76,15 +76,15 @@ describe('ImageResizeComponent', () => {
     });
 
     it('should verify stoppedMoving values - odd', () => {
-      let coordinates: ImageCoordinates;
+      let testCoordinates: ImageCoordinates;
       component.resizeBox.nativeElement.style.top = '101px';
       component.resizeBox.nativeElement.style.bottom = '401px';
       component.resize.subscribe((_coordinates_: ImageCoordinates) => {
-        coordinates = _coordinates_;
+        testCoordinates = _coordinates_;
       });
 
       component.stoppedMoving();
-      expect(coordinates).toEqual(<ImageCoordinates>{
+      expect(testCoordinates).toEqual(<ImageCoordinates>{
         top: 160,
         left: 0,
         right: 0,
@@ -93,13 +93,13 @@ describe('ImageResizeComponent', () => {
     });
 
     it('should verify stoppedMoving values - empty', () => {
-      let coordinates: ImageCoordinates;
+      let testCoordinates: ImageCoordinates;
       component.resize.subscribe((_coordinates_: ImageCoordinates) => {
-        coordinates = _coordinates_;
+        testCoordinates = _coordinates_;
       });
 
       component.stoppedMoving();
-      expect(coordinates).toEqual(<ImageCoordinates>{
+      expect(testCoordinates).toEqual(<ImageCoordinates>{
         top: 0,
         left: 0,
         right: 0,
