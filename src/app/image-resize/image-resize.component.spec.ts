@@ -36,9 +36,9 @@ describe('ImageResizeComponent', () => {
   it('should verify default values', () => {
     emitCoordinates();
 
-    expect(component.topIcon.nativeElement.style.top).toBe('0px');
-    expect(component.topIcon.nativeElement.style.left).toBe('12.5px');
-    expect(component.resizeBox.nativeElement.style.top).toBe('12.5px');
+    expect(component.topIcon.nativeElement.style.top).toBe('0.5px');
+    expect(component.topIcon.nativeElement.style.left).toBe('13px');
+    expect(component.resizeBox.nativeElement.style.top).toBe('13px');
 
     expect(component.bottomIcon.nativeElement.style.bottom).toBe('112.5px');
     expect(component.bottomIcon.nativeElement.style.right).toBe('125px');
@@ -48,7 +48,7 @@ describe('ImageResizeComponent', () => {
   it('should verify movingTopOffset values', () => {
     emitCoordinates();
     component.movingTopOffset({ y: 20, x: 10 });
-    expect(component.resizeBox.nativeElement.style.top).toBe('32.5px');
+    expect(component.resizeBox.nativeElement.style.top).toBe('33px');
   });
 
   it('should verify movingBottomOffset values', () => {
