@@ -11,7 +11,7 @@ const songDomain = new SongDomain(pool);
 songDomain.getSongs().then(result => {
   result.forEach(song => {
     const songFileName = filePath.getFileName(song.title);
-    fs.writeFile(filePath.buildFilePath(song), htmlBuilder.buildHtml(song), err => {
+    fs.writeFile(filePath.buildFilePath(song), htmlBuilder.buildSongHtml(song), err => {
       if (err) {
         return console.log(err);
       }

@@ -14,7 +14,7 @@ function buildStars(starCount) {
 }
 
 module.exports = {
-  buildBody: function(song) {
+  buildSongBody: function(song) {
     return `
       <body>
         <div class="background-splash"></div>
@@ -126,6 +126,47 @@ module.exports = {
               ${fairUsePolicy.getText()}
             </div>
           </footer>
+          <footer class="footer">Footer</footer>
+        </div>
+      </body>
+    `;
+  },
+
+  buildIndexBody: function() {
+    return `
+      <body>
+        <div class="background-splash"></div>
+        <div class="index-page-container">
+          <header class="index-page-header">
+            <div class="kanikapilas-title">
+            ${titleBuilder.getSiteTitle(sizes.large)}
+            </div>
+            <div>
+              <img src="/assets/icons/flower-icon.png" alt="flower">
+            </div>
+          </header>
+          <div class="index-page-body">
+            <aside class="tshirt-container">
+              <div class="tshirt">
+                ${adBuilder.buildAd()}
+              </div>
+              <div class="tshirt-divider">
+                ${adBuilder.adDivider()}
+              </div>
+              <div class="tshirt">
+                ${adBuilder.buildAd()}
+              </div>
+              <div class="tshirt-divider">
+                ${adBuilder.adDivider()}
+              </div>
+              <div class="tshirt">
+                ${adBuilder.buildAd()}
+              </div>
+            </aside>
+            <article class="article">
+              Article
+            </article>
+          </div>
           <footer class="footer">Footer</footer>
         </div>
       </body>

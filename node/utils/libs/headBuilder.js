@@ -69,6 +69,7 @@ module.exports = {
         <meta property="og:image:width" content="392" />
         <meta property="og:image:height" content="464" />
         <link rel="stylesheet" href="/css/song-styles.css">
+        <link rel="stylesheet" href="/css/tshirt-styles.css">
       </head>
     `;
   },
@@ -109,6 +110,7 @@ module.exports = {
         <meta property="og:updated_time" content="${nowDateTime}" />
         <meta property="website:published_time" content="${nowDateTime}" />
         <link rel="stylesheet" href="/css/home-styles.css">
+        <link rel="stylesheet" href="/css/tshirt-styles.css">
       </head>
     `;
   }
