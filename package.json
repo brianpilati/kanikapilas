@@ -12,7 +12,7 @@
     "docs:serve": "npm run docs:build -- -s",
     "docs:watch": "npm run docs:build -- -s -w",
     "e2e": "ng e2e",
-    "coverage": "ng test --watch=false --code-coverage",
+    "coverage": "ng test --watch=false --code-coverage --poll=0",
     "format:fix": "pretty-quick --staged",
     "precommit": "run-s format:fix",
     "prepush": "run-s format:fix lint coverage",
