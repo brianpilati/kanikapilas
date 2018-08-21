@@ -155,20 +155,21 @@ export class SongDetailComponent implements OnInit {
     return `${this.getArtistFirstLetter()}/${this.buildFileName(artistName)}/${this.buildFileName(title)}`;
   }
 
-  private buildImagePath(): string {
-    return `assets/${this.buildDirectoryPath()}.png`;
+  private buildImagePath(location: string): string {
+    const fileExtension = location !== '' ? `_${location}` : '';
+    return `assets/${this.buildDirectoryPath()}${fileExtension}.png`;
   }
 
-  getImageUrlPath(): string {
-    return `http://localhost:3000/${this.buildImagePath()}`;
+  getImageUrlPath(location: string): string {
+    return `http://localhost:3000/${this.buildImagePath(location)}`;
   }
 
   getImageAssetSrc(): string {
-    return `${this.buildImagePath()}`;
+    return `${this.buildImagePath('')}`;
   }
 
   getImageDeploymentSrc(): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(`${this.getImageUrlPath()}`);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`${this.getImageUrlPath('1')}`);
   }
 
   updateImageName(): void {

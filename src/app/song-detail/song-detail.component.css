@@ -52,18 +52,16 @@ mat-card {
 }
 
 .song-image-parent-container {
-  height: 1400px;
+  height: 700px;
 }
 
 .song-image-container {
-  width: 800px;
+  width: 500px;
   height: 700px;
   text-align: center;
   position: relative;
 }
 
 .song-image {
-  padding: 6px;
-  width: 800px;
-  height: 1100px;
+  width: 500px;
 }

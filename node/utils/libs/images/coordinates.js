@@ -1,5 +1,5 @@
 function fixOddPixel(pixel) {
-  return pixel % 2 ? pixel + 1 : pixel;
+  return pixel % 2 ? pixel - 1 : pixel;
 }
 
 function pixelMatch(pixel) {

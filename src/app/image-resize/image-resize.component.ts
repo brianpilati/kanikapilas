@@ -27,9 +27,30 @@ export class ImageResizeComponent implements OnInit {
 
   ngOnInit() {
     this.coordinates.subscribe((coordinates: ImageCoordinates) => {
-      this.setTopCoordinate(coordinates);
-      this.setBottomCoordinate(coordinates);
+      this.setTopCoordinate(this.resizeCoordinates(coordinates, false));
+      this.setBottomCoordinate(this.resizeCoordinates(coordinates, false));
     });
+  }
+
+  private grow(): number {
+    return 8 / 5;
+  }
+
+  private shrink(): number {
+    return 5 / 8;
+  }
+
+  private scale(grow: boolean): number {
+    return grow ? this.grow() : this.shrink();
+  }
+
+  resizeCoordinates(coordinates: ImageCoordinates, grow: boolean = true): ImageCoordinates {
+    return <ImageCoordinates>{
+      top: coordinates.top * this.scale(grow),
+      left: coordinates.left * this.scale(grow),
+      right: coordinates.right * this.scale(grow),
+      bottom: coordinates.bottom * this.scale(grow)
+    };
   }
 
   setTopCoordinate(coordinates: ImageCoordinates): void {
@@ -67,11 +88,13 @@ export class ImageResizeComponent implements OnInit {
 
   stoppedMoving(): void {
     const style = this.resizeBox.nativeElement.style;
-    this.resize.emit(<ImageCoordinates>{
-      top: this.convertCoordinate(style.top),
-      left: 0,
-      right: 0,
-      bottom: this.convertCoordinate(style.bottom, false)
-    });
+    this.resize.emit(
+      this.resizeCoordinates(<ImageCoordinates>{
+        top: this.convertCoordinate(style.top),
+        left: 0,
+        right: 0,
+        bottom: this.convertCoordinate(style.bottom, false)
+      })
+    );
   }
 }

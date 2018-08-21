@@ -13,7 +13,8 @@ import {
   MatSliderModule,
   MatCardModule,
   MatSlideToggleModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatTabsModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -41,6 +42,7 @@ import { AngularDraggableModule } from 'angular2-draggable';
     MatInputModule,
     MatSliderModule,
     MatSlideToggleModule,
+    MatTabsModule,
     ReactiveFormsModule,
     UkuleleRoutingModule
   ],

@@ -20,10 +20,10 @@ class FileResize {
       return Image.load(sourceFilePath).then(function(image) {
         let croppedImage = image.clone();
 
-        const height = croppedImage.height - (song.imageBottom + song.imageTop - 14);
+        const height = croppedImage.height - (song.imageBottom + song.imageTop - 4);
 
         croppedImage = croppedImage.crop({
-          y: song.imageTop - 6,
+          y: song.imageTop,
           height: height
         });
 
