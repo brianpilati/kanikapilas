@@ -23,14 +23,23 @@ module.exports = {
             <div class="kanikapilas-title">
             ${titleBuilder.getSiteTitle(sizes.large)}
             </div>
+            <div>
+              <img src="/assets/icons/flower-icon.png" alt="flower">
+            </div>
           </header>
           <div class="song-page-body">
             <aside class="tshirt-container">
               <div class="tshirt">
                 ${adBuilder.buildAd()}
               </div>
+              <div class="tshirt-divider">
+                ${adBuilder.adDivider()}
+              </div>
               <div class="tshirt">
                 ${adBuilder.buildAd()}
+              </div>
+              <div class="tshirt-divider">
+                ${adBuilder.adDivider()}
               </div>
               <div class="tshirt">
                 ${adBuilder.buildAd()}
@@ -91,17 +100,32 @@ module.exports = {
                   </div>
                 </div>
                 <div class="song-info-strum-pattern">
-                  <div>
+                  <div class="strum-pattern">
                     Practice Strum Patterns
                   </div>
-                  <div>
+                  <div class="login-cta">
                     Login to save and view personalized strum patterns.
                   </div>
                 </div>
               </div>
-              ${fairUsePolicy.getText()}
             </article>
           </div>
+          <footer class="legal">
+            <div class="fair-use-policy">
+              <p>
+              <span>
+                <img src="/assets/icons/flower-icon.png" alt="flower">
+              </span>
+              <span>
+                ${titleBuilder.title('Legal', sizes.medium)}
+              </span>
+              <span>
+                <img src="/assets/icons/flower-icon.png" alt="flower">
+              </span>
+              </p>
+              ${fairUsePolicy.getText()}
+            </div>
+          </footer>
           <footer class="footer">Footer</footer>
         </div>
       </body>
