@@ -1,4 +1,4 @@
-import { tick, async, ComponentFixture, TestBed, inject, fakeAsync } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import 'hammerjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Location } from '@angular/common';
@@ -9,17 +9,21 @@ import { SongDetailComponent } from './song-detail.component';
 import { ActivatedRoute } from '@angular/router';
 import { Song } from '../models/song';
 import {
+  MatAutocompleteModule,
+  MatCardModule,
   MatButtonModule,
   MatIconModule,
   MatInputModule,
   MatFormFieldModule,
   MatSliderModule,
   MatSlideToggleModule,
-  MatAutocompleteModule,
-  MatCardModule
+  MatTabsModule
 } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SongGenreComponent } from '../song-genre/song-genre.component';
+import { TestSongs } from '../../testing/test-songs';
+import { ImageResizeComponent } from '../image-resize/image-resize.component';
+import { AngularDraggableModule } from 'angular2-draggable';
 
 let activatedRouteId: any;
 
@@ -49,6 +53,7 @@ describe('SongDetailComponent', () => {
 
     TestBed.configureTestingModule({
       imports: [
+        AngularDraggableModule,
         FormsModule,
         HttpClientTestingModule,
         MatAutocompleteModule,
@@ -59,11 +64,12 @@ describe('SongDetailComponent', () => {
         MatInputModule,
         MatSliderModule,
         MatSlideToggleModule,
+        MatTabsModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
         RouterTestingModule
       ],
-      declarations: [SongDetailComponent, SongGenreComponent],
+      declarations: [ImageResizeComponent, SongDetailComponent, SongGenreComponent],
       providers: [
         {
           provide: ActivatedRoute,
@@ -84,29 +90,23 @@ describe('SongDetailComponent', () => {
       });
   }));
 
-  it('should test getSong and default values', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+  fit('should test getSong and default values', inject([HttpTestingController], (httpMock: HttpTestingController) => {
     expect(component.song).toEqual(new Song());
 
     const request = httpMock.expectOne('http://localhost:3000/api/songs/1');
     expect(request.request.method).toEqual('GET');
-    request.flush(<Song>{
-      id: 1,
-      title: 'Africa',
-      artist: 'Toto',
-      stars: 1,
-      flowered: true,
-      imageName: 'africa',
-      genre: 'Pop, 80s'
-    });
+    request.flush(TestSongs[0]);
 
-    expect(component.song).toEqual({
+    expect(component.song).toEqual(<Song>{
       id: 1,
       title: 'Africa',
       artist: 'Toto',
       stars: 1,
       flowered: true,
+      genre: 'Pop, 80s',
       imageName: 'africa',
-      genre: 'Pop, 80s'
+      imageTop: 10,
+      imageBottom: 20
     });
 
     expect(component.stars).toEqual([true, false, false, false, false]);
@@ -170,6 +170,8 @@ describe('SongDetailComponent', () => {
       stars: 1,
       flowered: false,
       imageName: '',
+      imageTop: 0,
+      imageBottom: 0,
       genre: 'Pop, Spiritual',
       searchTerm: '',
       createdDate: ''
@@ -188,6 +190,8 @@ describe('SongDetailComponent', () => {
       stars: 1,
       flowered: false,
       imageName: '',
+      imageTop: 0,
+      imageBottom: 0,
       genre: 'Pop, 80s and 90s',
       searchTerm: '',
       createdDate: ''
@@ -206,6 +210,8 @@ describe('SongDetailComponent', () => {
       stars: 1,
       flowered: false,
       imageName: '',
+      imageTop: 0,
+      imageBottom: 0,
       genre: `80s and 90s, Spiritual's Songs`,
       searchTerm: '',
       createdDate: ''
@@ -296,6 +302,8 @@ describe('SongDetailComponent', () => {
       stars: 1,
       flowered: false,
       imageName: '',
+      imageTop: 0,
+      imageBottom: 0,
       genre: 'Pop',
       searchTerm: '',
       createdDate: ''
@@ -314,6 +322,8 @@ describe('SongDetailComponent', () => {
       stars: 1,
       flowered: false,
       imageName: '',
+      imageTop: 0,
+      imageBottom: 0,
       genre: 'Pop, 80s',
       searchTerm: '',
       createdDate: ''
@@ -332,6 +342,8 @@ describe('SongDetailComponent', () => {
       stars: 1,
       flowered: false,
       imageName: '',
+      imageTop: 0,
+      imageBottom: 0,
       searchTerm: '',
       genre: 'Pop, 80s, Primary Songs',
       createdDate: ''
@@ -350,6 +362,8 @@ describe('SongDetailComponent', () => {
       stars: 1,
       flowered: false,
       imageName: '',
+      imageTop: 0,
+      imageBottom: 0,
       searchTerm: '',
       createdDate: '',
       genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
@@ -368,6 +382,8 @@ describe('SongDetailComponent', () => {
       stars: 1,
       flowered: false,
       imageName: '',
+      imageTop: 0,
+      imageBottom: 0,
       searchTerm: '',
       createdDate: '',
       genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
@@ -405,6 +421,8 @@ describe('SongDetailComponent', () => {
         stars: 1,
         flowered: true,
         imageName: 'africa',
+        imageTop: 0,
+        imageBottom: 0,
         searchTerm: '',
         createdDate: '',
         genre: 'Pop, 80s'
@@ -420,6 +438,8 @@ describe('SongDetailComponent', () => {
         stars: 1,
         flowered: true,
         imageName: 'africa',
+        imageTop: 0,
+        imageBottom: 0,
         genre: 'Pop, 80s'
       });
 
@@ -439,15 +459,7 @@ describe('SongDetailComponent', () => {
     it('should test save - invalid', inject([HttpTestingController], (httpMock: HttpTestingController) => {
       const request = httpMock.expectOne('http://localhost:3000/api/songs/1');
       expect(request.request.method).toEqual('GET');
-      request.flush(<Song>{
-        id: 1,
-        title: 'Africa',
-        artist: 'Toto',
-        stars: 1,
-        flowered: true,
-        imageName: 'africa',
-        genre: 'Pop, 80s'
-      });
+      request.flush(TestSongs[0]);
       fixture.detectChanges();
 
       component.songForm.get('title').setValue('');
@@ -464,6 +476,8 @@ describe('SongDetailComponent', () => {
           stars: 1,
           flowered: true,
           imageName: 'africa',
+          imageTop: 10,
+          imageBottom: 20,
           searchTerm: '',
           createdDate: '',
           genre: 'Pop, 80s'
@@ -533,6 +547,8 @@ describe('SongDetailComponent', () => {
         stars: 2,
         flowered: false,
         imageName: 'title - changed',
+        imageTop: 0,
+        imageBottom: 0,
         genre: 'classics'
       })
     );
@@ -544,6 +560,8 @@ describe('SongDetailComponent', () => {
       stars: 2,
       flowered: false,
       imageName: 'title - changed',
+      imageTop: 0,
+      imageBottom: 0,
       searchTerm: '',
       createdDate: '',
       genre: 'classics'
@@ -562,6 +580,8 @@ describe('SongDetailComponent', () => {
       stars: 1,
       flowered: true,
       imageName: 'title - changed',
+      imageTop: 0,
+      imageBottom: 0,
       searchTerm: '',
       createdDate: '',
       genre: 'pop, 80s'

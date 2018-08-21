@@ -53,8 +53,10 @@ describe('SongsComponent', () => {
         artist: 'Toto',
         stars: 1,
         flowered: false,
+        genre: 'Pop, 80s',
         imageName: 'africa',
-        genre: 'Pop'
+        imageTop: 10,
+        imageBottom: 20
       }
     ]);
   }));

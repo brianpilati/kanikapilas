@@ -33,23 +33,17 @@ describe('SongsService', () => {
           artist: 'Toto',
           stars: 1,
           flowered: false,
-          genre: 'Pop'
+          genre: 'Pop, 80s',
+          imageName: 'africa',
+          imageTop: 10,
+          imageBottom: 20
         }
       ]);
     });
 
     const request = httpMock.expectOne('http://localhost:3000/api/songs');
     expect(request.request.method).toEqual('GET');
-    request.flush([
-      <Song>{
-        id: 1,
-        title: 'Africa',
-        artist: 'Toto',
-        stars: 1,
-        flowered: false,
-        genre: 'Pop'
-      }
-    ]);
+    request.flush([TestSongs[0]]);
 
     songsService.getSongs().subscribe(songs => {
       expect(songs).toEqual([
@@ -59,7 +53,10 @@ describe('SongsService', () => {
           artist: 'Toto',
           stars: 1,
           flowered: false,
-          genre: 'Pop'
+          genre: 'Pop, 80s',
+          imageName: 'africa',
+          imageTop: 10,
+          imageBottom: 20
         }
       ]);
     });
@@ -126,8 +123,10 @@ describe('SongsService', () => {
           artist: 'Toto',
           stars: 1,
           flowered: false,
+          genre: 'Pop, 80s',
           imageName: 'africa',
-          genre: 'Pop'
+          imageTop: 10,
+          imageBottom: 20
         }
       ]);
     });
@@ -144,8 +143,10 @@ describe('SongsService', () => {
           artist: 'The Bangles',
           stars: 2,
           flowered: true,
+          genre: '80s',
           imageName: 'manic_monday',
-          genre: '80s'
+          imageTop: 100,
+          imageBottom: 300
         }
       ]);
     });
@@ -160,8 +161,10 @@ describe('SongsService', () => {
           artist: 'The Bangles',
           stars: 2,
           flowered: true,
+          genre: '80s',
           imageName: 'manic_monday',
-          genre: '80s'
+          imageTop: 100,
+          imageBottom: 300
         }
       ]);
     });
