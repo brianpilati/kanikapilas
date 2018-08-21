@@ -24,8 +24,7 @@ import { SongGenreComponent } from '../song-genre/song-genre.component';
 import { TestSongs } from '../../testing/test-songs';
 import { ImageResizeComponent } from '../image-resize/image-resize.component';
 import { AngularDraggableModule } from 'angular2-draggable';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { BrowserModule } from '@angular/platform-browser';
+import { ImageCoordinates } from '../models/image-coordinates';
 
 let activatedRouteId: any;
 
@@ -118,6 +117,15 @@ describe('SongDetailComponent', () => {
 
     expect(component.genres).toEqual(['Pop', '80s']);
   }));
+
+  it('should test resize', () => {
+    component.resize(<ImageCoordinates>{
+      top: 20,
+      bottom: 30
+    });
+    expect(component.songForm.get('imageTop').value).toBe(20);
+    expect(component.songForm.get('imageBottom').value).toBe(30);
+  });
 
   it('should test getImageAssetName', () => {
     expect(component.getImageAssetSrc()).toBe('');
