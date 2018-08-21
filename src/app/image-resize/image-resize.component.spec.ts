@@ -57,20 +57,54 @@ describe('ImageResizeComponent', () => {
     expect(component.resizeBox.nativeElement.style.bottom).toBe('105px');
   });
 
-  it('should verify stoppedMoving values', () => {
-    let coordinates: ImageCoordinates;
-    component.resizeBox.nativeElement.style.top = '100px';
-    component.resizeBox.nativeElement.style.bottom = '400px';
-    component.resize.subscribe((_coordinates_: ImageCoordinates) => {
-      coordinates = _coordinates_;
+  describe('stoppedMoving', () => {
+    it('should verify stoppedMoving values - even', () => {
+      let coordinates: ImageCoordinates;
+      component.resizeBox.nativeElement.style.top = '100px';
+      component.resizeBox.nativeElement.style.bottom = '400px';
+      component.resize.subscribe((_coordinates_: ImageCoordinates) => {
+        coordinates = _coordinates_;
+      });
+
+      component.stoppedMoving();
+      expect(coordinates).toEqual(<ImageCoordinates>{
+        top: 160,
+        left: 0,
+        right: 0,
+        bottom: 640
+      });
     });
 
-    component.stoppedMoving();
-    expect(coordinates).toEqual(<ImageCoordinates>{
-      top: 160,
-      left: 0,
-      right: 0,
-      bottom: 640
+    it('should verify stoppedMoving values - odd', () => {
+      let coordinates: ImageCoordinates;
+      component.resizeBox.nativeElement.style.top = '101px';
+      component.resizeBox.nativeElement.style.bottom = '401px';
+      component.resize.subscribe((_coordinates_: ImageCoordinates) => {
+        coordinates = _coordinates_;
+      });
+
+      component.stoppedMoving();
+      expect(coordinates).toEqual(<ImageCoordinates>{
+        top: 160,
+        left: 0,
+        right: 0,
+        bottom: 643
+      });
+    });
+
+    it('should verify stoppedMoving values - empty', () => {
+      let coordinates: ImageCoordinates;
+      component.resize.subscribe((_coordinates_: ImageCoordinates) => {
+        coordinates = _coordinates_;
+      });
+
+      component.stoppedMoving();
+      expect(coordinates).toEqual(<ImageCoordinates>{
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0
+      });
     });
   });
 });

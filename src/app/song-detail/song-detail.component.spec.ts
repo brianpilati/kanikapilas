@@ -140,13 +140,15 @@ describe('SongDetailComponent', () => {
 
     const destinationImage = compiled.querySelector('#mat-tab-label-2-2');
 
-    destinationImage.click();
-    fixture.detectChanges();
-
     fixture.whenStable().then(() => {
-      const deployedImage = compiled.querySelector('[name="deployedImage"]');
-      console.log(deployedImage);
-      expect(deployedImage.src).toBe('http://localhost:3000/assets/t/toto/africa_1.png');
+      destinationImage.click();
+      fixture.detectChanges();
+
+      fixture.whenStable().then(() => {
+        const deployedImage = compiled.querySelector('[name="deployedImage"]');
+        console.log(deployedImage);
+        expect(deployedImage.src).toBe('http://localhost:3000/assets/t/toto/africa_1.png');
+      });
     });
   });
 

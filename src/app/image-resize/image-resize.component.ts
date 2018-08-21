@@ -40,13 +40,13 @@ export class ImageResizeComponent implements OnInit {
     return 5 / 8;
   }
 
-  private scale(grow: boolean): number {
-    return grow ? this.grow() : this.shrink();
+  private scale(coordinate: number, grow: boolean): number {
+    return Math.round(coordinate * (grow ? this.grow() : this.shrink()));
   }
 
   resizeCoordinates(coordinates: ImageCoordinates, grow: boolean = true): ImageCoordinates {
     return <ImageCoordinates>{
-      top: coordinates.top * this.scale(grow),
+      top: coordinates.top * this.scale(coordinates.top, grow),
       left: coordinates.left * this.scale(grow),
       right: coordinates.right * this.scale(grow),
       bottom: coordinates.bottom * this.scale(grow)
