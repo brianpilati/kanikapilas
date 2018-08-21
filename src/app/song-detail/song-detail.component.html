@@ -40,10 +40,7 @@
       </div>
     </mat-card>
     <mat-card class="song-image-parent-container">
-      <mat-tab-group
-        [selectedIndex]="selectedTab"
-        (selectedIndexChange)="selectedTab=$event"
-      >
+      <mat-tab-group name="matTabGroup">
         <mat-tab>
           <ng-template mat-tab-label>
             Song
@@ -176,7 +173,7 @@
             </app-image-resize>
           </div>
         </mat-tab>
-        <mat-tab>
+        <mat-tab name="destinationImageTab">
           <ng-template mat-tab-label>
             Destination Image
           </ng-template>

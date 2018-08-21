@@ -149,6 +149,10 @@ export class SongDetailComponent implements OnInit {
     }
   }
 
+  private isImagePathValid(path: string): boolean {
+    return path.match(/undefined/g) === null;
+  }
+
   private buildDirectoryPath(): string {
     const artistName = this.songForm.get('artist').value;
     const title = this.songForm.get('title').value;
@@ -161,11 +165,13 @@ export class SongDetailComponent implements OnInit {
   }
 
   getImageUrlPath(location: string): string {
-    return `http://localhost:3000/${this.buildImagePath(location)}`;
+    const imagePath = `http://localhost:3000/${this.buildImagePath(location)}`;
+    return this.isImagePathValid(imagePath) ? imagePath : '';
   }
 
   getImageAssetSrc(): string {
-    return `${this.buildImagePath('')}`;
+    const imagePath = this.buildImagePath('');
+    return this.isImagePathValid(imagePath) ? imagePath : '';
   }
 
   getImageDeploymentSrc(): SafeResourceUrl {

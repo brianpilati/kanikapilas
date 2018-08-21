@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ImageResizeComponent } from './image-resize.component';
+import { AngularDraggableModule } from 'angular2-draggable';
 
 describe('ImageResizeComponent', () => {
   let component: ImageResizeComponent;
@@ -8,6 +9,7 @@ describe('ImageResizeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [AngularDraggableModule],
       declarations: [ImageResizeComponent]
     }).compileComponents();
   }));
