@@ -29,7 +29,9 @@ class SongDomain {
         genre: song.genre,
         imageName: song.imageName,
         imagetop: song.imageTop,
-        imageBottom: song.imageBottom
+        imageBottom: song.imageBottom,
+        firstNote: song.firstNote,
+        capo: song.capo
       }
     );
   }
@@ -51,7 +53,9 @@ class SongDomain {
         imageName: song.imageName,
         imagetop: song.imageTop,
         imageBottom: song.imageBottom,
-        createdDate: Date().now
+        createdDate: Date().now,
+        firstNote: song.firstNote,
+        capo: song.capo
       }
     );
   }

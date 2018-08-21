@@ -39,13 +39,13 @@
         </div>
       </div>
     </mat-card>
-    <mat-card class="song-image-parent-container">
+    <mat-card>
       <mat-tab-group name="matTabGroup">
         <mat-tab>
           <ng-template mat-tab-label>
             Song
           </ng-template>
-          <div>
+          <div class="song-container">
             <form
               [formGroup]="songForm"
             >
@@ -133,15 +133,15 @@
                         placeholder="Genre"
                         aria-label="Number"
                         matInput
-                        formControlName="searchTerm"
+                        formControlName="genreSearchTerm"
                         [matAutocomplete]="auto"
                       >
                       <mat-autocomplete
                         autoActiveFirstOption
                         #auto="matAutocomplete"
-                        (optionSelected)="searchTermSelected()"
+                        (optionSelected)="genreSearchTermSelected()"
                       >
-                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        <mat-option *ngFor="let option of filteredGenres | async" [value]="option">
                           {{option}}
                         </mat-option>
                       </mat-autocomplete>
@@ -155,6 +155,29 @@
                       ></app-song-genre>
                     </span>
                   </div>
+                </div>
+                <div class="song-form-container">
+                  <mat-form-field class="song-full-width">
+                    <mat-select
+                      placeholder="First Note"
+                      formControlName="firstNote"
+                    >
+                      <mat-option *ngFor="let firstNote of firstNoteOptions" [value]="firstNote.id">
+                        {{firstNote.description}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div
+                  class="song-form-container"
+                >
+                  <mat-form-field class="song-full-width">
+                    <input
+                      matInput
+                      formControlName="capo"
+                      placeholder="Capo"
+                    >
+                  </mat-form-field>
                 </div>
               </div>
             </form>
@@ -178,7 +201,8 @@
             Destination Image
           </ng-template>
           <div class="song-image-container">
-            <img class="song-image" name="deployedImage" [src]="getImageDeploymentSrc()">
+            <img class="song-image-deployed" name="deployedImage" [src]="getImageDeploymentSrc(2)">
+            <img class="song-image-deployed" name="deployedImage" [src]="getImageDeploymentSrc(1)">
           </div>
         </mat-tab>
       </mat-tab-group>

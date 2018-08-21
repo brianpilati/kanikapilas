@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.song-container {
+  height: 570px;
+}
+
 .song-form-container {
   min-width: 150px;
   max-width: 500px;
@@ -51,17 +55,29 @@ mat-card {
   width: 550px;
 }
 
-.song-image-parent-container {
-  height: 700px;
+.mat-tab-body-content {
+  margin-top: 20px;
 }
 
 .song-image-container {
-  width: 500px;
   height: 700px;
-  text-align: center;
-  position: relative;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .song-image {
   width: 500px;
+}
+
+.song-image-deployed {
+  width: 500px;
+  -moz-transform: scale(-1, -1);
+  -o-transform: scale(-1, -1);
+  -webkit-transform: scale(-1, -1);
+  transform: scaleX(-1, -1);
+  filter: FlipH FlipV;
+  -ms-filter: 'FlipH FlipV';
+  margin-bottom: -4px;
 }

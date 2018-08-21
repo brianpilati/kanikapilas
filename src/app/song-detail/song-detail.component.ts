@@ -9,6 +9,9 @@ import { Song } from '../models/song';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { ImageCoordinates } from '../models/image-coordinates';
+import { FirstNotes } from '../models/first-notes';
+import { FirstNotesConstants } from '../constants/first-notes-constants';
+import { GenreConstants } from '../constants/genre-constants';
 
 @Component({
   selector: 'app-song-detail',
@@ -25,23 +28,12 @@ export class SongDetailComponent implements OnInit {
   public stars: boolean[];
   public genres: string[];
   public songForm: FormGroup;
-  options: string[] = [
-    '80s',
-    '90s',
-    `Children's`,
-    'Country',
-    'Disney',
-    'Oldies',
-    'Picking',
-    'Pop',
-    'Show Tunes',
-    'Campfire',
-    'Classics',
-    'Fun',
-    'Patriotic',
-    'Spiritual'
-  ];
-  filteredOptions: Observable<string[]>;
+  private genreOptions: string[] = GenreConstants;
+
+  firstNoteOptions: FirstNotes[] = FirstNotesConstants;
+
+  filteredGenres: Observable<string[]>;
+  filteredFirstNotes: Observable<FirstNotes[]>;
 
   constructor(
     private formatBuilder: FormBuilder,
@@ -64,8 +56,10 @@ export class SongDetailComponent implements OnInit {
       stars: [1, [Validators.required, Validators.min(1), Validators.max(5)]],
       flowered: [false, Validators.required],
       genre: ['', Validators.required],
+      firstNote: ['', Validators.required],
+      capo: [0, Validators.required],
       imageName: ['', [Validators.required, Validators.maxLength(355)]],
-      searchTerm: '',
+      genreSearchTerm: '',
       createdDate: '',
       imageTop: [0, Validators.min(0)],
       imageBottom: [0, Validators.min(0)]
@@ -75,16 +69,16 @@ export class SongDetailComponent implements OnInit {
   ngOnInit(): void {
     this.getSong();
 
-    this.filteredOptions = this.songForm.get('searchTerm').valueChanges.pipe(
+    this.filteredGenres = this.songForm.get('genreSearchTerm').valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value))
+      map(value => this._genreFilter(value))
     );
   }
 
-  private _filter(value: string): string[] {
+  private _genreFilter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.options
+    return this.genreOptions
       .filter(option => this.genres.indexOf(option) < 0)
       .filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
@@ -174,8 +168,8 @@ export class SongDetailComponent implements OnInit {
     return this.isImagePathValid(imagePath) ? imagePath : '';
   }
 
-  getImageDeploymentSrc(): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(`${this.getImageUrlPath('1')}`);
+  getImageDeploymentSrc(location): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`${this.getImageUrlPath(location)}`);
   }
 
   updateImageName(): void {
@@ -201,18 +195,18 @@ export class SongDetailComponent implements OnInit {
     this.parseGenre();
   }
 
-  searchTermSelected(): void {
+  genreSearchTermSelected(): void {
     const currentGenre = this.songForm.get('genre').value;
-    const searchTerm = this.songForm.get('searchTerm').value;
-    if (currentGenre.match(searchTerm) === null) {
+    const genreSearchTerm = this.songForm.get('genreSearchTerm').value;
+    if (currentGenre.match(genreSearchTerm) === null) {
       if (currentGenre.length > 0) {
-        this.songForm.get('genre').setValue(`${currentGenre}, ${searchTerm}`);
+        this.songForm.get('genre').setValue(`${currentGenre}, ${genreSearchTerm}`);
       } else {
-        this.songForm.get('genre').setValue(`${searchTerm}`);
+        this.songForm.get('genre').setValue(`${genreSearchTerm}`);
       }
       this.parseGenre();
     }
-    this.songForm.get('searchTerm').setValue('');
+    this.songForm.get('genreSearchTerm').setValue('');
   }
 
   save(): void {

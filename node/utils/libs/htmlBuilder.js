@@ -6,7 +6,7 @@ module.exports = {
     return `
       <!DOCTYPE html>
       <html lang="en">
-        ${headBuilder.buildHead(song)}
+        ${headBuilder.buildSongHead(song)}
         ${bodyBuilder.buildBody(song)}
       </html>
     `;

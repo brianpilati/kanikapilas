@@ -28,7 +28,7 @@ function getFormattedDate() {
 }
 
 module.exports = {
-  buildHead: function(song) {
+  buildSongHead: function(song) {
     return `
       <head>
         <meta charset="utf-8" />
@@ -69,6 +69,46 @@ module.exports = {
         <meta property="og:image:width" content="392" />
         <meta property="og:image:height" content="464" />
         <link rel="stylesheet" href="/css/song-styles.css">
+      </head>
+    `;
+  },
+
+  buildIndexHead: function() {
+    return `
+      <head>
+        <meta charset="utf-8" />
+        <title>${siteName} - Ukulele Tabs &amp; Tips </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <meta name="keywords" content="kanikapilas, ukulele, tabs, chords, songs, charts, music, free, images, best, favorite, artists" /> 
+
+        <meta name="description" content="${siteName} is your source for finding chords and tabs to play your favorite songs on the ukulele. Ukulele players all over the world have direct and free access to guaranteed quality tablature with easy to read images." />
+
+        <meta name="og:description" content="${siteName} is your source for finding chords and tabs to play your favorite songs on the ukulele. Ukulele players all over the world have direct and free access to guaranteed quality tablature with easy to read images." />
+
+        <meta name="twitter:description" content="${siteName} is your source for finding chords and tabs to play your favorite songs on the ukulele. Ukulele players all over the world have direct and free access to guaranteed quality tablature with easy to read images." />
+
+        <meta property="og:locale" content="en_US" />
+
+        <link rel="canonical" href="https://${siteName}/" />
+        <link rel="next" href="https://${siteName}/page/2/" />
+        <link rel="prev" href="https://${siteName}" />
+
+        <link rel="publisher" href="https://www.facebook.com/kanikapilas" />
+
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="${siteName}" />
+        <meta property="og:url" content="https://${siteName}" />
+        <meta property="og:site_name" content="${siteName}" />
+
+        <meta name="twitter:creator" content="@kanikapilas" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta prooperty="twitter:title" content="${siteName} - Ukulele Tabs &amp; Tips" />
+        <meta name="twitter:site" content="@kanikapilas" />
+        <meta property="website:modified_time" content="${nowDateTime}" />
+        <meta property="og:updated_time" content="${nowDateTime}" />
+        <meta property="website:published_time" content="${nowDateTime}" />
+        <link rel="stylesheet" href="/css/home-styles.css">
       </head>
     `;
   }
