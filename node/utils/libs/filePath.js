@@ -62,5 +62,8 @@ module.exports = {
     const filePath = this.getFilePath(song);
     ensureDirectoryExistence(filePath);
     return filePath;
+  },
+  ensureDirectoryExistence(filePath) {
+    ensureDirectoryExistence(filePath);
   }
 };

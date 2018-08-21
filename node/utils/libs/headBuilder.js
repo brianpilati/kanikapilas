@@ -12,6 +12,24 @@ function buildArticleTags(genres) {
   return articleTags;
 }
 
+function buildLinks(index) {
+  let links = `<link rel="canonical" href="https://${siteName}/" />`;
+
+  if (index < 50) {
+    links += `<link rel="next" href="https://${siteName}/page/${index + 1}/" />`;
+  } else if (index === 50) {
+    links += `<link rel="next" href="https://${siteName}" />`;
+  }
+
+  if (index === 2) {
+    links += `<link rel="prev" href="https://${siteName}" />`;
+  } else if (index > 2) {
+    links += `<link rel="prev" href="https://${siteName}/page/${index - 1}" />`;
+  }
+
+  return links;
+}
+
 function formatDigits(digit) {
   return digit < 10 ? `0${digit}` : digit;
 }
@@ -74,7 +92,7 @@ module.exports = {
     `;
   },
 
-  buildIndexHead: function() {
+  buildIndexHead: function(index) {
     return `
       <head>
         <meta charset="utf-8" />
@@ -91,9 +109,7 @@ module.exports = {
 
         <meta property="og:locale" content="en_US" />
 
-        <link rel="canonical" href="https://${siteName}/" />
-        <link rel="next" href="https://${siteName}/page/2/" />
-        <link rel="prev" href="https://${siteName}" />
+        ${buildLinks(index)}
 
         <link rel="publisher" href="https://www.facebook.com/kanikapilas" />
 

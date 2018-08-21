@@ -12,11 +12,11 @@ module.exports = {
     `;
   },
 
-  buildIndexHtml: function() {
+  buildIndexHtml: function(index) {
     return `
       <!DOCTYPE html>
       <html lang="en">
-        ${headBuilder.buildIndexHead()}
+        ${headBuilder.buildIndexHead(index)}
         ${bodyBuilder.buildIndexBody()}
       </html>
     `;
