@@ -31,7 +31,8 @@ class SongDomain {
         imagetop: song.imageTop,
         imageBottom: song.imageBottom,
         firstNote: song.firstNote,
-        capo: song.capo
+        capo: song.capo,
+        coverArtUrl: song.coverArtUrl
       }
     );
   }
@@ -55,7 +56,8 @@ class SongDomain {
         imageBottom: song.imageBottom,
         createdDate: Date().now,
         firstNote: song.firstNote,
-        capo: song.capo
+        capo: song.capo,
+        coverArtUrl: song.coverArtUrl
       }
     );
   }

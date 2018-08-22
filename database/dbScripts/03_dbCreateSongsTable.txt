@@ -20,11 +20,12 @@ CREATE TABLE `songs` (
   `imageBottom` INT(5),
   `firstNote` INT(2),
   `capo` INT(2),
+  `coverArtUrl` VARCHAR(255),
   `createdDate` DATETIME,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='The Songs Table';
 
-INSERT INTO songs (title, artist, stars, flowered, genre, imageName, imageTop, imageBottom, firstNote, capo, createdDate) VALUES
-    ('Africa', 'Toto', 1, 1, 'pop, 80s', 'africa', 75, 150, 3, 4, '2018-08-08T10:25:00-06:00'),
-    ('Manic Monday', 'Cindy Lauper', 3, 0, '', '', 20, 200, 0, 0, '2018-08-10T10:26:34-06:00');
+INSERT INTO songs (title, artist, stars, flowered, genre, imageName, imageTop, imageBottom, firstNote, capo, coverArtUrl, createdDate) VALUES
+    ('Africa', 'Toto', 1, 1, 'pop, 80s', 'africa', 75, 150, 3, 4, 'https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png', '2018-08-08T10:25:00-06:00'),
+    ('Manic Monday', 'Cindy Lauper', 3, 0, '', '', 20, 200, 0, 0, 'https://lastfm-img2.akamaized.net/i/u/174s/8ebc6b59161a054258f9dff0aa989b98.png', '2018-08-10T10:26:34-06:00');
