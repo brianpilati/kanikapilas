@@ -99,28 +99,61 @@
                     >
                   </mat-form-field>
                 </div>
-                <div class="song-form-container">
-                  <label>Stars</label>
-                  <br>
-                  <mat-slider
-                    (change)="starsChanged()"
-                    color="primary"
-                    thumbLabel=true
-                    formControlName="stars"
-                    min="0"
-                    max="5"
-                    placeholder="Number of stars"
-                  ></mat-slider>
+                <div
+                  class="song-form-container"
+                  fxLayout="rows"
+                  fxLayoutAlign="space-evenly"
+                >
+                  <div fxFlex="50%">
+                    <label>Stars</label>
+                    <br>
+                    <mat-slider
+                      (change)="starsChanged()"
+                      color="primary"
+                      thumbLabel=true
+                      formControlName="stars"
+                      min="0"
+                      max="5"
+                      placeholder="Number of stars"
+                    ></mat-slider>
+                  </div>
+                  <div fxFlex="50%">
+                    <label>Flowered</label>
+                    <br>
+                    <mat-slide-toggle
+                      class="flower-margin"
+                      color="primary"
+                      formControlName="flowered"
+                    >
+                    </mat-slide-toggle>
+                  </div>
                 </div>
-                <div class="song-form-container">
-                  <label>Flowered</label>
-                  <br>
-                  <mat-slide-toggle
-                    class="flower-margin"
-                    color="primary"
-                    formControlName="flowered"
-                  >
-                  </mat-slide-toggle>
+                <div
+                  class="song-form-container"
+                  fxLayout="rows"
+                  fxLayoutAlign="space-evenly"
+                >
+                  <div fxFlex="50%">
+                    <mat-form-field>
+                      <mat-select
+                        placeholder="First Note"
+                        formControlName="firstNote"
+                      >
+                        <mat-option *ngFor="let firstNote of firstNoteOptions" [value]="firstNote.id">
+                          {{firstNote.description}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="50%">
+                    <mat-form-field>
+                      <input
+                        matInput
+                        formControlName="capo"
+                        placeholder="Capo"
+                      >
+                    </mat-form-field>
+                  </div>
                 </div>
                 <div
                   fxLayout="row"
@@ -156,29 +189,6 @@
                       ></app-song-genre>
                     </span>
                   </div>
-                </div>
-                <div class="song-form-container">
-                  <mat-form-field class="song-full-width">
-                    <mat-select
-                      placeholder="First Note"
-                      formControlName="firstNote"
-                    >
-                      <mat-option *ngFor="let firstNote of firstNoteOptions" [value]="firstNote.id">
-                        {{firstNote.description}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div
-                  class="song-form-container"
-                >
-                  <mat-form-field class="song-full-width">
-                    <input
-                      matInput
-                      formControlName="capo"
-                      placeholder="Capo"
-                    >
-                  </mat-form-field>
                 </div>
                 <div
                   class="song-form-container"
