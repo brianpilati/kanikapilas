@@ -21,13 +21,19 @@ export class LastFmComponent implements OnInit {
   @Output()
   coverArtImageUrl = new EventEmitter<string>();
 
+  public displayAlbums = false;
+  public displayArtists = false;
+  public displayFindByTrackButton = false;
+
   public coverArtForm: FormGroup;
   private artist$: Observable<string>;
   private album$: Observable<string>;
+  private track$: Observable<string>;
 
-  artistResults$: Observable<any[]>;
   albumSource: any[];
-  displayedColumns: string[] = ['name', 'artist'];
+  artistSource: any[];
+  displayedAlbumColumns: string[] = ['name', 'artist'];
+  displayedArtistColumns: string[] = ['name'];
   expandedAlbum: any;
 
   constructor(private formatBuilder: FormBuilder, private lastFmService: LastFmService) {
@@ -37,6 +43,8 @@ export class LastFmComponent implements OnInit {
   createForm() {
     this.coverArtForm = this.formatBuilder.group({
       artist: '',
+      track: '',
+      trackArtist: '',
       album: ''
     });
 
@@ -49,22 +57,48 @@ export class LastFmComponent implements OnInit {
       debounceTime(500),
       distinctUntilChanged()
     );
+
+    this.track$ = this.coverArtForm.get('track').valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    );
   }
 
   ngOnInit(): void {
     this.artist$.subscribe(artist => {
-      this.artistResults$ = this.lastFmService.getArtist(artist);
+      this.lastFmService.getArtist(artist).subscribe(results => {
+        this.displayAlbums = false;
+        this.displayArtists = true;
+        this.displayFindByTrackButton = false;
+        this.artistSource = results;
+      });
     });
 
     this.album$.subscribe(album => {
       this.lastFmService.getAlbum(album).subscribe(results => {
+        this.displayAlbums = true;
+        this.displayArtists = false;
+        this.displayFindByTrackButton = false;
         this.albumSource = results;
-        console.log(results);
+      });
+    });
+
+    this.track$.subscribe(track => {
+      const artist = this.coverArtForm.get('trackArtist').value;
+      this.lastFmService.getTracks(track, artist).subscribe(results => {
+        this.displayAlbums = true;
+        this.displayArtists = false;
+        this.displayFindByTrackButton = true;
+        this.albumSource = results;
       });
     });
   }
 
   setImageUrl(images: string[]): void {
-    console.log(images);
+    this.coverArtImageUrl.emit(images[2]['#text']);
+  }
+
+  findByTrack(trackMbid: string): void {
+    this.lastFmService.getTrack(trackMbid).subscribe(images => this.setImageUrl(images));
   }
 }

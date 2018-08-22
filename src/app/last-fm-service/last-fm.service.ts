@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { lastfm } from '../../environments/keys';
-import { map, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,17 +15,24 @@ export class LastFmService {
   getArtist(artist: string): Observable<any[]> {
     return this.http
       .get(`${this.apiUrl}&method=artist.gettopalbums&artist=${artist}`)
-      .pipe(map(albums => albums['topalbums']['album']));
+      .pipe(map(albums => albums['topalbums']['album'].filter(track => track['mbid'] !== '')));
   }
 
   getAlbum(album: string): Observable<any[]> {
-    console.log('service', album);
-    return this.http.get(`${this.apiUrl}&method=album.search&album=${album}`).pipe(
-      map(albums => albums['results']['albummatches']['album']),
-      catchError((error, caught) => {
-        console.log(error);
-        return of(error);
-      }) as any
-    );
+    return this.http
+      .get(`${this.apiUrl}&method=album.search&album=${album}`)
+      .pipe(map(albums => albums['results']['albummatches']['album'].filter(track => track['mbid'] !== '')));
+  }
+
+  getTracks(track: string, artist: string): Observable<any[]> {
+    return this.http
+      .get(`${this.apiUrl}&method=track.search&track=${track}&artist=${artist}`)
+      .pipe(map(tracks => tracks['results']['trackmatches']['track'].filter(track => track['mbid'] !== '')));
+  }
+
+  getTrack(trackMbid: string): Observable<any> {
+    return this.http
+      .get(`${this.apiUrl}&method=track.getInfo&mbid=${trackMbid}`)
+      .pipe(map(track => track['track']['album']['image']));
   }
 }

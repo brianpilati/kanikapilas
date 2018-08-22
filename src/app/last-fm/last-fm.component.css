@@ -34,10 +34,10 @@ tr.album-row:not(.expanded-row):active {
 .album-detail {
   overflow: hidden;
   display: flex;
+  cursor: pointer;
 }
 
 .album-diagram {
-  min-width: 80px;
   border: 2px solid black;
   padding: 8px;
   font-weight: lighter;
@@ -45,7 +45,7 @@ tr.album-row:not(.expanded-row):active {
   height: 174px;
 }
 
-.album-artist {
+.album-callout {
   font-weight: bold;
   font-size: 40px;
   line-height: normal;

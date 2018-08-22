@@ -64,7 +64,8 @@ export class SongDetailComponent implements OnInit {
       genreSearchTerm: '',
       createdDate: '',
       imageTop: [0, Validators.min(0)],
-      imageBottom: [0, Validators.min(0)]
+      imageBottom: [0, Validators.min(0)],
+      coverArtUrl: ['', [Validators.required, Validators.maxLength(255)]]
     });
   }
 
@@ -228,5 +229,9 @@ export class SongDetailComponent implements OnInit {
   resize(coordinates: ImageCoordinates): void {
     this.songForm.get('imageTop').setValue(coordinates.top);
     this.songForm.get('imageBottom').setValue(coordinates.bottom);
+  }
+
+  setCoverArt(coverArtImageUrl: string): void {
+    this.songForm.get('coverArtUrl').setValue(coverArtImageUrl);
   }
 }
