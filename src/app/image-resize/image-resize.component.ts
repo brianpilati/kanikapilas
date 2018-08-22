@@ -47,8 +47,8 @@ export class ImageResizeComponent implements OnInit {
   resizeCoordinates(coordinates: ImageCoordinates, grow: boolean = true): ImageCoordinates {
     return <ImageCoordinates>{
       top: this.scale(coordinates.top, grow),
-      left: this.scale(coordinates.left, grow),
-      right: this.scale(coordinates.right, grow),
+      left: coordinates.left,
+      right: coordinates.right,
       bottom: this.scale(coordinates.bottom, grow)
     };
   }

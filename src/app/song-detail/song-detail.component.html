@@ -104,7 +104,7 @@
                   fxLayout="rows"
                   fxLayoutAlign="space-evenly"
                 >
-                  <div fxFlex="50%">
+                  <div fxFlex="45%">
                     <label>Stars</label>
                     <br>
                     <mat-slider
@@ -117,7 +117,8 @@
                       placeholder="Number of stars"
                     ></mat-slider>
                   </div>
-                  <div fxFlex="50%">
+                  <div fxFlex="10%"></div>
+                  <div fxFlex="45%">
                     <label>Flowered</label>
                     <br>
                     <mat-slide-toggle
@@ -133,7 +134,7 @@
                   fxLayout="rows"
                   fxLayoutAlign="space-evenly"
                 >
-                  <div fxFlex="50%">
+                  <div fxFlex="45%">
                     <mat-form-field>
                       <mat-select
                         placeholder="First Note"
@@ -145,7 +146,8 @@
                       </mat-select>
                     </mat-form-field>
                   </div>
-                  <div fxFlex="50%">
+                  <div fxFlex="10%"></div>
+                  <div fxFlex="45%">
                     <mat-form-field>
                       <input
                         matInput
@@ -203,7 +205,7 @@
           <ng-template mat-tab-label>
             Source Image 
           </ng-template>
-          <div class="song-image-container">
+          <div class="song-original-image-container">
             <app-image-resize
                 (resize)="resize($event)"
                 [coordinates]="coordinates"
@@ -216,7 +218,7 @@
           <ng-template mat-tab-label>
             Destination Image
           </ng-template>
-          <div class="song-image-container">
+          <div class="song-resized-image-container">
             <img class="song-image-deployed" name="deployedImage" [src]="getImageDeploymentSrc(2)">
             <img class="song-image-deployed" name="deployedImage" [src]="getImageDeploymentSrc(1)">
           </div>
@@ -227,6 +229,8 @@
           </ng-template>
           <app-last-fm
             (coverArtImageUrl)="setCoverArt($event)"
+            [track]="track"
+            [artist]="artist"
           ></app-last-fm>
         </mat-tab>
       </mat-tab-group>

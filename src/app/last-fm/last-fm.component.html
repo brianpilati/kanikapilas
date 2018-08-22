@@ -6,7 +6,6 @@
   <div>
     <form
       [formGroup]="coverArtForm"
-      class="album-form-container"
       fxLayout="row"
       fxLayoutAlign="space-evenly center"
     >
@@ -17,6 +16,7 @@
           placeholder="Album"
         >
       </mat-form-field>
+      <div style="width: 25px;"></div>
       <mat-form-field>
         <input
           matInput
@@ -24,15 +24,9 @@
           placeholder="Artist"
         >
       </mat-form-field>
-    </form>
-  </div>
-  <div>
-    <form
-      [formGroup]="coverArtForm"
-      class="album-form-container"
-      fxLayout="row"
-      fxLayoutAlign="space-evenly center"
-    >
+      <button mat-button color="primary" (click)="searchArtist()">
+        Search
+      </button>
       <mat-form-field>
         <input
           matInput
@@ -40,13 +34,14 @@
           placeholder="Track"
         >
       </mat-form-field>
-      <mat-form-field>
-        <input
-          matInput
-          formControlName="trackArtist"
-          placeholder="Track Artist"
-        >
-      </mat-form-field>
+      <button
+        mat-button
+        color="primary"
+        [disabled]="coverArtForm.invalid"
+        (click)="searchTrack()"
+      >
+        Search
+      </button>
     </form>
   </div>
   <div *ngIf="displayAlbums">

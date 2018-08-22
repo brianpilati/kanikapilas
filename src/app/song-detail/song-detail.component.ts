@@ -25,12 +25,16 @@ export class SongDetailComponent implements OnInit {
   @Output()
   coordinates = new EventEmitter<ImageCoordinates>();
 
+  @Output()
+  track = new EventEmitter<string>();
+
+  @Output()
+  artist = new EventEmitter<string>();
+
   public stars: boolean[];
   public genres: string[];
   public songForm: FormGroup;
   private genreOptions: string[] = GenreConstants;
-
-  private artist$: Observable<string>;
 
   firstNoteOptions: FirstNotes[] = FirstNotesConstants;
 
@@ -67,6 +71,10 @@ export class SongDetailComponent implements OnInit {
       imageBottom: [0, Validators.min(0)],
       coverArtUrl: ['', [Validators.required, Validators.maxLength(255)]]
     });
+
+    this.songForm.get('title').valueChanges.subscribe(title => this.track.emit(title));
+
+    this.songForm.get('artist').valueChanges.subscribe(artist => this.artist.emit(artist));
   }
 
   ngOnInit(): void {
@@ -114,8 +122,8 @@ export class SongDetailComponent implements OnInit {
     this.coordinates.emit(<ImageCoordinates>{
       top: this.songForm.get('imageTop').value,
       bottom: this.songForm.get('imageBottom').value,
-      left: 0,
-      right: 0
+      left: 37.5,
+      right: 212.5
     });
   }
 

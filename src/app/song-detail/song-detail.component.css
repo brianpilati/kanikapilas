@@ -62,7 +62,15 @@ mat-card {
   margin-top: 20px;
 }
 
-.song-image-container {
+.song-original-image-container {
+  height: 700px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.song-resized-image-container {
   height: 700px;
   align-items: center;
   display: flex;

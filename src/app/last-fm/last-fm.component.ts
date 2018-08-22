@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap, map } from 'rxjs/operators';
 import { LastFmService } from '../last-fm-service/last-fm.service';
@@ -21,14 +21,18 @@ export class LastFmComponent implements OnInit {
   @Output()
   coverArtImageUrl = new EventEmitter<string>();
 
+  @Input()
+  track: EventEmitter<string>;
+
+  @Input()
+  artist: EventEmitter<string>;
+
   public displayAlbums = false;
   public displayArtists = false;
   public displayFindByTrackButton = false;
 
   public coverArtForm: FormGroup;
-  private artist$: Observable<string>;
   private album$: Observable<string>;
-  private track$: Observable<string>;
 
   albumSource: any[];
   artistSource: any[];
@@ -42,38 +46,18 @@ export class LastFmComponent implements OnInit {
 
   createForm() {
     this.coverArtForm = this.formatBuilder.group({
-      artist: '',
-      track: '',
-      trackArtist: '',
-      album: ''
+      album: '',
+      artist: ['', Validators.required],
+      track: ['', Validators.required]
     });
 
-    this.artist$ = this.coverArtForm.get('artist').valueChanges.pipe(
-      debounceTime(500),
-      distinctUntilChanged()
-    );
-
     this.album$ = this.coverArtForm.get('album').valueChanges.pipe(
-      debounceTime(500),
-      distinctUntilChanged()
-    );
-
-    this.track$ = this.coverArtForm.get('track').valueChanges.pipe(
       debounceTime(500),
       distinctUntilChanged()
     );
   }
 
   ngOnInit(): void {
-    this.artist$.subscribe(artist => {
-      this.lastFmService.getArtist(artist).subscribe(results => {
-        this.displayAlbums = false;
-        this.displayArtists = true;
-        this.displayFindByTrackButton = false;
-        this.artistSource = results;
-      });
-    });
-
     this.album$.subscribe(album => {
       this.lastFmService.getAlbum(album).subscribe(results => {
         this.displayAlbums = true;
@@ -83,15 +67,8 @@ export class LastFmComponent implements OnInit {
       });
     });
 
-    this.track$.subscribe(track => {
-      const artist = this.coverArtForm.get('trackArtist').value;
-      this.lastFmService.getTracks(track, artist).subscribe(results => {
-        this.displayAlbums = true;
-        this.displayArtists = false;
-        this.displayFindByTrackButton = true;
-        this.albumSource = results;
-      });
-    });
+    this.track.subscribe(track => this.coverArtForm.get('track').setValue(track));
+    this.artist.subscribe(artist => this.coverArtForm.get('artist').setValue(artist));
   }
 
   setImageUrl(images: string[]): void {
@@ -100,5 +77,29 @@ export class LastFmComponent implements OnInit {
 
   findByTrack(trackMbid: string): void {
     this.lastFmService.getTrack(trackMbid).subscribe(images => this.setImageUrl(images));
+  }
+
+  searchArtist(): void {
+    const artist = this.coverArtForm.get('artist').value;
+    this.lastFmService.getArtist(artist).subscribe(results => {
+      this.displayAlbums = false;
+      this.displayArtists = true;
+      this.displayFindByTrackButton = false;
+      this.artistSource = results;
+    });
+  }
+
+  searchTrack(): void {
+    const track = this.coverArtForm.get('track').value;
+    const artist = this.coverArtForm.get('artist').value;
+
+    if (this.coverArtForm.valid) {
+      this.lastFmService.getTracks(track, artist).subscribe(results => {
+        this.displayAlbums = true;
+        this.displayArtists = false;
+        this.displayFindByTrackButton = true;
+        this.albumSource = results;
+      });
+    }
   }
 }
