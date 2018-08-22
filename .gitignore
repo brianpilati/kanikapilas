@@ -41,3 +41,4 @@ Thumbs.db
 db_configuration.js
 *.swp
 deployment
+src/environments/keys.ts
