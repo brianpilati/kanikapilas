@@ -48,6 +48,7 @@
           <div class="song-container">
             <form
               [formGroup]="songForm"
+              class="song-form-container"
             >
               <div fxLayout="column"
                 fxLayoutAlign="space-evenly center"
@@ -204,6 +205,12 @@
             <img class="song-image-deployed" name="deployedImage" [src]="getImageDeploymentSrc(2)">
             <img class="song-image-deployed" name="deployedImage" [src]="getImageDeploymentSrc(1)">
           </div>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            Album Cover
+          </ng-template>
+          <app-last-fm></app-last-fm>
         </mat-tab>
       </mat-tab-group>
     </mat-card>

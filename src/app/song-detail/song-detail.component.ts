@@ -7,7 +7,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { SongsService } from '../songs-service/songs.service';
 import { Song } from '../models/song';
 import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
+import { startWith, map, debounce, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ImageCoordinates } from '../models/image-coordinates';
 import { FirstNotes } from '../models/first-notes';
 import { FirstNotesConstants } from '../constants/first-notes-constants';
@@ -29,6 +29,8 @@ export class SongDetailComponent implements OnInit {
   public genres: string[];
   public songForm: FormGroup;
   private genreOptions: string[] = GenreConstants;
+
+  private artist$: Observable<string>;
 
   firstNoteOptions: FirstNotes[] = FirstNotesConstants;
 

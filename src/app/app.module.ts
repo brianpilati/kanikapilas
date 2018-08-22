@@ -15,7 +15,8 @@ import {
   MatSlideToggleModule,
   MatAutocompleteModule,
   MatTabsModule,
-  MatSelectModule
+  MatSelectModule,
+  MatTableModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -26,6 +27,8 @@ import { UkuleleRoutingModule } from './ukulele-routing.module';
 import { SongGenreComponent } from './song-genre/song-genre.component';
 import { ImageResizeComponent } from './image-resize/image-resize.component';
 import { AngularDraggableModule } from 'angular2-draggable';
+import { LastFmComponent } from './last-fm/last-fm.component';
+import { LastFmService } from './last-fm-service/last-fm.service';
 
 @NgModule({
   imports: [
@@ -44,12 +47,20 @@ import { AngularDraggableModule } from 'angular2-draggable';
     MatSelectModule,
     MatSliderModule,
     MatSlideToggleModule,
+    MatTableModule,
     MatTabsModule,
     ReactiveFormsModule,
     UkuleleRoutingModule
   ],
-  providers: [SongsService],
-  declarations: [AppComponent, ImageResizeComponent, SongDetailComponent, SongGenreComponent, SongsComponent],
+  providers: [LastFmService, SongsService],
+  declarations: [
+    AppComponent,
+    ImageResizeComponent,
+    LastFmComponent,
+    SongDetailComponent,
+    SongGenreComponent,
+    SongsComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

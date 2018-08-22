@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { shareReplay, map, catchError, tap } from 'rxjs/operators';
@@ -19,7 +18,7 @@ export class SongsService {
     })
   };
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   getSongs(): Observable<Song[]> {
     if (!this.songsCache$) {

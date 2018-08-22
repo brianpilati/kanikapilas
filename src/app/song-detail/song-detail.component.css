@@ -4,6 +4,9 @@
 
 .song-container {
   height: 570px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .song-form-container {
@@ -52,7 +55,7 @@ mat-slider {
 }
 
 mat-card {
-  width: 550px;
+  width: 675px;
 }
 
 .mat-tab-body-content {

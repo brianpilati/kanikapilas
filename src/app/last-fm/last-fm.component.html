@@ -1,0 +1,67 @@
+<div
+  class="album-container"
+  fxLayout="column"
+  fxLayoutAlign="start"
+>
+  <div>
+    <form
+      [formGroup]="coverArtForm"
+      class="album-form-container"
+      fxLayout="row"
+      fxLayoutAlign="space-evenly center"
+    >
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="album"
+          placeholder="Album"
+        >
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="artist"
+          placeholder="Artist"
+        >
+      </mat-form-field>
+    </form>
+  </div>
+  <div>
+    <table
+      mat-table
+      [dataSource]="albumSource"
+      multiTemplateDataRows
+      class="mat-elevation-z8"
+    >
+      <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns">
+        <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+        <td mat-cell *matCellDef="let album"> {{album[column]}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let album" [attr.colspan]="displayedColumns.length" (click)="setImageUrl(album.image)">
+          <div
+            class="album-detail"
+            [@detailExpand]="album == expandedAlbum ? 'expanded' : 'collapsed'">
+            <div class="album-diagram">
+              <img [src]="album.image[2]['#text']">
+            </div>
+            <div class="album-description">
+              <div class="album-name"> {{album.name}} </div>
+              <div class="album-artist"> {{album.artist}} </div>
+              <div class="album-mbid"> {{album.mbid}} </div>
+              <div class="album-url"> {{album.url}} </div>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let album; columns: displayedColumns;"
+          class="album-row"
+          [class.expanded-row]="expandedAlbum === album"
+          (click)="expandedAlbum = album">
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+    </table>
+  </div>
+</div>
