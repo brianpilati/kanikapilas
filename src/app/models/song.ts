@@ -8,4 +8,5 @@ export class Song {
   public imageName: string;
   public imageTop: number;
   public imageBottom: number;
+  public coverArtUrl: string;
 }
