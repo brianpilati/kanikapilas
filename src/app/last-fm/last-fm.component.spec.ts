@@ -174,9 +174,7 @@ describe('LastFmComponent', () => {
         component.coverArtForm.get('artist').setValue('artist search');
         component.searchTrack();
 
-        httpMock.expectNone(
-          'http://ws.audioscrobbler.com/2.0/?api_key=test-lastfm-key&format=json&method=track.search&track=track search&artist=artist search'
-        );
+        httpMock.expectNone('http://ws.audioscrobbler.com');
 
         expect(component.displayAlbums).toBeFalsy();
         expect(component.displayArtists).toBeFalsy();
@@ -191,9 +189,7 @@ describe('LastFmComponent', () => {
         component.coverArtForm.get('track').setValue('track search');
         component.searchTrack();
 
-        httpMock.expectNone(
-          'http://ws.audioscrobbler.com/2.0/?api_key=test-lastfm-key&format=json&method=track.search&track=track search&artist=artist search'
-        );
+        httpMock.expectNone('http://ws.audioscrobbler.com');
 
         expect(component.displayAlbums).toBeFalsy();
         expect(component.displayArtists).toBeFalsy();
@@ -207,9 +203,7 @@ describe('LastFmComponent', () => {
       (httpMock: HttpTestingController) => {
         component.searchTrack();
 
-        httpMock.expectNone(
-          'http://ws.audioscrobbler.com/2.0/?api_key=test-lastfm-key&format=json&method=track.search&track=track search&artist=artist search'
-        );
+        httpMock.expectNone('http://ws.audioscrobbler.com');
 
         expect(component.displayAlbums).toBeFalsy();
         expect(component.displayArtists).toBeFalsy();
