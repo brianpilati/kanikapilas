@@ -93,7 +93,6 @@ export class LastFmComponent implements OnInit {
     const track = this.coverArtForm.get('track').value;
     const artist = this.coverArtForm.get('artist').value;
 
-    console.log('valid', this.coverArtForm.valid);
     if (this.coverArtForm.valid) {
       this.lastFmService.getTracks(track, artist).subscribe(results => {
         this.displayAlbums = true;

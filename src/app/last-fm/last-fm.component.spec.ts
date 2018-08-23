@@ -7,7 +7,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { EventEmitter } from '@angular/core';
 
-fdescribe('LastFmComponent', () => {
+describe('LastFmComponent', () => {
   let component: LastFmComponent;
   let fixture: ComponentFixture<LastFmComponent>;
   const track = new EventEmitter<string>();
