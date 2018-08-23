@@ -114,6 +114,6 @@ fdescribe('LastFmServiceService', () => {
       }
     });
 
-    expect(result).toEqual([Object({ image: 'image' })]);
+    expect(result).toEqual(Object({ image: 'image' }));
   }));
 });
