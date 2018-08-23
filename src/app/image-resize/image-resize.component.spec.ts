@@ -41,7 +41,7 @@ describe('ImageResizeComponent', () => {
     expect(component.resizeBox.nativeElement.style.top).toBe('13px');
 
     expect(component.bottomIcon.nativeElement.style.bottom).toBe('112.5px');
-    expect(component.bottomIcon.nativeElement.style.right).toBe('125px');
+    expect(component.bottomIcon.nativeElement.style.right).toBe('200px');
     expect(component.resizeBox.nativeElement.style.bottom).toBe('125px');
   });
 
