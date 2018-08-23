@@ -15,13 +15,13 @@ export class LastFmService {
   getArtist(artist: string): Observable<any[]> {
     return this.http
       .get(`${this.apiUrl}&method=artist.gettopalbums&artist=${artist}`)
-      .pipe(map(albums => albums['topalbums']['album'].filter(track => track['mbid'] !== '')));
+      .pipe(map(albums => albums['topalbums']['album'].filter(album => album['mbid'] !== '')));
   }
 
   getAlbum(album: string): Observable<any[]> {
     return this.http
       .get(`${this.apiUrl}&method=album.search&album=${album}`)
-      .pipe(map(albums => albums['results']['albummatches']['album'].filter(track => track['mbid'] !== '')));
+      .pipe(map(albums => albums['results']['albummatches']['album'].filter(album => album['mbid'] !== '')));
   }
 
   getTracks(track: string, artist: string): Observable<any[]> {

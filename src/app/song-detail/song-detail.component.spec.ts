@@ -45,7 +45,7 @@ const activatedRouteMock = {
   }
 };
 
-fdescribe('SongDetailComponent', () => {
+describe('SongDetailComponent', () => {
   let component: SongDetailComponent;
   let fixture: ComponentFixture<SongDetailComponent>;
   let locationServiceSpy;
@@ -703,7 +703,7 @@ fdescribe('SongDetailComponent', () => {
   });
 });
 
-fdescribe('SongDetailComponent with Save and Fake Data', () => {
+describe('SongDetailComponent with Save and Fake Data', () => {
   let component: SongDetailComponent;
   let fixture: ComponentFixture<SongDetailComponent>;
   let locationServiceSpy;
