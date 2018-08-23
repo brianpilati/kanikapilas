@@ -13,6 +13,68 @@ function buildStars(starCount) {
   return stars;
 }
 
+function getGenres() {
+  const genreList = [
+    'Country',
+    'Classics',
+    '80s and 90s',
+    'Pop',
+    'Oldies',
+    'Spiritual',
+    'Disney',
+    'Fun',
+    'Show Tunes',
+    'Campfire',
+    'Children',
+    'Patriotic'
+  ].sort();
+
+  let genres = '';
+  genreList.forEach(function(genre) {
+    genres += `<div class="genre">${genre}</div>`;
+  });
+
+  return genres;
+}
+
+function getArtists() {
+  const artistList = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z'
+  ].sort();
+
+  let artists = '';
+  artistList.forEach(function(artist) {
+    artists += `<div class="artist">${artist}</div>`;
+  });
+
+  return artists;
+}
+
 module.exports = {
   buildSongBody: function(song) {
     return `
@@ -147,52 +209,156 @@ module.exports = {
           </header>
           <article class="article">
             <div class="article-title">
+              Artists
+            </div>
+            <div class="artists">
+              ${getArtists()}
+            </div>
+            <div class="article-title">
+              Songs 
+            </div>
+            <div class="artists">
+              ${getArtists()}
+            </div>
+            <div class="article-title">
               Genres
             </div>
             <div class="genres">
-              <div class="genre">
-                Country
-              </div>
-              <div class="genre">
-                Classics
-              </div>
-              <div class="genre">
-                80s and 90s
-              </div>
-              <div class="genre">
-                Pop
-              </div>
-              <div class="genre">
-                Oldies
-              </div>
-              <div class="genre">
-                Spiritual
-              </div>
-              <div class="genre">
-                Disney
-              </div>
-              <div class="genre">
-                Fun
-              </div>
-              <div class="genre">
-                Show Tunes
-              </div>
-              <div class="genre">
-                Campfire
-              </div>
-              <div class="genre">
-                Children
-              </div>
-              <div class="genre">
-                Patriotic
-              </div>
+              ${getGenres()}
             </div>
             <div class="article-title">
               Recommended
             </div>
             <div class="recommended">
               <div class="track">
-                Country
+                <div class="track-title-container">
+                  <div class="track-title">
+                    Africa
+                  </div>
+                  <div class="track-sub-title">
+                    Toto
+                  </div>
+                </div>
+                <div class="track-image">
+                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png">
+                </div>
+              </div>
+              <div class="track">
+                <div class="track-title-container">
+                  <div class="track-title">
+                    Manic Monday
+                  </div>
+                  <div class="track-sub-title">
+                    The Bangles
+                  </div>
+                </div>
+                <div class="track-image">
+                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/8ebc6b59161a054258f9dff0aa989b98.png">
+                </div>
+              </div>
+              <div class="track">
+                <div class="track-title-container">
+                  <div class="track-title">
+                    Africa
+                  </div>
+                  <div class="track-sub-title">
+                    Toto
+                  </div>
+                </div>
+                <div class="track-image">
+                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png">
+                </div>
+              </div>
+              <div class="track">
+                <div class="track-title-container">
+                  <div class="track-title">
+                    Manic Monday
+                  </div>
+                  <div class="track-sub-title">
+                    The Bangles
+                  </div>
+                </div>
+                <div class="track-image">
+                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/8ebc6b59161a054258f9dff0aa989b98.png">
+                </div>
+              </div>
+              <div class="track">
+                <div class="track-title-container">
+                  <div class="track-title">
+                    Africa
+                  </div>
+                  <div class="track-sub-title">
+                    Toto
+                  </div>
+                </div>
+                <div class="track-image">
+                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png">
+                </div>
+              </div>
+              <div class="track">
+                <div class="track-title-container">
+                  <div class="track-title">
+                    Manic Monday
+                  </div>
+                  <div class="track-sub-title">
+                    The Bangles
+                  </div>
+                </div>
+                <div class="track-image">
+                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/8ebc6b59161a054258f9dff0aa989b98.png">
+                </div>
+              </div>
+              <div class="track">
+                <div class="track-title-container">
+                  <div class="track-title">
+                    Africa
+                  </div>
+                  <div class="track-sub-title">
+                    Toto
+                  </div>
+                </div>
+                <div class="track-image">
+                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png">
+                </div>
+              </div>
+              <div class="track">
+                <div class="track-title-container">
+                  <div class="track-title">
+                    Manic Monday
+                  </div>
+                  <div class="track-sub-title">
+                    The Bangles
+                  </div>
+                </div>
+                <div class="track-image">
+                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/8ebc6b59161a054258f9dff0aa989b98.png">
+                </div>
+              </div>
+              <div class="track">
+                <div class="track-title-container">
+                  <div class="track-title">
+                    Africa
+                  </div>
+                  <div class="track-sub-title">
+                    Toto
+                  </div>
+                </div>
+                <div class="track-image">
+                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png">
+                </div>
+              </div>
+              <div class="track">
+                <div class="track-title-container">
+                  <div class="track-title">
+                    Manic Monday
+                  </div>
+                  <div class="track-sub-title">
+                    The Bangles
+                  </div>
+                </div>
+                <div class="track-image">
+                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/8ebc6b59161a054258f9dff0aa989b98.png">
+                </div>
               </div>
             </div>
           </article>
