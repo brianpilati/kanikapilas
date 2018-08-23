@@ -37,7 +37,7 @@ describe('ImageResizeComponent', () => {
     emitCoordinates();
 
     expect(component.topIcon.nativeElement.style.top).toBe('0.5px');
-    expect(component.topIcon.nativeElement.style.left).toBe('13px');
+    expect(component.topIcon.nativeElement.style.left).toBe('20px');
     expect(component.resizeBox.nativeElement.style.top).toBe('13px');
 
     expect(component.bottomIcon.nativeElement.style.bottom).toBe('112.5px');

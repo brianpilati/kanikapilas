@@ -3,7 +3,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { LastFmService } from './last-fm.service';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 
-fdescribe('LastFmServiceService', () => {
+describe('LastFmServiceService', () => {
   let service: LastFmService;
   beforeEach(() => {
     TestBed.configureTestingModule({
