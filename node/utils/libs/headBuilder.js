@@ -126,7 +126,6 @@ module.exports = {
         <meta property="og:updated_time" content="${nowDateTime}" />
         <meta property="website:published_time" content="${nowDateTime}" />
         <link rel="stylesheet" href="/css/home-styles.css">
-        <link rel="stylesheet" href="/css/tshirt-styles.css">
       </head>
     `;
   }

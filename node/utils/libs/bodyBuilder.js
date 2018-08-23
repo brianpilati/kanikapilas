@@ -145,28 +145,57 @@ module.exports = {
               <img src="/assets/icons/flower-icon.png" alt="flower">
             </div>
           </header>
-          <div class="index-page-body">
-            <aside class="tshirt-container">
-              <div class="tshirt">
-                ${adBuilder.buildAd()}
+          <article class="article">
+            <div class="article-title">
+              Genres
+            </div>
+            <div class="genres">
+              <div class="genre">
+                Country
               </div>
-              <div class="tshirt-divider">
-                ${adBuilder.adDivider()}
+              <div class="genre">
+                Classics
               </div>
-              <div class="tshirt">
-                ${adBuilder.buildAd()}
+              <div class="genre">
+                80s and 90s
               </div>
-              <div class="tshirt-divider">
-                ${adBuilder.adDivider()}
+              <div class="genre">
+                Pop
               </div>
-              <div class="tshirt">
-                ${adBuilder.buildAd()}
+              <div class="genre">
+                Oldies
               </div>
-            </aside>
-            <article class="article">
-              Article
-            </article>
-          </div>
+              <div class="genre">
+                Spiritual
+              </div>
+              <div class="genre">
+                Disney
+              </div>
+              <div class="genre">
+                Fun
+              </div>
+              <div class="genre">
+                Show Tunes
+              </div>
+              <div class="genre">
+                Campfire
+              </div>
+              <div class="genre">
+                Children
+              </div>
+              <div class="genre">
+                Patriotic
+              </div>
+            </div>
+            <div class="article-title">
+              Recommended
+            </div>
+            <div class="recommended">
+              <div class="track">
+                Country
+              </div>
+            </div>
+          </article>
           <footer class="footer">Footer</footer>
         </div>
       </body>
