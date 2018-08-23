@@ -18,7 +18,8 @@ import {
   MatFormFieldModule,
   MatSliderModule,
   MatSlideToggleModule,
-  MatTabsModule
+  MatTabsModule,
+  MatTableModule
 } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SongGenreComponent } from '../song-genre/song-genre.component';
@@ -26,6 +27,7 @@ import { TestSongs } from '../../testing/test-songs';
 import { ImageResizeComponent } from '../image-resize/image-resize.component';
 import { AngularDraggableModule } from 'angular2-draggable';
 import { ImageCoordinates } from '../models/image-coordinates';
+import { LastFmComponent } from '../last-fm/last-fm.component';
 
 let activatedRouteId: any;
 
@@ -43,7 +45,7 @@ const activatedRouteMock = {
   }
 };
 
-describe('SongDetailComponent', () => {
+fdescribe('SongDetailComponent', () => {
   let component: SongDetailComponent;
   let fixture: ComponentFixture<SongDetailComponent>;
   let locationServiceSpy;
@@ -68,12 +70,13 @@ describe('SongDetailComponent', () => {
           MatSelectModule,
           MatSliderModule,
           MatSlideToggleModule,
+          MatTableModule,
           MatTabsModule,
           NoopAnimationsModule,
           ReactiveFormsModule,
           RouterTestingModule
         ],
-        declarations: [ImageResizeComponent, SongDetailComponent, SongGenreComponent],
+        declarations: [ImageResizeComponent, LastFmComponent, SongDetailComponent, SongGenreComponent],
         providers: [
           {
             provide: ActivatedRoute,
@@ -97,6 +100,9 @@ describe('SongDetailComponent', () => {
   );
 
   it('should test getSong and default values', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+    let coordinates: ImageCoordinates;
+
+    component.coordinates.subscribe(_coordinates_ => (coordinates = _coordinates_));
     expect(component.song).toEqual(new Song());
 
     const request = httpMock.expectOne('http://localhost:3000/api/songs/1');
@@ -110,15 +116,45 @@ describe('SongDetailComponent', () => {
       stars: 1,
       flowered: false,
       genre: 'Pop, 80s',
+      firstNote: 1,
+      capo: 0,
       imageName: 'africa',
       imageTop: 10,
-      imageBottom: 20
+      imageBottom: 20,
+      coverArtUrl: 'http://toto/africa/coverart.png'
     });
 
     expect(component.stars).toEqual([true, false, false, false, false]);
 
     expect(component.genres).toEqual(['Pop', '80s']);
+    expect(coordinates).toEqual(<ImageCoordinates>{
+      top: 10,
+      bottom: 20,
+      left: 37.5,
+      right: 212.5
+    });
   }));
+
+  it('should test setCoverArt', () => {
+    component.setCoverArt('coverArtUrl');
+    expect(component.songForm.get('coverArtUrl').value).toBe('coverArtUrl');
+  });
+
+  it('should test track emit', () => {
+    let track: string;
+    component.track.subscribe(_track_ => (track = _track_));
+    component.songForm.get('title').setValue('track changed');
+    fixture.detectChanges();
+    expect(track).toBe('track changed');
+  });
+
+  it('should test artist emit', () => {
+    let artist: string;
+    component.artist.subscribe(_artist_ => (artist = _artist_));
+    component.songForm.get('artist').setValue('artist changed');
+    fixture.detectChanges();
+    expect(artist).toBe('artist changed');
+  });
 
   it('should test resize', () => {
     component.resize(<ImageCoordinates>{
@@ -198,7 +234,10 @@ describe('SongDetailComponent', () => {
       imageTop: 0,
       imageBottom: 0,
       genre: 'Pop, Spiritual',
-      searchTerm: '',
+      genreSearchTerm: '',
+      capo: 0,
+      firstNote: '',
+      coverArtUrl: '',
       createdDate: ''
     });
 
@@ -218,7 +257,10 @@ describe('SongDetailComponent', () => {
       imageTop: 0,
       imageBottom: 0,
       genre: 'Pop, 80s and 90s',
-      searchTerm: '',
+      genreSearchTerm: '',
+      capo: 0,
+      firstNote: '',
+      coverArtUrl: '',
       createdDate: ''
     });
 
@@ -238,27 +280,30 @@ describe('SongDetailComponent', () => {
       imageTop: 0,
       imageBottom: 0,
       genre: `80s and 90s, Spiritual's Songs`,
-      searchTerm: '',
+      genreSearchTerm: '',
+      capo: 0,
+      firstNote: '',
+      coverArtUrl: '',
       createdDate: ''
     });
 
     expect(component.genres).toEqual(['80s and 90s', `Spiritual's Songs`]);
   });
 
-  it('should test filteredOptions', () => {
-    let filteredOptions: string[] = [];
+  it('should test filteredGenres', () => {
+    let filteredGenres: string[] = [];
 
-    component.filteredOptions.subscribe(options => {
-      filteredOptions = options;
+    component.filteredGenres.subscribe(options => {
+      filteredGenres = options;
     });
 
-    component.songForm.get('searchTerm').setValue('Pop');
+    component.songForm.get('genreSearchTerm').setValue('Pop');
 
-    expect(filteredOptions).toEqual(['Pop']);
+    expect(filteredGenres).toEqual(['Pop']);
 
-    component.searchTermSelected();
+    component.genreSearchTermSelected();
 
-    expect(filteredOptions).toEqual([
+    expect(filteredGenres).toEqual([
       '80s',
       '90s',
       `Children's`,
@@ -274,13 +319,13 @@ describe('SongDetailComponent', () => {
       'Spiritual'
     ]);
 
-    component.songForm.get('searchTerm').setValue('Patriotic');
+    component.songForm.get('genreSearchTerm').setValue('Patriotic');
 
-    expect(filteredOptions).toEqual(['Patriotic']);
+    expect(filteredGenres).toEqual(['Patriotic']);
 
-    component.searchTermSelected();
+    component.genreSearchTermSelected();
 
-    expect(filteredOptions).toEqual([
+    expect(filteredGenres).toEqual([
       '80s',
       '90s',
       `Children's`,
@@ -296,9 +341,9 @@ describe('SongDetailComponent', () => {
     ]);
 
     component.deleteGenre('Pop');
-    component.songForm.get('searchTerm').setValue('');
+    component.songForm.get('genreSearchTerm').setValue('');
 
-    expect(filteredOptions).toEqual([
+    expect(filteredGenres).toEqual([
       '80s',
       '90s',
       `Children's`,
@@ -315,10 +360,10 @@ describe('SongDetailComponent', () => {
     ]);
   });
 
-  it('should test searchTermSelected', () => {
-    component.songForm.get('searchTerm').setValue('Pop');
+  it('should test genreSearchTermSelected', () => {
+    component.songForm.get('genreSearchTerm').setValue('Pop');
 
-    component.searchTermSelected();
+    component.genreSearchTermSelected();
 
     expect(component.songForm.value).toEqual({
       id: '',
@@ -330,15 +375,18 @@ describe('SongDetailComponent', () => {
       imageTop: 0,
       imageBottom: 0,
       genre: 'Pop',
-      searchTerm: '',
+      genreSearchTerm: '',
+      capo: 0,
+      firstNote: '',
+      coverArtUrl: '',
       createdDate: ''
     });
 
     expect(component.genres).toEqual(['Pop']);
 
-    component.songForm.get('searchTerm').setValue('80s');
+    component.songForm.get('genreSearchTerm').setValue('80s');
 
-    component.searchTermSelected();
+    component.genreSearchTermSelected();
 
     expect(component.songForm.value).toEqual({
       id: '',
@@ -350,15 +398,18 @@ describe('SongDetailComponent', () => {
       imageTop: 0,
       imageBottom: 0,
       genre: 'Pop, 80s',
-      searchTerm: '',
+      genreSearchTerm: '',
+      capo: 0,
+      firstNote: '',
+      coverArtUrl: '',
       createdDate: ''
     });
 
     expect(component.genres).toEqual(['Pop', '80s']);
 
-    component.songForm.get('searchTerm').setValue('Primary Songs');
+    component.songForm.get('genreSearchTerm').setValue('Primary Songs');
 
-    component.searchTermSelected();
+    component.genreSearchTermSelected();
 
     expect(component.songForm.value).toEqual({
       id: '',
@@ -369,16 +420,19 @@ describe('SongDetailComponent', () => {
       imageName: '',
       imageTop: 0,
       imageBottom: 0,
-      searchTerm: '',
+      genreSearchTerm: '',
+      capo: 0,
+      firstNote: '',
+      coverArtUrl: '',
       genre: 'Pop, 80s, Primary Songs',
       createdDate: ''
     });
 
     expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs']);
 
-    component.songForm.get('searchTerm').setValue('Spiritual Songs');
+    component.songForm.get('genreSearchTerm').setValue('Spiritual Songs');
 
-    component.searchTermSelected();
+    component.genreSearchTermSelected();
 
     expect(component.songForm.value).toEqual({
       id: '',
@@ -389,16 +443,19 @@ describe('SongDetailComponent', () => {
       imageName: '',
       imageTop: 0,
       imageBottom: 0,
-      searchTerm: '',
+      genreSearchTerm: '',
+      capo: 0,
+      firstNote: '',
+      coverArtUrl: '',
       createdDate: '',
       genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
     });
 
     expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs', 'Spiritual Songs']);
 
-    component.songForm.get('searchTerm').setValue('Pop');
+    component.songForm.get('genreSearchTerm').setValue('Pop');
 
-    component.searchTermSelected();
+    component.genreSearchTermSelected();
 
     expect(component.songForm.value).toEqual({
       id: '',
@@ -409,7 +466,10 @@ describe('SongDetailComponent', () => {
       imageName: '',
       imageTop: 0,
       imageBottom: 0,
-      searchTerm: '',
+      genreSearchTerm: '',
+      capo: 0,
+      firstNote: '',
+      coverArtUrl: '',
       createdDate: '',
       genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
     });
@@ -440,7 +500,10 @@ describe('SongDetailComponent', () => {
         imageName: 'africa',
         imageTop: 10,
         imageBottom: 20,
-        searchTerm: '',
+        genreSearchTerm: '',
+        capo: 0,
+        firstNote: 1,
+        coverArtUrl: 'http://toto/africa/coverart.png',
         createdDate: '',
         genre: 'Pop, 80s'
       });
@@ -454,6 +517,9 @@ describe('SongDetailComponent', () => {
         artist: 'Toto',
         stars: 1,
         flowered: false,
+        firstNote: 1,
+        capo: 0,
+        coverArtUrl: 'http://toto/africa/coverart.png',
         imageName: 'africa',
         imageTop: 10,
         imageBottom: 20,
@@ -469,7 +535,10 @@ describe('SongDetailComponent', () => {
         imageName: 'africa',
         imageTop: 10,
         imageBottom: 20,
-        searchTerm: '',
+        genreSearchTerm: '',
+        capo: 0,
+        firstNote: 1,
+        coverArtUrl: 'http://toto/africa/coverart.png',
         createdDate: '',
         genre: 'Pop, 80s'
       });
@@ -497,7 +566,10 @@ describe('SongDetailComponent', () => {
           imageName: 'africa',
           imageTop: 10,
           imageBottom: 20,
-          searchTerm: '',
+          genreSearchTerm: '',
+          capo: 0,
+          firstNote: 1,
+          coverArtUrl: 'http://toto/africa/coverart.png',
           createdDate: '',
           genre: 'Pop, 80s'
         })
@@ -581,7 +653,10 @@ describe('SongDetailComponent', () => {
       imageName: 'title - changed',
       imageTop: 0,
       imageBottom: 0,
-      searchTerm: '',
+      genreSearchTerm: '',
+      capo: 0,
+      firstNote: '',
+      coverArtUrl: '',
       createdDate: '',
       genre: 'classics'
     });
@@ -601,7 +676,10 @@ describe('SongDetailComponent', () => {
       imageName: 'title - changed',
       imageTop: 0,
       imageBottom: 0,
-      searchTerm: '',
+      genreSearchTerm: '',
+      capo: 0,
+      firstNote: '',
+      coverArtUrl: '',
       createdDate: '',
       genre: 'pop, 80s'
     });
@@ -625,7 +703,7 @@ describe('SongDetailComponent', () => {
   });
 });
 
-describe('SongDetailComponent with Save and Fake Data', () => {
+fdescribe('SongDetailComponent with Save and Fake Data', () => {
   let component: SongDetailComponent;
   let fixture: ComponentFixture<SongDetailComponent>;
   let locationServiceSpy;
@@ -649,12 +727,13 @@ describe('SongDetailComponent with Save and Fake Data', () => {
         MatSelectModule,
         MatSliderModule,
         MatSlideToggleModule,
+        MatTableModule,
         MatTabsModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
         RouterTestingModule
       ],
-      declarations: [ImageResizeComponent, SongDetailComponent, SongGenreComponent],
+      declarations: [ImageResizeComponent, LastFmComponent, SongDetailComponent, SongGenreComponent],
       providers: [
         {
           provide: ActivatedRoute,
@@ -690,7 +769,10 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       imageName: '',
       imageTop: 0,
       imageBottom: 0,
-      searchTerm: '',
+      genreSearchTerm: '',
+      capo: 0,
+      firstNote: '',
+      coverArtUrl: '',
       createdDate: '',
       genre: ''
     });
@@ -703,7 +785,9 @@ describe('SongDetailComponent with Save and Fake Data', () => {
         artist: 'new Artist',
         stars: 2,
         genre: '80s',
-        imageName: 'new_song'
+        imageName: 'new_song',
+        firstNote: 1,
+        coverArtUrl: 'http://coverArtUrl'
       })
     );
 
@@ -720,9 +804,13 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       imageTop: 0,
       imageBottom: 0,
       genre: '80s',
-      searchTerm: '',
+      genreSearchTerm: '',
+      capo: 0,
+      firstNote: 1,
+      coverArtUrl: 'http://coverArtUrl',
       createdDate: ''
     });
+
     expect(request.request.method).toEqual('POST');
     request.flush({
       id: 1,
@@ -733,6 +821,8 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       imageName: 'new_song',
       imageTop: 0,
       imageBottom: 0,
+      firstNote: 1,
+      coverArtUrl: 'http://coverArtUrl',
       genre: 'classics'
     });
 
@@ -745,7 +835,9 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       imageName: 'new_song',
       imageTop: 0,
       imageBottom: 0,
-      genre: 'classics'
+      genre: 'classics',
+      firstNote: 1,
+      coverArtUrl: 'http://coverArtUrl'
     });
 
     expect(component.songForm.value).toEqual({
@@ -757,7 +849,10 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       imageName: 'new_song',
       imageTop: 0,
       imageBottom: 0,
-      searchTerm: '',
+      genreSearchTerm: '',
+      capo: 0,
+      firstNote: 1,
+      coverArtUrl: 'http://coverArtUrl',
       createdDate: '',
       genre: 'classics'
     });
@@ -779,7 +874,10 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       imageTop: 0,
       imageBottom: 0,
       genre: 'classics',
-      searchTerm: '',
+      genreSearchTerm: '',
+      capo: 0,
+      firstNote: 1,
+      coverArtUrl: 'http://coverArtUrl',
       createdDate: ''
     });
     expect(request.request.method).toEqual('PUT');
@@ -792,6 +890,8 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       imageName: 'new_song',
       imageTop: 0,
       imageBottom: 0,
+      firstNote: 1,
+      coverArtUrl: 'http://coverArtUrl',
       genre: 'classics'
     });
 
@@ -804,7 +904,9 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       imageName: 'new_song',
       imageTop: 0,
       imageBottom: 0,
-      genre: 'classics'
+      genre: 'classics',
+      firstNote: 1,
+      coverArtUrl: 'http://coverArtUrl'
     });
 
     expect(component.songForm.value).toEqual({
@@ -813,7 +915,10 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       artist: 'New Artist - Response',
       stars: 3,
       flowered: false,
-      searchTerm: '',
+      genreSearchTerm: '',
+      capo: 0,
+      firstNote: 1,
+      coverArtUrl: 'http://coverArtUrl',
       createdDate: '',
       imageName: 'new_song',
       imageTop: 0,

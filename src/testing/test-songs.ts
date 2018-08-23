@@ -9,8 +9,11 @@ export const TestSongs = [
     flowered: false,
     genre: 'Pop, 80s',
     imageName: 'africa',
+    firstNote: 1,
+    capo: 0,
     imageTop: 10,
-    imageBottom: 20
+    imageBottom: 20,
+    coverArtUrl: 'http://toto/africa/coverart.png'
   },
   <Song>{
     id: 2,
@@ -20,7 +23,10 @@ export const TestSongs = [
     flowered: true,
     genre: '80s',
     imageName: 'manic_monday',
+    firstNote: 2,
+    capo: 1,
     imageTop: 100,
-    imageBottom: 300
+    imageBottom: 300,
+    coverArtUrl: 'http://the-bangles/manic-monday/coverart.png'
   }
 ];

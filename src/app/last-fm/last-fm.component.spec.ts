@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LastFmComponent } from './last-fm.component';
+import { MatTableModule } from '@angular/material';
 
 describe('LastFmComponent', () => {
   let component: LastFmComponent;
@@ -8,6 +9,7 @@ describe('LastFmComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [MatTableModule],
       declarations: [LastFmComponent]
     }).compileComponents();
   }));
