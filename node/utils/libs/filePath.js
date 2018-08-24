@@ -1,8 +1,12 @@
 var path = require('path');
 var fs = require('fs');
 
+function encodePath(path) {
+  return path.replace(/\s+/g, '-').toLowerCase();
+}
+
 function ensureDirectoryExistence(filePath) {
-  var dirname = path.dirname(filePath);
+  var dirname = path.dirname(encodePath(filePath));
   if (fs.existsSync(dirname)) {
     return true;
   }
@@ -65,5 +69,8 @@ module.exports = {
   },
   ensureDirectoryExistence(filePath) {
     ensureDirectoryExistence(filePath);
+  },
+  encodePath(path) {
+    return encodePath(path);
   }
 };

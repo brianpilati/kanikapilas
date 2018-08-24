@@ -1,13 +1,12 @@
-var pool = require('../lib/database');
-var path = require('path');
-var express = require('express');
-var cors = require('cors');
-var bodyParser = require('body-parser');
-var app = express();
-var SongDomain = require('./domains/song');
-const songDomain = new SongDomain(pool);
+const pool = require('../lib/database');
+const path = require('path');
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const app = express();
+const songDomain = require('./domains/song');
 
-var corsOptions = {
+const corsOptions = {
   origin: 'http://localhost:4200',
   optionsSuccessStatus: 200
 };

@@ -4,8 +4,15 @@ const FilePath = require('./libs/filePath');
 
 var artistDomain = require('../server/domains/artist');
 
-function getFilePath(letter) {
-  const filePath = `../../deployment/artists/${letter}/index.html`;
+function getFilePath(letter, artist) {
+  let filePath;
+  letter = letter.toLowerCase();
+
+  if (artist) {
+    filePath = `../../deployment/artists/${letter}/${artist}/index.html`;
+  } else {
+    filePath = `../../deployment/artists/${letter}/index.html`;
+  }
   FilePath.ensureDirectoryExistence(filePath);
   return filePath;
 }
@@ -23,6 +30,22 @@ artistDomain.getArtistFirstLetter().then(result => {
 
         console.log(`The ${artistFilePath} file was saved!`);
       });
+    });
+
+    artistDomain.getArtistsByLetter(letter).then(result => {
+      for (song of result) {
+        const artistFileSongPath = getFilePath(letter, song.artist);
+
+        htmlBuilder.buildArtistSongHtml(song.artist).then(function(artistSongHtml) {
+          fs.writeFile(artistFileSongPath, artistSongHtml, err => {
+            if (err) {
+              return console.log(err);
+            }
+
+            console.log(`The ${artistFileSongPath} file was saved!`);
+          });
+        });
+      }
     });
   }
 });

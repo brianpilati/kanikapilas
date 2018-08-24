@@ -1,18 +1,16 @@
-class SongDomain {
-  constructor(pool) {
-    this.pool = pool;
-  }
+const pool = require('../../lib/database');
 
+module.exports = {
   async getSongs() {
-    return await this.pool.query('SELECT * FROM songs');
-  }
+    return await pool.query('SELECT * FROM songs');
+  },
 
   async getSong(songId) {
-    return await this.pool.query(`SELECT * FROM songs WHERE id = ${songId}`);
-  }
+    return await pool.query(`SELECT * FROM songs WHERE id = ${songId}`);
+  },
 
   async updateSong(song) {
-    return await this.pool.query(
+    return await pool.query(
       `
       UPDATE
         songs
@@ -35,10 +33,10 @@ class SongDomain {
         coverArtUrl: song.coverArtUrl
       }
     );
-  }
+  },
 
   async insertSong(song) {
-    return await this.pool.query(
+    return await pool.query(
       `
       INSERT INTO
         songs
@@ -60,7 +58,9 @@ class SongDomain {
         coverArtUrl: song.coverArtUrl
       }
     );
-  }
-}
+  },
 
-module.exports = SongDomain;
+  async getSongsByArtist(artist) {
+    return await pool.query(`SELECT * FROM songs WHERE artist = '${artist}'`);
+  }
+};

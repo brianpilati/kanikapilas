@@ -6,6 +6,7 @@ const titleBuilder = require('./titleBuilder');
 const sizes = require('./enums/font-sizes');
 const recommendedSongsBuilder = require('./recommendedSongsBuilder');
 const artistBuilder = require('./artistBuilder');
+const songBuilder = require('./songBuilder');
 
 function buildStars(starCount) {
   let stars = '';
@@ -215,6 +216,41 @@ module.exports = {
                 </div>
                 <div class="artist-container">
                   ${artists}
+                </div>
+                </div>
+              </article>
+              <footer class="footer">Footer</footer>
+            </div>
+          </div>
+        </body>
+      `;
+    });
+  },
+
+  buildArtistSongBody(artist) {
+    return songBuilder.getSongsByArtist(artist).then(function(songs) {
+      return `
+        <body>
+          <div class="background-splash"></div>
+          <div class="page-container">
+            <header class="page-header">
+              <div class="kanikapilas-title">
+              ${titleBuilder.getSiteTitle(sizes.large)}
+              </div>
+              <div>
+                <img src="/assets/icons/flower-icon.png" alt="flower">
+              </div>
+            </header>
+            <div class="page-body">
+              <aside>
+                ${adBuilder.buildAsideAds()}
+              </aside>
+              <article class="article">
+                <div class="article-title">
+                  '${artist}' 
+                </div>
+                <div class="artist-container">
+                  ${songs}
                 </div>
                 </div>
               </article>

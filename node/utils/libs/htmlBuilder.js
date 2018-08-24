@@ -32,5 +32,17 @@ module.exports = {
         </html>
       `;
     });
+  },
+
+  buildArtistSongHtml(artist) {
+    return bodyBuilder.buildArtistSongBody(artist).then(function(artistSongPage) {
+      return `
+        <!DOCTYPE html>
+        <html lang="en">
+          ${headBuilder.buildArtistHead()}
+          ${artistSongPage}
+        </html>
+      `;
+    });
   }
 };

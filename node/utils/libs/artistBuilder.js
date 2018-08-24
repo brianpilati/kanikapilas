@@ -1,16 +1,16 @@
 const artistDomain = require('../../server/domains/artist');
 const titleBuilder = require('./titleBuilder');
 const sizes = require('./enums/font-sizes');
+const FilePath = require('../libs/filePath');
 
 module.exports = {
   async getArtistsByLetter(letter) {
     return await artistDomain.getArtistsByLetter(letter).then(function(results) {
       let artists = '';
       results.forEach(function(song) {
-        artists += `<div class="artist"><a href="/artists/${letter}/${song.artist}/index.html">${titleBuilder.title(
-          song.artist,
-          sizes.small
-        )}</a></div>`;
+        const link = FilePath.encodePath(`/artists/${letter}/${song.artist}/index.html`);
+
+        artists += `<div class="artist"><a href="${link}">${titleBuilder.title(song.artist, sizes.small)}</a></div>`;
       });
 
       return artists;
@@ -49,7 +49,8 @@ module.exports = {
 
     let artists = '';
     artistList.forEach(function(artist) {
-      artists += `<div class="artist"><a href="/artists/${artist}/index.html">${artist}</a></div>`;
+      const link = FilePath.encodePath(`/artists/${artist}/index.html`);
+      artists += `<div class="artist"><a href="${link}">${artist}</a></div>`;
     });
 
     return artists;
