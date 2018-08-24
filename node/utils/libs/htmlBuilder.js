@@ -1,11 +1,7 @@
 var headBuilder = require('./headBuilder');
 var bodyBuilder = require('./bodyBuilder');
 
-class HtmlBuilder {
-  constructor(pool) {
-    this.pool = pool;
-  }
-
+module.exports = {
   buildSongHtml(song) {
     return `
       <!DOCTYPE html>
@@ -14,7 +10,7 @@ class HtmlBuilder {
         ${bodyBuilder.buildSongBody(song)}
       </html>
     `;
-  }
+  },
 
   buildIndexHtml(index) {
     return `
@@ -24,17 +20,17 @@ class HtmlBuilder {
         ${bodyBuilder.buildIndexBody()}
       </html>
     `;
-  }
+  },
 
   buildArtistHtml(letter) {
-    return `
-      <!DOCTYPE html>
-      <html lang="en">
-        ${headBuilder.buildArtistHead()}
-        ${bodyBuilder.buildArtistBody(letter)}
-      </html>
-    `;
+    return bodyBuilder.buildArtistBody(letter).then(function(artistPage) {
+      return `
+        <!DOCTYPE html>
+        <html lang="en">
+          ${headBuilder.buildArtistHead()}
+          ${artistPage}
+        </html>
+      `;
+    });
   }
-}
-
-module.exports = HtmlBuilder;
+};

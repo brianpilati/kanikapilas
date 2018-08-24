@@ -1,11 +1,8 @@
 const fs = require('fs');
-const pool = require('../lib/database');
-const HtmlBuilder = require('./libs/htmlBuilder');
-const htmlBuilder = new HtmlBuilder(pool);
+const htmlBuilder = require('./libs/htmlBuilder');
 const FilePath = require('./libs/filePath');
 
-var ArtistDomain = require('../server/domains/artist');
-const artistDomain = new ArtistDomain(pool);
+var artistDomain = require('../server/domains/artist');
 
 function getFilePath(letter) {
   const filePath = `../../deployment/artists/${letter}/index.html`;
@@ -14,15 +11,18 @@ function getFilePath(letter) {
 }
 
 artistDomain.getArtistFirstLetter().then(result => {
-  result.forEach(artistLetter => {
+  for (artistLetter of result) {
     const letter = artistLetter.artistFirstLetter;
     const artistFilePath = getFilePath(letter);
-    fs.writeFile(artistFilePath, htmlBuilder.buildArtistHtml(letter), err => {
-      if (err) {
-        return console.log(err);
-      }
-      console.log(`The ${artistFilePath} file was saved!`);
+
+    htmlBuilder.buildArtistHtml(letter).then(function(artistHtml) {
+      fs.writeFile(artistFilePath, artistHtml, err => {
+        if (err) {
+          return console.log(err);
+        }
+
+        console.log(`The ${artistFilePath} file was saved!`);
+      });
     });
-  });
-  pool.end();
+  }
 });

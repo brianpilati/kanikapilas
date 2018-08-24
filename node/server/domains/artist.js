@@ -1,51 +1,13 @@
-class ArtistDomain {
-  constructor(pool) {
-    this.pool = pool;
-  }
+const pool = require('../../lib/database');
 
+module.exports = {
   async getArtistFirstLetter() {
-    return await this.pool.query(
+    return await pool.query(
       'SELECT SUBSTRING(artist, 1, 1) AS artistFirstLetter FROM songs GROUP BY artistFirstLetter'
     );
+  },
+
+  async getArtistsByLetter(letter) {
+    return await pool.query(`SELECT * FROM songs where artist like "${letter}%"`);
   }
-
-  getArtists() {
-    const artistList = [
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F',
-      'G',
-      'H',
-      'I',
-      'J',
-      'K',
-      'L',
-      'M',
-      'N',
-      'O',
-      'P',
-      'Q',
-      'R',
-      'S',
-      'T',
-      'U',
-      'V',
-      'W',
-      'X',
-      'Y',
-      'Z'
-    ].sort();
-
-    let artists = '';
-    artistList.forEach(function(artist) {
-      artists += `<div class="artist"><a href="/artists/${artist}/index.html">${artist}</a></div>`;
-    });
-
-    return artists;
-  }
-}
-
-module.exports = ArtistDomain;
+};
