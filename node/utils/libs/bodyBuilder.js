@@ -58,8 +58,10 @@ module.exports = {
               Printing this song is a copyright violation
             </div>
             <article class="article">
+              <div class="article-bread-crumb">
+                <a href="/${filePath.getArtistUrl(song)}"> << &nbsp; ${titleBuilder.title(song.artist, sizes.small)}</a>
+              </div>
               <div class="article-title">
-                ${filePath.getArtistUrl(song)}
                 ${titleBuilder.title(song.title, sizes.medium)}
               </div>
               <div class="song-image-container">
@@ -192,11 +194,15 @@ module.exports = {
           <div class="page-container">
             <header class="page-header">
               ${headerBuilder.getHeader()}
+            </header>
             <div class="page-body">
               <aside>
                 ${adBuilder.buildAsideAds()}
               </aside>
               <article class="article">
+                <div class="article-bread-crumb">
+                  <a href="/"><< &nbsp; ${titleBuilder.title('Home', sizes.small)}</a>
+                </div>
                 <div class="article-title">
                   Artists starting with '${letter.toUpperCase()}' 
                 </div>
@@ -232,8 +238,13 @@ module.exports = {
                 ${adBuilder.buildAsideAds()}
               </aside>
               <article class="article">
+                <div class="article-bread-crumb">
+                  <a href="/${filePath.getLetterUrl(
+                    song
+                  )}"><< &nbsp; ${titleBuilder.title(artist.charAt(0), sizes.small)}</a>
+                </div>
                 <div class="article-title">
-                  '${artist}' 
+                  ${artist}
                 </div>
                 <div class="artist-container">
                   ${songs}

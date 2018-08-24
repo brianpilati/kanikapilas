@@ -13,18 +13,18 @@ function buildArticleTags(genres) {
 }
 
 function buildLinks(index) {
-  let links = `<link rel="canonical" href="https://${constants.siteName}/" />`;
+  let links = `<link rel="canonical" href="${constants.siteUrl}/" />`;
 
   if (index < 50) {
-    links += `<link rel="next" href="https://${constants.siteName}/page/${index + 1}/" />`;
+    links += `<link rel="next" href="${constants.siteUrl}/page/${index + 1}/" />`;
   } else if (index === 50) {
-    links += `<link rel="next" href="https://${constants.siteName}" />`;
+    links += `<link rel="next" href="${constants.siteUrl}" />`;
   }
 
   if (index === 2) {
-    links += `<link rel="prev" href="https://${constants.siteName}" />`;
+    links += `<link rel="prev" href="${constants.siteUrl}" />`;
   } else if (index > 2) {
-    links += `<link rel="prev" href="https://${constants.siteName}/page/${index - 1}" />`;
+    links += `<link rel="prev" href="${constants.siteUrl}/page/${index - 1}" />`;
   }
 
   return links;
@@ -124,7 +124,7 @@ module.exports = {
 
         <meta property="og:type" content="website" />
         <meta property="og:title" content="${constants.siteName}" />
-        <meta property="og:url" content="https://${constants.siteName}" />
+        <meta property="og:url" content="${constants.siteUrl}" />
         <meta property="og:site_name" content="${constants.siteName}" />
 
         <meta name="twitter:creator" content="@kanikapilas" />
@@ -163,15 +163,15 @@ module.exports = {
 
         <meta property="og:locale" content="en_US" />
 
-        <link rel="canonical" href="https://${constants.siteName}/" />
-        <link rel="next" href="https://${constants.siteName}" />
-        <link rel="prev" href="https://${constants.siteName}" />
+        <link rel="canonical" href="${constants.siteUrl}/" />
+        <link rel="next" href="${constants.siteUrl}" />
+        <link rel="prev" href="${constants.siteUrl}" />
 
         <link rel="publisher" href="https://www.facebook.com/kanikapilas" />
 
         <meta property="og:type" content="website" />
         <meta property="og:title" content="${constants.siteName}" />
-        <meta property="og:url" content="https://${constants.siteName}" />
+        <meta property="og:url" content="${constants.siteUrl}" />
         <meta property="og:site_name" content="${constants.siteName}" />
 
         <meta name="twitter:creator" content="@kanikapilas" />
