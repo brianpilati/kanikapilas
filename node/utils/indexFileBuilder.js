@@ -3,13 +3,15 @@ const htmlBuilder = require('./libs/htmlBuilder');
 const FilePath = require('./libs/filePath');
 
 function getFilePath(index) {
+  let filePath;
   if (index === 1) {
-    return '../../deployment/index.html';
+    filePath = '../../deployment/index.html';
   } else {
-    const filePath = `../../deployment/page/${index}/index.html`;
+    filePath = `../../deployment/page/${index}/index.html`;
     FilePath.ensureDirectoryExistence(filePath);
-    return filePath;
   }
+
+  return FilePath.encodePath(filePath);
 }
 
 for (var index = 1; index < 51; index++) {

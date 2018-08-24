@@ -8,11 +8,9 @@ module.exports = {
     return await songDomain.getSongsByArtist(artist).then(function(results) {
       let songs = '';
       results.forEach(function(song) {
-        const link = FilePath.encodePath(
-          `/artists/${artist.charAt(0).toLowerCase()}/${song.artist}/${song.title}/index.html`
-        );
+        const link = FilePath.getRelativeFileUrl(song);
 
-        songs += `<div class="artist"><a href="${link}">${titleBuilder.title(song.title, sizes.small)}</a></div>`;
+        songs += `<div class="artist"><a href="/${link}">${titleBuilder.title(song.title, sizes.small)}</a></div>`;
       });
 
       return songs;

@@ -8,8 +8,9 @@ var songDomain = require('../server/domains/song');
 
 songDomain.getSongs().then(result => {
   result.forEach(song => {
-    const songFileName = filePath.getFileName(song.title);
-    fs.writeFile(filePath.buildFilePath(song), htmlBuilder.buildSongHtml(song), err => {
+    const songFileName = filePath.buildFilePath(song);
+
+    fs.writeFile(songFileName, htmlBuilder.buildSongHtml(song), err => {
       if (err) {
         return console.log(err);
       }

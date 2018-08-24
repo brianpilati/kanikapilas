@@ -6,7 +6,6 @@ var artistDomain = require('../server/domains/artist');
 
 function getFilePath(letter, artist) {
   let filePath;
-  letter = letter.toLowerCase();
 
   if (artist) {
     filePath = `../../deployment/artists/${letter}/${artist}/index.html`;
@@ -14,7 +13,7 @@ function getFilePath(letter, artist) {
     filePath = `../../deployment/artists/${letter}/index.html`;
   }
   FilePath.ensureDirectoryExistence(filePath);
-  return filePath;
+  return FilePath.encodePath(filePath);
 }
 
 artistDomain.getArtistFirstLetter().then(result => {

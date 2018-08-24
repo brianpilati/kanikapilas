@@ -23,7 +23,7 @@ function buildFileName(name) {
 }
 
 function buildDirectoryPath(song) {
-  return `${getArtistFirstLetter(song.artist)}/${buildFileName(song.artist)}/${buildFileName(song.title)}`;
+  return encodePath(`${getArtistFirstLetter(song.artist)}/${buildFileName(song.artist)}/${buildFileName(song.title)}`);
 }
 
 function buildFilePath(song) {
@@ -61,6 +61,9 @@ module.exports = {
   },
   getRelativeImageUrlPath: function(song, location) {
     return `/${buildImagePath(song, location)}`;
+  },
+  getRelativeFileUrl: function(song) {
+    return encodePath(buildFilePath(song));
   },
   buildFilePath: function(song) {
     const filePath = this.getFilePath(song);
