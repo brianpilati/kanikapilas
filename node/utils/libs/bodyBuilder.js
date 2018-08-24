@@ -1,9 +1,13 @@
 //https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+var pool = require('../../lib/database');
 const filePath = require('./filePath');
 const fairUsePolicy = require('./fairUsePolicy');
 const adBuilder = require('./adBuilder');
 const titleBuilder = require('./titleBuilder');
 const sizes = require('./enums/font-sizes');
+const recommendedSongsBuilder = require('./recommendedSongsBuilder');
+const ArtistDomain = require('../../server/domains/artist');
+const artistDomain = new ArtistDomain(pool);
 
 function buildStars(starCount) {
   let stars = '';
@@ -37,44 +41,6 @@ function getGenres() {
   return genres;
 }
 
-function getArtists() {
-  const artistList = [
-    'A',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
-    'I',
-    'J',
-    'K',
-    'L',
-    'M',
-    'N',
-    'O',
-    'P',
-    'Q',
-    'R',
-    'S',
-    'T',
-    'U',
-    'V',
-    'W',
-    'X',
-    'Y',
-    'Z'
-  ].sort();
-
-  let artists = '';
-  artistList.forEach(function(artist) {
-    artists += `<div class="artist">${artist}</div>`;
-  });
-
-  return artists;
-}
-
 module.exports = {
   buildSongBody: function(song) {
     return `
@@ -89,7 +55,7 @@ module.exports = {
               <img src="/assets/icons/flower-icon.png" alt="flower">
             </div>
           </header>
-          <div class="song-page-body">
+          <div class="page-body">
             <aside class="tshirt-container">
               <div class="tshirt">
                 ${adBuilder.buildAd()}
@@ -207,162 +173,82 @@ module.exports = {
               <img src="/assets/icons/flower-icon.png" alt="flower">
             </div>
           </header>
-          <article class="article">
-            <div class="article-title">
-              Artists
-            </div>
-            <div class="artists">
-              ${getArtists()}
-            </div>
-            <div class="article-title">
-              Songs 
-            </div>
-            <div class="artists">
-              ${getArtists()}
-            </div>
-            <div class="article-title">
-              Genres
-            </div>
-            <div class="genres">
-              ${getGenres()}
-            </div>
-            <div class="article-title">
-              Recommended
-            </div>
-            <div class="recommended">
-              <div class="track">
-                <div class="track-title-container">
-                  <div class="track-title">
-                    Africa
-                  </div>
-                  <div class="track-sub-title">
-                    Toto
-                  </div>
-                </div>
-                <div class="track-image">
-                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png">
-                </div>
+          <div class="page-body">
+            <article class="article">
+              <div class="article-title">
+                Artists By Name  <hr>
               </div>
-              <div class="track">
-                <div class="track-title-container">
-                  <div class="track-title">
-                    Manic Monday
-                  </div>
-                  <div class="track-sub-title">
-                    The Bangles
-                  </div>
-                </div>
-                <div class="track-image">
-                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/8ebc6b59161a054258f9dff0aa989b98.png">
-                </div>
+              <div class="artists">
+                ${artistDomain.getArtists()}
               </div>
-              <div class="track">
-                <div class="track-title-container">
-                  <div class="track-title">
-                    Africa
-                  </div>
-                  <div class="track-sub-title">
-                    Toto
-                  </div>
-                </div>
-                <div class="track-image">
-                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png">
-                </div>
+              <div class="article-title">
+                Songs By Name  <hr>
               </div>
-              <div class="track">
-                <div class="track-title-container">
-                  <div class="track-title">
-                    Manic Monday
-                  </div>
-                  <div class="track-sub-title">
-                    The Bangles
-                  </div>
-                </div>
-                <div class="track-image">
-                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/8ebc6b59161a054258f9dff0aa989b98.png">
-                </div>
+              <div class="artists">
+                ${artistDomain.getArtists()}
               </div>
-              <div class="track">
-                <div class="track-title-container">
-                  <div class="track-title">
-                    Africa
-                  </div>
-                  <div class="track-sub-title">
-                    Toto
-                  </div>
-                </div>
-                <div class="track-image">
-                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png">
-                </div>
+              <div class="article-title">
+                Genres  <hr>
               </div>
-              <div class="track">
-                <div class="track-title-container">
-                  <div class="track-title">
-                    Manic Monday
-                  </div>
-                  <div class="track-sub-title">
-                    The Bangles
-                  </div>
-                </div>
-                <div class="track-image">
-                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/8ebc6b59161a054258f9dff0aa989b98.png">
-                </div>
+              <div class="genres">
+                ${getGenres()}
               </div>
-              <div class="track">
-                <div class="track-title-container">
-                  <div class="track-title">
-                    Africa
-                  </div>
-                  <div class="track-sub-title">
-                    Toto
-                  </div>
-                </div>
-                <div class="track-image">
-                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png">
-                </div>
+              <div class="article-title">
+                Recommended Songs <hr>
               </div>
-              <div class="track">
-                <div class="track-title-container">
-                  <div class="track-title">
-                    Manic Monday
-                  </div>
-                  <div class="track-sub-title">
-                    The Bangles
-                  </div>
-                </div>
-                <div class="track-image">
-                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/8ebc6b59161a054258f9dff0aa989b98.png">
-                </div>
+              <div class="recommended">
+                ${recommendedSongsBuilder.getRecommendedSongs()}
               </div>
-              <div class="track">
-                <div class="track-title-container">
-                  <div class="track-title">
-                    Africa
-                  </div>
-                  <div class="track-sub-title">
-                    Toto
-                  </div>
-                </div>
-                <div class="track-image">
-                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png">
-                </div>
-              </div>
-              <div class="track">
-                <div class="track-title-container">
-                  <div class="track-title">
-                    Manic Monday
-                  </div>
-                  <div class="track-sub-title">
-                    The Bangles
-                  </div>
-                </div>
-                <div class="track-image">
-                  <img src="https://lastfm-img2.akamaized.net/i/u/174s/8ebc6b59161a054258f9dff0aa989b98.png">
-                </div>
-              </div>
-            </div>
-          </article>
+            </article>
+          </div>
           <footer class="footer">Footer</footer>
+        </div>
+      </body>
+    `;
+  },
+
+  buildArtistBody: function(letter) {
+    return `
+      <body>
+        <div class="background-splash"></div>
+        <div class="song-page-container">
+          <header class="song-page-header">
+            <div class="kanikapilas-title">
+            ${titleBuilder.getSiteTitle(sizes.large)}
+            </div>
+            <div>
+              <img src="/assets/icons/flower-icon.png" alt="flower">
+            </div>
+          </header>
+          <div class="page-body">
+            <aside class="tshirt-container">
+              <div class="tshirt">
+                ${adBuilder.buildAd()}
+              </div>
+              <div class="tshirt-divider">
+                ${adBuilder.adDivider()}
+              </div>
+              <div class="tshirt">
+                ${adBuilder.buildAd()}
+              </div>
+              <div class="tshirt-divider">
+                ${adBuilder.adDivider()}
+              </div>
+              <div class="tshirt">
+                ${adBuilder.buildAd()}
+              </div>
+            </aside>
+            <article class="article">
+              <div class="song-title">
+                Title
+              </div>
+              <div class="song-image-container">
+                Song Image
+              </div>
+              </div>
+            </article>
+            <footer class="footer">Footer</footer>
+          </div>
         </div>
       </body>
     `;
