@@ -12,6 +12,18 @@ module.exports = {
     `;
   },
 
+  buildSongsHtml(letter) {
+    return bodyBuilder.buildSongsBody(letter).then(function(songsPage) {
+      return `
+        <!DOCTYPE html>
+        <html lang="en">
+          ${headBuilder.buildArtistHead()}
+          ${songsPage}
+        </html>
+      `;
+    });
+  },
+
   buildIndexHtml(index) {
     return `
       <!DOCTYPE html>

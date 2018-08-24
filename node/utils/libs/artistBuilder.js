@@ -8,7 +8,7 @@ module.exports = {
     return await artistDomain.getArtistsByLetter(letter).then(function(results) {
       let artists = '';
       results.forEach(function(song) {
-        const link = FilePath.encodePath(`/artists/${letter}/${song.artist}/index.html`);
+        const link = FilePath.encodePath(`/${letter}/${song.artist}/index.html`);
 
         artists += `<div class="artist"><a href="${link}">${titleBuilder.title(song.artist, sizes.small)}</a></div>`;
       });
@@ -49,7 +49,7 @@ module.exports = {
 
     let artists = '';
     artistList.forEach(function(artist) {
-      const link = FilePath.encodePath(`/artists/${artist}/index.html`);
+      const link = FilePath.encodePath(`/${artist}/index.html`);
       artists += `<div class="artist"><a href="${link}">${artist}</a></div>`;
     });
 

@@ -22,8 +22,12 @@ function buildFileName(name) {
   return name.replace(/\s+/g, '-').toLowerCase();
 }
 
+function buildArtistPath(song) {
+  return encodePath(`${getArtistFirstLetter(song.artist)}/${buildFileName(song.artist)}`);
+}
+
 function buildDirectoryPath(song) {
-  return encodePath(`${getArtistFirstLetter(song.artist)}/${buildFileName(song.artist)}/${buildFileName(song.title)}`);
+  return encodePath(`${buildArtistPath(song)}/${buildFileName(song.title)}`);
 }
 
 function buildFilePath(song) {
@@ -72,6 +76,9 @@ module.exports = {
   },
   ensureDirectoryExistence(filePath) {
     ensureDirectoryExistence(filePath);
+  },
+  getArtistUrl(song) {
+    return buildArtistPath(song);
   },
   encodePath(path) {
     return encodePath(path);

@@ -2,6 +2,7 @@
 const filePath = require('./filePath');
 const fairUsePolicy = require('./fairUsePolicy');
 const adBuilder = require('./adBuilder');
+const headerBuilder = require('./headerBuilder');
 const titleBuilder = require('./titleBuilder');
 const sizes = require('./enums/font-sizes');
 const recommendedSongsBuilder = require('./recommendedSongsBuilder');
@@ -47,12 +48,7 @@ module.exports = {
         <div class="background-splash"></div>
         <div class="page-container">
           <header class="page-header">
-            <div class="kanikapilas-title">
-            ${titleBuilder.getSiteTitle(sizes.large)}
-            </div>
-            <div>
-              <img src="/assets/icons/flower-icon.png" alt="flower">
-            </div>
+            ${headerBuilder.getHeader()}
           </header>
           <div class="page-body">
             <aside>
@@ -63,6 +59,7 @@ module.exports = {
             </div>
             <article class="article">
               <div class="article-title">
+                ${filePath.getArtistUrl(song)}
                 ${titleBuilder.title(song.title, sizes.medium)}
               </div>
               <div class="song-image-container">
@@ -151,12 +148,7 @@ module.exports = {
         <div class="background-splash"></div>
         <div class="page-container">
           <header class="page-header">
-            <div class="kanikapilas-title">
-            ${titleBuilder.getSiteTitle(sizes.large)}
-            </div>
-            <div>
-              <img src="/assets/icons/flower-icon.png" alt="flower">
-            </div>
+            ${headerBuilder.getHeader()}
           </header>
           <div class="page-body">
             <article class="article">
@@ -170,7 +162,7 @@ module.exports = {
                 Songs By Name  <hr>
               </div>
               <div class="artists">
-                ${artistBuilder.getArtists()}
+                ${songBuilder.getSongs()}
               </div>
               <div class="article-title">
                 Genres  <hr>
@@ -199,13 +191,7 @@ module.exports = {
           <div class="background-splash"></div>
           <div class="page-container">
             <header class="page-header">
-              <div class="kanikapilas-title">
-              ${titleBuilder.getSiteTitle(sizes.large)}
-              </div>
-              <div>
-                <img src="/assets/icons/flower-icon.png" alt="flower">
-              </div>
-            </header>
+              ${headerBuilder.getHeader()}
             <div class="page-body">
               <aside>
                 ${adBuilder.buildAsideAds()}
@@ -248,6 +234,41 @@ module.exports = {
               <article class="article">
                 <div class="article-title">
                   '${artist}' 
+                </div>
+                <div class="artist-container">
+                  ${songs}
+                </div>
+                </div>
+              </article>
+              <footer class="footer">Footer</footer>
+            </div>
+          </div>
+        </body>
+      `;
+    });
+  },
+
+  buildSongsBody(letter) {
+    return songBuilder.getSongsByLetter(letter).then(function(songs) {
+      return `
+        <body>
+          <div class="background-splash"></div>
+          <div class="page-container">
+            <header class="page-header">
+              <div class="kanikapilas-title">
+              ${titleBuilder.getSiteTitle(sizes.large)}
+              </div>
+              <div>
+                <img src="/assets/icons/flower-icon.png" alt="flower">
+              </div>
+            </header>
+            <div class="page-body">
+              <aside>
+                ${adBuilder.buildAsideAds()}
+              </aside>
+              <article class="article">
+                <div class="article-title">
+                  Songs starting with '${letter.toUpperCase()}' 
                 </div>
                 <div class="artist-container">
                   ${songs}

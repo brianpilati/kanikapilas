@@ -62,5 +62,13 @@ module.exports = {
 
   async getSongsByArtist(artist) {
     return await pool.query(`SELECT * FROM songs WHERE artist = '${artist}'`);
+  },
+
+  async getSongsFirstLetter() {
+    return await pool.query('SELECT SUBSTRING(title, 1, 1) AS songFirstLetter FROM songs GROUP BY songFirstLetter');
+  },
+
+  async getSongsByLetter(letter) {
+    return await pool.query(`SELECT * FROM songs where title like "${letter}%"`);
   }
 };
