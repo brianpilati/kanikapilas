@@ -22,16 +22,16 @@ function buildFileName(name) {
   return name.replace(/\s+/g, '-').toLowerCase();
 }
 
-function buildLetterPath(song) {
-  return encodePath(getArtistFirstLetter(song.artist));
+function buildLetterPath(artist) {
+  return encodePath(getArtistFirstLetter(artist));
 }
 
-function buildArtistPath(song) {
-  return encodePath(`${buildLetterPath(song)}/${buildFileName(song.artist)}`);
+function buildArtistPath(artist) {
+  return encodePath(`${buildLetterPath(artist)}/${buildFileName(artist)}`);
 }
 
 function buildDirectoryPath(song) {
-  return encodePath(`${buildArtistPath(song)}/${buildFileName(song.title)}`);
+  return encodePath(`${buildArtistPath(song.artist)}/${buildFileName(song.title)}`);
 }
 
 function buildFilePath(song) {
@@ -81,11 +81,11 @@ module.exports = {
   ensureDirectoryExistence(filePath) {
     ensureDirectoryExistence(filePath);
   },
-  getArtistUrl(song) {
-    return buildArtistPath(song);
+  getArtistUrl(artist) {
+    return buildArtistPath(artist);
   },
-  getLetterUrl(song) {
-    return buildLetterPath(song);
+  getLetterUrl(artist) {
+    return buildLetterPath(artist);
   },
   encodePath(path) {
     return encodePath(path);

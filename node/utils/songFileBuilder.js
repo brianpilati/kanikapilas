@@ -1,5 +1,5 @@
 var fs = require('fs');
-// var waterMark = require('./libs/images/waterMark');
+var waterMark = require('./libs/images/waterMark');
 var htmlBuilder = require('./libs/htmlBuilder');
 const FilePath = require('./libs/filePath');
 const fileResize = require('./libs/images/fileResize');
@@ -18,7 +18,7 @@ songDomain.getSongs().then(result => {
     });
 
     fileResize.resizeImage(song).then(function() {
-      //waterMark.addWaterMark(song);
+      waterMark.addWaterMark(song);
     });
   });
 });

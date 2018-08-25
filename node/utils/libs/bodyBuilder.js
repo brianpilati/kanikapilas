@@ -7,6 +7,7 @@ const titleBuilder = require('./titleBuilder');
 const sizes = require('./enums/font-sizes');
 const recommendedSongsBuilder = require('./recommendedSongsBuilder');
 const artistBuilder = require('./artistBuilder');
+const breadCrumbBuilder = require('./breadCrumbBuilder');
 const songBuilder = require('./songBuilder');
 
 function buildStars(starCount) {
@@ -58,9 +59,7 @@ module.exports = {
               Printing this song is a copyright violation
             </div>
             <article class="article">
-              <div class="article-bread-crumb">
-                <a href="/${filePath.getArtistUrl(song)}"> << &nbsp; ${titleBuilder.title(song.artist, sizes.small)}</a>
-              </div>
+              ${breadCrumbBuilder.buildSongBreadCrumb(song.artist)}
               <div class="article-title">
                 ${titleBuilder.title(song.title, sizes.medium)}
               </div>
@@ -200,9 +199,7 @@ module.exports = {
                 ${adBuilder.buildAsideAds()}
               </aside>
               <article class="article">
-                <div class="article-bread-crumb">
-                  <a href="/"><< &nbsp; ${titleBuilder.title('Home', sizes.small)}</a>
-                </div>
+                ${breadCrumbBuilder.buildBreadCrumb()}
                 <div class="article-title">
                   Artists starting with '${letter.toUpperCase()}' 
                 </div>
@@ -238,11 +235,7 @@ module.exports = {
                 ${adBuilder.buildAsideAds()}
               </aside>
               <article class="article">
-                <div class="article-bread-crumb">
-                  <a href="/${filePath.getLetterUrl(
-                    song
-                  )}"><< &nbsp; ${titleBuilder.title(artist.charAt(0), sizes.small)}</a>
-                </div>
+                ${breadCrumbBuilder.buildArtistBreadCrumb(artist)}
                 <div class="article-title">
                   ${artist}
                 </div>
