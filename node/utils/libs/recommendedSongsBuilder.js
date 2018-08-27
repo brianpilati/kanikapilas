@@ -1,40 +1,31 @@
+const songBuilder = require('./songBuilder');
+const FilePath = require('../libs/filePath');
+
 module.exports = {
   getRecommendedSongs: function() {
-    const recommendedSongList = [
-      'Country',
-      'Classics',
-      '80s and 90s',
-      'Pop',
-      'Oldies',
-      'Spiritual',
-      'Disney',
-      'Fun',
-      'Show Tunes',
-      'Campfire',
-      'Children',
-      'Patriotic'
-    ].sort();
-
     let recommendedSongs = '';
-    recommendedSongList.forEach(function(song) {
-      recommendedSongs += `<div class="track">
-        <div class="track-title-container">
-          <div class="track-title">
-            Africa 
+    return songBuilder.getSongsByRecommendation().then(function(songs) {
+      songs.forEach(function(song) {
+        recommendedSongs += `<a href="${FilePath.getRelativeFileUrl(song)}">
+          <div class="track">
+            <div class="track-title-container">
+              <div class="track-title">
+                ${song.title}
+              </div>
+              <div class="track-sub-title">
+                ${song.artist}
+              </div>
+            </div>
+            <div class="track-image-container">
+              <img
+                class="track-image"
+                src="${song.coverArtUrl}">
+            </div>
           </div>
-          <div class="track-sub-title">
-            Toto
-          </div>
-        </div>
-        <div class="track-image-container">
-          <img
-            class="track-image"
-            src="https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png">
-        </div>
-      </div>
-      `;
+        </a>
+        `;
+      });
+      return recommendedSongs;
     });
-
-    return recommendedSongs;
   }
 };

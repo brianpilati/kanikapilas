@@ -25,13 +25,15 @@ module.exports = {
   },
 
   buildIndexHtml(index) {
-    return `
-      <!DOCTYPE html>
-      <html lang="en">
-        ${headBuilder.buildIndexHead(index)}
-        ${bodyBuilder.buildIndexBody()}
-      </html>
-    `;
+    return bodyBuilder.buildIndexBody().then(function(indexPage) {
+      return `
+        <!DOCTYPE html>
+        <html lang="en">
+          ${headBuilder.buildIndexHead(index)}
+          ${indexPage}
+        </html>
+      `;
+    });
   },
 
   buildArtistHtml(letter) {

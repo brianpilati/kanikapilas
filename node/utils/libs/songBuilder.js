@@ -30,6 +30,10 @@ module.exports = {
     });
   },
 
+  async getSongsByRecommendation() {
+    return await songDomain.getSongs();
+  },
+
   getSongs() {
     const songList = [
       'A',

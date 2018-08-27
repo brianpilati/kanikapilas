@@ -144,45 +144,47 @@ module.exports = {
   },
 
   buildIndexBody() {
-    return `
-      <body>
-        <div class="background-splash"></div>
-        <div class="page-container">
-          <header class="page-header">
-            ${headerBuilder.getHeader()}
-          </header>
-          <div class="page-body">
-            <article class="article">
-              <div class="article-title">
-                Artists By Name  <hr>
-              </div>
-              <div class="artists">
-                ${artistBuilder.getArtists()}
-              </div>
-              <div class="article-title">
-                Songs By Name  <hr>
-              </div>
-              <div class="artists">
-                ${songBuilder.getSongs()}
-              </div>
-              <div class="article-title">
-                Genres  <hr>
-              </div>
-              <div class="genres">
-                ${getGenres()}
-              </div>
-              <div class="article-title">
-                Recommended Songs <hr>
-              </div>
-              <div class="recommended">
-                ${recommendedSongsBuilder.getRecommendedSongs()}
-              </div>
-            </article>
+    return recommendedSongsBuilder.getRecommendedSongs().then(function(recommendedSongs) {
+      return `
+        <body>
+          <div class="background-splash"></div>
+          <div class="page-container">
+            <header class="page-header">
+              ${headerBuilder.getHeader()}
+            </header>
+            <div class="page-body">
+              <article class="article">
+                <div class="article-title">
+                  Artists By Name  <hr>
+                </div>
+                <div class="artists">
+                  ${artistBuilder.getArtists()}
+                </div>
+                <div class="article-title">
+                  Songs By Name  <hr>
+                </div>
+                <div class="artists">
+                  ${songBuilder.getSongs()}
+                </div>
+                <div class="article-title">
+                  Genres  <hr>
+                </div>
+                <div class="genres">
+                  ${getGenres()}
+                </div>
+                <div class="article-title">
+                  Recommended Songs <hr>
+                </div>
+                <div class="recommended">
+                  ${recommendedSongs}
+                </div>
+              </article>
+            </div>
+            <footer class="footer">Footer</footer>
           </div>
-          <footer class="footer">Footer</footer>
-        </div>
-      </body>
-    `;
+        </body>
+      `;
+    });
   },
 
   buildArtistBody(letter) {

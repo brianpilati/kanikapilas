@@ -16,10 +16,12 @@ function getFilePath(index) {
 
 for (var index = 1; index < 51; index++) {
   const indexFilePath = getFilePath(index);
-  fs.writeFile(indexFilePath, htmlBuilder.buildIndexHtml(index), err => {
-    if (err) {
-      return console.log(err);
-    }
-    console.log(`The ${indexFilePath} file was saved!`);
+  htmlBuilder.buildIndexHtml(index).then(function(page) {
+    fs.writeFile(indexFilePath, page, err => {
+      if (err) {
+        return console.log(err);
+      }
+      console.log(`The ${indexFilePath} file was saved!`);
+    });
   });
 }
