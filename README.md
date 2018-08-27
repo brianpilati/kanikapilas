@@ -2,6 +2,8 @@
 
 https://www.last.fm/api/intro
 
+https://github.com/justadudewhohacks/opencv4nodejs
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0.
 
 ## Development server
