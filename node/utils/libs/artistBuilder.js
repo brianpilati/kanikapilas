@@ -5,9 +5,9 @@ const FilePath = require('../libs/filePath');
 
 module.exports = {
   async getArtistsByLetter(letter) {
-    return await artistDomain.getArtistsByLetter(letter).then(function(results) {
+    return await artistDomain.getArtistsByLetter(letter).then(function(songs) {
       let artists = '';
-      results.forEach(function(song) {
+      songs.forEach(function(song) {
         const link = FilePath.encodePath(`/${letter}/${song.artist}/index.html`);
 
         artists += `<div class="artist"><a href="${link}">${titleBuilder.title(song.artist, sizes.small)}</a></div>`;

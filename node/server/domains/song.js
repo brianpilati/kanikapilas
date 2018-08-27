@@ -70,5 +70,9 @@ module.exports = {
 
   async getSongsByLetter(letter) {
     return await pool.query(`SELECT * FROM songs where title like "${letter}%"`);
+  },
+
+  async getSongsByGenre(genre) {
+    return await pool.query(`SELECT * FROM songs where genre like "%${genre}%"`);
   }
 };

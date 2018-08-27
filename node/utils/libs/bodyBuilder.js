@@ -9,6 +9,7 @@ const recommendedSongsBuilder = require('./recommendedSongsBuilder');
 const artistBuilder = require('./artistBuilder');
 const breadCrumbBuilder = require('./breadCrumbBuilder');
 const songBuilder = require('./songBuilder');
+const genreBuilder = require('./genreBuilder');
 
 function buildStars(starCount) {
   let stars = '';
@@ -16,30 +17,6 @@ function buildStars(starCount) {
     stars += '<img src="/assets/icons/flower-icon.png" alt="difficulty">';
   }
   return stars;
-}
-
-function getGenres() {
-  const genreList = [
-    'Country',
-    'Classics',
-    '80s and 90s',
-    'Pop',
-    'Oldies',
-    'Spiritual',
-    'Disney',
-    'Fun',
-    'Show Tunes',
-    'Campfire',
-    'Children',
-    'Patriotic'
-  ].sort();
-
-  let genres = '';
-  genreList.forEach(function(genre) {
-    genres += `<div class="genre">${genre}</div>`;
-  });
-
-  return genres;
 }
 
 module.exports = {
@@ -170,7 +147,7 @@ module.exports = {
                   Genres  <hr>
                 </div>
                 <div class="genres">
-                  ${getGenres()}
+                  ${genreBuilder.getGenres()}
                 </div>
                 <div class="article-title">
                   Recommended Songs <hr>
@@ -278,6 +255,37 @@ module.exports = {
                 </div>
                 <div class="artist-container">
                   ${songs}
+                </div>
+                </div>
+              </article>
+              <footer class="footer">Footer</footer>
+            </div>
+          </div>
+        </body>
+      `;
+    });
+  },
+
+  buildGenreBody(genre) {
+    return genreBuilder.getSongsByGenre(genre).then(function(genres) {
+      return `
+        <body>
+          <div class="background-splash"></div>
+          <div class="page-container">
+            <header class="page-header">
+              ${headerBuilder.getHeader()}
+            </header>
+            <div class="page-body">
+              <aside>
+                ${adBuilder.buildAsideAds()}
+              </aside>
+              <article class="article">
+                ${breadCrumbBuilder.buildBreadCrumb()}
+                <div class="article-title">
+                  ${genre}
+                </div>
+                <div class="artist-container">
+                  ${genres}
                 </div>
                 </div>
               </article>

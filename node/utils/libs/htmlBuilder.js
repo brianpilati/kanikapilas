@@ -36,6 +36,18 @@ module.exports = {
     });
   },
 
+  buildGenreHtml(genre) {
+    return bodyBuilder.buildGenreBody(genre).then(function(genrePage) {
+      return `
+        <!DOCTYPE html>
+        <html lang="en">
+          ${headBuilder.buildArtistHead()}
+          ${genrePage}
+        </html>
+      `;
+    });
+  },
+
   buildArtistHtml(letter) {
     return bodyBuilder.buildArtistBody(letter).then(function(artistPage) {
       return `
