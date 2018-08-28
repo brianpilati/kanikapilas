@@ -42,3 +42,7 @@ db_configuration.js
 *.swp
 deployment
 src/environments/keys.ts
+
+
+# exclude everything
+/node/pdf/pdf-files/*

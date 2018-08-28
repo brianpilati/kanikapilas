@@ -44,6 +44,7 @@
     "image-watermark": "0.0.7",
     "mysql": "^2.16.0",
     "opencv4nodejs": "^4.7.2",
+    "pdf-image": "^2.0.0",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },
