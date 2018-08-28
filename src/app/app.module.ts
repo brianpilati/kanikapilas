@@ -32,6 +32,8 @@ import { AngularDraggableModule } from 'angular2-draggable';
 import { LastFmComponent } from './last-fm/last-fm.component';
 import { LastFmService } from './last-fm-service/last-fm.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { ImageProcessingComponent } from './image-processing/image-processing.component';
+import { ImageProgressingService } from './image-processing/services/image-progressing.service';
 
 @NgModule({
   imports: [
@@ -57,9 +59,10 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     ReactiveFormsModule,
     UkuleleRoutingModule
   ],
-  providers: [LastFmService, SongsService],
+  providers: [LastFmService, ImageProgressingService, SongsService],
   declarations: [
     AppComponent,
+    ImageProcessingComponent,
     ImageResizeComponent,
     LastFmComponent,
     SongDetailComponent,
