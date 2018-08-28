@@ -1,7 +1,7 @@
 const fs = require('fs');
 const htmlBuilder = require('./libs/htmlBuilder');
 const FilePath = require('./libs/filePath');
-const artistBuilder = require('./libs/artistBuilder');
+const alphabet = require('./libs/enums/alphabet-enums');
 
 var artistDomain = require('../server/domains/artist');
 
@@ -18,9 +18,8 @@ function getFilePath(letter, artist) {
 }
 
 //artistDomain.getArtistFirstLetter().then(result => {
-const artistLetters = artistBuilder.getArtistLetters();
 //for (artistLetter of result) {
-for (artistLetter of artistLetters) {
+for (artistLetter of alphabet) {
   //const letter = artistLetter.artistFirstLetter;
   const letter = artistLetter;
   const artistFilePath = getFilePath(letter);

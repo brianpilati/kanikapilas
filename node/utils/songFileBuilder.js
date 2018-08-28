@@ -1,8 +1,9 @@
-var fs = require('fs');
-var waterMark = require('./libs/images/waterMark');
-var htmlBuilder = require('./libs/htmlBuilder');
+const fs = require('fs');
+const waterMark = require('./libs/images/waterMark');
+const htmlBuilder = require('./libs/htmlBuilder');
 const FilePath = require('./libs/filePath');
 const fileResize = require('./libs/images/fileResize');
+const alphabet = require('./libs/enums/alphabet-enums');
 
 var songDomain = require('../server/domains/song');
 
@@ -31,19 +32,21 @@ function getFilePath(letter) {
   return FilePath.encodePath(filePath);
 }
 
-songDomain.getSongsFirstLetter().then(result => {
-  for (songLetter of result) {
-    const letter = songLetter.songFirstLetter;
-    const songFilePath = getFilePath(letter);
+//songDomain.getSongsFirstLetter().then(result => {
+//  for (songLetter of result) {
+for (songLetter of alphabet) {
+  //const letter = songLetter.songFirstLetter;
+  const letter = songLetter;
+  const songFilePath = getFilePath(letter);
 
-    htmlBuilder.buildSongsHtml(letter).then(function(songHtml) {
-      fs.writeFile(songFilePath, songHtml, err => {
-        if (err) {
-          return console.log(err);
-        }
+  htmlBuilder.buildSongsHtml(letter).then(function(songHtml) {
+    fs.writeFile(songFilePath, songHtml, err => {
+      if (err) {
+        return console.log(err);
+      }
 
-        console.log(`The ${songFilePath} file was saved!`);
-      });
+      console.log(`The ${songFilePath} file was saved!`);
     });
-  }
-});
+  });
+}
+//});

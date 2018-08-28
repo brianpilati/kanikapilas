@@ -72,6 +72,12 @@ module.exports = {
     return await pool.query(`SELECT * FROM songs where title like "${letter}%"`);
   },
 
+  async getSongsCountByLetter(letter) {
+    return await pool.query(
+      `SELECT COUNT(title) as song_total FROM songs where title like "${letter}%" GROUP BY title`
+    );
+  },
+
   async getSongsByGenre(genre) {
     return await pool.query(`SELECT * FROM songs where genre like "%${genre}%"`);
   }

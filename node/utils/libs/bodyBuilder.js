@@ -120,7 +120,7 @@ module.exports = {
     `;
   },
 
-  buildIndexBody(artists) {
+  buildIndexBody(artists, songs) {
     return recommendedSongsBuilder.getRecommendedSongs().then(function(recommendedSongs) {
       return `
         <body>
@@ -141,7 +141,7 @@ module.exports = {
                   Songs By Name  <hr>
                 </div>
                 <div class="artists">
-                  ${songBuilder.getSongs()}
+                  ${songs}
                 </div>
                 <div class="article-title">
                   Genres  <hr>
@@ -164,7 +164,7 @@ module.exports = {
     });
   },
 
-  buildArtistBody(letter, count) {
+  buildArtistBody(letter) {
     return artistBuilder.getArtistsByLetter(letter).then(function(artistObject) {
       return `
         <body>
@@ -196,18 +196,13 @@ module.exports = {
   },
 
   buildArtistSongBody(artist) {
-    return songBuilder.getSongsByArtist(artist).then(function(songs) {
+    return songBuilder.getSongsByArtist(artist).then(function(songObject) {
       return `
         <body>
           <div class="background-splash"></div>
           <div class="page-container">
             <header class="page-header">
-              <div class="kanikapilas-title">
-              ${titleBuilder.getSiteTitle(sizes.large)}
-              </div>
-              <div>
-                <img src="/assets/icons/flower-icon.png" alt="flower">
-              </div>
+              ${headerBuilder.getHeader()}
             </header>
             <div class="page-body">
               <aside>
@@ -216,10 +211,10 @@ module.exports = {
               <article class="article">
                 ${breadCrumbBuilder.buildArtistBreadCrumb(artist)}
                 <div class="article-title">
-                  ${artist}
+                  ${artist} (${songObject.count})
                 </div>
                 <div class="artist-container">
-                  ${songs}
+                  ${songObject.songs}
                 </div>
                 </div>
               </article>
@@ -232,29 +227,25 @@ module.exports = {
   },
 
   buildSongsBody(letter) {
-    return songBuilder.getSongsByLetter(letter).then(function(songs) {
+    return songBuilder.getSongsByLetter(letter).then(function(songsObject) {
       return `
         <body>
           <div class="background-splash"></div>
           <div class="page-container">
             <header class="page-header">
-              <div class="kanikapilas-title">
-              ${titleBuilder.getSiteTitle(sizes.large)}
-              </div>
-              <div>
-                <img src="/assets/icons/flower-icon.png" alt="flower">
-              </div>
+              ${headerBuilder.getHeader()}
             </header>
             <div class="page-body">
               <aside>
                 ${adBuilder.buildAsideAds()}
               </aside>
               <article class="article">
+                ${breadCrumbBuilder.buildBreadCrumb()}
                 <div class="article-title">
-                  Songs starting with '${letter.toUpperCase()}' 
+                  (${songsObject.count}) Songs starting with '${letter.toUpperCase()}' 
                 </div>
                 <div class="artist-container">
-                  ${songs}
+                  ${songsObject.songs}
                 </div>
                 </div>
               </article>

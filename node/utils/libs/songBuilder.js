@@ -2,31 +2,46 @@ const songDomain = require('../../server/domains/song');
 const titleBuilder = require('./titleBuilder');
 const sizes = require('./enums/font-sizes');
 const FilePath = require('./filePath');
+const alphabet = require('../libs/enums/alphabet-enums');
 
 module.exports = {
   async getSongsByArtist(artist) {
-    return await songDomain.getSongsByArtist(artist).then(function(results) {
-      let songs = '';
-      results.forEach(function(song) {
+    const songObject = Object({
+      songs: '',
+      count: 0
+    });
+    return await songDomain.getSongsByArtist(artist).then(function(songs) {
+      songs.forEach(function(song) {
         const link = FilePath.getRelativeFileUrl(song);
 
-        songs += `<div class="artist"><a href="/${link}">${titleBuilder.title(song.title, sizes.small)}</a></div>`;
+        songObject.songs += `<div class="artist"><a href="/${link}">${titleBuilder.title(
+          song.title,
+          sizes.small
+        )}</a></div>`;
       });
 
-      return songs;
+      songObject.count = songs.length;
+      return songObject;
     });
   },
 
   async getSongsByLetter(letter) {
-    return await songDomain.getSongsByLetter(letter).then(function(results) {
-      let songs = '';
-      results.forEach(function(song) {
+    const songObject = Object({
+      songs: '',
+      count: 0
+    });
+    return await songDomain.getSongsByLetter(letter).then(function(songs) {
+      songs.forEach(function(song) {
         const link = FilePath.getRelativeFileUrl(song);
 
-        songs += `<div class="artist"><a href="/${link}">${titleBuilder.title(song.title, sizes.small)}</a></div>`;
+        songObject.songs += `<div class="artist"><a href="/${link}">${titleBuilder.title(
+          song.title,
+          sizes.small
+        )}</a></div>`;
       });
 
-      return songs;
+      songObject.count = songs.length;
+      return songObject;
     });
   },
 
@@ -35,41 +50,26 @@ module.exports = {
   },
 
   getSongs() {
-    const songList = [
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F',
-      'G',
-      'H',
-      'I',
-      'J',
-      'K',
-      'L',
-      'M',
-      'N',
-      'O',
-      'P',
-      'Q',
-      'R',
-      'S',
-      'T',
-      'U',
-      'V',
-      'W',
-      'X',
-      'Y',
-      'Z'
-    ].sort();
+    let requests = alphabet.map(letter => {
+      return new Promise(resolve => {
+        songDomain.getSongsCountByLetter(letter).then(function(result) {
+          const songTotal = result.length ? result[0].song_total : letter === 'W' ? 50 : 999;
 
-    let songs = '';
-    songList.forEach(function(song) {
-      const link = FilePath.encodePath(`/songs/${song}/index.html`);
-      songs += `<div class="artist"><a href="${link}">${song}</a></div>`;
+          let countFontClass = 'count-large';
+
+          if (songTotal > 99) {
+            countFontClass = 'count-small';
+          } else if (songTotal > 10) {
+            countFontClass = 'count-medium';
+          }
+
+          const link = FilePath.encodePath(`/songs/${letter}/index.html`);
+          const _songs_ = `<div class="artist"><a class="artist-container" href="${link}"><div class="letter">${letter}</div><div class="count ${countFontClass}">${songTotal}</div></a></div>`;
+          resolve(_songs_);
+        });
+      });
     });
 
-    return songs;
+    return Promise.all(requests).then(_results_ => _results_.join(''));
   }
 };

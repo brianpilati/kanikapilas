@@ -2,6 +2,7 @@ const artistDomain = require('../../server/domains/artist');
 const titleBuilder = require('./titleBuilder');
 const sizes = require('./enums/font-sizes');
 const FilePath = require('../libs/filePath');
+const alphabet = require('../libs/enums/alphabet-enums');
 
 module.exports = {
   async getArtistsByLetter(letter) {
@@ -25,39 +26,8 @@ module.exports = {
     });
   },
 
-  getArtistLetters() {
-    return [
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F',
-      'G',
-      'H',
-      'I',
-      'J',
-      'K',
-      'L',
-      'M',
-      'N',
-      'O',
-      'P',
-      'Q',
-      'R',
-      'S',
-      'T',
-      'U',
-      'V',
-      'W',
-      'X',
-      'Y',
-      'Z'
-    ].sort();
-  },
-
   getArtists() {
-    let requests = this.getArtistLetters().map(letter => {
+    let requests = alphabet.map(letter => {
       return new Promise(resolve => {
         artistDomain.getArtistsCountByLetter(letter).then(function(result) {
           const artistTotal = result.length ? result[0].artist_total : letter === 'W' ? 50 : 999;
