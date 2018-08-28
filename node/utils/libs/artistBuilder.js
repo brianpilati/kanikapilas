@@ -5,20 +5,28 @@ const FilePath = require('../libs/filePath');
 
 module.exports = {
   async getArtistsByLetter(letter) {
-    return await artistDomain.getArtistsByLetter(letter).then(function(songs) {
-      let artists = '';
-      songs.forEach(function(song) {
+    const artistObject = Object({
+      artists: '',
+      count: 0
+    });
+
+    return await artistDomain.getArtistsByLetter(letter).then(function(artists) {
+      artists.forEach(function(song) {
         const link = FilePath.encodePath(`/${letter}/${song.artist}/index.html`);
 
-        artists += `<div class="artist"><a href="${link}">${titleBuilder.title(song.artist, sizes.small)}</a></div>`;
+        artistObject.artists += `<div class="artist"><a href="${link}">${titleBuilder.title(
+          song.artist,
+          sizes.small
+        )}</a></div>`;
       });
 
-      return artists;
+      artistObject.count = artists.length;
+      return artistObject;
     });
   },
 
-  getArtists() {
-    const artistList = [
+  getArtistLetters() {
+    return [
       'A',
       'B',
       'C',
@@ -46,13 +54,29 @@ module.exports = {
       'Y',
       'Z'
     ].sort();
+  },
 
-    let artists = '';
-    artistList.forEach(function(artist) {
-      const link = FilePath.encodePath(`/${artist}/index.html`);
-      artists += `<div class="artist"><a href="${link}">${artist}</a></div>`;
+  getArtists() {
+    let requests = this.getArtistLetters().map(letter => {
+      return new Promise(resolve => {
+        artistDomain.getArtistsCountByLetter(letter).then(function(result) {
+          const artistTotal = result.length ? result[0].artist_total : letter === 'W' ? 50 : 999;
+
+          let countFontClass = 'count-large';
+
+          if (artistTotal > 99) {
+            countFontClass = 'count-small';
+          } else if (artistTotal > 10) {
+            countFontClass = 'count-medium';
+          }
+
+          const link = FilePath.encodePath(`/${letter}/index.html`);
+          const _artists_ = `<div class="artist"><a class="artist-container" href="${link}"><div class="letter">${letter}</div><div class="count ${countFontClass}">${artistTotal}</div></a></div>`;
+          resolve(_artists_);
+        });
+      });
     });
 
-    return artists;
+    return Promise.all(requests).then(_results_ => _results_.join(''));
   }
 };

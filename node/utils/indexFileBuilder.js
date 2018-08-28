@@ -1,6 +1,7 @@
-var fs = require('fs');
+const fs = require('fs');
 const htmlBuilder = require('./libs/htmlBuilder');
 const FilePath = require('./libs/filePath');
+const artistBuilder = require('./libs/artistBuilder');
 
 function getFilePath(index) {
   let filePath;
@@ -14,14 +15,16 @@ function getFilePath(index) {
   return FilePath.encodePath(filePath);
 }
 
-for (var index = 1; index < 51; index++) {
-  const indexFilePath = getFilePath(index);
-  htmlBuilder.buildIndexHtml(index).then(function(page) {
-    fs.writeFile(indexFilePath, page, err => {
-      if (err) {
-        return console.log(err);
-      }
-      console.log(`The ${indexFilePath} file was saved!`);
+artistBuilder.getArtists().then(function(artists) {
+  for (var index = 1; index < 51; index++) {
+    const indexFilePath = getFilePath(index);
+    htmlBuilder.buildIndexHtml(index, artists).then(function(page) {
+      fs.writeFile(indexFilePath, page, err => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log(`The ${indexFilePath} file was saved!`);
+      });
     });
-  });
-}
+  }
+});

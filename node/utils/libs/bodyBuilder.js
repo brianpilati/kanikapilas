@@ -120,7 +120,7 @@ module.exports = {
     `;
   },
 
-  buildIndexBody() {
+  buildIndexBody(artists) {
     return recommendedSongsBuilder.getRecommendedSongs().then(function(recommendedSongs) {
       return `
         <body>
@@ -135,7 +135,7 @@ module.exports = {
                   Artists By Name  <hr>
                 </div>
                 <div class="artists">
-                  ${artistBuilder.getArtists()}
+                  ${artists}
                 </div>
                 <div class="article-title">
                   Songs By Name  <hr>
@@ -164,8 +164,8 @@ module.exports = {
     });
   },
 
-  buildArtistBody(letter) {
-    return artistBuilder.getArtistsByLetter(letter).then(function(artists) {
+  buildArtistBody(letter, count) {
+    return artistBuilder.getArtistsByLetter(letter).then(function(artistObject) {
       return `
         <body>
           <div class="background-splash"></div>
@@ -180,10 +180,10 @@ module.exports = {
               <article class="article">
                 ${breadCrumbBuilder.buildBreadCrumb()}
                 <div class="article-title">
-                  Artists starting with '${letter.toUpperCase()}' 
+                  ${artistObject.count} Artists starting with '${letter.toUpperCase()}' 
                 </div>
                 <div class="artist-container">
-                  ${artists}
+                  ${artistObject.artists}
                 </div>
                 </div>
               </article>

@@ -24,8 +24,8 @@ module.exports = {
     });
   },
 
-  buildIndexHtml(index) {
-    return bodyBuilder.buildIndexBody().then(function(indexPage) {
+  buildIndexHtml(index, artists) {
+    return bodyBuilder.buildIndexBody(artists).then(function(indexPage) {
       return `
         <!DOCTYPE html>
         <html lang="en">
