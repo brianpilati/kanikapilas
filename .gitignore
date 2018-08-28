@@ -46,3 +46,7 @@ src/environments/keys.ts
 
 # exclude everything
 /node/pdf/pdf-files/*
+
+/src/assets/unprocessed/*
+
+/node/image_recognition/data

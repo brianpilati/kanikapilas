@@ -1,0 +1,23 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span class="accent">Kanikapilas Platform</span>
+    <span class="menu-spacer"></span>
+    <span>
+      <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <a routerLink="/uploads">
+          <button mat-menu-item>
+            <span>Song Uploads</span>
+          </button>
+        </a>
+        <a routerLink="/songs">
+          <button mat-menu-item>
+            <span>Songs</span>
+          </button>
+        </a>
+      </mat-menu>
+    </span>
+  </mat-toolbar-row>
+</mat-toolbar>
