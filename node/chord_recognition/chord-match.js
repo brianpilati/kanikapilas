@@ -3,9 +3,10 @@ const cv = require('opencv4nodejs');
 const debug = false;
 
 const bestNMatches = 40;
-const tolerance = 0.003;
+//const tolerance = 0.003;
+const tolerance = 0.1;
 
-const matchFeatures = ({ chordImage, songDescriptors, detector, matchFunc }) => {
+const matchFeatures = ({ chordImage, songDescriptors, detector, matchFunc, song, songKeyPoints }) => {
   // detect keypoints
   const chordKeyPoints = detector.detect(chordImage);
 
@@ -20,37 +21,33 @@ const matchFeatures = ({ chordImage, songDescriptors, detector, matchFunc }) => 
     .sort((match1, match2) => match1.distance - match2.distance)
     .filter(match => {
       if (debug) {
-        console.log(match.distance);
+        console.log(match.distance, match.trainIdx);
       }
-      return match.distance > tolerance;
+      return match.distance < tolerance;
     })
     .slice(0, bestNMatches);
 
-  /*
   if (debug) {
-    cv.imshow('ORB matches', 
-      cv.drawMatches(
-        chordImage,
-        song,
-        chordKeyPoints,
-        songKeyPoints,
-        bestMatches
-      )
+    cv.imshow(
+      'ORB matches',
+      cv.drawMatches(chordImage, song, chordKeyPoints, songKeyPoints, bestMatches).resize(400, 500)
     );
     cv.waitKey();
   }
-  */
 
-  //console.log('bestMatches', bestMatches.length);
-  return bestMatches.length === 40;
+  if (debug) {
+    console.log(bestMatches.length);
+  }
+  //return bestMatches.length === 40;
+  return bestMatches.length >= 8;
 };
 
 //let song = cv.imread('./data/Africa.png');
-let song = cv.imread('./data/Africa_just_chords.png');
+//let song = cv.imread('./data/Africa_just_chords.png');
 //let song = cv.imread('./data/Blue_Savannah.png');
 //let song = cv.imread('../../deployment/assets/c/cindy-lauper/manic-monday_1.png').rotate(cv.ROTATE_180);
-//let song = cv.imread('../../src/assets/t/toto/africa.png');
-//let song = cv.imread('../../src/assets/c/cindy-lauper/manic-monday.png');
+let song = cv.imread('../../src/assets/t/toto/africa.png').resizeToMax(2070);
+//let song = cv.imread('../../src/assets/c/cindy-lauper/manic-monday.png').resizeToMax(2070);
 
 //song = song.rotate(cv.ROTATE_180);
 
@@ -64,18 +61,31 @@ const songDescriptors = detector.compute(song, songKeyPoints);
 
 console.log('Time: ', new Date() - start);
 
-const chords = ['a-chord', 'bm-chord', 'c-chord', 'd-chord', 'dm-chord', 'em-chord', 'e7-chord', 'g-chord', 'gm-chord'];
+const chords = [
+  'a-chord',
+  'bb-chord',
+  'bm-chord',
+  'b7-chord',
+  'c-chord',
+  'd-chord',
+  'dm-chord',
+  'em-chord',
+  'e7-chord',
+  'g-chord',
+  'gm-chord'
+];
 
 chords.forEach(function(chord) {
   const start = new Date();
 
-  let chordImage = cv.imread(`./data/chords/${chord}.png`);
+  let chordImage = cv.imread(`./data/chords/${chord}.png`).resizeToMax(92);
   let found = matchFeatures({
     chordImage,
     songDescriptors,
     detector: detector,
     matchFunc: cv.matchBruteForce,
-    chord
+    song,
+    songKeyPoints
   });
 
   if (found) {
