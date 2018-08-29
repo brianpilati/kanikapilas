@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Location } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -35,6 +34,7 @@ export class SongDetailComponent implements OnInit {
   public genres: string[];
   public songForm: FormGroup;
   private genreOptions: string[] = GenreConstants;
+  private isNewSong = true;
 
   firstNoteOptions: FirstNotes[] = FirstNotesConstants;
 
@@ -44,7 +44,7 @@ export class SongDetailComponent implements OnInit {
   constructor(
     private formatBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private location: Location,
+    private router: Router,
     private songsService: SongsService,
     private sanitizer: DomSanitizer
   ) {
@@ -60,7 +60,7 @@ export class SongDetailComponent implements OnInit {
       title: ['', [Validators.required, Validators.maxLength(255)]],
       artist: ['', [Validators.required, Validators.maxLength(255)]],
       stars: [1, [Validators.required, Validators.min(1), Validators.max(5)]],
-      flowered: ['', Validators.required],
+      flowered: ['false', Validators.required],
       genre: ['', Validators.required],
       firstNote: ['', Validators.required],
       capo: [0, Validators.required],
@@ -112,6 +112,7 @@ export class SongDetailComponent implements OnInit {
     } else {
       this.songsService.getSong(id).subscribe(song => {
         this.song = song;
+        this.isNewSong = song.imageBottom === null;
         this.setSongValues();
         this.emitImageCoordinates();
       });
@@ -128,7 +129,7 @@ export class SongDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['songs']);
   }
 
   resetForm(): void {
@@ -182,7 +183,7 @@ export class SongDetailComponent implements OnInit {
   }
 
   getImageDeploymentSrc(location): SafeResourceUrl {
-    return this.getImageUrlPath(location);
+    return this.isNewSong ? '' : this.getImageUrlPath(location);
   }
 
   updateImageName(): void {
