@@ -57,10 +57,10 @@ module.exports = {
     return `http://kanikapilas.com/${buildFilePath(song)}`;
   },
   getSourceImagePath: function(song) {
-    return path.join('..', '..', 'src', buildImagePath(song));
+    return path.join('..', '..', 'deployment_local', buildImagePath(song));
   },
   getUnprocessedImagePath: function(fileName) {
-    return encodePath(path.join('..', '..', 'src', 'assets', 'unprocessed', fileName));
+    return encodePath(path.join('..', '..', 'deployment_local', 'unprocessed', fileName));
   },
   getDestinationImagePath: function(song, location) {
     const imageFilePath = path.join('..', '..', 'deployment', buildImagePath(song, location));

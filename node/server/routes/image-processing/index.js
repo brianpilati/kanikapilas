@@ -9,7 +9,7 @@ const songDomain = require('../../domains/song');
 router.get('', cors(corsOptions), function(req, res) {
   const images = [];
 
-  const imageFolder = '../../src/assets/unprocessed/';
+  const imageFolder = '../../deployment_local/unprocessed/';
 
   fs.readdirSync(imageFolder).forEach(file => {
     if (file.match(/^Book_\d_\d-\d+.png/)) {

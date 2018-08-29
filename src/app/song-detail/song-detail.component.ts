@@ -166,7 +166,7 @@ export class SongDetailComponent implements OnInit {
 
   private buildImagePath(location: string): string {
     const fileExtension = location !== '' ? `_${location}` : '';
-    return `assets/${this.buildDirectoryPath()}${fileExtension}.png`;
+    return `deployment_local/assets/${this.buildDirectoryPath()}${fileExtension}.png`;
   }
 
   getImageUrlPath(location: string): string {
