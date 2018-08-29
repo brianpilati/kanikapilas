@@ -3,8 +3,7 @@ const titleBuilder = require('./titleBuilder');
 const sizes = require('./enums/font-sizes');
 const FilePath = require('./filePath');
 const alphabet = require('../libs/enums/alphabet-enums');
-
-const firstNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'Bb', 'B', 'High C'];
+const firstNotes = require('./enums/first-notes-enums');
 
 module.exports = {
   async getSongsByArtist(artist) {
@@ -89,6 +88,10 @@ module.exports = {
   },
 
   buildFirstNote(firstNoteIndex) {
-    return firstNotes[firstNoteIndex];
+    firstNoteObject = firstNotes[firstNoteIndex];
+
+    return `<div class="first-note-image-container"><div class="first-note-display">${
+      firstNoteObject.display
+    }</div> <img class="first-note-image" src="/assets/first-notes/${firstNoteObject.url}"></div>`;
   }
 };

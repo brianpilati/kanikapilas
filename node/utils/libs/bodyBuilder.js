@@ -46,7 +46,7 @@ module.exports = {
                       ${song.artist}
                     </div>
                   </div>
-                  <div class="song-info">
+                  <div class="song-info first-note">
                     <div class="song-info-header">
                       First Note:
                     </div>
