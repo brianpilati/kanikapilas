@@ -134,8 +134,10 @@ module.exports = {
         <meta property="website:modified_time" content="${nowDateTime}" />
         <meta property="og:updated_time" content="${nowDateTime}" />
         <meta property="website:published_time" content="${nowDateTime}" />
-        <link rel="stylesheet" href="/css/global-styles.css">
-        <link rel="stylesheet" href="/css/home-styles.css">
+        <link rel="stylesheet" href="/css/global-styles.css" />
+        <link rel="stylesheet" href="/css/home-styles.css" />
+        <link rel="stylesheet" href="/css/slick-theme.css" />
+        <link rel="stylesheet" href="/css/slick.css" />
       </head>
     `;
   },
