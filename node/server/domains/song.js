@@ -1,4 +1,5 @@
 const pool = require('../../lib/database');
+const filePath = require('../../utils/libs/filePath');
 
 module.exports = {
   async getSongs() {
@@ -25,7 +26,7 @@ module.exports = {
         stars: song.stars,
         flowered: song.flowered,
         genre: song.genre,
-        imageName: song.imageName,
+        imageName: filePath.encodePath(song.imageName),
         imagetop: song.imageTop,
         imageBottom: song.imageBottom,
         firstNote: song.firstNote,
@@ -49,7 +50,7 @@ module.exports = {
         stars: song.stars,
         flowered: song.flowered,
         genre: song.genre,
-        imageName: song.imageName,
+        imageName: filePath.encodePath(song.imageName),
         imagetop: song.imageTop,
         imageBottom: song.imageBottom,
         createdDate: Date().now,

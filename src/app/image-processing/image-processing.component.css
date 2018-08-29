@@ -2,54 +2,19 @@
   margin: 50px;
 }
 
-.file-upload-form-container {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-}
-
-.file-upload-full-width {
-  width: 100%;
-}
-
-mat-card {
-  width: 550px;
-}
-
-.form-container {
-  width: 100%;
-}
-
 .tab-photo-content {
-  height: 60vh;
+  height: 40vh;
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: center;
 }
 
-.preview-container {
-  margin: 10px;
-}
-
-.preview-image-container {
-  text-align: center;
-  border: 1px solid black;
-  height: 302px;
-  width: 302px;
-}
-
 .image {
-  max-height: 300px;
+  max-height: 800px;
 }
 
 .file-upload-container {
   margin: 10px;
-}
-
-.loading-class {
-  margin: 100px;
-  display: flex;
-  justify-content: center;
 }
 
 .file-upload-form-container {
@@ -64,7 +29,7 @@ mat-card {
 
 mat-card {
   width: 500px;
-  padding: 0;
+  padding: 10px;
 }
 
 .file-upload-group-container {

@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { ImageProgressingService } from './image-progressing.service';
+import { ImageProgressingService } from './image-processing.service';
 
 describe('ImageProgressingService', () => {
   beforeEach(() => {

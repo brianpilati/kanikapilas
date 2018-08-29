@@ -1,106 +1,76 @@
 <div
   fxLayout="column"
   fxLayoutAlign="space-evenly center"
+  class="file-upload-group-container"
 >
-  <div class="file-upload-group-container">
-    <mat-tab-group
-      [selectedIndex]="selectedTab"
-      (selectedIndexChange)="selectedTab=$event"
-    >
-      <mat-tab [disabled]="disabled">
-        <ng-template mat-tab-label>
-          Photos
-        </ng-template>
-        <div *ngIf="isLoading" class="loading-class">
-          <mat-spinner color="warn"></mat-spinner>
-        </div>
-        <div *ngIf="!isLoading">
-          <mat-card>
-            <mat-card-content>
-              <mat-tab-group headerPosition="below" class="carousel">
-                <mat-tab *ngFor="let carouselPhoto of carouselPhotos">
-                  <ng-template mat-tab-label>
-                    {{carouselPhoto.description}}
-                  </ng-template>
-                  <div class="tab-photo-content">
-                    <img [src]="carouselPhoto.uri" [alt] ="carouselPhoto.description"
-                    class="image">
-                  </div>
-                </mat-tab>
-              </mat-tab-group>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          Upload
-        </ng-template>
-        <div>
-          <mat-card>
-            <mat-card-content>
-              <div
-                fxLayout="column"
-                fxLayoutAlign="space-evenly center"
+  <mat-card>
+    <mat-card-content>
+      <mat-tab-group class="carousel"
+        (selectedIndexChange)="selectedTab($event)"
+      >
+        <mat-tab *ngFor="let carouselPhoto of carouselPhotos">
+          <ng-template mat-tab-label>
+            {{carouselPhoto.description}}
+          </ng-template>
+          <div class="tab-photo-content">
+            <img [src]="carouselPhoto.uri" [alt] ="carouselPhoto.description"
+            class="image">
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-content>
+      <div
+        fxLayout="column"
+        fxLayoutAlign="space-evenly center"
+      >
+        <form 
+          [formGroup]="imageProcessingForm"
+          class="file-upload-form-container"
+          (submit)="saveFile()"
+          appSubmitButton
+        >
+          <div class="file-upload-container">
+            <mat-form-field class="file-upload-full-width">
+              <input
+                matInput
+                formControlName="title"
+                placeholder="Song Title"
               >
-                <div class="preview-container">
-                  <h4>Preview</h4>
-                  <div class="preview-image-container">
-                    <img [src]="fileDataUri" class="image">
-                  </div>
-                </div>
-                <form 
-                  [formGroup]="fileUploadForm"
-                  class="file-upload-form-container"
-                  (submit)="uploadFile($event)"
-                  appSubmitButton
-                >
-                  <div class="file-upload-container">
-                    <mat-form-field class="file-upload-full-width">
-                      <input
-                        matInput
-                        formControlName="description"
-                        placeholder="Photo Description"
-                      >
-                    </mat-form-field>
-                  </div>
-                  <div
-                    fxLayout="row"
-                    fxLayoutAlign="space-evenly center"
-                  >
-                    <button
-                      type="button"
-                      (click)="openInput()"
-                      mat-raised-button
-                      color="accent"
-                    >
-                      Select File to Upload
-                    </button>
-                    <input
-                      hidden
-                      type="file"
-                      (change)="previewFile()"
-                      #fileInput
-                    >
-                    <button
-                      type="submit"
-                      #submitButton
-                      [disabled]="fileUploadForm.invalid"
-                      mat-raised-button
-                      color="accent"
-                    >
-                      Upload
-                    </button>
-                  </div>
-                </form>
-                <div *ngIf="errorMsg">
-                  <p class="warn">{{errorMsg}}</p>
-                </div>
-              </div>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+            </mat-form-field>
+            <mat-form-field class="file-upload-full-width">
+              <input
+                matInput
+                formControlName="artist"
+                placeholder="Artist"
+              >
+            </mat-form-field>
+          </div>
+          <div
+            fxLayout="row"
+            fxLayoutAlign="space-evenly center"
+          >
+            <button
+              type="button"
+              (click)="clearForm()"
+              mat-raised-button
+              color="warn"
+            >
+              Clear Form
+            </button>
+            <button
+              type="submit"
+              [disabled]="imageProcessingForm.invalid"
+              mat-raised-button
+              color="accent"
+            >
+              Upload
+            </button>
+          </div>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

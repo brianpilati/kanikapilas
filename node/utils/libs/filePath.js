@@ -40,9 +40,9 @@ function buildFilePath(song) {
 
 function buildImagePath(song, location) {
   if (location) {
-    return `assets/${buildDirectoryPath(song)}_${location}.png`;
+    return encodePath(`assets/${buildDirectoryPath(song)}_${location}.png`);
   } else {
-    return `assets/${buildDirectoryPath(song)}.png`;
+    return encodePath(`assets/${buildDirectoryPath(song)}.png`);
   }
 }
 
@@ -58,6 +58,9 @@ module.exports = {
   },
   getSourceImagePath: function(song) {
     return `../../src/${buildImagePath(song)}`;
+  },
+  getUnprocessedImagePath: function(fileName) {
+    return encodePath(`../../src/assets/unprocessed/${fileName}`);
   },
   getDestinationImagePath: function(song, location) {
     const imageFilePath = `../../deployment/${buildImagePath(song, location)}`;

@@ -3,7 +3,8 @@ function fixOddPixel(pixel) {
 }
 
 function pixelMatch(pixel) {
-  return pixel[0] < 220 || pixel[1] < 220 || pixel[2] < 220;
+  const pixelMax = 65535;
+  return pixel[0] < pixelMax || pixel[1] < pixelMax || pixel[2] < pixelMax;
 }
 
 function findAdditivePixel(image, xPoint, yPoint, isXPoint) {

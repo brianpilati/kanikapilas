@@ -1,7 +1,10 @@
 import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FileModel } from '../models/file.model';
-import { ImageProgressingService } from './services/image-progressing.service';
+import { ImageProcessingService } from './services/image-processing.service';
+import { ImageProcessingModel } from '../models/image-processing.model';
+import { Router } from '@angular/router';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-image-processing',
@@ -9,44 +12,52 @@ import { ImageProgressingService } from './services/image-progressing.service';
   styleUrls: ['./image-processing.component.css']
 })
 export class ImageProcessingComponent implements OnInit {
-  public fileUploadForm: FormGroup;
+  public imageProcessingForm: FormGroup;
 
-  @ViewChild('fileInput')
-  fileInput: ElementRef;
   public carouselPhotos: FileModel[];
-  fileDataUri = '';
-  errorMsg = '';
-  selectedTab = 0;
-  isLoading = true;
-  disabled = true;
 
-  constructor(private imageProgressingService: ImageProgressingService, private formatBuilder: FormBuilder) {
+  constructor(
+    private imageProcessingService: ImageProcessingService,
+    private formatBuilder: FormBuilder,
+    private router: Router
+  ) {
     this.createForm();
   }
 
   createForm() {
-    this.fileUploadForm = this.formatBuilder.group({
-      description: ['', [Validators.required, Validators.maxLength(255)]],
-      file: [null, [Validators.required]]
+    this.imageProcessingForm = this.formatBuilder.group({
+      title: ['', [Validators.required, Validators.maxLength(255)]],
+      imageName: ['', [Validators.required, Validators.maxLength(255)]],
+      fileName: ['', [Validators.required, Validators.maxLength(255)]],
+      artist: ['', [Validators.required, Validators.maxLength(255)]]
     });
   }
 
   ngOnInit() {
-    this.fileUploadService.getFiles().subscribe(files => {
-      this.isLoading = false;
+    this.imageProcessingService.getFiles().subscribe(files => {
       this.carouselPhotos = files;
-      if (files.length === 0) {
-        this.selectedTab = 1;
-      } else {
-        this.disabled = false;
-      }
     });
+
+    this.imageProcessingForm
+      .get('title')
+      .valueChanges.pipe(debounceTime(500))
+      .subscribe(title => this.imageProcessingForm.get('imageName').setValue(`${title}.png`));
   }
 
-  private clearForm() {
-    this.fileDataUri = '';
-    this.fileInput.nativeElement.value = '';
-    this.errorMsg = '';
-    this.fileUploadForm.reset();
+  saveFile() {
+    if (this.imageProcessingForm.valid) {
+      const imageProcessingModel = <ImageProcessingModel>this.imageProcessingForm.value;
+      this.imageProcessingService
+        .saveFile(imageProcessingModel)
+        .subscribe(song => this.router.navigate([`songs/${song.id}`]));
+    }
+  }
+
+  selectedTab(tabNumber): void {
+    this.imageProcessingForm.get('fileName').setValue(this.carouselPhotos[tabNumber].fileName);
+  }
+
+  clearForm() {
+    this.imageProcessingForm.reset();
   }
 }

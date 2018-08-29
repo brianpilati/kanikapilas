@@ -7,7 +7,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { SongsService } from '../songs-service/songs.service';
 import { Song } from '../models/song';
 import { Observable } from 'rxjs';
-import { startWith, map, debounce, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { startWith, map } from 'rxjs/operators';
 import { ImageCoordinates } from '../models/image-coordinates';
 import { FirstNotes } from '../models/first-notes';
 import { FirstNotesConstants } from '../constants/first-notes-constants';
@@ -196,7 +196,9 @@ export class SongDetailComponent implements OnInit {
 
   private parseGenre(): void {
     const dbConstants = this.songForm.get('genre').value;
-    this.genres = dbConstants.split(/,\s/g);
+    if (dbConstants !== null) {
+      this.genres = dbConstants.split(/,\s/g);
+    }
   }
 
   deleteGenre(deleteInput: string): void {
@@ -207,7 +209,7 @@ export class SongDetailComponent implements OnInit {
   }
 
   genreSearchTermSelected(): void {
-    const currentGenre = this.songForm.get('genre').value;
+    const currentGenre = this.songForm.get('genre').value || '';
     const genreSearchTerm = this.songForm.get('genreSearchTerm').value;
     if (currentGenre.match(genreSearchTerm) === null) {
       if (currentGenre.length > 0) {
