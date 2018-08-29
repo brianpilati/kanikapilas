@@ -1,8 +1,6 @@
 const fs = require('fs');
-const waterMark = require('./libs/images/waterMark');
 const htmlBuilder = require('./libs/htmlBuilder');
 const FilePath = require('./libs/filePath');
-const fileResize = require('./libs/images/fileResize');
 const alphabet = require('./libs/enums/alphabet-enums');
 const pool = require('../lib/database');
 
@@ -18,10 +16,8 @@ function buildSongPages() {
           if (err) {
             resolve(err);
           }
-          fileResize.resizeImage(song).then(function() {
-            resolve(`The ${songFileName} file was saved!`);
-            //waterMark.addWaterMark(song);
-          });
+
+          resolve(`The ${songFileName} file was saved!`);
         });
       });
     });

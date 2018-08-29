@@ -34,9 +34,14 @@ class FileResize {
 
         const newImageOne = correctedImage.crop(getNewSize(correctedImage, 1));
 
-        return newImageOne.save(filePath.getDestinationImagePath(song, 1)).then(function() {
+        const destinationImagePath1 = filePath.getDestinationImagePath(song, 1);
+        const destinationImagePath2 = filePath.getDestinationImagePath(song, 2);
+
+        return newImageOne.save(destinationImagePath1).then(function() {
           const newImageTwo = correctedImage.crop(getNewSize(correctedImage, 2));
-          return newImageTwo.save(filePath.getDestinationImagePath(song, 2));
+          return newImageTwo.save(destinationImagePath2).then(function() {
+            return `${destinationImagePath1} and ${destinationImagePath2} were saved`;
+          });
         });
       });
     }

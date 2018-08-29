@@ -5,6 +5,8 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, '../../deployment')));
 
+app.use('/local', express.static('../../deployment_local'));
+
 app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
