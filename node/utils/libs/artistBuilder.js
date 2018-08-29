@@ -30,7 +30,7 @@ module.exports = {
     let requests = alphabet.map(letter => {
       return new Promise(resolve => {
         artistDomain.getArtistsCountByLetter(letter).then(function(result) {
-          const artistTotal = result.length ? result[0].artist_total : letter === 'W' ? 50 : 999;
+          const artistTotal = result.length ? result[0].artist_total : 0;
 
           let countFontClass = 'count-large';
 

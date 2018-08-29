@@ -12,8 +12,6 @@ module.exports = {
   },
 
   async getArtistsCountByLetter(letter) {
-    return await pool.query(
-      `SELECT COUNT(artist) as artist_total FROM songs where artist like "${letter}%" GROUP BY artist`
-    );
+    return await pool.query(`SELECT COUNT(artist) as artist_total FROM songs where artist like "${letter}%"`);
   }
 };

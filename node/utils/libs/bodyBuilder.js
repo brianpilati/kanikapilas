@@ -11,14 +11,6 @@ const breadCrumbBuilder = require('./breadCrumbBuilder');
 const songBuilder = require('./songBuilder');
 const genreBuilder = require('./genreBuilder');
 
-function buildStars(starCount) {
-  let stars = '';
-  for (let count = 0; count < starCount; count++) {
-    stars += '<img src="/assets/icons/flower-icon.png" alt="difficulty">';
-  }
-  return stars;
-}
-
 module.exports = {
   buildSongBody(song) {
     return `
@@ -59,7 +51,7 @@ module.exports = {
                       First Note:
                     </div>
                     <div class="song-info-content">
-                      ${song.firstNote}
+                      ${songBuilder.buildFirstNote(song.firstNote)}
                     </div>
                   </div>
                   <div class="song-info">
@@ -67,7 +59,7 @@ module.exports = {
                       Capo
                     </div>
                     <div class="song-info-content">
-                      ${song.capo}
+                      ${songBuilder.buildCapo(song.capo)}
                     </div>
                   </div>
                   <div class="song-info">
@@ -75,7 +67,7 @@ module.exports = {
                       Stars:
                     </div>
                     <div class="song-info-content">
-                      ${buildStars(song.stars)}
+                      ${songBuilder.buildStars(song.stars)}
                     </div>
                   </div>
                   <div class="song-info">
