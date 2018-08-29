@@ -91,7 +91,7 @@ module.exports = {
     return buildLetterPath(artist);
   },
   getGenreUrl(genre) {
-    return encodePath(`${genre}/index.html`);
+    return encodePath(`/genres/${genre}/index.html`);
   },
   encodePath(path) {
     return encodePath(path);

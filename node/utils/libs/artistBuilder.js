@@ -13,7 +13,7 @@ module.exports = {
 
     return await artistDomain.getArtistsByLetter(letter).then(function(artists) {
       artists.forEach(function(song) {
-        const link = FilePath.encodePath(`/${letter}/${song.artist}/index.html`);
+        const link = FilePath.encodePath(`/artists/${letter}/${song.artist}/index.html`);
 
         artistObject.artists += `<div class="artist"><a href="${link}">${titleBuilder.title(
           song.artist,
@@ -40,7 +40,7 @@ module.exports = {
             countFontClass = 'count-medium';
           }
 
-          const link = FilePath.encodePath(`/${letter}/index.html`);
+          const link = FilePath.encodePath(`/artists/${letter}/index.html`);
           const _artists_ = `<div class="artist"><a class="artist-container" href="${link}"><div class="letter">${letter}</div><div class="count ${countFontClass}">${artistTotal}</div></a></div>`;
           resolve(_artists_);
         });

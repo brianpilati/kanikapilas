@@ -2,25 +2,36 @@ const fs = require('fs');
 const htmlBuilder = require('./libs/htmlBuilder');
 const FilePath = require('./libs/filePath');
 const genreBuilder = require('./libs/genreBuilder');
-
-var songDomain = require('../server/domains/song');
+const pool = require('../lib/database');
 
 function getFilePath(genre) {
-  let filePath = `../../deployment/${genre}/index.html`;
+  let filePath = `../../deployment/genres/${genre}/index.html`;
   FilePath.ensureDirectoryExistence(filePath);
   return FilePath.encodePath(filePath);
 }
 
-genreBuilder.getGenreList().forEach(genre => {
-  const genreFilePath = getFilePath(genre);
+function buildPages() {
+  const requests = genreBuilder.getGenreList().map(genre => {
+    return new Promise(resolve => {
+      const genreFilePath = getFilePath(genre);
 
-  htmlBuilder.buildGenreHtml(genre).then(function(genreHtml) {
-    fs.writeFile(genreFilePath, genreHtml, err => {
-      if (err) {
-        return console.log(err);
-      }
+      htmlBuilder.buildGenreHtml(genre).then(function(genreHtml) {
+        fs.writeFile(genreFilePath, genreHtml, err => {
+          if (err) {
+            return console.log(err);
+          }
 
-      console.log(`The ${genreFilePath} file was saved!`);
+          resolve(`The ${genreFilePath} file was saved!`);
+        });
+      });
     });
   });
+
+  return Promise.all(requests);
+}
+
+buildPages().then(function(results) {
+  console.log(results);
+  pool.end();
+  console.log('closing the pool');
 });

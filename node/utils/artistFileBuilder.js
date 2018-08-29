@@ -2,6 +2,7 @@ const fs = require('fs');
 const htmlBuilder = require('./libs/htmlBuilder');
 const FilePath = require('./libs/filePath');
 const alphabet = require('./libs/enums/alphabet-enums');
+const pool = require('../lib/database');
 
 var artistDomain = require('../server/domains/artist');
 
@@ -9,45 +10,68 @@ function getFilePath(letter, artist) {
   let filePath;
 
   if (artist) {
-    filePath = `../../deployment/${letter}/${artist}/index.html`;
+    filePath = `../../deployment/artists/${letter}/${artist}/index.html`;
   } else {
-    filePath = `../../deployment/${letter}/index.html`;
+    filePath = `../../deployment/artists/${letter}/index.html`;
   }
   FilePath.ensureDirectoryExistence(filePath);
   return FilePath.encodePath(filePath);
 }
 
-//artistDomain.getArtistFirstLetter().then(result => {
-//for (artistLetter of result) {
-for (artistLetter of alphabet) {
-  //const letter = artistLetter.artistFirstLetter;
-  const letter = artistLetter;
-  const artistFilePath = getFilePath(letter);
+function buildArtistPages(letter) {
+  return new Promise(resolve => {
+    const artistFilePath = getFilePath(letter);
+    htmlBuilder.buildArtistHtml(letter).then(function(artistHtml) {
+      fs.writeFile(artistFilePath, artistHtml, err => {
+        if (err) {
+          return console.log(err);
+        }
 
-  htmlBuilder.buildArtistHtml(letter).then(function(artistHtml) {
-    fs.writeFile(artistFilePath, artistHtml, err => {
-      if (err) {
-        return console.log(err);
-      }
-
-      console.log(`The ${artistFilePath} file was saved!`);
+        resolve(`The ${artistFilePath} file was saved!`);
+      });
     });
   });
+}
 
-  artistDomain.getArtistsByLetter(letter).then(result => {
-    for (song of result) {
-      const artistFileSongPath = getFilePath(letter, song.artist);
+function buildArtistByLetterPages(letter) {
+  return artistDomain.getArtistsByLetter(letter).then(songs => {
+    const requests = songs.map(song => {
+      return new Promise(resolve => {
+        const artistFileSongPath = getFilePath(letter, song.artist);
 
-      htmlBuilder.buildArtistSongHtml(song.artist).then(function(artistSongHtml) {
-        fs.writeFile(artistFileSongPath, artistSongHtml, err => {
-          if (err) {
-            return console.log(err);
-          }
+        htmlBuilder.buildArtistSongHtml(song.artist).then(function(artistSongHtml) {
+          fs.writeFile(artistFileSongPath, artistSongHtml, err => {
+            if (err) {
+              return console.log(err);
+            }
 
-          console.log(`The ${artistFileSongPath} file was saved!`);
+            resolve(`The ${artistFileSongPath} file was saved!`);
+          });
         });
       });
-    }
+    });
+    return Promise.all(requests);
   });
 }
-//});
+
+function buildAllPages() {
+  const artistRequests = alphabet.map(letter => {
+    return buildArtistPages(letter);
+  });
+
+  const artistLetterRequests = alphabet.map(letter => {
+    return buildArtistByLetterPages(letter);
+  });
+
+  return Promise.all(artistRequests).then(results => {
+    return Promise.all(artistLetterRequests).then(_results_ => {
+      return results.concat(_results_);
+    });
+  });
+}
+
+buildAllPages().then(function(results) {
+  console.log(results);
+  pool.end();
+  console.log('closing the pool');
+});
