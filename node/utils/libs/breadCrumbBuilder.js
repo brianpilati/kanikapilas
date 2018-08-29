@@ -10,13 +10,16 @@ function buildBreadCrumb() {
 
 function buildArtistBreadCrumb(artist) {
   return `
-    <a href="/${filePath.getLetterUrl(artist)}"><< &nbsp; ${titleBuilder.title(artist.charAt(0), sizes.small)}</a>
+    <a href="/artists/${filePath.getLetterUrl(artist)}"><< &nbsp; ${titleBuilder.title(
+    artist.charAt(0),
+    sizes.small
+  )}</a>
   `;
 }
 
 function buildSongBreadCrumb(artist) {
   return `
-    <a href="/${filePath.getArtistUrl(artist)}"> << &nbsp; ${titleBuilder.title(artist, sizes.small)}</a>
+    <a href="${filePath.getArtistUrl(artist)}"> << &nbsp; ${titleBuilder.title(artist, sizes.small)}</a>
   `;
 }
 

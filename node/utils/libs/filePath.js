@@ -27,22 +27,22 @@ function buildLetterPath(artist) {
 }
 
 function buildArtistPath(artist) {
-  return encodePath(`${buildLetterPath(artist)}/${buildFileName(artist)}`);
+  return encodePath(path.join(buildLetterPath(artist), buildFileName(artist)));
 }
 
 function buildDirectoryPath(song) {
-  return encodePath(`${buildArtistPath(song.artist)}/${buildFileName(song.title)}`);
+  return encodePath(path.join(buildArtistPath(song.artist), buildFileName(song.title)));
 }
 
 function buildFilePath(song) {
-  return `${buildDirectoryPath(song)}/index.html`;
+  return path.join('songs', buildDirectoryPath(song), 'index.html');
 }
 
 function buildImagePath(song, location) {
   if (location) {
-    return encodePath(`assets/${buildDirectoryPath(song)}_${location}.png`);
+    return encodePath(path.join('assets', `${buildDirectoryPath(song)}_${location}.png`));
   } else {
-    return encodePath(`assets/${buildDirectoryPath(song)}.png`);
+    return encodePath(path.join('assets', `${buildDirectoryPath(song)}.png`));
   }
 }
 
@@ -51,19 +51,19 @@ module.exports = {
     return buildFileName(name);
   },
   getFilePath: function(song) {
-    return `../../deployment/${buildFilePath(song)}`;
+    return path.join('..', '..', 'deployment', buildFilePath(song));
   },
   getUrlPath: function(song) {
     return `http://kanikapilas.com/${buildFilePath(song)}`;
   },
   getSourceImagePath: function(song) {
-    return `../../src/${buildImagePath(song)}`;
+    return path.join('..', '..', 'src', buildImagePath(song));
   },
   getUnprocessedImagePath: function(fileName) {
-    return encodePath(`../../src/assets/unprocessed/${fileName}`);
+    return encodePath(path.join('..', '..', 'src', 'assets', 'unprocessed', fileName));
   },
   getDestinationImagePath: function(song, location) {
-    const imageFilePath = `../../deployment/${buildImagePath(song, location)}`;
+    const imageFilePath = path.join('..', '..', 'deployment', buildImagePath(song, location));
     ensureDirectoryExistence(imageFilePath);
     return imageFilePath;
   },
@@ -71,7 +71,7 @@ module.exports = {
     return `http://kanikapilas.com/${buildImagePath(song)}`;
   },
   getRelativeImageUrlPath: function(song, location) {
-    return `/${buildImagePath(song, location)}`;
+    return buildImagePath(song, location);
   },
   getRelativeFileUrl: function(song) {
     return encodePath(buildFilePath(song));
@@ -85,13 +85,13 @@ module.exports = {
     ensureDirectoryExistence(filePath);
   },
   getArtistUrl(artist) {
-    return buildArtistPath(artist);
+    return path.join('/', 'artists', buildArtistPath(artist));
   },
   getLetterUrl(artist) {
     return buildLetterPath(artist);
   },
   getGenreUrl(genre) {
-    return encodePath(`/genres/${genre}/index.html`);
+    return encodePath(path.join('/', 'genres', genre, 'index.html'));
   },
   encodePath(path) {
     return encodePath(path);

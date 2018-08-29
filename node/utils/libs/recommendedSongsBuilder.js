@@ -6,7 +6,7 @@ module.exports = {
     let recommendedSongs = '';
     return songBuilder.getSongsByRecommendation().then(function(songs) {
       songs.forEach(function(song) {
-        recommendedSongs += `<a href="${FilePath.getRelativeFileUrl(song)}">
+        recommendedSongs += `<a href="/${FilePath.getRelativeFileUrl(song)}">
           <div class="track">
             <div class="track-title-container">
               <div class="track-title">

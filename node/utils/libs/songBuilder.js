@@ -32,6 +32,7 @@ module.exports = {
       songs: '',
       count: 0
     });
+
     return await songDomain.getSongsByLetter(letter).then(function(songs) {
       songs.forEach(function(song) {
         const link = FilePath.getRelativeFileUrl(song);

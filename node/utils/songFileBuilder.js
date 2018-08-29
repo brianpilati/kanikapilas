@@ -4,25 +4,31 @@ const htmlBuilder = require('./libs/htmlBuilder');
 const FilePath = require('./libs/filePath');
 const fileResize = require('./libs/images/fileResize');
 const alphabet = require('./libs/enums/alphabet-enums');
+const pool = require('../lib/database');
 
 var songDomain = require('../server/domains/song');
 
-songDomain.getSongs().then(result => {
-  result.forEach(song => {
-    const songFileName = FilePath.buildFilePath(song);
+function buildSongPages() {
+  return songDomain.getSongs().then(songs => {
+    const requests = songs.map(song => {
+      return new Promise(resolve => {
+        const songFileName = FilePath.buildFilePath(song);
 
-    fs.writeFile(songFileName, htmlBuilder.buildSongHtml(song), err => {
-      if (err) {
-        return console.log(err);
-      }
-      console.log(`The ${songFileName} file was saved!`);
+        fs.writeFile(songFileName, htmlBuilder.buildSongHtml(song), err => {
+          if (err) {
+            resolve(err);
+          }
+          fileResize.resizeImage(song).then(function() {
+            resolve(`The ${songFileName} file was saved!`);
+            //waterMark.addWaterMark(song);
+          });
+        });
+      });
     });
 
-    fileResize.resizeImage(song).then(function() {
-      waterMark.addWaterMark(song);
-    });
+    return Promise.all(requests);
   });
-});
+}
 
 function getFilePath(letter) {
   let filePath;
@@ -32,21 +38,38 @@ function getFilePath(letter) {
   return FilePath.encodePath(filePath);
 }
 
-//songDomain.getSongsFirstLetter().then(result => {
-//  for (songLetter of result) {
-for (songLetter of alphabet) {
-  //const letter = songLetter.songFirstLetter;
-  const letter = songLetter;
-  const songFilePath = getFilePath(letter);
+function buildSongByLetterPages(letter) {
+  return new Promise(resolve => {
+    const songFilePath = getFilePath(letter);
 
-  htmlBuilder.buildSongsHtml(letter).then(function(songHtml) {
-    fs.writeFile(songFilePath, songHtml, err => {
-      if (err) {
-        return console.log(err);
-      }
+    htmlBuilder.buildSongsHtml(letter).then(function(songHtml) {
+      fs.writeFile(songFilePath, songHtml, err => {
+        if (err) {
+          return console.log(err);
+        }
 
-      console.log(`The ${songFilePath} file was saved!`);
+        resolve(`The ${songFilePath} file was saved!`);
+      });
     });
   });
 }
-//});
+
+function buildAllPages() {
+  const songRequests = buildSongPages();
+
+  const songLetterRequests = alphabet.map(letter => {
+    return buildSongByLetterPages(letter);
+  });
+
+  return songRequests.then(results => {
+    return Promise.all(songLetterRequests).then(_results_ => {
+      return results.concat(_results_);
+    });
+  });
+}
+
+buildAllPages().then(function(results) {
+  console.log(results);
+  pool.end();
+  console.log('closing the pool');
+});
