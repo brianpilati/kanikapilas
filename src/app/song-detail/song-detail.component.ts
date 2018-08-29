@@ -60,7 +60,7 @@ export class SongDetailComponent implements OnInit {
       title: ['', [Validators.required, Validators.maxLength(255)]],
       artist: ['', [Validators.required, Validators.maxLength(255)]],
       stars: [1, [Validators.required, Validators.min(1), Validators.max(5)]],
-      flowered: [false, Validators.required],
+      flowered: ['', Validators.required],
       genre: ['', Validators.required],
       firstNote: ['', Validators.required],
       capo: [0, Validators.required],
@@ -166,21 +166,23 @@ export class SongDetailComponent implements OnInit {
 
   private buildImagePath(location: string): string {
     const fileExtension = location !== '' ? `_${location}` : '';
-    return `deployment_local/assets/${this.buildDirectoryPath()}${fileExtension}.png`;
+    return `assets/${this.buildDirectoryPath()}${fileExtension}.png`;
   }
 
-  getImageUrlPath(location: string): string {
-    const imagePath = `http://localhost:3000/${this.buildImagePath(location)}`;
-    return this.isImagePathValid(imagePath) ? imagePath : '';
+  getImageUrlPath(location: string, isLocal: boolean = false): any {
+    let imagePath = 'http://localhost:3000';
+    imagePath += isLocal ? '/local' : '';
+    imagePath += `/${this.buildImagePath(location)}`;
+
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.isImagePathValid(imagePath) ? imagePath : '');
   }
 
   getImageAssetSrc(): string {
-    const imagePath = this.buildImagePath('');
-    return this.isImagePathValid(imagePath) ? imagePath : '';
+    return this.getImageUrlPath('', true);
   }
 
   getImageDeploymentSrc(location): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(`${this.getImageUrlPath(location)}`);
+    return this.getImageUrlPath(location);
   }
 
   updateImageName(): void {
