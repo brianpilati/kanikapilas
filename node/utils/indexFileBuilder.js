@@ -3,6 +3,9 @@ const htmlBuilder = require('./libs/htmlBuilder');
 const FilePath = require('./libs/filePath');
 const artistBuilder = require('./libs/artistBuilder');
 const songBuilder = require('./libs/songBuilder');
+const pool = require('../lib/database');
+
+const pagesToBuild = 50;
 
 function getFilePath(index) {
   let filePath;
@@ -15,19 +18,33 @@ function getFilePath(index) {
 
   return FilePath.encodePath(filePath);
 }
+const pages = Array.apply(null, { length: pagesToBuild }).map(Number.call, Number);
 
-artistBuilder.getArtists().then(function(artists) {
-  songBuilder.getSongs().then(function(songs) {
-    for (var index = 1; index < 51; index++) {
-      const indexFilePath = getFilePath(index);
-      htmlBuilder.buildIndexHtml(index, artists, songs).then(function(page) {
-        fs.writeFile(indexFilePath, page, err => {
-          if (err) {
-            return console.log(err);
-          }
-          console.log(`The ${indexFilePath} file was saved!`);
+function buildPages() {
+  return artistBuilder.getArtists().then(function(artists) {
+    return songBuilder.getSongs().then(function(songs) {
+      const requests = pages.map(index => {
+        index++;
+        const indexFilePath = getFilePath(index);
+        return new Promise(resolve => {
+          htmlBuilder.buildIndexHtml(index, artists, songs).then(function(page) {
+            fs.writeFile(indexFilePath, page, err => {
+              if (err) {
+                return console.log(err);
+              }
+              resolve(`The ${indexFilePath} file was saved!`);
+            });
+          });
         });
       });
-    }
+
+      return Promise.all(requests);
+    });
   });
+}
+
+buildPages().then(function(results) {
+  console.log(results);
+  pool.end();
+  console.log('closing the pool');
 });
