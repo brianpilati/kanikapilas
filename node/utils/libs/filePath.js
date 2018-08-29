@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 
 function encodePath(path) {
-  return path.replace(/\s+/g, '-').toLowerCase();
+  return path.replace(/\s+|'/g, '-').toLowerCase();
 }
 
 function ensureDirectoryExistence(filePath) {
