@@ -1,16 +1,15 @@
 export const GenreConstants = [
-  '80s',
-  '90s',
-  `Children's`,
   'Country',
-  'Disney',
-  'Oldies',
-  'Picking',
-  'Pop',
-  'Show Tunes',
-  'Campfire',
   'Classics',
+  '80s and 90s',
+  'Pop',
+  'Oldies',
+  'Spiritual',
+  'Disney',
   'Fun',
-  'Patriotic',
-  'Spiritual'
+  'Show Tunes',
+  `Children's`,
+  'Campfire',
+  'Picking',
+  'Patriotic'
 ];
