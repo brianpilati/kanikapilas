@@ -45,7 +45,13 @@ const matchFeatures = ({ starImage, songDescriptors, detector, matchFunc, song, 
 
   if (bestMatches.length) {
     if (bestMatches[bestMatches.length - 1].distance - bestMatches[0].distance < minTolerance) {
-      console.log('too distance', bestMatches[bestMatches.length - 1].distance - bestMatches[0].distance, minTolerance);
+      if (debug) {
+        console.log(
+          'too distance',
+          bestMatches[bestMatches.length - 1].distance - bestMatches[0].distance,
+          minTolerance
+        );
+      }
       returnObject.distance = true;
       return returnObject;
     }
@@ -126,7 +132,7 @@ function main() {
       let filePath = path.join(imageFolder, file);
       processImage(filePath, starImage, $index).then(function(foundObject) {
         if (foundObject.found) {
-          let dstFilePath = path.join('../../src/assets/unprocessed', file);
+          let dstFilePath = path.join('../../deployment_local/unprocessed', file);
           fs.rename(filePath, dstFilePath, function() {
             console.log(file, ' moved');
           });
