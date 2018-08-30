@@ -5,7 +5,7 @@ const path = require('path');
 function pngCreator(pdfFile) {
   var pdfImage = new PDFImage(pdfFile, {
     convertOptions: {
-      '-resize': '30x44',
+      '-resize': '79x120',
       '-density': '300',
       '-quality': '75',
       '-units': 'PixelsPerInch',
