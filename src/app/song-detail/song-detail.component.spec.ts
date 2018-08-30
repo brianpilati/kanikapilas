@@ -154,7 +154,8 @@ describe('SongDetailComponent', () => {
     (httpMock: HttpTestingController) => {
       const request = httpMock.expectOne('http://localhost:3000/api/songs/1');
       expect(request.request.method).toEqual('GET');
-      const testSong = TestSongs[0];
+      let clonedSongs = TestSongs.map(x => Object.assign({}, x));
+      const testSong = clonedSongs[0];
       testSong.genre = null;
       request.flush(TestSongs[0]);
 
