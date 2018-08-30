@@ -1,12 +1,11 @@
 import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 import 'hammerjs';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Location } from '@angular/common';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SongDetailComponent } from './song-detail.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Song } from '../models/song';
 import {
   MatAutocompleteModule,
@@ -31,6 +30,7 @@ import { LastFmComponent } from '../last-fm/last-fm.component';
 import { DomSanitizer } from '@angular/platform-browser';
 
 let activatedRouteId: any;
+let navigationUrl: string;
 
 beforeEach(() => {
   activatedRouteId = 1;
@@ -49,13 +49,11 @@ const activatedRouteMock = {
 describe('SongDetailComponent', () => {
   let component: SongDetailComponent;
   let fixture: ComponentFixture<SongDetailComponent>;
-  let locationServiceSpy;
   let compiled;
 
   beforeEach(
     fakeAsync(() => {
-      locationServiceSpy = jasmine.createSpyObj('Location', ['back']);
-      locationServiceSpy.back.and.returnValue(22);
+      navigationUrl = 'not set';
 
       TestBed.configureTestingModule({
         imports: [
@@ -84,16 +82,23 @@ describe('SongDetailComponent', () => {
             useValue: {
               bypassSecurityTrustResourceUrl: function(url) {
                 return url;
+              },
+              sanitize: function() {
+                return '';
+              }
+            }
+          },
+          {
+            provide: Router,
+            useValue: {
+              navigate: function(_url_) {
+                navigationUrl = _url_;
               }
             }
           },
           {
             provide: ActivatedRoute,
             useValue: activatedRouteMock
-          },
-          {
-            provide: Location,
-            useValue: locationServiceSpy
           }
         ]
       })
@@ -144,12 +149,12 @@ describe('SongDetailComponent', () => {
     });
   }));
 
-  fit('should test setCoverArt', () => {
+  it('should test setCoverArt', () => {
     component.setCoverArt('coverArtUrl');
     expect(component.songForm.get('coverArtUrl').value).toBe('coverArtUrl');
   });
 
-  fit('should test track emit', () => {
+  it('should test track emit', () => {
     let track: string;
     component.track.subscribe(_track_ => (track = _track_));
     component.songForm.get('title').setValue('track changed');
@@ -178,7 +183,7 @@ describe('SongDetailComponent', () => {
     expect(component.getImageAssetSrc()).toBe('');
     component.songForm.get('title').setValue('africa');
     component.songForm.get('artist').setValue('toto');
-    expect(component.getImageAssetSrc()).toBe('assets/t/toto/africa.png');
+    expect(component.getImageAssetSrc()).toBe('http://localhost:3000/local/assets/t/toto/africa.png');
   });
 
   it('should test getImageDeploymentName', () => {
@@ -313,19 +318,18 @@ describe('SongDetailComponent', () => {
     component.genreSearchTermSelected();
 
     expect(filteredGenres).toEqual([
-      '80s',
-      '90s',
-      `Children's`,
       'Country',
-      'Disney',
-      'Oldies',
-      'Picking',
-      'Show Tunes',
-      'Campfire',
       'Classics',
+      '80s and 90s',
+      'Oldies',
+      'Spiritual',
+      'Disney',
       'Fun',
-      'Patriotic',
-      'Spiritual'
+      'Show Tunes',
+      `Children's`,
+      'Campfire',
+      'Picking',
+      'Patriotic'
     ]);
 
     component.songForm.get('genreSearchTerm').setValue('Patriotic');
@@ -335,37 +339,35 @@ describe('SongDetailComponent', () => {
     component.genreSearchTermSelected();
 
     expect(filteredGenres).toEqual([
-      '80s',
-      '90s',
-      `Children's`,
       'Country',
-      'Disney',
-      'Oldies',
-      'Picking',
-      'Show Tunes',
-      'Campfire',
       'Classics',
+      '80s and 90s',
+      'Oldies',
+      'Spiritual',
+      'Disney',
       'Fun',
-      'Spiritual'
+      'Show Tunes',
+      `Children's`,
+      'Campfire',
+      'Picking'
     ]);
 
     component.deleteGenre('Pop');
     component.songForm.get('genreSearchTerm').setValue('');
 
     expect(filteredGenres).toEqual([
-      '80s',
-      '90s',
-      `Children's`,
       'Country',
-      'Disney',
-      'Oldies',
-      'Picking',
-      'Pop',
-      'Show Tunes',
-      'Campfire',
       'Classics',
+      '80s and 90s',
+      'Pop',
+      'Oldies',
+      'Spiritual',
+      'Disney',
       'Fun',
-      'Spiritual'
+      'Show Tunes',
+      `Children's`,
+      'Campfire',
+      'Picking'
     ]);
   });
 
@@ -518,7 +520,7 @@ describe('SongDetailComponent', () => {
       });
       expect(request.request.method).toEqual('PUT');
       request.flush({});
-      expect(locationServiceSpy.back).toHaveBeenCalledWith();
+      expect(navigationUrl).toEqual(['songs']);
 
       expect(component.song).toEqual(<Song>{
         id: 1,
@@ -699,7 +701,7 @@ describe('SongDetailComponent', () => {
   describe('goBack', () => {
     it('should handle a goBack event', () => {
       component.goBack();
-      expect(locationServiceSpy.back).toHaveBeenCalledWith();
+      expect(navigationUrl).toEqual(['songs']);
     });
 
     it('should handle a goBack html event', () => {
@@ -707,7 +709,7 @@ describe('SongDetailComponent', () => {
       const backButton = compiled.querySelector('[name="goBackButton"]');
       expect(backButton.textContent.trim()).toBe('chevron_left Return to Songs');
       backButton.click();
-      expect(locationServiceSpy.back).toHaveBeenCalledWith();
+      expect(navigationUrl).toEqual(['songs']);
     });
   });
 });
@@ -715,11 +717,9 @@ describe('SongDetailComponent', () => {
 describe('SongDetailComponent with Save and Fake Data', () => {
   let component: SongDetailComponent;
   let fixture: ComponentFixture<SongDetailComponent>;
-  let locationServiceSpy;
 
   beforeEach(async(() => {
-    locationServiceSpy = jasmine.createSpyObj('Location', ['back']);
-    locationServiceSpy.back.and.returnValue(22);
+    navigationUrl = 'not set';
     activatedRouteId = 'new';
 
     TestBed.configureTestingModule({
@@ -749,16 +749,23 @@ describe('SongDetailComponent with Save and Fake Data', () => {
           useValue: {
             bypassSecurityTrustResourceUrl: function(url) {
               return url;
+            },
+            sanitize: function() {
+              return '';
+            }
+          }
+        },
+        {
+          provide: Router,
+          useValue: {
+            navigate: function(_url_) {
+              navigationUrl = _url_;
             }
           }
         },
         {
           provide: ActivatedRoute,
           useValue: activatedRouteMock
-        },
-        {
-          provide: Location,
-          useValue: locationServiceSpy
         }
       ]
     })
@@ -943,6 +950,6 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       genre: 'classics'
     });
 
-    expect(locationServiceSpy.back).toHaveBeenCalledWith();
+    expect(navigationUrl).toEqual(['songs']);
   }));
 });

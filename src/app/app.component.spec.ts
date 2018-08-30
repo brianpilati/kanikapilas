@@ -7,8 +7,8 @@ import { MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule } from 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [AppComponent, MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule, ToolbarComponent]
+      imports: [MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule, RouterTestingModule],
+      declarations: [AppComponent, ToolbarComponent]
     }).compileComponents();
   }));
 
