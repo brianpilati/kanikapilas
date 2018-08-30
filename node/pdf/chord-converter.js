@@ -6,7 +6,7 @@ function pngCreator(pdfFile) {
   var pdfImage = new PDFImage(pdfFile, {
     convertOptions: {
       '-resize': '30x44',
-      '-density': '72',
+      '-density': '300',
       '-quality': '75',
       '-units': 'PixelsPerInch',
       '-background': 'white',
