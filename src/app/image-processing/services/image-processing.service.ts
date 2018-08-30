@@ -19,7 +19,7 @@ export class ImageProcessingService {
   }
 
   getFiles(): Observable<FileModel[]> {
-    return this.http.get<string[]>(`${this.apiImageUrl}`).pipe(
+    return this.http.get<string[]>(this.apiImageUrl).pipe(
       map(files => {
         return files.map(file => {
           return <FileModel>{
@@ -33,6 +33,6 @@ export class ImageProcessingService {
   }
 
   saveFile(data: ImageProcessingModel): Observable<any> {
-    return this.http.post(`${this.apiImageUrl}`, data);
+    return this.http.post(this.apiImageUrl, data);
   }
 }

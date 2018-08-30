@@ -20,10 +20,6 @@ describe('SongsService', () => {
     songsService = service;
   }));
 
-  it('should be created', () => {
-    expect(songsService).toBeTruthy();
-  });
-
   it('should test getSongs', inject([HttpTestingController], (httpMock: HttpTestingController) => {
     songsService.getSongs().subscribe(songs => {
       expect(songs).toEqual([
