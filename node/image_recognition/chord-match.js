@@ -2,14 +2,27 @@ const cv = require('opencv4nodejs');
 const { Image } = require('image-js');
 const fs = require('fs');
 const path = require('path');
+const timer = require('../lib/time');
 
 const debug = false;
+const displayOutput = true;
 const testChord = 'dm6.png';
 const foundChords = Object({});
 const maxTolerance = 0.58;
 
 function parseChord(chord) {
   return debug ? chord === testChord : true;
+}
+
+function printOutput() {
+  if (displayOutput) {
+    console.log(
+      Object.entries(arguments)
+        .map(element => element[1])
+        .join()
+        .replace(/,/g, ' ')
+    );
+  }
 }
 
 const findChord = (originalMat, chordMat, chordName) => {
@@ -19,7 +32,7 @@ const findChord = (originalMat, chordMat, chordName) => {
   // Use minMaxLoc to locate the highest value (or lower, depending of the type of matching method)
   const minMax = matched.minMaxLoc();
   if (debug) {
-    console.log(minMax);
+    printOutput(minMax);
 
     const {
       maxLoc: { x, y }
@@ -28,9 +41,9 @@ const findChord = (originalMat, chordMat, chordName) => {
     // Draw bounding rectangle
     originalMat.drawRectangle(new cv.Rect(x, y, chordMat.cols, chordMat.rows), new cv.Vec(0, 255, 0), 2, cv.LINE_8);
 
-    console.log(minMax.maxVal, maxTolerance, minMax.maxVal > maxTolerance);
+    printOutput(minMax.maxVal, maxTolerance, minMax.maxVal > maxTolerance);
 
-    console.log(
+    printOutput(
       minMax.maxVal - minMax.minVal,
       minMax.minVal + minMax.maxVal,
       minMax.minVal,
@@ -67,19 +80,15 @@ function processImage(songImage) {
           .rotate(cv.ROTATE_180)
           .resizeToMax(1500);
 
-        console.log('Parse Song Time: ', new Date() - start, savedImagePath);
+        printOutput(`Parse Song Time: ${timer.timer(start)}`);
 
         return originalMat;
       });
     });
   } catch (error) {
-    console.log('Error: ', error);
+    printOutput('Error: ', error);
   }
 }
-
-//const songImage = '../../deployment/assets/t/the-bangles/manic-monday_1.png';
-//const songImage = '../../deployment/assets/c/crowded-house/don-t-dream-it-s-over_1.png';
-const songImage = '../../deployment/assets/t/toto/africa_1.png';
 
 function calibrateChord(chordObject) {
   const minPosition = chordObject.x - 5;
@@ -107,36 +116,62 @@ function calibrateChord(chordObject) {
   }
 }
 
-processImage(songImage).then(function(originalMat) {
-  const pdfFolder = './data/chords';
-  let chordCount = 0;
+const startTime = new Date();
 
-  fs.readdirSync(pdfFolder).forEach(file => {
-    if (parseChord(file)) {
-      const start = new Date();
+function chordMatch(songImage) {
+  return processImage(songImage).then(function(originalMat) {
+    const pdfFolder = './data/chords';
+    let chordCount = 0;
+    const allChords = fs.readdirSync(pdfFolder);
 
-      const filePath = path.join('data', 'chords', file);
+    allChords.forEach(file => {
+      if (parseChord(file)) {
+        const chordStartTime = new Date();
 
-      const chordMat = cv.imread(filePath).resizeToMax(120);
-      const resultObject = findChord(originalMat, chordMat, file);
+        const filePath = path.join('data', 'chords', file);
 
-      if (resultObject.match) {
-        chordCount++;
-        resultObject.time = new Date() - start;
-        calibrateChord(resultObject);
-      } else {
-        if (debug) {
-          console.log('Time: ', new Date() - start, `${file} Uncertain`);
+        const chordMat = cv.imread(filePath).resizeToMax(120);
+        const resultObject = findChord(originalMat, chordMat, file);
+
+        if (resultObject.match) {
+          chordCount++;
+          resultObject.time = timer.timer(chordStartTime);
+          calibrateChord(resultObject);
+        } else {
+          if (debug) {
+            printOutput(`Time: ${timer.timer(chordStartTime)} ${file} Uncertain`);
+          }
         }
       }
-    }
-  });
+    });
 
-  const foundChordEntries = Object.entries(foundChords);
-  console.log('Chords found:', chordCount);
-  console.log('Chords fixed:', foundChordEntries.length);
+    const foundChordEntries = Object.entries(foundChords);
+    printOutput('Chords found:', chordCount);
+    printOutput('Chords fixed:', foundChordEntries.length);
 
-  foundChordEntries.forEach(([key, chord]) => {
-    console.log(chord.chordName, 'Found in ', chord.time, 'seconds');
+    foundChordEntries.forEach(([key, chord]) => {
+      printOutput(chord.chordName, 'Found in', chord.time);
+    });
+
+    printOutput(`Total Time to process ${allChords.length} Chords is ${timer.timer(startTime)}`);
+
+    return true;
   });
-});
+}
+
+module.exports = {
+  chordMatch(songImagePath) {
+    chordMatch(songImagePath).then(
+      result => {
+        console.log(result);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+};
+
+//chordMatch('../../deployment/assets/t/the-bangles/manic-monday_1.png');
+//chordMatch( '../../deployment/assets/c/crowded-house/don-t-dream-it-s-over_1.png');
+//chordMatch('../../deployment/assets/t/toto/africa_1.png');
