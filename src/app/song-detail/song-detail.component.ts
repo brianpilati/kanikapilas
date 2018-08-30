@@ -60,7 +60,7 @@ export class SongDetailComponent implements OnInit {
       title: ['', [Validators.required, Validators.maxLength(255)]],
       artist: ['', [Validators.required, Validators.maxLength(255)]],
       stars: [1, [Validators.required, Validators.min(1), Validators.max(5)]],
-      flowered: ['false', Validators.required],
+      flowered: ['', Validators.required],
       genre: ['', Validators.required],
       firstNote: ['', Validators.required],
       capo: [0, Validators.required],

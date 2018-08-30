@@ -28,6 +28,7 @@ import { ImageResizeComponent } from '../image-resize/image-resize.component';
 import { AngularDraggableModule } from 'angular2-draggable';
 import { ImageCoordinates } from '../models/image-coordinates';
 import { LastFmComponent } from '../last-fm/last-fm.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 let activatedRouteId: any;
 
@@ -78,6 +79,14 @@ describe('SongDetailComponent', () => {
         ],
         declarations: [ImageResizeComponent, LastFmComponent, SongDetailComponent, SongGenreComponent],
         providers: [
+          {
+            provide: DomSanitizer,
+            useValue: {
+              bypassSecurityTrustResourceUrl: function(url) {
+                return url;
+              }
+            }
+          },
           {
             provide: ActivatedRoute,
             useValue: activatedRouteMock
@@ -135,12 +144,12 @@ describe('SongDetailComponent', () => {
     });
   }));
 
-  it('should test setCoverArt', () => {
+  fit('should test setCoverArt', () => {
     component.setCoverArt('coverArtUrl');
     expect(component.songForm.get('coverArtUrl').value).toBe('coverArtUrl');
   });
 
-  it('should test track emit', () => {
+  fit('should test track emit', () => {
     let track: string;
     component.track.subscribe(_track_ => (track = _track_));
     component.songForm.get('title').setValue('track changed');
@@ -735,6 +744,14 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       ],
       declarations: [ImageResizeComponent, LastFmComponent, SongDetailComponent, SongGenreComponent],
       providers: [
+        {
+          provide: DomSanitizer,
+          useValue: {
+            bypassSecurityTrustResourceUrl: function(url) {
+              return url;
+            }
+          }
+        },
         {
           provide: ActivatedRoute,
           useValue: activatedRouteMock

@@ -10,7 +10,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
-fdescribe('ImageProcessingComponent', () => {
+describe('ImageProcessingComponent', () => {
   let component: ImageProcessingComponent;
   let fixture: ComponentFixture<ImageProcessingComponent>;
   let navigationUrl: string;
@@ -59,7 +59,7 @@ fdescribe('ImageProcessingComponent', () => {
     })
   );
 
-  fit('should have default values', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+  it('should have default values', inject([HttpTestingController], (httpMock: HttpTestingController) => {
     fixture.detectChanges();
 
     const request = httpMock.expectOne('http://localhost:3000/api/image-processing');
@@ -75,7 +75,7 @@ fdescribe('ImageProcessingComponent', () => {
     ]);
   }));
 
-  fit(
+  it(
     'should test title changes ',
     fakeAsync(() => {
       fixture.detectChanges();
@@ -89,7 +89,7 @@ fdescribe('ImageProcessingComponent', () => {
     })
   );
 
-  fit('should test selectedTab', () => {
+  it('should test selectedTab', () => {
     component.carouselPhotos = Object({
       22: Object({
         fileName: 'fileName - set'
@@ -100,7 +100,7 @@ fdescribe('ImageProcessingComponent', () => {
     expect(component.imageProcessingForm.get('fileName').value).toBe('fileName - set');
   });
 
-  fit('should test resetForm', () => {
+  it('should test resetForm', () => {
     component.imageProcessingForm.setValue({
       title: 'title',
       imageName: 'imageName',
@@ -126,7 +126,7 @@ fdescribe('ImageProcessingComponent', () => {
   });
 
   describe('saveFile', () => {
-    fit('should test saveFile', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+    it('should test saveFile', inject([HttpTestingController], (httpMock: HttpTestingController) => {
       component.imageProcessingForm.setValue({
         title: 'title',
         imageName: 'imageName',
@@ -154,7 +154,7 @@ fdescribe('ImageProcessingComponent', () => {
       expect(navigationUrl).toEqual(['songs/22']);
     }));
 
-    fit('should test an invalid saveFile', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+    it('should test an invalid saveFile', inject([HttpTestingController], (httpMock: HttpTestingController) => {
       component.resetForm();
 
       component.saveFile();
