@@ -173,7 +173,7 @@ describe('SongDetailComponent', () => {
         coverArtUrl: 'http://toto/africa/coverart.png'
       });
 
-      expect(component.genres).toBeUndefined();
+      expect(component.genres).toEqual([]);
     }
   ));
 
