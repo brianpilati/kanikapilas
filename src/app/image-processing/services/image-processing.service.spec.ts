@@ -6,7 +6,7 @@ import { FileModel } from '../../models/file.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ImageProcessingModel } from '../../models/image-processing.model';
 
-fdescribe('ImageProgressingService', () => {
+describe('ImageProgressingService', () => {
   let imageProcessingService: ImageProcessingService;
 
   beforeEach(() => {

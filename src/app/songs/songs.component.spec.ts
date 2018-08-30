@@ -1,4 +1,4 @@
-import { tick, fakeAsync, async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
@@ -23,10 +23,6 @@ describe('SongsComponent', () => {
         fixture.detectChanges();
       });
   }));
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 
   it('should test getSongs', inject([HttpTestingController], (httpMock: HttpTestingController) => {
     expect(component.songTitles).toBeUndefined();

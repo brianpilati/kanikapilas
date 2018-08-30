@@ -57,7 +57,7 @@ export class ImageProcessingComponent implements OnInit {
     this.imageProcessingForm.get('fileName').setValue(this.carouselPhotos[tabNumber].fileName);
   }
 
-  clearForm() {
+  resetForm() {
     this.imageProcessingForm.reset();
   }
 }
