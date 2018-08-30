@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { ImageProgressingService } from './image-processing.service';
+import { ImageProcessingService } from './image-processing.service';
 
 describe('ImageProgressingService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ImageProgressingService]
+      providers: [ImageProcessingService]
     });
   });
 
-  it('should be created', inject([ImageProgressingService], (service: ImageProgressingService) => {
+  it('should be created', inject([ImageProcessingService], (service: ImageProcessingService) => {
     expect(service).toBeTruthy();
   }));
 });
