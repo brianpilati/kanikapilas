@@ -25,12 +25,12 @@ function pngCreator(pdfFile) {
 }
 
 function main() {
-  const imageFolder = './pdf-files/';
+  const pdfFolder = './pdf-files/books';
 
-  fs.readdirSync(imageFolder).forEach((file, $index) => {
+  fs.readdirSync(pdfFolder).forEach((file, $index) => {
     if (file.match(/^Book_\d+_\d+\.pdf/)) {
       console.log('Processing ', file);
-      pngCreator(path.join('./pdf-files', file));
+      pngCreator(path.join(pdfFolder, file));
     }
   });
 }
