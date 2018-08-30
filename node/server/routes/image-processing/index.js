@@ -32,11 +32,11 @@ router.post('', cors(corsOptions), function(req, res) {
         fs.rename(
           unprocessedFilePath,
           destinationFilePath,
-          function() {
+          () => {
             res.status(200).json(song);
           },
-          function(error) {
-            returnError(res, 401, 'Sorry, there was an error!');
+          error => {
+            returnError(res, 401, `Sorry, there was an error! ${error.message}`);
           }
         );
       } else {

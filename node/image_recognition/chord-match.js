@@ -5,8 +5,8 @@ const path = require('path');
 const timer = require('../lib/time');
 
 const debug = false;
-const displayOutput = true;
-const testChord = 'dm6.png';
+const displayOutput = false;
+const testChord = 'c.png';
 const foundChords = Object({});
 const maxTolerance = 0.58;
 
@@ -16,12 +16,7 @@ function parseChord(chord) {
 
 function printOutput() {
   if (displayOutput) {
-    console.log(
-      Object.entries(arguments)
-        .map(element => element[1])
-        .join()
-        .replace(/,/g, ' ')
-    );
+    console.log.apply(null, arguments);
   }
 }
 
@@ -174,4 +169,4 @@ module.exports = {
 
 //chordMatch('../../deployment/assets/t/the-bangles/manic-monday_1.png');
 //chordMatch( '../../deployment/assets/c/crowded-house/don-t-dream-it-s-over_1.png');
-//chordMatch('../../deployment/assets/t/toto/africa_1.png');
+chordMatch('../../deployment/assets/t/toto/africa_1.png');
