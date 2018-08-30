@@ -149,6 +149,32 @@ describe('SongDetailComponent', () => {
     });
   }));
 
+  it('should test getSong and null genres values', inject(
+    [HttpTestingController],
+    (httpMock: HttpTestingController) => {
+      const request = httpMock.expectOne('http://localhost:3000/api/songs/1');
+      expect(request.request.method).toEqual('GET');
+      request.flush(TestSongs[0]);
+
+      expect(component.song).toEqual(<Song>{
+        id: 1,
+        title: 'Africa',
+        artist: 'Toto',
+        stars: 1,
+        flowered: false,
+        genre: null,
+        firstNote: 1,
+        capo: 0,
+        imageName: 'africa',
+        imageTop: 10,
+        imageBottom: 20,
+        coverArtUrl: 'http://toto/africa/coverart.png'
+      });
+
+      expect(component.genres).toBeUndefined();
+    }
+  ));
+
   it('should test setCoverArt', () => {
     component.setCoverArt('coverArtUrl');
     expect(component.songForm.get('coverArtUrl').value).toBe('coverArtUrl');

@@ -77,7 +77,6 @@
           },
           "options": {
             "poll": 3000,
-            "sourceMap": false,
             "codeCoverage": false,
             "main": "src/test.ts",
             "polyfills": "src/polyfills.ts",
