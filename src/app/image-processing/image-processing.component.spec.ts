@@ -10,7 +10,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
-fdescribe('ImageProcessingComponent', () => {
+describe('ImageProcessingComponent', () => {
   let component: ImageProcessingComponent;
   let fixture: ComponentFixture<ImageProcessingComponent>;
   let navigationUrl: string;
