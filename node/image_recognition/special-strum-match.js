@@ -19,7 +19,7 @@ function specialStrumMatch(songPath) {
     const filePath = './data/symbols/special-strum-pattern-icon.png';
 
     const chordStartTime = new Date();
-    const specialStrumMat = cv.imread(filePath); //.resizeToMax(75);
+    const specialStrumMat = cv.imread(filePath);
     const resultObject = matchLibrary.findWaldo(originalMat, specialStrumMat, 'flower');
 
     if (resultObject.match) {
