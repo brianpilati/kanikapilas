@@ -157,7 +157,7 @@ describe('SongDetailComponent', () => {
       const clonedSongs = TestSongs.map(x => Object.assign({}, x));
       const testSong = clonedSongs[0];
       testSong.genre = null;
-      request.flush(TestSongs[0]);
+      request.flush(testSong);
 
       expect(component.song).toEqual(<Song>{
         id: 1,
