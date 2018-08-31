@@ -26,8 +26,9 @@ function chordMatch(songPath) {
     resizeToMax: true,
     resizeToMaxValue: 1500
   });
+
   return matchLibrary.processImage(songPath, processImageOptions).then(function(originalMat) {
-    const pdfFolder = './data/chords';
+    const pdfFolder = path.join('data', 'chords');
     let chordCount = 0;
     const allChords = fs.readdirSync(pdfFolder);
 
@@ -35,7 +36,7 @@ function chordMatch(songPath) {
       if (parseChord(file)) {
         const chordStartTime = new Date();
 
-        const filePath = path.join('data', 'chords', file);
+        const filePath = path.join(pdfFolder, file);
 
         const chordMat = cv.imread(filePath).resizeToMax(120);
         const resultObject = matchLibrary.findWaldo(originalMat, chordMat, file);
