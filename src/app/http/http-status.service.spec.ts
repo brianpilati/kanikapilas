@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { HttpStatusService } from './http-status.service';
 
-fdescribe('HttpStatusService', () => {
+describe('HttpStatusService', () => {
   let httpStatusService: HttpStatusService;
   beforeEach(() => {
     TestBed.configureTestingModule({

@@ -3,7 +3,7 @@
   *ngIf="isVisible"
 >
   <div
-    [@loadingState]="animateLoading()"
+    [@loadingState]="animationLoading()"
     (@loadingState.done)="animationDone()"
     class="warn-background spinner"
   ></div>

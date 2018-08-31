@@ -49,7 +49,7 @@ export class LoadingSpinnerComponent implements OnInit, OnDestroy {
     this.toggle = !this.toggle;
   }
 
-  animateLoading(): string {
+  animationLoading(): string {
     return this.toggle ? 'right' : 'left';
   }
 }
