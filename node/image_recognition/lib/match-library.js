@@ -5,6 +5,7 @@ class MatchLibrary {
     this.maxTolerance = maxTolerance;
     this.debug = debug;
     this.displayOutput = displayOutput;
+    this.foundWaldos = Object({});
   }
 
   printOutput() {
@@ -13,7 +14,7 @@ class MatchLibrary {
     }
   }
 
-  findChord(originalMat, waldoMat, name) {
+  findWaldo(originalMat, waldoMat, name) {
     // Match template (the brightest locations indicate the highest match)
     const matched = originalMat.matchTemplate(waldoMat, 5);
 
@@ -41,6 +42,36 @@ class MatchLibrary {
       match: minMax.maxVal > this.maxTolerance,
       name: name
     });
+  }
+
+  getFoundWaldos() {
+    return this.foundWaldos;
+  }
+
+  calibrate(calibrationObject) {
+    const minPosition = calibrationObject.x - 5;
+    const maxPosition = calibrationObject.x + 5;
+    let foundCount = 0;
+    let foundPosition = calibrationObject.x;
+    for (let index = minPosition; index < maxPosition; index++) {
+      if (this.foundWaldos.hasOwnProperty(index)) {
+        foundCount++;
+        foundPosition = index;
+      }
+    }
+
+    if (foundCount > 1) {
+      throw `This is bad -- found count is: ${foundCount} for ${calibrationObject.name}`;
+    }
+
+    if (foundCount === 1) {
+      const foundObject = this.foundWaldos[foundPosition];
+      if (calibrationObject.distance > foundObject.distance) {
+        this.foundWaldos[foundPosition] = calibrationObject;
+      }
+    } else {
+      this.foundWaldos[calibrationObject.x] = calibrationObject;
+    }
   }
 }
 

@@ -5,13 +5,13 @@ const path = require('path');
 const timer = require('../lib/time');
 const MatchLibrary = require('./lib/match-library');
 
+const maxTolerance = 0.58;
 const debug = false;
-const displayOutput = true;
+const displayOutput = false;
 
-const matchLibrary = new MatchLibrary(0.58, debug, displayOutput);
+const matchLibrary = new MatchLibrary(maxTolerance, debug, displayOutput);
 
 const testChord = 'c.png';
-const foundChords = Object({});
 
 function parseChord(chord) {
   return debug ? chord === testChord : true;
@@ -43,32 +43,6 @@ function processImage(songImage) {
   }
 }
 
-function calibrateChord(chordObject) {
-  const minPosition = chordObject.x - 5;
-  const maxPosition = chordObject.x + 5;
-  let foundCount = 0;
-  let foundPosition = chordObject.x;
-  for (let index = minPosition; index < maxPosition; index++) {
-    if (foundChords.hasOwnProperty(index)) {
-      foundCount++;
-      foundPosition = index;
-    }
-  }
-
-  if (foundCount > 1) {
-    throw `This is bad -- found count is: ${foundCount} for ${chordObject.name}`;
-  }
-
-  if (foundCount === 1) {
-    const foundChord = foundChords[foundPosition];
-    if (chordObject.distance > foundChord.distance) {
-      foundChords[foundPosition] = chordObject;
-    }
-  } else {
-    foundChords[chordObject.x] = chordObject;
-  }
-}
-
 const startTime = new Date();
 
 function chordMatch(songImage) {
@@ -84,12 +58,12 @@ function chordMatch(songImage) {
         const filePath = path.join('data', 'chords', file);
 
         const chordMat = cv.imread(filePath).resizeToMax(120);
-        const resultObject = matchLibrary.findChord(originalMat, chordMat, file);
+        const resultObject = matchLibrary.findWaldo(originalMat, chordMat, file);
 
         if (resultObject.match) {
           chordCount++;
           resultObject.time = timer.timer(chordStartTime);
-          calibrateChord(resultObject);
+          matchLibrary.calibrate(resultObject);
         } else {
           if (debug) {
             matchLibrary.printOutput(`Time: ${timer.timer(chordStartTime)} ${file} Uncertain`);
@@ -98,7 +72,7 @@ function chordMatch(songImage) {
       }
     });
 
-    const foundChordEntries = Object.entries(foundChords);
+    const foundChordEntries = Object.entries(matchLibrary.getFoundWaldos());
     matchLibrary.printOutput('Chords found:', chordCount);
     matchLibrary.printOutput('Chords fixed:', foundChordEntries.length);
 
@@ -127,4 +101,5 @@ module.exports = {
 
 //chordMatch('../../deployment/assets/t/the-bangles/manic-monday_1.png');
 //chordMatch( '../../deployment/assets/c/crowded-house/don-t-dream-it-s-over_1.png');
-chordMatch('../../deployment/assets/t/toto/africa_1.png');
+//chordMatch('../../deployment/assets/t/toto/africa_1.png');
+//chordMatch('../../deployment/assets/b/belinda-carlisle/heaven-is-a-place-on-earth_1.png');
