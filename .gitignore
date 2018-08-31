@@ -51,3 +51,5 @@ src/environments/keys.ts
 /deployment_local/unprocessed/*
 
 /node/image_recognition/data
+
+/database/archives

@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS `songs`;
 CREATE TABLE `songs` (
   `id` INT(10) UNSIGNED UNIQUE NOT NULL auto_increment,
   `title` VARCHAR(255),
+  `title-prefix` VARCHAR(255),
   `artist` VARCHAR(255),
   `stars` INT(1),
   `flowered` BOOLEAN,
@@ -20,12 +21,16 @@ CREATE TABLE `songs` (
   `imageBottom` INT(5),
   `firstNote` INT(2),
   `capo` INT(2),
+  `octave` ENUM('None', 'Higher', 'Lower'),
   `coverArtUrl` VARCHAR(255),
+  `chords` VARCHAR(255),
   `createdDate` DATETIME,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='The Songs Table';
 
-INSERT INTO songs (title, artist, stars, flowered, genre, imageName, imageTop, imageBottom, firstNote, capo, coverArtUrl, createdDate) VALUES
-    ('Africa', 'Toto', 1, 1, 'pop, 80s', 'africa', 75, 150, 3, 4, 'https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png', '2018-08-08T10:25:00-06:00'),
-    ('Manic Monday', 'Cindy Lauper', 3, 0, '', '', 20, 200, 0, 0, 'https://lastfm-img2.akamaized.net/i/u/174s/8ebc6b59161a054258f9dff0aa989b98.png', '2018-08-10T10:26:34-06:00');
+LOCK TABLES `songs` WRITE;
+/*!40000 ALTER TABLE `songs` DISABLE KEYS */;
+INSERT INTO `songs` VALUES (1,'Africa',NULL,'Toto',1,1,'pop, 80s','africa',77,224,3,4,'None','https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png',NULL,'2018-08-08 10:25:00'),(2,'Manic Monday',NULL,'The Bangles',3,0,'80s and 90s','manic-monday',74,339,0,0,'None','https://lastfm-img2.akamaized.net/i/u/174s/8ebc6b59161a054258f9dff0aa989b98.png',NULL,'2018-08-10 10:26:34'),(15,'Blue Savannah',NULL,'Erasure',2,1,'80s','blue-savannah',80,266,2,0,'None','https://lastfm-img2.akamaized.net/i/u/174s/155d0a48f17b4dceb80e7cf6f9a6e419.png',NULL,NULL),(16,'Don\'t Dream It\'s Over',NULL,'Crowded House',4,0,'80s and 90s','don\'t-dream-it\'s-over.png',74,208,9,0,'None','https://lastfm-img2.akamaized.net/i/u/174s/25ed1a6414e7434e9d71b5596bd9bbde.png',NULL,NULL),(17,'Eye of the Tiger',NULL,'Survivor',1,0,'80s and 90s','eye-of-the-tiger.png',74,234,4,0,'None','https://lastfm-img2.akamaized.net/i/u/174s/a6c7aad6f2ed49e1991e5ee6a101d073.png',NULL,NULL),(18,'Forever Young',NULL,'Alphaville',2,0,'80s and 90s','forever-young.png',74,195,7,0,'None','https://lastfm-img2.akamaized.net/i/u/174s/f1dfa75adf4c611a1efce3bacf8ee2f9.png',NULL,NULL),(19,'Heaven is a Place on Earth',NULL,'Belinda Carlisle',4,1,'80s and 90s','heaven-is-a-place-on-earth.png',80,294,2,2,'None','https://lastfm-img2.akamaized.net/i/u/174s/e41fd3c532f1418695e035af7d42a90d.png',NULL,NULL);
+/*!40000 ALTER TABLE `songs` ENABLE KEYS */;
+UNLOCK TABLES;
