@@ -1,10 +1,11 @@
 const cv = require('opencv4nodejs');
 const timer = require('../lib/time');
 const MatchLibrary = require('./lib/match-library');
+const path = require('path');
 
 const maxTolerance = 0.95;
 const debug = false;
-const displayOutput = true;
+const displayOutput = false;
 
 const matchLibrary = new MatchLibrary(maxTolerance, debug, displayOutput);
 
@@ -16,7 +17,8 @@ function specialStrumMatch(songPath) {
     cropHeight: 100
   });
   return matchLibrary.processImage(songPath, processImageOptions).then(function(originalMat) {
-    const filePath = './data/symbols/special-strum-pattern-icon.png';
+    let patternFoundResult = false;
+    const filePath = path.join(__dirname, 'data', 'symbols', 'special-strum-pattern-icon.png');
 
     const chordStartTime = new Date();
     const specialStrumMat = cv.imread(filePath);
@@ -34,23 +36,24 @@ function specialStrumMatch(songPath) {
     const foundEntries = Object.entries(matchLibrary.getFoundWaldos());
 
     foundEntries.forEach(([key, strumPattern]) => {
+      patternFoundResult = true;
       matchLibrary.printOutput(strumPattern.name, 'Found in', strumPattern.time);
     });
 
     matchLibrary.printOutput(`Total Time to process is ${timer.timer(startTime)}`);
 
-    return true;
+    return patternFoundResult;
   });
 }
 
 module.exports = {
   specialStrumMatch(songImagePath) {
-    specialStrumMatch(songImagePath).then(
+    return specialStrumMatch(songImagePath).then(
       result => {
-        console.log(result);
+        return result;
       },
       error => {
-        console.log(error);
+        return error;
       }
     );
   }
@@ -59,4 +62,6 @@ module.exports = {
 //specialStrumMatch('../../deployment_local/assets/t/the-bangles/manic-monday.png');
 //specialStrumMatch( '../../deployment_local/assets/c/crowded-house/don-t-dream-it-s-over.png');
 //specialStrumMatch('../../deployment_local/assets/t/toto/africa.png');
-specialStrumMatch('../../deployment_local/assets/b/belinda-carlisle/heaven-is-a-place-on-earth.png');
+//specialStrumMatch('../../deployment_local/assets/b/belinda-carlisle/heaven-is-a-place-on-earth.png');
+
+//specialStrumMatch('../../deployment_local/assets/c/chris-deburgh/lady-in-red.png').then(result => console.log(result));

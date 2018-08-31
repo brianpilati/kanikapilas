@@ -3,6 +3,9 @@ const fs = require('fs');
 const filePath = require('../filePath');
 const coordinates = require('./coordinates');
 
+//const bottomAdjustment = 4;
+const bottomAdjustment = 0;
+
 function getNewSize(image, location) {
   return {
     x: 0,
@@ -20,7 +23,7 @@ class FileResize {
       return Image.load(sourceFilePath).then(function(image) {
         let croppedImage = image.clone();
 
-        const height = croppedImage.height - (song.imageBottom + song.imageTop - 4);
+        const height = croppedImage.height - (song.imageBottom + song.imageTop - bottomAdjustment);
 
         croppedImage = croppedImage.crop({
           y: song.imageTop,
@@ -40,7 +43,9 @@ class FileResize {
         return newImageOne.save(destinationImagePath1).then(function() {
           const newImageTwo = correctedImage.crop(getNewSize(correctedImage, 2));
           return newImageTwo.save(destinationImagePath2).then(function() {
-            return `${destinationImagePath1} and ${destinationImagePath2} were saved`;
+            return Object({
+              images: [destinationImagePath1, destinationImagePath2]
+            });
           });
         });
       });

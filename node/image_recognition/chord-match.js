@@ -6,7 +6,7 @@ const MatchLibrary = require('./lib/match-library');
 
 const maxTolerance = 0.58;
 const debug = false;
-const displayOutput = true;
+const displayOutput = false;
 
 const matchLibrary = new MatchLibrary(maxTolerance, debug, displayOutput);
 
@@ -28,9 +28,12 @@ function chordMatch(songPath) {
   });
 
   return matchLibrary.processImage(songPath, processImageOptions).then(function(originalMat) {
-    const pdfFolder = path.join('data', 'chords');
+    const pdfFolder = path.join(__dirname, 'data', 'chords');
     let chordCount = 0;
     const allChords = fs.readdirSync(pdfFolder);
+    const resultObject = Object({
+      chords: []
+    });
 
     allChords.forEach(file => {
       if (parseChord(file)) {
@@ -58,23 +61,24 @@ function chordMatch(songPath) {
     matchLibrary.printOutput('Chords fixed:', foundChordEntries.length);
 
     foundChordEntries.forEach(([key, chord]) => {
+      resultObject.chords.push(chord.name);
       matchLibrary.printOutput(chord.name, 'Found in', chord.time);
     });
 
     matchLibrary.printOutput(`Total Time to process ${allChords.length} Chords is ${timer.timer(startTime)}`);
 
-    return true;
+    return resultObject;
   });
 }
 
 module.exports = {
   chordMatch(songImagePath) {
-    chordMatch(songImagePath).then(
+    return chordMatch(songImagePath).then(
       result => {
-        console.log(result);
+        return result;
       },
       error => {
-        console.log(error);
+        return error;
       }
     );
   }
@@ -82,5 +86,7 @@ module.exports = {
 
 //chordMatch('../../deployment/assets/t/the-bangles/manic-monday_1.png');
 //chordMatch( '../../deployment/assets/c/crowded-house/don-t-dream-it-s-over_1.png');
-chordMatch('../../deployment/assets/t/toto/africa_1.png');
-//chordMatch('../../deployment/assets/b/belinda-carlisle/heaven-is-a-place-on-earth_1.png');
+//chordMatch('../../deployment/assets/t/toto/africa_1.png');
+//chordMatch('../../deployment/assets/b/belinda-carlisle/heaven-is-a-place-on-earth_1.png').then(chords => console.log('Chords Found', chords));
+
+//chordMatch('../../deployment/assets/c/chris-deburgh/lady-in-red_1.png');

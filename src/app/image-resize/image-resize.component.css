@@ -5,11 +5,12 @@
 }
 
 .top {
-  left: 0;
+  left: 37.5px;
 }
 
 .bottom {
-  right: 0;
+  right: 212.5px;
+  bottom: 0;
 }
 
 .resize-box {

@@ -5,6 +5,9 @@ const corsOptions = require('../../libs/cors');
 const fs = require('fs');
 const path = require('path');
 const songDomain = require('../../domains/song');
+const imageFileBuilder = require('../../../utils/imageFileBuilder');
+const chordMatch = require('../../../image_recognition/chord-match');
+const specialStrumMatch = require('../../../image_recognition/special-strum-match');
 
 router.get('', cors(corsOptions), function(req, res) {
   const images = [];
@@ -29,11 +32,20 @@ router.post('', cors(corsOptions), function(req, res) {
         const destinationFilePath = path.join(__dirname, '..', '..', filePath.getSourceImagePath(song));
 
         filePath.ensureDirectoryExistence(destinationFilePath);
-        fs.rename(
+        //fs.rename(
+        fs.copyFile(
           unprocessedFilePath,
           destinationFilePath,
           () => {
-            res.status(200).json(song);
+            imageFileBuilder.resizeImage(song).then(result => {
+              chordMatch.chordMatch(result.images.pop()).then(chords => {
+                console.log(chords);
+                specialStrumMatch.specialStrumMatch(destinationFilePath).then(hasSpecialStrumPattern => {
+                  console.log('strum pattern', hasSpecialStrumPattern);
+                  res.status(200).json(song);
+                });
+              });
+            });
           },
           error => {
             returnError(res, 401, `Sorry, there was an error! ${error.message}`);

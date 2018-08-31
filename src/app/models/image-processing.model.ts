@@ -3,4 +3,6 @@ export interface ImageProcessingModel {
   artist: string;
   imageName: string;
   fileName: string;
+  imageTop: number;
+  imageBottom: number;
 }

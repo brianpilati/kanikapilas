@@ -19,8 +19,18 @@ function buildImages() {
   });
 }
 
+module.exports = {
+  resizeImage(song) {
+    return fileResize.resizeImage(song).then(function(results) {
+      return results;
+    });
+  }
+};
+
+/*
 buildImages().then(function(results) {
   console.log(results);
   pool.end();
   console.log('closing the pool');
 });
+*/
