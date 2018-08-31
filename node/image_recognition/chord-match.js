@@ -1,5 +1,4 @@
 const cv = require('opencv4nodejs');
-const { Image } = require('image-js');
 const fs = require('fs');
 const path = require('path');
 const timer = require('../lib/time');
@@ -7,7 +6,7 @@ const MatchLibrary = require('./lib/match-library');
 
 const maxTolerance = 0.58;
 const debug = false;
-const displayOutput = false;
+const displayOutput = true;
 
 const matchLibrary = new MatchLibrary(maxTolerance, debug, displayOutput);
 
@@ -17,36 +16,17 @@ function parseChord(chord) {
   return debug ? chord === testChord : true;
 }
 
-function processImage(songImage) {
-  try {
-    const start = new Date();
-
-    return Image.load(songImage).then(function(image) {
-      const croppedImage = image.crop({
-        height: 50
-      });
-
-      const savedImagePath = `/tmp/song_cropped.png`;
-      return croppedImage.save(savedImagePath).then(function() {
-        let originalMat = cv
-          .imread(savedImagePath)
-          .rotate(cv.ROTATE_180)
-          .resizeToMax(1500);
-
-        matchLibrary.printOutput(`Parse Song Time: ${timer.timer(start)}`);
-
-        return originalMat;
-      });
-    });
-  } catch (error) {
-    matchLibrary.printOutput('Error: ', error);
-  }
-}
-
 const startTime = new Date();
 
-function chordMatch(songImage) {
-  return processImage(songImage).then(function(originalMat) {
+function chordMatch(songPath) {
+  const processImageOptions = Object({
+    crop: true,
+    cropHeight: 50,
+    rotate: true,
+    resizeToMax: true,
+    resizeToMaxValue: 1500
+  });
+  return matchLibrary.processImage(songPath, processImageOptions).then(function(originalMat) {
     const pdfFolder = './data/chords';
     let chordCount = 0;
     const allChords = fs.readdirSync(pdfFolder);
@@ -101,5 +81,5 @@ module.exports = {
 
 //chordMatch('../../deployment/assets/t/the-bangles/manic-monday_1.png');
 //chordMatch( '../../deployment/assets/c/crowded-house/don-t-dream-it-s-over_1.png');
-//chordMatch('../../deployment/assets/t/toto/africa_1.png');
+chordMatch('../../deployment/assets/t/toto/africa_1.png');
 //chordMatch('../../deployment/assets/b/belinda-carlisle/heaven-is-a-place-on-earth_1.png');

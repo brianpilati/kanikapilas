@@ -1,4 +1,6 @@
 const cv = require('opencv4nodejs');
+const timer = require('../../lib/time');
+const { Image } = require('image-js');
 
 class MatchLibrary {
   constructor(maxTolerance, debug, displayOutput) {
@@ -71,6 +73,39 @@ class MatchLibrary {
       }
     } else {
       this.foundWaldos[calibrationObject.x] = calibrationObject;
+    }
+  }
+
+  processImage(imagePath, options) {
+    const _this = this;
+    options = options || Object({});
+    try {
+      const start = new Date();
+
+      return Image.load(imagePath).then(function(image) {
+        if (options.crop) {
+          image = image.crop({
+            height: options.cropHeight
+          });
+        }
+
+        const savedImagePath = `/tmp/song_cropped.png`;
+        return image.save(savedImagePath).then(function() {
+          let originalMat = cv.imread(savedImagePath);
+          if (options.rotate) {
+            originalMat = originalMat.rotate(cv.ROTATE_180);
+          }
+          if (options.resizeToMax) {
+            originalMat = originalMat.resizeToMax(options.resizeToMaxValue);
+          }
+
+          _this.printOutput(`Parse Song Time: ${timer.timer(start)}`);
+
+          return originalMat;
+        });
+      });
+    } catch (error) {
+      _this.printOutput('Error: ', error);
     }
   }
 }
