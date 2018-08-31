@@ -10,7 +10,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
-describe('ImageProcessingComponent', () => {
+fdescribe('ImageProcessingComponent', () => {
   let component: ImageProcessingComponent;
   let fixture: ComponentFixture<ImageProcessingComponent>;
   let navigationUrl: string;
@@ -105,14 +105,18 @@ describe('ImageProcessingComponent', () => {
       title: 'title',
       imageName: 'imageName',
       fileName: 'fileName',
-      artist: 'artist'
+      artist: 'artist',
+      imageTop: 10,
+      imageBottom: 20
     });
 
     expect(component.imageProcessingForm.value).toEqual({
       title: 'title',
       imageName: 'imageName',
       fileName: 'fileName',
-      artist: 'artist'
+      artist: 'artist',
+      imageTop: 10,
+      imageBottom: 20
     });
 
     component.resetForm();
@@ -121,7 +125,9 @@ describe('ImageProcessingComponent', () => {
       title: null,
       imageName: null,
       fileName: null,
-      artist: null
+      artist: null,
+      imageTop: null,
+      imageBottom: null
     });
   });
 
@@ -131,7 +137,9 @@ describe('ImageProcessingComponent', () => {
         title: 'title',
         imageName: 'imageName',
         fileName: 'fileName',
-        artist: 'artist'
+        artist: 'artist',
+        imageTop: 10,
+        imageBottom: 20
       });
 
       component.saveFile();
@@ -143,7 +151,9 @@ describe('ImageProcessingComponent', () => {
           title: 'title',
           imageName: 'imageName',
           fileName: 'fileName',
-          artist: 'artist'
+          artist: 'artist',
+          imageTop: 10,
+          imageBottom: 20
         })
       );
 

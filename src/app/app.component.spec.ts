@@ -3,12 +3,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule } from '@angular/material';
+import { LoadingSpinnerComponent } from './http/spinner/loading-spinner/loading-spinner.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule, RouterTestingModule],
-      declarations: [AppComponent, ToolbarComponent]
+      declarations: [AppComponent, LoadingSpinnerComponent, ToolbarComponent]
     }).compileComponents();
   }));
 

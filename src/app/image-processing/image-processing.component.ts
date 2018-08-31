@@ -30,8 +30,8 @@ export class ImageProcessingComponent implements OnInit {
       imageName: ['', [Validators.required, Validators.maxLength(255)]],
       fileName: ['', [Validators.required, Validators.maxLength(255)]],
       artist: ['', [Validators.required, Validators.maxLength(255)]],
-      imageTop: [1, [Validators.required]],
-      imageBottom: [1, [Validators.required]]
+      imageTop: [0, Validators.min(0)],
+      imageBottom: [0, Validators.min(0)]
     });
   }
 
