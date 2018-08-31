@@ -164,6 +164,10 @@ $warn: mat-color($candy-app-warn);
   background-color: $warn;
 }
 
+.warn-background {
+  background: linear-gradient(to right, white, $warn, white);
+}
+
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.

@@ -1,0 +1,10 @@
+<div
+  class="loading-spinner-container"
+  *ngIf="isVisible"
+>
+  <div
+    [@loadingState]="animateLoading()"
+    (@loadingState.done)="animationDone()"
+    class="warn-background spinner"
+  ></div>
+</div>

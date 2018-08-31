@@ -3,7 +3,7 @@ import 'hammerjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
   MatButtonModule,
@@ -34,6 +34,9 @@ import { LastFmService } from './last-fm-service/last-fm.service';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
 import { ImageProcessingService } from './image-processing/services/image-processing.service';
+import { LoadingSpinnerComponent } from './http/spinner/loading-spinner/loading-spinner.component';
+import { HttpStatusService } from './http/http-status.service';
+import { AuthenticationInterceptorService } from './authentication/authentication-interceptor.service';
 
 @NgModule({
   imports: [
@@ -59,12 +62,23 @@ import { ImageProcessingService } from './image-processing/services/image-proces
     ReactiveFormsModule,
     UkuleleRoutingModule
   ],
-  providers: [LastFmService, ImageProcessingService, SongsService],
+  providers: [
+    HttpStatusService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptorService,
+      multi: true
+    },
+    ImageProcessingService,
+    LastFmService,
+    SongsService
+  ],
   declarations: [
     AppComponent,
     ImageProcessingComponent,
     ImageResizeComponent,
     LastFmComponent,
+    LoadingSpinnerComponent,
     SongDetailComponent,
     SongGenreComponent,
     SongsComponent,

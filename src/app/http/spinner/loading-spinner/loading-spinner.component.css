@@ -1,0 +1,14 @@
+.loading-spinner-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 7px;
+}
+
+.spinner {
+  width: 300px;
+  height: 3px;
+  position: absolute;
+  top: 0;
+}
