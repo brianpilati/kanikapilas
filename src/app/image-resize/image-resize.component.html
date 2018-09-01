@@ -2,7 +2,7 @@
   <div class="top icon" #topIcon ngDraggable (movingOffset)="movingTopOffset($event)" [bounds]="songBoundary" [inBounds]="true" (stopped)="stoppedMoving()" #topIcon>
     <img class="topIcon" src="/assets/icons/flower_icon.png">
   </div>
-  <div>
+  <div #image>
     <ng-content></ng-content>
   </div>
   <div class="bottom icon" #bottomIcon ngDraggable (movingOffset)="movingBottomOffset($event)" [bounds]="songBoundary" [inBounds]="true" (stopped)="stoppedMoving()" #bottomIcon>

@@ -9,16 +9,24 @@ import { ImageCoordinates } from '../models/image-coordinates';
 export class ImageResizeComponent implements OnInit {
   @ViewChild('resizeBox')
   resizeBox: ElementRef;
+
   @ViewChild('topIcon')
   topIcon: ElementRef;
+
+  @ViewChild('image')
+  image: ElementRef;
+
   @ViewChild('bottomIcon')
   bottomIcon: ElementRef;
-  private bottomOffset: number;
-  private topOffset: number;
+  private bottomOffset = 0;
+  private topOffset = 0;
   private boundaryOffset = 12.5;
 
   @Input()
   coordinates: EventEmitter<ImageCoordinates>;
+
+  @Input()
+  private fullImage: boolean;
 
   @Output()
   resize = new EventEmitter<ImageCoordinates>();
@@ -26,31 +34,43 @@ export class ImageResizeComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.coordinates.subscribe((coordinates: ImageCoordinates) => {
-      this.setTopCoordinate(this.resizeCoordinates(coordinates, false));
-      this.setBottomCoordinate(this.resizeCoordinates(coordinates, false));
-    });
+    if (this.coordinates !== undefined) {
+      this.coordinates.subscribe((coordinates: ImageCoordinates) => {
+        this.setTopCoordinate(this.resizeCoordinates(coordinates, false));
+        this.setBottomCoordinate(this.resizeCoordinates(coordinates, false));
+      });
+    }
   }
 
   private grow(): number {
-    return 8 / 5;
+    return this.fullImage ? 1035 / 800 : 8 / 5;
   }
 
   private shrink(): number {
-    return 5 / 8;
+    return this.fullImage ? 800 / 1035 : 5 / 8;
   }
 
   private scale(coordinate: number, grow: boolean): number {
     return Math.round(coordinate * (grow ? this.grow() : this.shrink()));
   }
 
+  private fullImageConversion(coordinates: ImageCoordinates): ImageCoordinates {
+    if (this.fullImage) {
+      coordinates.top = this.convertOddNumber(coordinates.top - this.topOffset);
+      coordinates.bottom = this.convertOddNumber(coordinates.bottom - (this.topOffset - this.boundaryOffset));
+      return coordinates;
+    }
+
+    return coordinates;
+  }
+
   resizeCoordinates(coordinates: ImageCoordinates, grow: boolean = true): ImageCoordinates {
-    return <ImageCoordinates>{
+    return this.fullImageConversion(<ImageCoordinates>{
       top: this.scale(coordinates.top, grow),
       left: coordinates.left,
       right: coordinates.right,
       bottom: this.scale(coordinates.bottom, grow)
-    };
+    });
   }
 
   setTopCoordinate(coordinates: ImageCoordinates): void {
@@ -77,13 +97,17 @@ export class ImageResizeComponent implements OnInit {
     this.resizeBox.nativeElement.style.bottom = `${-1 * offset.y - this.bottomOffset}px`;
   }
 
+  private convertOddNumber(newNumber: number, isTop: boolean = true) {
+    if (newNumber % 2) {
+      newNumber += isTop ? -1 : +1;
+    }
+    return Math.floor(newNumber);
+  }
+
   private convertCoordinate(coordinate: string, isTop: boolean = true): number {
     const newNumber = parseInt(coordinate.replace('px', '') || '0', 10);
 
-    if (newNumber % 2) {
-      return isTop ? newNumber - 1 : newNumber + 1;
-    }
-    return newNumber;
+    return this.convertOddNumber(newNumber, isTop);
   }
 
   stoppedMoving(): void {

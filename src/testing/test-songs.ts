@@ -13,7 +13,10 @@ export const TestSongs = [
     capo: 0,
     imageTop: 10,
     imageBottom: 20,
-    coverArtUrl: 'http://toto/africa/coverart.png'
+    coverArtUrl: 'http://toto/africa/coverart.png',
+    titlePrefix: '',
+    octave: 'none',
+    chords: 'g.png, f.png'
   },
   <Song>{
     id: 2,
@@ -27,6 +30,9 @@ export const TestSongs = [
     capo: 1,
     imageTop: 100,
     imageBottom: 300,
-    coverArtUrl: 'http://the-bangles/manic-monday/coverart.png'
+    coverArtUrl: 'http://the-bangles/manic-monday/coverart.png',
+    titlePrefix: 'The',
+    octave: 'highter',
+    chords: 'c.png, d.png'
   }
 ];

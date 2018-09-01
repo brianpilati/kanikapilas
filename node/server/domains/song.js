@@ -31,6 +31,9 @@ module.exports = {
         imageBottom: song.imageBottom,
         firstNote: song.firstNote,
         capo: song.capo,
+        titlePrefix: song.titlePrefix,
+        chords: song.chords,
+        octave: song.octave,
         coverArtUrl: song.coverArtUrl
       }
     );
@@ -56,6 +59,9 @@ module.exports = {
         createdDate: Date().now,
         firstNote: song.firstNote,
         capo: song.capo,
+        titlePrefix: song.titlePrefix,
+        chords: song.chords,
+        octave: song.octave,
         coverArtUrl: song.coverArtUrl
       }
     );

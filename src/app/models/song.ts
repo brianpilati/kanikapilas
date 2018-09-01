@@ -9,4 +9,7 @@ export class Song {
   public imageTop: number;
   public imageBottom: number;
   public coverArtUrl: string;
+  public titlePrefix: string;
+  public octave: string;
+  public chords: string;
 }

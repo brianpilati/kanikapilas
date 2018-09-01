@@ -1,9 +1,12 @@
+.mat-card-image-container {
+  height: 900px;
+}
+
 .file-upload-container {
   margin: 50px;
 }
 
 .tab-photo-content {
-  height: 40vh;
   display: flex;
   align-items: start;
   justify-content: center;
@@ -28,7 +31,7 @@
 }
 
 mat-card {
-  width: 500px;
+  width: 625px;
   padding: 10px;
 }
 

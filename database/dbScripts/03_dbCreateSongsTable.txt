@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS `songs`;
 CREATE TABLE `songs` (
   `id` INT(10) UNSIGNED UNIQUE NOT NULL auto_increment,
   `title` VARCHAR(255),
-  `title-prefix` VARCHAR(255),
+  `titlePrefix` VARCHAR(255),
   `artist` VARCHAR(255),
   `stars` INT(1),
   `flowered` BOOLEAN,

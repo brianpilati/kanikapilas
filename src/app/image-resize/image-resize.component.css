@@ -9,7 +9,7 @@
 }
 
 .bottom {
-  right: 212.5px;
+  right: 12.5px;
   bottom: 0;
 }
 
@@ -19,12 +19,12 @@
   top: 12.5px;
   left: 50px;
   bottom: 12.5px;
-  width: 400px;
+  right: 25px;
   border: 1px solid red;
 }
 
 .image-boundary-container {
-  top: 25px;
+  top: 0;
   left: 0;
   right: 0;
   z-index: 0;

@@ -158,6 +158,31 @@
                   </div>
                 </div>
                 <div
+                  class="song-form-container"
+                  fxLayout="rows"
+                  fxLayoutAlign="space-evenly"
+                >
+                  <div fxFlex="45%">
+                    <mat-form-field>
+                      <input
+                        matInput
+                        formControlName="titlePrefix"
+                        placeholder="Title Prefix"
+                      >
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="10%"></div>
+                  <div fxFlex="45%">
+                    <mat-form-field>
+                      <input
+                        matInput
+                        formControlName="octave"
+                        placeholder="Octave"
+                      >
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div
                   fxLayout="row"
                   fxLayoutAlign="space-evenly top"
                   class="song-form-container"
@@ -168,6 +193,41 @@
                         type="text"
                         placeholder="Genre"
                         aria-label="Number"
+                        matInput
+                        formControlName="genreSearchTerm"
+                        [matAutocomplete]="auto"
+                      >
+                      <mat-autocomplete
+                        autoActiveFirstOption
+                        #auto="matAutocomplete"
+                        (optionSelected)="genreSearchTermSelected()"
+                      >
+                        <mat-option *ngFor="let option of filteredGenres | async" [value]="option">
+                          {{option}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="60%">
+                    <span *ngFor="let genre of genres">
+                      <app-song-genre
+                        (delete)="deleteGenre($event)"
+                        genre="{{genre}}"
+                      ></app-song-genre>
+                    </span>
+                  </div>
+                </div>
+                <div
+                  fxLayout="row"
+                  fxLayoutAlign="space-evenly top"
+                  class="song-form-container"
+                >
+                  <div fxFlex="40%">
+                    <mat-form-field>
+                      <input
+                        type="text"
+                        placeholder="Chords"
+                        aria-label="Chords"
                         matInput
                         formControlName="genreSearchTerm"
                         [matAutocomplete]="auto"

@@ -5,25 +5,6 @@
 >
   <mat-card>
     <mat-card-content>
-      <mat-tab-group class="carousel"
-        (selectedIndexChange)="selectedTab($event)"
-      >
-        <mat-tab *ngFor="let carouselPhoto of carouselPhotos">
-          <ng-template mat-tab-label>
-            {{carouselPhoto.description}}
-          </ng-template>
-          <ng-template matTabContent>
-            <div class="tab-photo-content">
-              <img [src]="carouselPhoto.uri" [alt] ="carouselPhoto.description"
-              class="image">
-            </div>
-          </ng-template>
-        </mat-tab>
-      </mat-tab-group>
-    </mat-card-content>
-  </mat-card>
-  <mat-card>
-    <mat-card-content>
       <div
         fxLayout="column"
         fxLayoutAlign="space-evenly center"
@@ -74,5 +55,32 @@
         </form>
       </div>
     </mat-card-content>
+  </mat-card>
+  <mat-card class="mat-card-image-container">
+    <app-image-resize
+      (resize)="resize($event)"
+      [coordinates]="coordinates"
+      [fullImage]="true"
+    >
+      <mat-card-content>
+          <mat-tab-group class="carousel"
+            (selectedIndexChange)="selectedTab($event)"
+          >
+            <mat-tab *ngFor="let carouselPhoto of carouselPhotos">
+                <ng-template mat-tab-label>
+                  {{carouselPhoto.description}}
+                </ng-template>
+                <ng-template matTabContent>
+                  <div class="tab-photo-content">
+                      <img [src]="carouselPhoto.uri"
+                        [alt] ="carouselPhoto.description"
+                        class="image"
+                      >
+                  </div>
+                </ng-template>
+            </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+    </app-image-resize>
   </mat-card>
 </div>

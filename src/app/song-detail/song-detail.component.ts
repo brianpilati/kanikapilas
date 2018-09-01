@@ -62,6 +62,9 @@ export class SongDetailComponent implements OnInit {
       stars: [1, [Validators.required, Validators.min(1), Validators.max(5)]],
       flowered: [false, Validators.required],
       genre: ['', Validators.required],
+      chords: ['', Validators.required],
+      octave: ['', Validators.required],
+      titlePrefix: '',
       firstNote: ['', Validators.required],
       capo: [0, Validators.required],
       imageName: ['', [Validators.required, Validators.maxLength(355)]],
@@ -124,7 +127,7 @@ export class SongDetailComponent implements OnInit {
       top: this.songForm.get('imageTop').value,
       bottom: this.songForm.get('imageBottom').value,
       left: 37.5,
-      right: 212.5
+      right: 12.5
     });
   }
 
@@ -201,6 +204,7 @@ export class SongDetailComponent implements OnInit {
     const dbConstants = this.songForm.get('genre').value;
     if (dbConstants !== null) {
       this.genres = dbConstants.split(/,\s/g);
+      this.songForm.get('chords').setValue(dbConstants);
     }
   }
 

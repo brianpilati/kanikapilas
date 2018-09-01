@@ -38,11 +38,18 @@ router.post('', cors(corsOptions), function(req, res) {
           destinationFilePath,
           () => {
             imageFileBuilder.resizeImage(song).then(result => {
-              chordMatch.chordMatch(result.images.pop()).then(chords => {
-                console.log(chords);
+              chordMatch.chordMatch(result.images[0]).then(chords => {
                 specialStrumMatch.specialStrumMatch(destinationFilePath).then(hasSpecialStrumPattern => {
-                  console.log('strum pattern', hasSpecialStrumPattern);
-                  res.status(200).json(song);
+                  song.imageTop = (song.imageTop * 800) / 1035 + 13;
+                  song.imageBottom = (song.imageBottom * 800) / 1035 + 75 - 13;
+
+                  song.flowered = hasSpecialStrumPattern;
+                  song.chords = chords.chords.join('');
+
+                  songDomain.updateSong(song).then(() => {
+                    console.log('all done');
+                    res.status(200).json(song);
+                  });
                 });
               });
             });

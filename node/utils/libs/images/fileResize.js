@@ -3,9 +3,6 @@ const fs = require('fs');
 const filePath = require('../filePath');
 const coordinates = require('./coordinates');
 
-//const bottomAdjustment = 4;
-const bottomAdjustment = 0;
-
 function getNewSize(image, location) {
   return {
     x: 0,
@@ -15,15 +12,19 @@ function getNewSize(image, location) {
   };
 }
 
+function getBottomAdjustment(isCommandline) {
+  return isCommandline ? 4 : -25;
+}
+
 class FileResize {
-  resizeImage(song) {
+  resizeImage(song, isCommandline) {
     const sourceFilePath = filePath.getSourceImagePath(song);
 
     if (fs.existsSync(sourceFilePath)) {
       return Image.load(sourceFilePath).then(function(image) {
         let croppedImage = image.clone();
 
-        const height = croppedImage.height - (song.imageBottom + song.imageTop - bottomAdjustment);
+        const height = croppedImage.height - (song.imageBottom + song.imageTop - getBottomAdjustment(isCommandline));
 
         croppedImage = croppedImage.crop({
           y: song.imageTop,

@@ -1,6 +1,5 @@
 const waterMark = require('./libs/images/waterMark');
 const fileResize = require('./libs/images/fileResize');
-const pool = require('../lib/database');
 
 var songDomain = require('../server/domains/song');
 
@@ -8,7 +7,7 @@ function buildImages() {
   return songDomain.getSongs().then(songs => {
     const requests = songs.map(song => {
       return new Promise(resolve => {
-        fileResize.resizeImage(song).then(function(results) {
+        fileResize.resizeImage(song, true).then(function(results) {
           resolve(results);
           //waterMark.addWaterMark(song);
         });
@@ -21,7 +20,7 @@ function buildImages() {
 
 module.exports = {
   resizeImage(song) {
-    return fileResize.resizeImage(song).then(function(results) {
+    return fileResize.resizeImage(song, false).then(function(results) {
       return results;
     });
   }
