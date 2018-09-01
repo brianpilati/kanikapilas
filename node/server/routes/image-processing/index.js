@@ -40,15 +40,18 @@ router.post('', cors(corsOptions), function(req, res) {
             imageFileBuilder.resizeImage(song).then(result => {
               chordMatch.chordMatch(result.images[0]).then(chords => {
                 specialStrumMatch.specialStrumMatch(destinationFilePath).then(hasSpecialStrumPattern => {
-                  song.imageTop = (song.imageTop * 800) / 1035 + 13;
-                  song.imageBottom = (song.imageBottom * 800) / 1035 + 75 - 13;
+                  starMatch.starMatch(destinationFilePath).then(starsFound => {
+                    song.imageTop = (song.imageTop * 800) / 1035 + 13;
+                    song.imageBottom = (song.imageBottom * 800) / 1035 + 75 - 13;
 
-                  song.flowered = hasSpecialStrumPattern;
-                  song.chords = chords.chords.join('');
+                    song.flowered = hasSpecialStrumPattern;
+                    song.chords = chords.chords.join('');
+                    song.stars = starsFound;
 
-                  songDomain.updateSong(song).then(() => {
-                    console.log('all done');
-                    res.status(200).json(song);
+                    songDomain.updateSong(song).then(() => {
+                      console.log('all done');
+                      res.status(200).json(song);
+                    });
                   });
                 });
               });

@@ -16,6 +16,57 @@ class MatchLibrary {
     }
   }
 
+  findWaldos(originalMat, waldoMat) {
+    // Match template (the brightest locations indicate the highest match)
+    let matched = originalMat.matchTemplate(waldoMat, 5);
+
+    let foundWaldos = 0;
+
+    while (true) {
+      // Use minMaxLoc to locate the highest value (or lower, depending of the type of matching method)
+      const minMax = matched.minMaxLoc();
+
+      let {
+        maxLoc: { x, y }
+      } = minMax;
+
+      this.printOutput(minMax.maxVal, this.maxTolerance, minMax.maxVal > this.maxTolerance);
+
+      if (minMax.maxVal < this.maxTolerance) {
+        this.printOutput('Not Found', minMax);
+
+        if (this.debug) {
+          originalMat.drawRectangle(
+            new cv.Rect(x, y, waldoMat.cols, waldoMat.rows),
+            new cv.Vec(255, 0, 0),
+            2,
+            cv.LINE_8
+          );
+          cv.imshowWait("We didn't find waldo!", originalMat);
+        }
+        break;
+      }
+
+      this.printOutput('Found', minMax);
+
+      if (this.debug) {
+        // Draw bounding rectangle
+        originalMat.drawRectangle(new cv.Rect(x, y, waldoMat.cols, waldoMat.rows), new cv.Vec(0, 255, 0), 2, cv.LINE_8);
+
+        cv.imshowWait("We've found waldo!", originalMat);
+      }
+
+      //Fill in the current found waldo
+      matched.floodFill(minMax.maxLoc, 0);
+
+      foundWaldos++;
+    }
+
+    this.printOutput(`Total Waldos Found: ${foundWaldos}`);
+
+    return foundWaldos;
+  }
+
   findWaldo(originalMat, waldoMat, name) {
     // Match template (the brightest locations indicate the highest match)
     const matched = originalMat.matchTemplate(waldoMat, 5);
