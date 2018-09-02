@@ -140,6 +140,13 @@ class MatchLibrary {
           });
         }
 
+        if (options.cropBottom) {
+          image = image.crop({
+            y: image.height - options.cropHeight,
+            height: options.cropHeight
+          });
+        }
+
         const savedImagePath = `/tmp/song_cropped.png`;
         return image.save(savedImagePath).then(function() {
           let originalMat = cv.imread(savedImagePath);

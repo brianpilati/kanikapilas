@@ -8,6 +8,7 @@ const songDomain = require('../../domains/song');
 const imageFileBuilder = require('../../../utils/imageFileBuilder');
 const chordMatch = require('../../../image_recognition/chord-match');
 const specialStrumMatch = require('../../../image_recognition/special-strum-match');
+const octaveMatch = require('../../../image_recognition/octave-match');
 
 router.get('', cors(corsOptions), function(req, res) {
   const images = [];
@@ -41,16 +42,19 @@ router.post('', cors(corsOptions), function(req, res) {
               chordMatch.chordMatch(result.images[0]).then(chords => {
                 specialStrumMatch.specialStrumMatch(destinationFilePath).then(hasSpecialStrumPattern => {
                   starMatch.starMatch(destinationFilePath).then(starsFound => {
-                    song.imageTop = (song.imageTop * 800) / 1035 + 13;
-                    song.imageBottom = (song.imageBottom * 800) / 1035 + 75 - 13;
+                    octaveMatch.starMatch(destinationFilePath).then(octaveFound => {
+                      song.imageTop = (song.imageTop * 800) / 1035 + 13;
+                      song.imageBottom = (song.imageBottom * 800) / 1035 + 75 - 13;
 
-                    song.flowered = hasSpecialStrumPattern;
-                    song.chords = chords.chords.join('');
-                    song.stars = starsFound;
+                      song.flowered = hasSpecialStrumPattern;
+                      song.chords = chords.chords.join('');
+                      song.stars = starsFound;
+                      song.octave = octaveFound;
 
-                    songDomain.updateSong(song).then(() => {
-                      console.log('all done');
-                      res.status(200).json(song);
+                      songDomain.updateSong(song).then(() => {
+                        console.log('all done');
+                        res.status(200).json(song);
+                      });
                     });
                   });
                 });
