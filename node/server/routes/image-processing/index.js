@@ -6,9 +6,6 @@ const fs = require('fs');
 const path = require('path');
 const songDomain = require('../../domains/song');
 const imageFileBuilder = require('../../../utils/imageFileBuilder');
-const chordMatch = require('../../../image_recognition/chord-match');
-const specialStrumMatch = require('../../../image_recognition/special-strum-match');
-const octaveMatch = require('../../../image_recognition/octave-match');
 
 router.get('', cors(corsOptions), function(req, res) {
   const images = [];
@@ -27,39 +24,12 @@ router.get('', cors(corsOptions), function(req, res) {
 router.post('', cors(corsOptions), function(req, res) {
   const unprocessedFilePath = path.join(__dirname, '..', '..', filePath.getUnprocessedImagePath(req.body['fileName']));
   songDomain.insertSong(req.body).then(function(response) {
-    songDomain.getSong(response.insertId).then(function(_song_) {
-      if (_song_.length) {
-        const song = _song_.pop();
-        const destinationFilePath = path.join(__dirname, '..', '..', filePath.getSourceImagePath(song));
-
-        filePath.ensureDirectoryExistence(destinationFilePath);
-        //fs.rename(
-        fs.copyFile(
-          unprocessedFilePath,
-          destinationFilePath,
-          () => {
-            imageFileBuilder.resizeImage(song).then(result => {
-              chordMatch.chordMatch(result.images[0]).then(chords => {
-                specialStrumMatch.specialStrumMatch(destinationFilePath).then(hasSpecialStrumPattern => {
-                  starMatch.starMatch(destinationFilePath).then(starsFound => {
-                    octaveMatch.starMatch(destinationFilePath).then(octaveFound => {
-                      song.imageTop = (song.imageTop * 800) / 1035 + 13;
-                      song.imageBottom = (song.imageBottom * 800) / 1035 + 75 - 13;
-
-                      song.flowered = hasSpecialStrumPattern;
-                      song.chords = chords.chords.join('');
-                      song.stars = starsFound;
-                      song.octave = octaveFound;
-
-                      songDomain.updateSong(song).then(() => {
-                        console.log('all done');
-                        res.status(200).json(song);
-                      });
-                    });
-                  });
-                });
-              });
-            });
+    songDomain.getSong(response.insertId).then(function(songs) {
+      if (songs.length) {
+        imageFileBuilder.processImage(songs.pop(), unprocessedFilePath).then(
+          song => {
+            console.log('all done');
+            res.status(200).json(song);
           },
           error => {
             returnError(res, 401, `Sorry, there was an error! ${error.message}`);

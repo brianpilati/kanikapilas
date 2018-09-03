@@ -85,8 +85,7 @@ class MatchLibrary {
 
       this.printOutput(minMax.maxVal, this.maxTolerance, minMax.maxVal > this.maxTolerance);
 
-      cv.imshow("We've found waldo!", originalMat);
-      cv.waitKey();
+      cv.imshowWait("We've found waldo!", originalMat);
     }
 
     return Object({
@@ -150,6 +149,7 @@ class MatchLibrary {
         const savedImagePath = `/tmp/song_cropped.png`;
         return image.save(savedImagePath).then(function() {
           let originalMat = cv.imread(savedImagePath);
+
           if (options.rotate) {
             originalMat = originalMat.rotate(cv.ROTATE_180);
           }

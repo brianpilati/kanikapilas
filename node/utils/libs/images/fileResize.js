@@ -13,20 +13,34 @@ function getNewSize(image, location) {
 }
 
 function getBottomAdjustment(isCommandline) {
-  return isCommandline ? 4 : -25;
+  return isCommandline ? 6 : -25;
 }
 
 class FileResize {
   resizeImage(song, isCommandline) {
-    const sourceFilePath = filePath.getSourceImagePath(song);
+    const sourceFilePath = `../../${filePath.getSourceImagePath(song)}`;
 
     if (fs.existsSync(sourceFilePath)) {
       return Image.load(sourceFilePath).then(function(image) {
-        let croppedImage = image.clone();
+        let songImage = image.clone();
 
-        const height = croppedImage.height - (song.imageBottom + song.imageTop - getBottomAdjustment(isCommandline));
+        const height = songImage.height - (song.imageBottom + song.imageTop - getBottomAdjustment(isCommandline));
 
-        croppedImage = croppedImage.crop({
+        const headerImage = songImage.crop({
+          y: 0,
+          height: song.imageTop + 10
+        });
+
+        const headerImagePath = `${filePath.getImageHeaderPath(song)}`;
+
+        const footerImage = songImage.crop({
+          y: songImage.height - song.imageBottom - 25,
+          height: song.imageBottom
+        });
+
+        const footerImagePath = `${filePath.getImageFooterPath(song)}`;
+
+        const croppedImage = songImage.crop({
           y: song.imageTop,
           height: height
         });
@@ -44,8 +58,12 @@ class FileResize {
         return newImageOne.save(destinationImagePath1).then(function() {
           const newImageTwo = correctedImage.crop(getNewSize(correctedImage, 2));
           return newImageTwo.save(destinationImagePath2).then(function() {
-            return Object({
-              images: [destinationImagePath1, destinationImagePath2]
+            return headerImage.save(headerImagePath).then(function() {
+              return footerImage.save(footerImagePath).then(function() {
+                return Object({
+                  images: [destinationImagePath1, destinationImagePath2, headerImagePath, footerImagePath]
+                });
+              });
             });
           });
         });
@@ -55,3 +73,18 @@ class FileResize {
 }
 
 module.exports = new FileResize();
+
+/*
+fileResize = new FileResize();
+
+fileResize.resizeImage (
+  Object({
+    id: 93,
+    title: 'Lady in Red',
+    artist: 'Chris Deburgh',
+    imageTop: 100,
+    imageBottom: 230 
+  }), false).then(result => {
+    console.log(result);
+  });
+  */

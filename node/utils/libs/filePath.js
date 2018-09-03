@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 
 function encodePath(path) {
-  return path.replace(/\s+|'/g, '-').toLowerCase();
+  return typeof path === 'string' ? path.replace(/\s+|'/g, '-').toLowerCase() : '';
 }
 
 function ensureDirectoryExistence(filePath) {
@@ -46,6 +46,26 @@ function buildImagePath(song, location) {
   }
 }
 
+function getSourceImagePath(song) {
+  return path.join('..', '..', 'deployment_local', buildImagePath(song));
+}
+
+function getSourceImageHeaderPath(song) {
+  const songPath = getSourceImagePath(song);
+  const ext = path.extname(songPath);
+  const fileName = path.basename(songPath, ext);
+  const filePath = path.dirname(songPath);
+  return encodePath(path.join(filePath, `${fileName}-header${ext}`));
+}
+
+function getSourceImageFooterPath(song) {
+  const songPath = getSourceImagePath(song);
+  const ext = path.extname(songPath);
+  const fileName = path.basename(songPath, ext);
+  const filePath = path.dirname(songPath);
+  return encodePath(path.join(filePath, `${fileName}-footer${ext}`));
+}
+
 module.exports = {
   getFileName: function(name) {
     return buildFileName(name);
@@ -57,7 +77,7 @@ module.exports = {
     return `http://kanikapilas.com/${buildFilePath(song)}`;
   },
   getSourceImagePath: function(song) {
-    return path.join('..', '..', 'deployment_local', buildImagePath(song));
+    return getSourceImagePath(song);
   },
   getUnprocessedImagePath: function(fileName) {
     return encodePath(path.join('..', '..', 'deployment_local', 'unprocessed', fileName));
@@ -95,5 +115,11 @@ module.exports = {
   },
   encodePath(path) {
     return encodePath(path);
+  },
+  getImageHeaderPath(song) {
+    return getSourceImageHeaderPath(song);
+  },
+  getImageFooterPath(song) {
+    return getSourceImageFooterPath(song);
   }
 };

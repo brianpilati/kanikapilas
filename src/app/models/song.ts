@@ -5,6 +5,7 @@ export class Song {
   public stars: number;
   public flowered: boolean;
   public genre: string;
+  public firstNote: string;
   public imageName: string;
   public imageTop: number;
   public imageBottom: number;

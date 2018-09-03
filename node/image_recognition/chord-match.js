@@ -21,7 +21,7 @@ const startTime = new Date();
 function chordMatch(songPath) {
   const processImageOptions = Object({
     crop: true,
-    cropHeight: 50,
+    cropHeight: 75,
     rotate: true,
     resizeToMax: true,
     resizeToMaxValue: 1500
