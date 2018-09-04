@@ -31,7 +31,7 @@ function specialStrumMatch(songPath) {
 
     const foundEntries = matchLibrary.getFoundWaldos();
 
-    foundEntries.forEach(([key, strumPattern]) => {
+    foundEntries.forEach(strumPattern => {
       patternFoundResult = true;
       matchLibrary.printOutput(strumPattern.name, 'Found in', strumPattern.time);
     });

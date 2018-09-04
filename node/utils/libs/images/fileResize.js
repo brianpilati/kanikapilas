@@ -31,20 +31,39 @@ function saveHeaderImage(song, songImage) {
   });
 }
 
+function saveArtistImage(xyCoordinates, artistImagePath) {
+  return Image.load(artistImagePath).then(function(image) {
+    const xOffset = xyCoordinates.x + 69;
+    const artistImage = image.crop({
+      x: xOffset,
+      width: image.width - (xOffset + 130),
+      y: xyCoordinates.y - 3,
+      height: 19
+    });
+
+    const artistImagePath = `/tmp/file-artist-${filePath.getFileGuid()}.png`;
+
+    return artistImage.save(artistImagePath).then(function() {
+      return artistImagePath;
+    });
+  });
+}
+
 function saveFooterImage(song, songImage) {
   const footerImage = songImage.crop({
-    y: songImage.height - song.imageBottom - 25,
+    y: songImage.height - song.imageBottom,
     height: song.imageBottom
   });
 
-  const footerImagePath = `../../${filePath.getImageFooterPath(song)}`;
+  const footerImagePath = `/tmp/file-footer-${filePath.getFileGuid()}.png`;
+
   return footerImage.save(footerImagePath).then(function() {
     return footerImagePath;
   });
 }
 
 function getCorrectedImage(song, songImage, isCommandline) {
-  const height = songImage.height - (song.imageBottom + song.imageTop - getBottomAdjustment(isCommandline));
+  const height = songImage.height - (song.imageBottom + song.imageTop);
 
   const croppedImage = songImage.crop({
     y: song.imageTop,
@@ -75,9 +94,15 @@ function saveNewImageTwo(song, correctedImage) {
   });
 }
 
-function beautifyTitle(results) {
-  title = results.text.split('-')[0];
-  return title.replace(/\s+$/g, '');
+function parseOCRWord(sentence) {
+  const regex = new RegExp('\n', 'g');
+
+  return sentence.replace(regex, '');
+}
+
+function beautifyTitle(title) {
+  title = title.split('-')[0];
+  return parseOCRWord(title.replace(/\s+$/g, ''));
 }
 
 class FileResize {
@@ -112,28 +137,27 @@ class FileResize {
         let song = coordinates.getImageTopBottom(songImage);
         let title = '';
 
-        saveHeaderImage(song, songImage).then(headerImagePath => {
-          titleMatch.findTitle(headerImagePath).then(results => {
+        return saveHeaderImage(song, songImage).then(headerImagePath => {
+          return titleMatch.findTitle(headerImagePath).then(results => {
             title = beautifyTitle(results);
-            console.log(`${title}::`);
-          });
-        });
-        /*
+            return saveFooterImage(song, songImage).then(footerImagePath => {
+              return artistMatch.artistMatch(footerImagePath).then(results => {
+                const xyCoordinates = Object({
+                  x: results.x,
+                  y: results.y
+                });
 
-        const correctedImage = getCorrectedImage(song, songImage, isCommandline);
-
-        return saveNewImageOne(song, correctedImage).then(function(destinationImagePath1) {
-          return saveNewImageTwo(song, correctedImage).then(function(destinationImagePath2) {
-            return saveHeaderImage(song, songImage).then(function(headerImagePath) {
-              return saveFooterImage(song, songImage).then(function(footerImagePath) {
-                return Object({
-                  images: [destinationImagePath1, destinationImagePath2, headerImagePath, footerImagePath]
+                return saveArtistImage(xyCoordinates, footerImagePath).then(artistImagePath => {
+                  return titleMatch.findTitle(artistImagePath, 1200).then(results => {
+                    song.title = title;
+                    song.artist = parseOCRWord(results);
+                    return song;
+                  });
                 });
               });
             });
           });
         });
-        */
       });
     }
   }

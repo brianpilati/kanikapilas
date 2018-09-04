@@ -60,7 +60,7 @@ function chordMatch(songPath) {
     matchLibrary.printOutput('Chords found:', chordCount);
     matchLibrary.printOutput('Chords fixed:', foundChordEntries.length);
 
-    foundChordEntries.forEach(([key, chord]) => {
+    foundChordEntries.forEach(chord => {
       resultObject.chords.push(chord.name);
       matchLibrary.printOutput(chord.name, 'Found in', chord.time);
     });

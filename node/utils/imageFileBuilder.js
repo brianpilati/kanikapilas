@@ -62,7 +62,6 @@ class ImageFileBuilder {
                       song.octave = octaveFound;
 
                       songDomain.updateSong(song).then(() => {
-                        console.log('all done');
                         resolve(song);
                       });
                     });
@@ -97,6 +96,7 @@ imageFileBuilder.processImage(
   })
   ;
 */
+/*
 imageFileBuilder
   .processImage(
     Object({
@@ -112,6 +112,7 @@ imageFileBuilder
   .then(song => {
     console.log('Song', song);
   });
+*/
 
 /*
 imageFileBuilder

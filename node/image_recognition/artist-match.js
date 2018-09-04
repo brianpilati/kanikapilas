@@ -29,7 +29,7 @@ function artistMatch(songPath) {
   return matchLibrary.processImage(songPath).then(function(originalMat) {
     const filePath = path.join(__dirname, 'data', 'symbols', 'artist.png');
 
-    const artistMat = cv.imread(filePath).resizeToMax(50);
+    const artistMat = cv.imread(filePath); //.resizeToMax(50);
     const foundArtist = matchLibrary.findWaldo(originalMat, artistMat);
 
     matchLibrary.printOutput(`Total Time to process is ${timer.timer(startTime)}`);

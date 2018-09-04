@@ -62,7 +62,7 @@ function firstNoteMatch(songPath) {
     matchLibrary.printOutput('FirstNotes found:', firstNoteCount);
     matchLibrary.printOutput('FirstNotes fixed:', foundFirstNoteEntries.length);
 
-    foundFirstNoteEntries.forEach(([key, firstNote]) => {
+    foundFirstNoteEntries.forEach(firstNote => {
       firstNoteFound = firstNote.name;
       matchLibrary.printOutput(firstNote.name, 'Found in', firstNote.time);
     });

@@ -3,9 +3,12 @@ const path = require('path');
 const timer = require('../lib/time');
 const artistMatch = require('./artist-match');
 const fileResize = require('../utils/libs/images/fileResize');
+const imageFileBuilder = require('../utils/imageFileBuilder');
+const songDomain = require('../server/domains/song');
 
 const debug = true;
-const testSong = 'Book_2_1-21.png';
+//const testSong = 'Book_2_1-21.png';
+const testSong = 'Book_2_1-22.png';
 
 function parseSong(song) {
   return debug ? song === testSong : true;
@@ -20,36 +23,56 @@ function moveSong(sourceFilePath, fileName) {
 
 function findSongs() {
   const imageFolder = '../pdf/pdf-files/books';
+  const files = fs.readdirSync(imageFolder);
 
-  fs.readdirSync(imageFolder).forEach(file => {
-    if (file.match(/^Book_\d_\d-\d+.png/)) {
-      if (parseSong(file)) {
-        const songStart = new Date();
+  const requests = files.map(file => {
+    return new Promise(resolve => {
+      if (file.match(/^Book_\d_\d-\d+.png/)) {
+        if (parseSong(file)) {
+          const songStart = new Date();
 
-        let filePath = path.join(imageFolder, file);
-        artistMatch.artistsMatch(filePath, 0.85).then(artistsMatched => {
-          if (artistsMatched) {
-            console.log(`Parse ${file} Song Time: ${timer.timer(songStart)}. Artists Matched: ${artistsMatched}`);
-            if (artistsMatched > 1) {
-              moveSong(filePath, file);
+          let filePath = path.join(imageFolder, file);
+          artistMatch.artistsMatch(filePath, 0.85).then(artistsMatched => {
+            if (artistsMatched) {
+              console.log(`Parse ${file} Song Time: ${timer.timer(songStart)}. Artists Matched: ${artistsMatched}`);
+              if (artistsMatched > 1) {
+                moveSong(filePath, file);
+              } else {
+                fileResize.processImage(filePath).then(results => {
+                  songDomain.insertSong(results).then(function(response) {
+                    songDomain.getSong(response.insertId).then(function(songs) {
+                      imageFileBuilder.processImage(songs.pop(), filePath, true).then(results => {
+                        resolve(results);
+                      });
+                    });
+                  });
+                });
+              }
             } else {
-              fileResize.processImage(filePath);
+              if (debug) {
+                console.log(
+                  `Parse ${file} Song Time: ${timer.timer(songStart)}. Artists Not Matched: ${artistsMatched}`
+                );
+              }
             }
-          } else {
-            if (debug) {
-              console.log(`Parse ${file} Song Time: ${timer.timer(songStart)}. Artists Not Matched: ${artistsMatched}`);
-            }
-          }
-        });
+          });
+        } else {
+          resolve('not found');
+        }
+      } else {
+        resolve('not found');
       }
-    }
+    });
   });
+
+  return Promise.all(requests);
 }
 
 module.exports = {
   findSongs() {
     return findSongs().then(
       result => {
+        console.log('all done', result);
         return result;
       },
       error => {

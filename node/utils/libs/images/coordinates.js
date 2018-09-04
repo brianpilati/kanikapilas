@@ -86,7 +86,7 @@ function getImageTopBottom(image) {
 
   return Object({
     imageTop: topYPoint,
-    imageBottom: bottomYPoint
+    imageBottom: image.height - bottomYPoint
   });
 }
 
