@@ -38,7 +38,7 @@ function octaveMatch(songPath) {
       }
     });
 
-    const foundOctaveEntries = Object.entries(matchLibrary.getFoundWaldos());
+    const foundOctaveEntries = matchLibrary.getFoundWaldos();
 
     if (foundOctaveEntries.length > 1) {
       throw `this is a problem! ${foundOctaveEntries.length} where found`;

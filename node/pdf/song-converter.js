@@ -1,6 +1,15 @@
 const PDFImage = require('pdf-image').PDFImage;
 const fs = require('fs');
 const path = require('path');
+const timer = require('../lib/time');
+
+const debug = true;
+const testBook = 'Book_2_2.pdf';
+
+function parseBook(book) {
+  console.log(book);
+  return debug ? book === testBook : true;
+}
 
 function pngCreator(pdfFile) {
   var pdfImage = new PDFImage(pdfFile, {
@@ -27,12 +36,20 @@ function pngCreator(pdfFile) {
 function main() {
   const pdfFolder = './pdf-files/books';
 
-  fs.readdirSync(pdfFolder).forEach((file, $index) => {
+  const mainStart = new Date();
+
+  fs.readdirSync(pdfFolder).forEach(file => {
     if (file.match(/^Book_\d+_\d+\.pdf/)) {
-      console.log('Processing ', file);
-      pngCreator(path.join(pdfFolder, file));
+      if (parseBook(file)) {
+        const bookStart = new Date();
+        console.log('Processing ', file);
+        pngCreator(path.join(pdfFolder, file));
+        console.log(`Parse ${file} Book Time: ${timer.timer(bookStart)}`);
+      }
     }
   });
+
+  console.log(`Parse All Book Time: ${timer.timer(mainStart)}`);
 }
 
 main();

@@ -54,6 +54,42 @@ function findHeightCoordinates(image) {
   };
 }
 
+function getImageTopBottom(image) {
+  let yStartPoint = fixOddPixel(image.height) / 2;
+  let xPoint = findAdditivePixel(image, 0, yStartPoint, true) + 1;
+
+  let continueFinding = true;
+  let topYPoint = 0;
+  let yPoint = yStartPoint;
+
+  while (continueFinding) {
+    if (!pixelMatch(image.getPixelXY(xPoint, yPoint))) {
+      continueFinding = false;
+      topYPoint = yPoint;
+    } else {
+      yPoint--;
+    }
+  }
+
+  continueFinding = true;
+  yPoint = yStartPoint;
+  let bottomYPoint = 0;
+
+  while (continueFinding) {
+    if (!pixelMatch(image.getPixelXY(xPoint, yPoint))) {
+      continueFinding = false;
+      bottomYPoint = yPoint;
+    } else {
+      yPoint++;
+    }
+  }
+
+  return Object({
+    imageTop: topYPoint,
+    imageBottom: bottomYPoint
+  });
+}
+
 module.exports = {
   getCoordinates: function(image) {
     const widthCoordinates = findWidthCoordinates(image);
@@ -70,5 +106,9 @@ module.exports = {
 
   fixOddPixel: function(pixel) {
     return fixOddPixel(pixel);
+  },
+
+  getImageTopBottom: function(image) {
+    return getImageTopBottom(image);
   }
 };

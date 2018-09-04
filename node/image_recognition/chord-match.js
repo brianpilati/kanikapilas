@@ -56,7 +56,7 @@ function chordMatch(songPath) {
       }
     });
 
-    const foundChordEntries = Object.entries(matchLibrary.getFoundWaldos());
+    const foundChordEntries = matchLibrary.getFoundWaldos();
     matchLibrary.printOutput('Chords found:', chordCount);
     matchLibrary.printOutput('Chords fixed:', foundChordEntries.length);
 

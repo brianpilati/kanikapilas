@@ -1,13 +1,14 @@
 const cv = require('opencv4nodejs');
 const timer = require('../../lib/time');
 const { Image } = require('image-js');
+const filePath = require('../../utils/libs/filePath');
 
 class MatchLibrary {
   constructor(maxTolerance, debug, displayOutput) {
     this.maxTolerance = maxTolerance;
     this.debug = debug;
     this.displayOutput = displayOutput;
-    this.foundWaldos = Object({});
+    this.resetFoundWaldos();
   }
 
   printOutput() {
@@ -17,6 +18,7 @@ class MatchLibrary {
   }
 
   findWaldos(originalMat, waldoMat) {
+    this.resetFoundWaldos();
     // Match template (the brightest locations indicate the highest match)
     let matched = originalMat.matchTemplate(waldoMat, 5);
 
@@ -42,7 +44,7 @@ class MatchLibrary {
             2,
             cv.LINE_8
           );
-          cv.imshowWait("We didn't find waldo!", originalMat);
+          cv.imshowWait("We didn't find waldo!", originalMat.resize(400, 517));
         }
         break;
       }
@@ -53,18 +55,28 @@ class MatchLibrary {
         // Draw bounding rectangle
         originalMat.drawRectangle(new cv.Rect(x, y, waldoMat.cols, waldoMat.rows), new cv.Vec(0, 255, 0), 2, cv.LINE_8);
 
-        cv.imshowWait("We've found waldo!", originalMat);
+        cv.imshowWait("We've found waldo!", originalMat.resize(400, 517));
       }
 
       //Fill in the current found waldo
       matched.floodFill(minMax.maxLoc, 0);
 
       foundWaldos++;
+      this.calibrate(
+        Object({
+          x: minMax.maxLoc.x,
+          y: minMax.maxLoc.y,
+          distance: minMax.maxVal,
+          match: minMax.maxVal > this.maxTolerance
+        })
+      );
     }
 
-    this.printOutput(`Total Waldos Found: ${foundWaldos}`);
+    const foundWaldoEntries = this.getFoundWaldos();
+    this.printOutput('Waldos found:', foundWaldos);
+    this.printOutput('Waldos fixed:', foundWaldoEntries.length);
 
-    return foundWaldos;
+    return foundWaldoEntries.length;
   }
 
   findWaldo(originalMat, waldoMat, name) {
@@ -97,11 +109,26 @@ class MatchLibrary {
     });
   }
 
+  resetFoundWaldos() {
+    this.foundWaldos = Object({});
+  }
+
   getFoundWaldos() {
-    return this.foundWaldos;
+    let foundWaldos = [];
+    Object.entries(this.foundWaldos).map(waldos => {
+      waldos[1].map(waldo => {
+        foundWaldos.push(waldo);
+      });
+    });
+    return foundWaldos;
   }
 
   calibrate(calibrationObject) {
+    function findYCalibration(yPosition) {
+      const minYPosition = calibrationObject.y - 5;
+      const maxYPosition = calibrationObject.y + 5;
+      return minYPosition < yPosition && yPosition < maxYPosition;
+    }
     const minPosition = calibrationObject.x - 5;
     const maxPosition = calibrationObject.x + 5;
     let foundCount = 0;
@@ -118,12 +145,24 @@ class MatchLibrary {
     }
 
     if (foundCount === 1) {
-      const foundObject = this.foundWaldos[foundPosition];
-      if (calibrationObject.distance > foundObject.distance) {
-        this.foundWaldos[foundPosition] = calibrationObject;
+      let waldoIndex = -1;
+      this.foundWaldos[foundPosition].forEach((waldo, $index) => {
+        if (findYCalibration(waldo.y)) {
+          waldoIndex = $index;
+        }
+      });
+
+      if (waldoIndex > -1) {
+        let foundObject = this.foundWaldos[foundPosition][waldoIndex];
+
+        if (calibrationObject.distance > foundObject.distance) {
+          this.foundWaldos[foundPosition][waldoIndex] = calibrationObject;
+        }
+      } else {
+        this.foundWaldos[foundPosition].push(calibrationObject);
       }
     } else {
-      this.foundWaldos[calibrationObject.x] = calibrationObject;
+      this.foundWaldos[calibrationObject.x] = [calibrationObject];
     }
   }
 
@@ -147,7 +186,7 @@ class MatchLibrary {
           });
         }
 
-        const savedImagePath = `/tmp/song_cropped.png`;
+        const savedImagePath = `/tmp/song_cropped_${filePath.getFileGuid()}.png`;
         return image.save(savedImagePath).then(function() {
           let originalMat = cv.imread(savedImagePath);
 

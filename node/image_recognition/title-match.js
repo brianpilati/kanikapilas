@@ -1,28 +1,23 @@
 const Tesseract = require('tesseract.js');
 const cv = require('opencv4nodejs');
+const filePath = require('../utils/libs/filePath');
 
-//const imagePath = '../../deployment_local/assets/c/crowded-house/don-t-dream-it-s-over-header.png';
-//const imagePath = '../../deployment_local/assets/c/chris-deburgh/lady-in-red-footer.png';
-const imagePath = '../../deployment_local/assets/c/chris-deburgh/lady-in-red-header.png';
-const tmpPath = '/tmp/title.png';
+function findTitle(imagePath) {
+  let originalMat = cv.imread(imagePath).resizeToMax(1500);
+  const tmpPath = `/tmp/title-${filePath.getFileGuid()}.png`;
+  cv.imwrite(tmpPath, originalMat);
 
-let originalMat = cv.imread(imagePath).resizeToMax(1500);
-cv.imwrite('/tmp/title.png', originalMat);
-
-console.log(tmpPath);
-console.log(imagePath);
-
-Tesseract.recognize(tmpPath, { lang: 'eng' })
-  .then(function(result) {
-    console.log(1, result.text);
-  })
-  .catch(error => {
-    console.log(2, error);
-  })
-  .finally(e => {
-    console.log('finally\n');
+  return Tesseract.recognize(tmpPath, { lang: 'eng' }).finally(e => {
+    console.log('ending the tesseract process');
     process.exit();
   });
+}
+
+module.exports = {
+  findTitle(songImagePath) {
+    return findTitle(songImagePath);
+  }
+};
 
 /*
 Tesseract.recognize(dataPath, {
@@ -35,4 +30,9 @@ Tesseract.recognize(dataPath, {
   console.log('finally\n')
   process.exit()
 })
+
+//const imagePath = '../../deployment_local/assets/c/crowded-house/don-t-dream-it-s-over-header.png';
+//const imagePath = '../../deployment_local/assets/c/chris-deburgh/lady-in-red-footer.png';
+//const imagePath = '../../deployment_local/assets/c/chris-deburgh/lady-in-red-header.png';
+//const tmpPath = '/tmp/title.png';
 */

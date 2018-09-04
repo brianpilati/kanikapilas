@@ -2,6 +2,8 @@ const { Image } = require('image-js');
 const fs = require('fs');
 const filePath = require('../filePath');
 const coordinates = require('./coordinates');
+const artistMatch = require('../../../image_recognition/artist-match');
+const titleMatch = require('../../../image_recognition/title-match');
 
 function getNewSize(image, location) {
   return {
@@ -22,7 +24,7 @@ function saveHeaderImage(song, songImage) {
     height: song.imageTop + 10
   });
 
-  const headerImagePath = `../../${filePath.getImageHeaderPath(song)}`;
+  const headerImagePath = `/tmp/file-header-${filePath.getFileGuid()}.png`;
 
   return headerImage.save(headerImagePath).then(function() {
     return headerImagePath;
@@ -73,6 +75,11 @@ function saveNewImageTwo(song, correctedImage) {
   });
 }
 
+function beautifyTitle(results) {
+  title = results.text.split('-')[0];
+  return title.replace(/\s+$/g, '');
+}
+
 class FileResize {
   resizeImage(song, isCommandline) {
     const sourceFilePath = `../../${filePath.getSourceImagePath(song)}`;
@@ -97,10 +104,44 @@ class FileResize {
       });
     }
   }
+
+  processImage(originalSongPath) {
+    if (fs.existsSync(originalSongPath)) {
+      return Image.load(originalSongPath).then(function(image) {
+        let songImage = image.clone();
+        let song = coordinates.getImageTopBottom(songImage);
+        let title = '';
+
+        saveHeaderImage(song, songImage).then(headerImagePath => {
+          titleMatch.findTitle(headerImagePath).then(results => {
+            title = beautifyTitle(results);
+            console.log(`${title}::`);
+          });
+        });
+        /*
+
+        const correctedImage = getCorrectedImage(song, songImage, isCommandline);
+
+        return saveNewImageOne(song, correctedImage).then(function(destinationImagePath1) {
+          return saveNewImageTwo(song, correctedImage).then(function(destinationImagePath2) {
+            return saveHeaderImage(song, songImage).then(function(headerImagePath) {
+              return saveFooterImage(song, songImage).then(function(footerImagePath) {
+                return Object({
+                  images: [destinationImagePath1, destinationImagePath2, headerImagePath, footerImagePath]
+                });
+              });
+            });
+          });
+        });
+        */
+      });
+    }
+  }
 }
 
 module.exports = new FileResize();
 
+/*
 fileResize = new FileResize();
 
 fileResize
@@ -117,3 +158,4 @@ fileResize
   .then(result => {
     console.log(result);
   });
+  */

@@ -58,7 +58,7 @@ function firstNoteMatch(songPath) {
       }
     });
 
-    const foundFirstNoteEntries = Object.entries(matchLibrary.getFoundWaldos());
+    const foundFirstNoteEntries = matchLibrary.getFoundWaldos();
     matchLibrary.printOutput('FirstNotes found:', firstNoteCount);
     matchLibrary.printOutput('FirstNotes fixed:', foundFirstNoteEntries.length);
 

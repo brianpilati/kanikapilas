@@ -29,7 +29,7 @@ function specialStrumMatch(songPath) {
       }
     }
 
-    const foundEntries = Object.entries(matchLibrary.getFoundWaldos());
+    const foundEntries = matchLibrary.getFoundWaldos();
 
     foundEntries.forEach(([key, strumPattern]) => {
       patternFoundResult = true;
