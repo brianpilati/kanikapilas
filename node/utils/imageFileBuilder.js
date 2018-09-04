@@ -52,8 +52,8 @@ class ImageFileBuilder {
                 starMatch.starMatch(result.images[2]).then(starsFound => {
                   octaveMatch.octaveMatch(result.images[3]).then(octaveFound => {
                     firstNoteMatch.firstNoteMatch(result.images[3]).then(firstNoteFound => {
-                      song.imageTop = (song.imageTop * 800) / 1035 + 13;
-                      song.imageBottom = (song.imageBottom * 800) / 1035 + 75 - 13;
+                      song.imageTop = Math.floor((song.imageTop * 800) / 1035 + 13);
+                      song.imageBottom = Math.floor((song.imageBottom * 800) / 1035 + 75 - 13);
 
                       song.firstNote = firstNoteFound;
                       song.flowered = hasSpecialStrumPattern;
@@ -97,6 +97,7 @@ imageFileBuilder.processImage(
   })
   ;
 */
+/*
 imageFileBuilder
   .processImage(
     Object({
@@ -107,6 +108,23 @@ imageFileBuilder
       imageBottom: 230
     }),
     '../../deployment_local/assets/c/chris-deburgh/lady-in-red.png',
+    false
+  )
+  .then(song => {
+    console.log('Song', song);
+  });
+  */
+
+imageFileBuilder
+  .processImage(
+    Object({
+      id: 16,
+      title: "Don't dream it's over",
+      artist: 'Crowded House',
+      imageTop: 79,
+      imageBottom: 180
+    }),
+    '../../deployment_local/assets/c/crowded-house/don-t-dream-it-s-over.png',
     false
   )
   .then(song => {

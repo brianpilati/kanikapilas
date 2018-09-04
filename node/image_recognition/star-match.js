@@ -12,11 +12,7 @@ const matchLibrary = new MatchLibrary(maxTolerance, debug, displayOutput);
 const startTime = new Date();
 
 function starMatch(songPath) {
-  const processImageOptions = Object({
-    crop: true,
-    cropHeight: 100
-  });
-  return matchLibrary.processImage(songPath, processImageOptions).then(function(originalMat) {
+  return matchLibrary.processImage(songPath).then(function(originalMat) {
     const filePath = path.join(__dirname, 'data', 'symbols', 'star.png');
 
     const starMat = cv.imread(filePath);

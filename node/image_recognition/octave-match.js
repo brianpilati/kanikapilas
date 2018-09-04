@@ -4,7 +4,7 @@ const MatchLibrary = require('./lib/match-library');
 const path = require('path');
 const octaveEnums = require('../utils/libs/enums/octave-enums');
 
-const maxTolerance = 0.99;
+const maxTolerance = 0.87;
 const debug = false;
 const displayOutput = false;
 
