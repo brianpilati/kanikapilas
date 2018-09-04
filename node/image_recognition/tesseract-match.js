@@ -2,7 +2,7 @@ const Tesseract = require('tesseract.js');
 const cv = require('opencv4nodejs');
 const filePath = require('../utils/libs/filePath');
 
-function findTitle(imagePath, resizeMax) {
+function findWords(imagePath, resizeMax) {
   let originalMat = cv.imread(imagePath).resizeToMax(resizeMax);
   const tmpPath = `/tmp/title-${filePath.getFileGuid()}.png`;
   cv.imwrite(tmpPath, originalMat);
@@ -30,9 +30,9 @@ function findTitle(imagePath, resizeMax) {
 }
 
 module.exports = {
-  findTitle(songImagePath, resizeMax) {
+  findWords(songImagePath, resizeMax) {
     resizeMax = resizeMax || 1500;
-    return findTitle(songImagePath, resizeMax);
+    return findWords(songImagePath, resizeMax);
   }
 };
 

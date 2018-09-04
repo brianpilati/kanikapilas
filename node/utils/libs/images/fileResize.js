@@ -3,7 +3,7 @@ const fs = require('fs');
 const filePath = require('../filePath');
 const coordinates = require('./coordinates');
 const artistMatch = require('../../../image_recognition/artist-match');
-const titleMatch = require('../../../image_recognition/title-match');
+const tesseractMatch = require('../../../image_recognition/tesseract-match');
 
 function getNewSize(image, location) {
   return {
@@ -138,7 +138,7 @@ class FileResize {
         let title = '';
 
         return saveHeaderImage(song, songImage).then(headerImagePath => {
-          return titleMatch.findTitle(headerImagePath).then(results => {
+          return tesseractMatch.findTitle(headerImagePath).then(results => {
             title = beautifyTitle(results);
             return saveFooterImage(song, songImage).then(footerImagePath => {
               return artistMatch.artistMatch(footerImagePath).then(results => {
@@ -148,7 +148,7 @@ class FileResize {
                 });
 
                 return saveArtistImage(xyCoordinates, footerImagePath).then(artistImagePath => {
-                  return titleMatch.findTitle(artistImagePath, 1200).then(results => {
+                  return tesseractMatch.findTitle(artistImagePath, 1200).then(results => {
                     song.title = title;
                     song.artist = parseOCRWord(results);
                     return song;
