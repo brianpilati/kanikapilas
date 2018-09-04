@@ -46,6 +46,7 @@
     "opencv4nodejs": "^4.7.2",
     "pdf-image": "^2.0.0",
     "rxjs": "^6.0.0",
+    "tesseract.js": "^1.0.10",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

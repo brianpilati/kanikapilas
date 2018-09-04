@@ -97,7 +97,6 @@ imageFileBuilder.processImage(
   })
   ;
 */
-/*
 imageFileBuilder
   .processImage(
     Object({
@@ -113,8 +112,8 @@ imageFileBuilder
   .then(song => {
     console.log('Song', song);
   });
-  */
 
+/*
 imageFileBuilder
   .processImage(
     Object({
@@ -130,6 +129,7 @@ imageFileBuilder
   .then(song => {
     console.log('Song', song);
   });
+  */
 /*
 buildImages().then(function(results) {
   console.log(results);

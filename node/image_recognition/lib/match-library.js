@@ -90,6 +90,7 @@ class MatchLibrary {
 
     return Object({
       x: minMax.maxLoc.x,
+      y: minMax.maxLoc.y,
       distance: minMax.maxVal,
       match: minMax.maxVal > this.maxTolerance,
       name: name
