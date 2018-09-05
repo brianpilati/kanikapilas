@@ -37,7 +37,7 @@ class ImageFileBuilder {
 
   processImage(song, originalFilePath) {
     const _this = this;
-    const destinationFilePath = path.join(__dirname, '..', '..', filePath.getSourceImagePath(song));
+    const destinationFilePath = path.join(__dirname, filePath.getSourceImagePath(song));
 
     filePath.ensureDirectoryExistence(destinationFilePath);
     //fs.rename(

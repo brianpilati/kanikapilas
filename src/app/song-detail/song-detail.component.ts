@@ -65,6 +65,8 @@ export class SongDetailComponent implements OnInit {
       chords: ['', Validators.required],
       octave: ['', Validators.required],
       titlePrefix: '',
+      artistPrefix: '',
+      active: '',
       firstNote: ['', Validators.required],
       capo: [0, Validators.required],
       imageName: ['', [Validators.required, Validators.maxLength(355)]],

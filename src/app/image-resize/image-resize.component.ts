@@ -21,6 +21,7 @@ export class ImageResizeComponent implements OnInit {
   private bottomOffset = 0;
   private topOffset = 0;
   private boundaryOffset = 12.5;
+  private borderOffset = 2;
 
   @Input()
   coordinates: EventEmitter<ImageCoordinates>;
@@ -43,11 +44,11 @@ export class ImageResizeComponent implements OnInit {
   }
 
   private grow(): number {
-    return this.fullImage ? 1035 / 800 : 8 / 5;
+    return this.fullImage ? 1035 / 800 : 1.6;
   }
 
   private shrink(): number {
-    return this.fullImage ? 800 / 1035 : 5 / 8;
+    return this.fullImage ? 800 / 1035 : 0.625;
   }
 
   private scale(coordinate: number, grow: boolean): number {
@@ -82,11 +83,11 @@ export class ImageResizeComponent implements OnInit {
   }
 
   setBottomCoordinate(coordinates: ImageCoordinates): void {
-    this.bottomIcon.nativeElement.style.bottom = `${coordinates.bottom - this.boundaryOffset}px`;
+    this.bottomIcon.nativeElement.style.bottom = `${coordinates.bottom - this.boundaryOffset - coordinates.top}px`;
     this.bottomIcon.nativeElement.style.right = `${coordinates.right}px`;
 
-    this.bottomOffset = -1 * coordinates.bottom;
-    this.resizeBox.nativeElement.style.bottom = `${coordinates.bottom}px`;
+    this.bottomOffset = -1 * (coordinates.bottom - coordinates.top);
+    this.resizeBox.nativeElement.style.bottom = `${coordinates.bottom - (coordinates.top - this.borderOffset)}px`;
   }
 
   movingTopOffset(offset: any): void {
