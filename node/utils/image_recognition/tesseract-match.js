@@ -1,24 +1,25 @@
 const Tesseract = require('tesseract.js');
 const cv = require('opencv4nodejs');
-const filePath = require('../utils/libs/filePath');
+const filePath = require('../libs/filePath');
+const imageLibrary = require('../libs/images/image-library');
 
 function findWords(imagePath, resizeMax) {
   let originalMat = cv.imread(imagePath).resizeToMax(resizeMax);
   const tmpPath = `/tmp/title-${filePath.getFileGuid()}.png`;
   cv.imwrite(tmpPath, originalMat);
 
-  cv.imshowWait('darkening test', originalMat);
-
-  return new Promise(resolve => {
-    Tesseract.recognize(tmpPath, {
-      lang: 'eng'
-    })
-      .then(results => {
-        resolve(results.text);
+  return imageLibrary.textAdjustmentImage(tmpPath).then(() => {
+    return new Promise(resolve => {
+      Tesseract.recognize(tmpPath, {
+        lang: 'eng'
       })
-      .finally(() => {
-        Tesseract.terminate();
-      });
+        .then(results => {
+          resolve(results.text);
+        })
+        .finally(() => {
+          Tesseract.terminate();
+        });
+    });
   });
 }
 

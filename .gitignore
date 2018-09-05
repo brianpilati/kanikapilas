@@ -45,11 +45,11 @@ src/environments/keys.ts
 
 
 # exclude everything
-/node/pdf/pdf-files/*
+/node/utils/pdf/pdf-files/*
 
 
 /deployment_local/unprocessed/*
 
-/node/image_recognition/data
+/node/utils/image_recognition/data/chords
 
 /database/archives

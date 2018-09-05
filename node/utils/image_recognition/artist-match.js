@@ -1,5 +1,5 @@
 const cv = require('opencv4nodejs');
-const timer = require('../lib/time');
+const timer = require('../../lib/time');
 const MatchLibrary = require('./lib/match-library');
 const path = require('path');
 

@@ -1,7 +1,7 @@
 const cv = require('opencv4nodejs');
-const timer = require('../../lib/time');
+const timer = require('../../../lib/time');
 const { Image } = require('image-js');
-const filePath = require('../../utils/libs/filePath');
+const filePath = require('../../libs/filePath');
 
 class MatchLibrary {
   constructor(maxTolerance, debug, displayOutput) {

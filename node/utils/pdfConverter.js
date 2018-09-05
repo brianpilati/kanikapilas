@@ -1,9 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 const timer = require('../lib/time');
-const artistMatch = require('./artist-match');
-const fileResize = require('../utils/libs/images/fileResize');
-const imageFileBuilder = require('../utils/imageFileBuilder');
+const artistMatch = require('./image_recognition/artist-match');
+const fileResize = require('./libs/images/fileResize');
+const imageFileBuilder = require('./imageFileBuilder');
 const songDomain = require('../server/domains/song');
 const pool = require('../lib/database');
 
@@ -27,7 +27,7 @@ function moveSong(sourceFilePath, fileName) {
 }
 
 function findSongs() {
-  const imageFolder = '../pdf/pdf-files/books';
+  const imageFolder = './pdf/pdf-files/books';
   const files = fs.readdirSync(imageFolder);
 
   const requests = files.map(file => {
@@ -35,20 +35,19 @@ function findSongs() {
       if (file.match(/^Book_\d_\d-\d+.png/)) {
         if (parseSong(file)) {
           const songStart = new Date();
+          console.log('\n\n', `Started to parse file: ${file}`);
 
           let filePath = path.join(imageFolder, file);
           artistMatch.artistsMatch(filePath, 0.85).then(artistsMatched => {
             if (artistsMatched) {
-              console.log(`Parse ${file} Song Time: ${timer.timer(songStart)}. Artists Matched: ${artistsMatched}`);
               if (artistsMatched > 1) {
                 moveSong(filePath, file);
               } else {
                 fileResize.processImage(filePath).then(results => {
-                  console.log(results);
                   songDomain.replaceSong(results).then(song => {
-                    song.imageTop = results.imageTop;
-                    song.imageBottom = results.imageBottom;
                     imageFileBuilder.processImage(song, filePath, true).then(results => {
+                      console.log(`Parse ${file} Song Time: ${timer.timer(songStart)}.`);
+                      console.log(`Artist: ${results.artist}. Title: ${results.title}`);
                       resolve(results);
                     });
                   });
@@ -87,10 +86,9 @@ module.exports = {
   }
 };
 
-findSongs().then(results => {
-  console.log('the end');
+findSongs().then(() => {
   pool.end();
-  console.log('ending the pool');
+  console.log('\n\nending the pool\n\n');
 });
 
 /*

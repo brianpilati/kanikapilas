@@ -1,7 +1,7 @@
 const cv = require('opencv4nodejs');
 const fs = require('fs');
 const path = require('path');
-const timer = require('../lib/time');
+const timer = require('../../lib/time');
 const MatchLibrary = require('./lib/match-library');
 
 const maxTolerance = 0.6;

@@ -1,4 +1,3 @@
-const { Image } = require('image-js');
 const cv = require('opencv4nodejs');
 
 function fixOddPixel(pixel) {

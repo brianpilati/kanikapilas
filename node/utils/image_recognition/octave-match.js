@@ -1,8 +1,8 @@
 const cv = require('opencv4nodejs');
-const timer = require('../lib/time');
+const timer = require('../../lib/time');
 const MatchLibrary = require('./lib/match-library');
 const path = require('path');
-const octaveEnums = require('../utils/libs/enums/octave-enums');
+const octaveEnums = require('../libs/enums/octave-enums');
 
 const maxTolerance = 0.87;
 const debug = false;
