@@ -46,7 +46,7 @@ function findSongs() {
                 fileResize.processImage(filePath).then(results => {
                   songDomain.replaceSong(results).then(song => {
                     imageFileBuilder.processImage(song, filePath, true).then(results => {
-                      console.log(`Parse ${file} Song Time: ${timer.timer(songStart)}.`);
+                      console.log(`\nParse ${file} Song Time: ${timer.timer(songStart)}.`);
                       console.log(`Artist: ${results.artist}. Title: ${results.title}`);
                       resolve(results);
                     });

@@ -34,7 +34,8 @@ module.exports = {
         titlePrefix: song.titlePrefix,
         chords: song.chords,
         octave: song.octave,
-        coverArtUrl: song.coverArtUrl
+        coverArtUrl: song.coverArtUrl,
+        active: song.active || 0
       }
     );
   },
@@ -56,7 +57,11 @@ module.exports = {
         imageName: filePath.encodePath(song.imageName),
         imagetop: song.imageTop,
         imageBottom: song.imageBottom,
-        createdDate: Date().now,
+        active: song.active || 0,
+        createdDate: new Date()
+          .toJSON()
+          .slice(0, 19)
+          .replace('T', ' '),
         firstNote: song.firstNote,
         capo: song.capo,
         titlePrefix: song.titlePrefix,
