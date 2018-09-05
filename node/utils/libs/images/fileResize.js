@@ -14,14 +14,10 @@ function getNewSize(image, location) {
   };
 }
 
-function getLineAdjustment() {
-  return 25;
-}
-
 function saveHeaderImage(song, songImage) {
   const headerImage = songImage.crop({
     y: 0,
-    height: song.imageTop + 10
+    height: song.imageTop
   });
 
   const headerImagePath = `/tmp/file-header-${filePath.getFileGuid()}.png`;
@@ -43,6 +39,7 @@ function saveArtistImage(xyCoordinates, artistImagePath) {
 
     const artistImagePath = `/tmp/file-artist-${filePath.getFileGuid()}.png`;
 
+    console.log(artistImagePath);
     return artistImage.save(artistImagePath).then(function() {
       return artistImagePath;
     });
@@ -51,8 +48,8 @@ function saveArtistImage(xyCoordinates, artistImagePath) {
 
 function saveFooterImage(song, songImage) {
   const footerImage = songImage.crop({
-    y: songImage.height - song.imageBottom,
-    height: song.imageBottom
+    y: songImage.height - song.imageBottom + song.imageTop,
+    height: song.imageBottom - song.imageTop
   });
 
   const footerImagePath = `/tmp/file-footer-${filePath.getFileGuid()}.png`;
@@ -63,8 +60,7 @@ function saveFooterImage(song, songImage) {
 }
 
 function getCorrectedImage(song, songImage, isCommandline) {
-  const height = songImage.height - song.imageBottom + song.imageTop - getLineAdjustment();
-
+  const height = songImage.height - song.imageBottom;
   const croppedImage = songImage.crop({
     y: song.imageTop,
     height: height
@@ -138,6 +134,7 @@ class FileResize {
         let title = '';
 
         return saveHeaderImage(song, songImage).then(headerImagePath => {
+          console.log(headerImagePath);
           return tesseractMatch.findWords(headerImagePath).then(results => {
             title = beautifyTitle(results);
             return saveFooterImage(song, songImage).then(footerImagePath => {

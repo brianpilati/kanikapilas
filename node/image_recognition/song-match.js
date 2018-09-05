@@ -8,8 +8,12 @@ const songDomain = require('../server/domains/song');
 const pool = require('../lib/database');
 
 const debug = true;
+const testSong = 'Book_2_1-19.png';
+//const testSong = 'Book_2_1-20.png';
 //const testSong = 'Book_2_1-21.png';
-const testSong = 'Book_2_1-22.png';
+//const testSong = 'Book_2_1-22.png';
+//const testSong = 'Book_2_1-23.png';
+//const testSong = 'Book_2_1-24.png';
 
 function parseSong(song) {
   return debug ? song === testSong : true;
@@ -40,7 +44,10 @@ function findSongs() {
                 moveSong(filePath, file);
               } else {
                 fileResize.processImage(filePath).then(results => {
-                  songDomain.replaceSong(results).then(function(song) {
+                  console.log(results);
+                  songDomain.replaceSong(results).then(song => {
+                    song.imageTop = results.imageTop;
+                    song.imageBottom = results.imageBottom;
                     imageFileBuilder.processImage(song, filePath, true).then(results => {
                       resolve(results);
                     });

@@ -7,18 +7,11 @@ function findWords(imagePath, resizeMax) {
   const tmpPath = `/tmp/title-${filePath.getFileGuid()}.png`;
   cv.imwrite(tmpPath, originalMat);
 
+  cv.imshowWait('darkening test', originalMat);
+
   return new Promise(resolve => {
     Tesseract.recognize(tmpPath, {
-      lang: 'eng',
-      classify_font_name: 'arial',
-      crunch_leave_lc_strings: 6,
-      crunch_leave_ok_strings: 3,
-      crunch_leave_uc_strings: 6,
-      crunch_long_repetitions: 5,
-      language_model_ngram_space_delimited_language: 1,
-      file_type: 'png',
-      tessedit_fix_fuzzy_spaces: 1,
-      outlines_2: 'lij!?%":;'
+      lang: 'eng'
     })
       .then(results => {
         resolve(results.text);

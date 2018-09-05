@@ -1,3 +1,6 @@
+const { Image } = require('image-js');
+const cv = require('opencv4nodejs');
+
 function fixOddPixel(pixel) {
   return pixel % 2 ? pixel - 1 : pixel;
 }
@@ -84,9 +87,19 @@ function getImageTopBottom(image) {
     }
   }
 
+  if (false) {
+    const tmpPath = '/tmp/size_image.png';
+    image.save(tmpPath).then(function() {
+      const imageMat = cv.imread(tmpPath);
+      console.log(imageMat);
+      imageMat.drawRectangle(new cv.Rect(0, topYPoint, image.width, height), new cv.Vec(0, 255, 0), 2, cv.LINE_8);
+      cv.imshowWait('loaded', imageMat.resize(600, 800));
+    });
+  }
+
   return Object({
     imageTop: topYPoint,
-    imageBottom: image.height - bottomYPoint + topYPoint
+    imageBottom: image.height - (bottomYPoint - topYPoint)
   });
 }
 

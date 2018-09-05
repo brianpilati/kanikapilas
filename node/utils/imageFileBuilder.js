@@ -47,9 +47,7 @@ class ImageFileBuilder {
         destinationFilePath,
         () => {
           _this.resizeImage(song, isCommandline).then(result => {
-            console.log(result.images);
             chordMatch.chordMatch(result.images[0]).then(chords => {
-              console.log('chords', chords);
               specialStrumMatch.specialStrumMatch(result.images[2]).then(hasSpecialStrumPattern => {
                 starMatch.starMatch(result.images[2]).then(starsFound => {
                   octaveMatch.octaveMatch(result.images[3]).then(octaveFound => {
