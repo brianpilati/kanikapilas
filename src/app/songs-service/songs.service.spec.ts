@@ -25,6 +25,11 @@ describe('SongsService', () => {
       expect(songs).toEqual([
         <Song>{
           id: 1,
+          titlePrefix: '',
+          artistPrefix: '',
+          active: true,
+          octave: 'None',
+          chords: 'g.png, f.png',
           title: 'Africa',
           artist: 'Toto',
           stars: 1,
@@ -48,6 +53,11 @@ describe('SongsService', () => {
       expect(songs).toEqual([
         <Song>{
           id: 1,
+          titlePrefix: '',
+          artistPrefix: '',
+          active: true,
+          octave: 'None',
+          chords: 'g.png, f.png',
           title: 'Africa',
           artist: 'Toto',
           stars: 1,
@@ -121,6 +131,11 @@ describe('SongsService', () => {
       expect(songs).toEqual([
         <Song>{
           id: 1,
+          titlePrefix: '',
+          artistPrefix: '',
+          active: true,
+          octave: 'None',
+          chords: 'g.png, f.png',
           title: 'Africa',
           artist: 'Toto',
           stars: 1,
@@ -144,8 +159,13 @@ describe('SongsService', () => {
       expect(songs).toEqual([
         <Song>{
           id: 2,
+          titlePrefix: 'The',
+          artistPrefix: 'The',
+          active: false,
+          octave: 'Higher',
+          chords: 'c.png, d.png',
           title: 'Manic Monday',
-          artist: 'The Bangles',
+          artist: 'Bangles',
           stars: 2,
           firstNote: 2,
           capo: 1,
@@ -165,8 +185,13 @@ describe('SongsService', () => {
       expect(songs).toEqual([
         <Song>{
           id: 2,
+          titlePrefix: 'The',
+          artistPrefix: 'The',
+          active: false,
+          octave: 'Higher',
+          chords: 'c.png, d.png',
           title: 'Manic Monday',
-          artist: 'The Bangles',
+          artist: 'Bangles',
           stars: 2,
           flowered: true,
           firstNote: 2,

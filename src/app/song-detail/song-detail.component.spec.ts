@@ -125,6 +125,11 @@ describe('SongDetailComponent', () => {
 
     expect(component.song).toEqual(<Song>{
       id: 1,
+      titlePrefix: '',
+      artistPrefix: '',
+      active: true,
+      octave: 'None',
+      chords: 'g.png, f.png',
       title: 'Africa',
       artist: 'Toto',
       stars: 1,
@@ -145,7 +150,7 @@ describe('SongDetailComponent', () => {
       top: 10,
       bottom: 20,
       left: 37.5,
-      right: 212.5
+      right: 12.5
     });
   }));
 
@@ -161,6 +166,11 @@ describe('SongDetailComponent', () => {
 
       expect(component.song).toEqual(<Song>{
         id: 1,
+        titlePrefix: '',
+        artistPrefix: '',
+        active: true,
+        octave: 'None',
+        chords: 'g.png, f.png',
         title: 'Africa',
         artist: 'Toto',
         stars: 1,
@@ -269,6 +279,11 @@ describe('SongDetailComponent', () => {
 
     expect(component.songForm.value).toEqual({
       id: '',
+      chords: 'Pop, Spiritual',
+      octave: '',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: '',
       title: '',
       artist: '',
       stars: 1,
@@ -292,6 +307,11 @@ describe('SongDetailComponent', () => {
 
     expect(component.songForm.value).toEqual({
       id: '',
+      chords: 'Pop, 80s and 90s',
+      octave: '',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: '',
       title: '',
       artist: '',
       stars: 1,
@@ -315,6 +335,11 @@ describe('SongDetailComponent', () => {
 
     expect(component.songForm.value).toEqual({
       id: '',
+      chords: "80s and 90s, Spiritual's Songs",
+      octave: '',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: '',
       title: '',
       artist: '',
       stars: 1,
@@ -407,6 +432,11 @@ describe('SongDetailComponent', () => {
 
     expect(component.songForm.value).toEqual({
       id: '',
+      chords: 'Pop',
+      octave: '',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: '',
       title: '',
       artist: '',
       stars: 1,
@@ -430,6 +460,11 @@ describe('SongDetailComponent', () => {
 
     expect(component.songForm.value).toEqual({
       id: '',
+      chords: 'Pop, 80s',
+      octave: '',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: '',
       title: '',
       artist: '',
       stars: 1,
@@ -453,6 +488,11 @@ describe('SongDetailComponent', () => {
 
     expect(component.songForm.value).toEqual({
       id: '',
+      chords: 'Pop, 80s, Primary Songs',
+      octave: '',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: '',
       title: '',
       artist: '',
       stars: 1,
@@ -476,6 +516,11 @@ describe('SongDetailComponent', () => {
 
     expect(component.songForm.value).toEqual({
       id: '',
+      chords: 'Pop, 80s, Primary Songs, Spiritual Songs',
+      octave: '',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: '',
       title: '',
       artist: '',
       stars: 1,
@@ -499,6 +544,11 @@ describe('SongDetailComponent', () => {
 
     expect(component.songForm.value).toEqual({
       id: '',
+      chords: 'Pop, 80s, Primary Songs, Spiritual Songs',
+      octave: '',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: '',
       title: '',
       artist: '',
       stars: 1,
@@ -533,6 +583,11 @@ describe('SongDetailComponent', () => {
       request = httpMock.expectOne('http://localhost:3000/api/songs');
       expect(request.request.body).toEqual({
         id: 1,
+        chords: 'Pop, 80s',
+        octave: 'None',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: true,
         title: 'brian',
         artist: 'Toto',
         stars: 1,
@@ -553,6 +608,11 @@ describe('SongDetailComponent', () => {
 
       expect(component.song).toEqual(<Song>{
         id: 1,
+        chords: 'g.png, f.png',
+        octave: 'None',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: true,
         title: 'Africa',
         artist: 'Toto',
         stars: 1,
@@ -568,6 +628,11 @@ describe('SongDetailComponent', () => {
 
       expect(component.songForm.value).toEqual({
         id: 1,
+        chords: 'Pop, 80s',
+        octave: 'None',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: true,
         title: 'brian',
         artist: 'Toto',
         stars: 1,
@@ -599,6 +664,11 @@ describe('SongDetailComponent', () => {
       expect(component.songForm.value).toEqual(
         Object({
           id: 1,
+          chords: 'Pop, 80s',
+          octave: 'None',
+          titlePrefix: '',
+          artistPrefix: '',
+          active: true,
           title: '',
           artist: 'Toto',
           stars: 1,
@@ -686,6 +756,11 @@ describe('SongDetailComponent', () => {
 
     expect(component.songForm.value).toEqual({
       id: 2222,
+      chords: '',
+      octave: '',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: '',
       title: 'title - changed',
       artist: 'artist - changed',
       stars: 2,
@@ -709,6 +784,11 @@ describe('SongDetailComponent', () => {
 
     expect(component.songForm.value).toEqual({
       id: 2222,
+      chords: 'pop, 80s',
+      octave: '',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: '',
       title: 'title - changed',
       artist: 'artist - changed',
       stars: 1,
@@ -815,6 +895,11 @@ describe('SongDetailComponent with Save and Fake Data', () => {
 
     expect(component.songForm.value).toEqual({
       id: 0,
+      chords: '',
+      octave: '',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: '',
       title: '',
       artist: '',
       stars: 0,
@@ -838,8 +923,13 @@ describe('SongDetailComponent with Save and Fake Data', () => {
         artist: 'new Artist',
         stars: 2,
         genre: '80s',
-        imageName: 'new_song',
+        chords: 'd.png',
+        octave: 'Higher',
         firstNote: 1,
+        capo: 1,
+        imageTop: 1,
+        imageBottom: 1,
+        imageName: 'new_song',
         coverArtUrl: 'http://coverArtUrl'
       })
     );
@@ -849,17 +939,22 @@ describe('SongDetailComponent with Save and Fake Data', () => {
     let request = httpMock.expectOne('http://localhost:3000/api/songs');
     expect(request.request.body).toEqual({
       id: 0,
+      titlePrefix: '',
+      artistPrefix: '',
+      active: '',
       title: 'New Song',
       artist: 'new Artist',
       stars: 2,
+      genre: '80s',
+      chords: 'd.png',
+      octave: 'Higher',
+      firstNote: 1,
+      capo: 1,
+      imageTop: 1,
+      imageBottom: 1,
       flowered: false,
       imageName: 'new_song',
-      imageTop: 0,
-      imageBottom: 0,
-      genre: '80s',
       genreSearchTerm: '',
-      capo: 0,
-      firstNote: 1,
       coverArtUrl: 'http://coverArtUrl',
       createdDate: ''
     });
@@ -867,6 +962,11 @@ describe('SongDetailComponent with Save and Fake Data', () => {
     expect(request.request.method).toEqual('POST');
     request.flush({
       id: 1,
+      chords: 'classics',
+      octave: 'Higher',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: false,
       title: 'New Song - Response',
       artist: 'New Artist - Response',
       stars: 3,
@@ -881,6 +981,11 @@ describe('SongDetailComponent with Save and Fake Data', () => {
 
     expect(component.song).toEqual(<Song>{
       id: 1,
+      chords: 'classics',
+      octave: 'Higher',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: false,
       title: 'New Song - Response',
       artist: 'New Artist - Response',
       stars: 3,
@@ -895,6 +1000,11 @@ describe('SongDetailComponent with Save and Fake Data', () => {
 
     expect(component.songForm.value).toEqual({
       id: 1,
+      chords: 'classics',
+      octave: 'Higher',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: false,
       title: 'New Song - Response',
       artist: 'New Artist - Response',
       stars: 3,
@@ -903,7 +1013,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       imageTop: 0,
       imageBottom: 0,
       genreSearchTerm: '',
-      capo: 0,
+      capo: 1,
       firstNote: 1,
       coverArtUrl: 'http://coverArtUrl',
       createdDate: '',
@@ -919,6 +1029,11 @@ describe('SongDetailComponent with Save and Fake Data', () => {
     request = httpMock.expectOne('http://localhost:3000/api/songs');
     expect(request.request.body).toEqual({
       id: 1,
+      chords: 'classics',
+      octave: 'Higher',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: false,
       title: 'Updated Song',
       artist: 'New Artist - Response',
       stars: 3,
@@ -928,11 +1043,12 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       imageBottom: 0,
       genre: 'classics',
       genreSearchTerm: '',
-      capo: 0,
+      capo: 1,
       firstNote: 1,
       coverArtUrl: 'http://coverArtUrl',
       createdDate: ''
     });
+
     expect(request.request.method).toEqual('PUT');
     request.flush({
       id: 1,
@@ -950,6 +1066,11 @@ describe('SongDetailComponent with Save and Fake Data', () => {
 
     expect(component.song).toEqual(<Song>{
       id: 1,
+      chords: 'classics',
+      octave: 'Higher',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: false,
       title: 'New Song - Response',
       artist: 'New Artist - Response',
       stars: 3,
@@ -964,12 +1085,17 @@ describe('SongDetailComponent with Save and Fake Data', () => {
 
     expect(component.songForm.value).toEqual({
       id: 1,
+      chords: 'classics',
+      octave: 'Higher',
+      titlePrefix: '',
+      artistPrefix: '',
+      active: false,
       title: 'Updated Song',
       artist: 'New Artist - Response',
       stars: 3,
       flowered: false,
       genreSearchTerm: '',
-      capo: 0,
+      capo: 1,
       firstNote: 1,
       coverArtUrl: 'http://coverArtUrl',
       createdDate: '',

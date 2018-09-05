@@ -9,6 +9,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { ImageResizeComponent } from '../image-resize/image-resize.component';
+import { AngularDraggableModule } from 'angular2-draggable';
 
 describe('ImageProcessingComponent', () => {
   let component: ImageProcessingComponent;
@@ -20,6 +22,7 @@ describe('ImageProcessingComponent', () => {
       navigationUrl = 'not set';
       TestBed.configureTestingModule({
         imports: [
+          AngularDraggableModule,
           FormsModule,
           HttpClientTestingModule,
           MatButtonModule,
@@ -49,7 +52,7 @@ describe('ImageProcessingComponent', () => {
             }
           }
         ],
-        declarations: [ImageProcessingComponent]
+        declarations: [ImageResizeComponent, ImageProcessingComponent]
       })
         .compileComponents()
         .then(() => {

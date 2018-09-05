@@ -40,9 +40,9 @@ describe('ImageResizeComponent', () => {
     expect(component.topIcon.nativeElement.style.left).toBe('20px');
     expect(component.resizeBox.nativeElement.style.top).toBe('13px');
 
-    expect(component.bottomIcon.nativeElement.style.bottom).toBe('112.5px');
+    expect(component.bottomIcon.nativeElement.style.bottom).toBe('99.5px');
     expect(component.bottomIcon.nativeElement.style.right).toBe('200px');
-    expect(component.resizeBox.nativeElement.style.bottom).toBe('125px');
+    expect(component.resizeBox.nativeElement.style.bottom).toBe('114px');
   });
 
   it('should verify movingTopOffset values', () => {
@@ -54,7 +54,7 @@ describe('ImageResizeComponent', () => {
   it('should verify movingBottomOffset values', () => {
     emitCoordinates();
     component.movingBottomOffset({ y: 20, x: 10 });
-    expect(component.resizeBox.nativeElement.style.bottom).toBe('105px');
+    expect(component.resizeBox.nativeElement.style.bottom).toBe('92px');
   });
 
   describe('stoppedMoving', () => {

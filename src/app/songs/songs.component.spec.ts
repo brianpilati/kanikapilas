@@ -45,17 +45,22 @@ describe('SongsComponent', () => {
     expect(component.sortedSongs).toEqual([
       <Song>{
         id: 1,
+        titlePrefix: '',
         title: 'Africa',
+        artistPrefix: '',
         artist: 'Toto',
+        active: true,
         stars: 1,
         flowered: false,
-        firstNote: 1,
         capo: 0,
-        coverArtUrl: 'http://toto/africa/coverart.png',
         genre: 'Pop, 80s',
+        firstNote: 1,
         imageName: 'africa',
         imageTop: 10,
-        imageBottom: 20
+        imageBottom: 20,
+        coverArtUrl: 'http://toto/africa/coverart.png',
+        octave: 'None',
+        chords: 'g.png, f.png'
       }
     ]);
   }));
