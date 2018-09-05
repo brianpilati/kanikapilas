@@ -71,6 +71,10 @@
                 {
                   "replace": "src/environments/keys.ts",
                   "with": "src/testing/test-keys.ts"
+                },
+                {
+                  "replace": "src/app/constants/chord-constants.ts",
+                  "with": "src/testing/test-chord-constants.ts"
                 }
               ]
             }

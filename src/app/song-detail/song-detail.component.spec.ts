@@ -46,7 +46,7 @@ const activatedRouteMock = {
   }
 };
 
-describe('SongDetailComponent', () => {
+fdescribe('SongDetailComponent', () => {
   let component: SongDetailComponent;
   let fixture: ComponentFixture<SongDetailComponent>;
   let compiled;
@@ -162,6 +162,7 @@ describe('SongDetailComponent', () => {
       const clonedSongs = TestSongs.map(x => Object.assign({}, x));
       const testSong = clonedSongs[0];
       testSong.genre = null;
+      testSong.chords = null;
       request.flush(testSong);
 
       expect(component.song).toEqual(<Song>{
@@ -170,7 +171,7 @@ describe('SongDetailComponent', () => {
         artistPrefix: '',
         active: true,
         octave: 'None',
-        chords: 'g.png, f.png',
+        chords: null,
         title: 'Africa',
         artist: 'Toto',
         stars: 1,
@@ -272,299 +273,576 @@ describe('SongDetailComponent', () => {
     });
   });
 
-  it('should test deleteGenre', () => {
-    component.songForm.get('genre').setValue('Pop, 80s and 90s, Spiritual');
+  describe('genre', () => {
+    it('should test deleteGenre', () => {
+      component.songForm.get('genre').setValue('Pop, 80s and 90s, Spiritual');
 
-    component.deleteGenre('80s and 90s');
+      component.deleteGenre('80s and 90s');
 
-    expect(component.songForm.value).toEqual({
-      id: '',
-      chords: 'Pop, Spiritual',
-      octave: '',
-      titlePrefix: '',
-      artistPrefix: '',
-      active: '',
-      title: '',
-      artist: '',
-      stars: 1,
-      flowered: false,
-      imageName: '',
-      imageTop: 0,
-      imageBottom: 0,
-      genre: 'Pop, Spiritual',
-      genreSearchTerm: '',
-      capo: 0,
-      firstNote: '',
-      coverArtUrl: '',
-      createdDate: ''
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: '',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genre: 'Pop, Spiritual',
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        createdDate: ''
+      });
+
+      expect(component.genres).toEqual(['Pop', 'Spiritual']);
+
+      component.songForm.get('genre').setValue(`Pop, 80s and 90s, Spiritual's Songs`);
+
+      component.deleteGenre(`Spiritual's Songs`);
+
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: '',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genre: 'Pop, 80s and 90s',
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        createdDate: ''
+      });
+
+      expect(component.genres).toEqual(['Pop', '80s and 90s']);
+
+      component.songForm.get('genre').setValue(`Pop, 80s and 90s, Spiritual's Songs`);
+
+      component.deleteGenre('Pop');
+
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: '',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genre: `80s and 90s, Spiritual's Songs`,
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        createdDate: ''
+      });
+
+      expect(component.genres).toEqual(['80s and 90s', `Spiritual's Songs`]);
     });
 
-    expect(component.genres).toEqual(['Pop', 'Spiritual']);
+    it('should test filteredGenres', () => {
+      let filteredGenres: string[] = [];
 
-    component.songForm.get('genre').setValue(`Pop, 80s and 90s, Spiritual's Songs`);
+      component.filteredGenres.subscribe(options => {
+        filteredGenres = options;
+      });
 
-    component.deleteGenre(`Spiritual's Songs`);
+      component.songForm.get('genreSearchTerm').setValue('Pop');
 
-    expect(component.songForm.value).toEqual({
-      id: '',
-      chords: 'Pop, 80s and 90s',
-      octave: '',
-      titlePrefix: '',
-      artistPrefix: '',
-      active: '',
-      title: '',
-      artist: '',
-      stars: 1,
-      flowered: false,
-      imageName: '',
-      imageTop: 0,
-      imageBottom: 0,
-      genre: 'Pop, 80s and 90s',
-      genreSearchTerm: '',
-      capo: 0,
-      firstNote: '',
-      coverArtUrl: '',
-      createdDate: ''
+      expect(filteredGenres).toEqual(['Pop']);
+
+      component.genreSearchTermSelected();
+
+      expect(filteredGenres).toEqual([
+        'Country',
+        'Classics',
+        '80s and 90s',
+        'Oldies',
+        'Spiritual',
+        'Disney',
+        'Fun',
+        'Show Tunes',
+        `Children's`,
+        'Campfire',
+        'Picking',
+        'Patriotic'
+      ]);
+
+      component.songForm.get('genreSearchTerm').setValue('Patriotic');
+
+      expect(filteredGenres).toEqual(['Patriotic']);
+
+      component.genreSearchTermSelected();
+
+      expect(filteredGenres).toEqual([
+        'Country',
+        'Classics',
+        '80s and 90s',
+        'Oldies',
+        'Spiritual',
+        'Disney',
+        'Fun',
+        'Show Tunes',
+        `Children's`,
+        'Campfire',
+        'Picking'
+      ]);
+
+      component.deleteGenre('Pop');
+      component.songForm.get('genreSearchTerm').setValue('');
+
+      expect(filteredGenres).toEqual([
+        'Country',
+        'Classics',
+        '80s and 90s',
+        'Pop',
+        'Oldies',
+        'Spiritual',
+        'Disney',
+        'Fun',
+        'Show Tunes',
+        `Children's`,
+        'Campfire',
+        'Picking'
+      ]);
     });
 
-    expect(component.genres).toEqual(['Pop', '80s and 90s']);
+    it('should test genreSearchTermSelected', () => {
+      component.songForm.get('genreSearchTerm').setValue('Pop');
 
-    component.songForm.get('genre').setValue(`Pop, 80s and 90s, Spiritual's Songs`);
+      component.genreSearchTermSelected();
 
-    component.deleteGenre('Pop');
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: '',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genre: 'Pop',
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        createdDate: ''
+      });
 
-    expect(component.songForm.value).toEqual({
-      id: '',
-      chords: "80s and 90s, Spiritual's Songs",
-      octave: '',
-      titlePrefix: '',
-      artistPrefix: '',
-      active: '',
-      title: '',
-      artist: '',
-      stars: 1,
-      flowered: false,
-      imageName: '',
-      imageTop: 0,
-      imageBottom: 0,
-      genre: `80s and 90s, Spiritual's Songs`,
-      genreSearchTerm: '',
-      capo: 0,
-      firstNote: '',
-      coverArtUrl: '',
-      createdDate: ''
+      expect(component.genres).toEqual(['Pop']);
+
+      component.songForm.get('genreSearchTerm').setValue('80s');
+
+      component.genreSearchTermSelected();
+
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: '',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genre: 'Pop, 80s',
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        createdDate: ''
+      });
+
+      expect(component.genres).toEqual(['Pop', '80s']);
+
+      component.songForm.get('genreSearchTerm').setValue('Primary Songs');
+
+      component.genreSearchTermSelected();
+
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: '',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        genre: 'Pop, 80s, Primary Songs',
+        createdDate: ''
+      });
+
+      expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs']);
+
+      component.songForm.get('genreSearchTerm').setValue('Spiritual Songs');
+
+      component.genreSearchTermSelected();
+
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: '',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        createdDate: '',
+        genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
+      });
+
+      expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs', 'Spiritual Songs']);
+
+      component.songForm.get('genreSearchTerm').setValue('Pop');
+
+      component.genreSearchTermSelected();
+
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: '',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        createdDate: '',
+        genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
+      });
+
+      expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs', 'Spiritual Songs']);
     });
-
-    expect(component.genres).toEqual(['80s and 90s', `Spiritual's Songs`]);
   });
 
-  it('should test filteredGenres', () => {
-    let filteredGenres: string[] = [];
+  describe('chords', () => {
+    it('should test deleteChord', () => {
+      component.songForm.get('chords').setValue('a.png, g.png, c.png');
 
-    component.filteredGenres.subscribe(options => {
-      filteredGenres = options;
+      component.deleteChord('g.png');
+
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: 'a.png, c.png',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genre: '',
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        createdDate: ''
+      });
+
+      expect(component.chords).toEqual(['a.png', 'c.png']);
+
+      component.songForm.get('chords').setValue('a.png, c.png, f-sharp.png');
+
+      component.deleteChord('f-sharp.png');
+
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: 'a.png, c.png',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genre: '',
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        createdDate: ''
+      });
+
+      expect(component.chords).toEqual(['a.png', 'c.png']);
+
+      component.songForm.get('chords').setValue(`a.png, bb.png, d#.png`);
+
+      component.deleteChord('a.png');
+
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: 'bb.png, d#.png',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genre: '',
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        createdDate: ''
+      });
+
+      expect(component.chords).toEqual(['bb.png', 'd#.png']);
     });
 
-    component.songForm.get('genreSearchTerm').setValue('Pop');
+    it('should test filteredChords', () => {
+      let filteredChords: string[] = [];
 
-    expect(filteredGenres).toEqual(['Pop']);
+      component.filteredChords.subscribe(options => {
+        filteredChords = options;
+      });
 
-    component.genreSearchTermSelected();
+      component.songForm.get('chordSearchTerm').setValue('a.png');
 
-    expect(filteredGenres).toEqual([
-      'Country',
-      'Classics',
-      '80s and 90s',
-      'Oldies',
-      'Spiritual',
-      'Disney',
-      'Fun',
-      'Show Tunes',
-      `Children's`,
-      'Campfire',
-      'Picking',
-      'Patriotic'
-    ]);
+      expect(filteredChords).toEqual(['a.png']);
 
-    component.songForm.get('genreSearchTerm').setValue('Patriotic');
+      component.chordSearchTermSelected();
 
-    expect(filteredGenres).toEqual(['Patriotic']);
+      expect(filteredChords).toEqual(['a#dim.png', 'bbm.png', 'd#dim.png', 'ebmaj7.png', 'g.png']);
 
-    component.genreSearchTermSelected();
+      component.songForm.get('chordSearchTerm').setValue('g.png');
 
-    expect(filteredGenres).toEqual([
-      'Country',
-      'Classics',
-      '80s and 90s',
-      'Oldies',
-      'Spiritual',
-      'Disney',
-      'Fun',
-      'Show Tunes',
-      `Children's`,
-      'Campfire',
-      'Picking'
-    ]);
+      expect(filteredChords).toEqual(['g.png']);
 
-    component.deleteGenre('Pop');
-    component.songForm.get('genreSearchTerm').setValue('');
+      component.chordSearchTermSelected();
 
-    expect(filteredGenres).toEqual([
-      'Country',
-      'Classics',
-      '80s and 90s',
-      'Pop',
-      'Oldies',
-      'Spiritual',
-      'Disney',
-      'Fun',
-      'Show Tunes',
-      `Children's`,
-      'Campfire',
-      'Picking'
-    ]);
-  });
+      expect(filteredChords).toEqual(['a#dim.png', 'bbm.png', 'd#dim.png', 'ebmaj7.png']);
 
-  it('should test genreSearchTermSelected', () => {
-    component.songForm.get('genreSearchTerm').setValue('Pop');
+      component.deleteChord('a.png');
+      component.songForm.get('chordSearchTerm').setValue('');
 
-    component.genreSearchTermSelected();
-
-    expect(component.songForm.value).toEqual({
-      id: '',
-      chords: 'Pop',
-      octave: '',
-      titlePrefix: '',
-      artistPrefix: '',
-      active: '',
-      title: '',
-      artist: '',
-      stars: 1,
-      flowered: false,
-      imageName: '',
-      imageTop: 0,
-      imageBottom: 0,
-      genre: 'Pop',
-      genreSearchTerm: '',
-      capo: 0,
-      firstNote: '',
-      coverArtUrl: '',
-      createdDate: ''
+      expect(filteredChords).toEqual(['a#dim.png', 'bbm.png', 'd#dim.png', 'ebmaj7.png', 'a.png']);
     });
 
-    expect(component.genres).toEqual(['Pop']);
+    it('should test chordSearchTermSelected', () => {
+      component.songForm.get('chordSearchTerm').setValue('a.png');
 
-    component.songForm.get('genreSearchTerm').setValue('80s');
+      component.chordSearchTermSelected();
 
-    component.genreSearchTermSelected();
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: 'a.png',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genre: '',
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        createdDate: ''
+      });
 
-    expect(component.songForm.value).toEqual({
-      id: '',
-      chords: 'Pop, 80s',
-      octave: '',
-      titlePrefix: '',
-      artistPrefix: '',
-      active: '',
-      title: '',
-      artist: '',
-      stars: 1,
-      flowered: false,
-      imageName: '',
-      imageTop: 0,
-      imageBottom: 0,
-      genre: 'Pop, 80s',
-      genreSearchTerm: '',
-      capo: 0,
-      firstNote: '',
-      coverArtUrl: '',
-      createdDate: ''
+      expect(component.chords).toEqual(['a.png']);
+
+      component.songForm.get('chordSearchTerm').setValue('g.png');
+
+      component.chordSearchTermSelected();
+
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: 'a.png, g.png',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genre: '',
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        createdDate: ''
+      });
+
+      expect(component.chords).toEqual(['a.png', 'g.png']);
+
+      component.songForm.get('chordSearchTerm').setValue('f#.png');
+
+      component.chordSearchTermSelected();
+
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: 'a.png, g.png, f#.png',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        genre: '',
+        createdDate: ''
+      });
+
+      expect(component.chords).toEqual(['a.png', 'g.png', 'f#.png']);
+
+      component.songForm.get('chordSearchTerm').setValue('ab.png');
+
+      component.chordSearchTermSelected();
+
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: 'a.png, g.png, f#.png, ab.png',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        createdDate: '',
+        genre: ''
+      });
+
+      expect(component.chords).toEqual(['a.png', 'g.png', 'f#.png', 'ab.png']);
+
+      component.songForm.get('chordSearchTerm').setValue('a.png');
+
+      component.chordSearchTermSelected();
+
+      expect(component.songForm.value).toEqual({
+        id: '',
+        chords: 'a.png, g.png, f#.png, ab.png',
+        octave: '',
+        titlePrefix: '',
+        artistPrefix: '',
+        active: '',
+        title: '',
+        artist: '',
+        stars: 1,
+        flowered: false,
+        imageName: '',
+        imageTop: 0,
+        imageBottom: 0,
+        genreSearchTerm: '',
+        chordSearchTerm: '',
+        capo: 0,
+        firstNote: '',
+        coverArtUrl: '',
+        createdDate: '',
+        genre: ''
+      });
+
+      expect(component.chords).toEqual(['a.png', 'g.png', 'f#.png', 'ab.png']);
     });
-
-    expect(component.genres).toEqual(['Pop', '80s']);
-
-    component.songForm.get('genreSearchTerm').setValue('Primary Songs');
-
-    component.genreSearchTermSelected();
-
-    expect(component.songForm.value).toEqual({
-      id: '',
-      chords: 'Pop, 80s, Primary Songs',
-      octave: '',
-      titlePrefix: '',
-      artistPrefix: '',
-      active: '',
-      title: '',
-      artist: '',
-      stars: 1,
-      flowered: false,
-      imageName: '',
-      imageTop: 0,
-      imageBottom: 0,
-      genreSearchTerm: '',
-      capo: 0,
-      firstNote: '',
-      coverArtUrl: '',
-      genre: 'Pop, 80s, Primary Songs',
-      createdDate: ''
-    });
-
-    expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs']);
-
-    component.songForm.get('genreSearchTerm').setValue('Spiritual Songs');
-
-    component.genreSearchTermSelected();
-
-    expect(component.songForm.value).toEqual({
-      id: '',
-      chords: 'Pop, 80s, Primary Songs, Spiritual Songs',
-      octave: '',
-      titlePrefix: '',
-      artistPrefix: '',
-      active: '',
-      title: '',
-      artist: '',
-      stars: 1,
-      flowered: false,
-      imageName: '',
-      imageTop: 0,
-      imageBottom: 0,
-      genreSearchTerm: '',
-      capo: 0,
-      firstNote: '',
-      coverArtUrl: '',
-      createdDate: '',
-      genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
-    });
-
-    expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs', 'Spiritual Songs']);
-
-    component.songForm.get('genreSearchTerm').setValue('Pop');
-
-    component.genreSearchTermSelected();
-
-    expect(component.songForm.value).toEqual({
-      id: '',
-      chords: 'Pop, 80s, Primary Songs, Spiritual Songs',
-      octave: '',
-      titlePrefix: '',
-      artistPrefix: '',
-      active: '',
-      title: '',
-      artist: '',
-      stars: 1,
-      flowered: false,
-      imageName: '',
-      imageTop: 0,
-      imageBottom: 0,
-      genreSearchTerm: '',
-      capo: 0,
-      firstNote: '',
-      coverArtUrl: '',
-      createdDate: '',
-      genre: 'Pop, 80s, Primary Songs, Spiritual Songs'
-    });
-
-    expect(component.genres).toEqual(['Pop', '80s', 'Primary Songs', 'Spiritual Songs']);
   });
 
   describe('save', () => {
@@ -583,7 +861,7 @@ describe('SongDetailComponent', () => {
       request = httpMock.expectOne('http://localhost:3000/api/songs');
       expect(request.request.body).toEqual({
         id: 1,
-        chords: 'Pop, 80s',
+        chords: 'g.png, f.png',
         octave: 'None',
         titlePrefix: '',
         artistPrefix: '',
@@ -596,6 +874,7 @@ describe('SongDetailComponent', () => {
         imageTop: 10,
         imageBottom: 20,
         genreSearchTerm: '',
+        chordSearchTerm: '',
         capo: 0,
         firstNote: 1,
         coverArtUrl: 'http://toto/africa/coverart.png',
@@ -628,7 +907,7 @@ describe('SongDetailComponent', () => {
 
       expect(component.songForm.value).toEqual({
         id: 1,
-        chords: 'Pop, 80s',
+        chords: 'g.png, f.png',
         octave: 'None',
         titlePrefix: '',
         artistPrefix: '',
@@ -641,6 +920,7 @@ describe('SongDetailComponent', () => {
         imageTop: 10,
         imageBottom: 20,
         genreSearchTerm: '',
+        chordSearchTerm: '',
         capo: 0,
         firstNote: 1,
         coverArtUrl: 'http://toto/africa/coverart.png',
@@ -664,7 +944,7 @@ describe('SongDetailComponent', () => {
       expect(component.songForm.value).toEqual(
         Object({
           id: 1,
-          chords: 'Pop, 80s',
+          chords: 'g.png, f.png',
           octave: 'None',
           titlePrefix: '',
           artistPrefix: '',
@@ -677,6 +957,7 @@ describe('SongDetailComponent', () => {
           imageTop: 10,
           imageBottom: 20,
           genreSearchTerm: '',
+          chordSearchTerm: '',
           capo: 0,
           firstNote: 1,
           coverArtUrl: 'http://toto/africa/coverart.png',
@@ -769,6 +1050,7 @@ describe('SongDetailComponent', () => {
       imageTop: 0,
       imageBottom: 0,
       genreSearchTerm: '',
+      chordSearchTerm: '',
       capo: 0,
       firstNote: '',
       coverArtUrl: '',
@@ -784,7 +1066,7 @@ describe('SongDetailComponent', () => {
 
     expect(component.songForm.value).toEqual({
       id: 2222,
-      chords: 'pop, 80s',
+      chords: '',
       octave: '',
       titlePrefix: '',
       artistPrefix: '',
@@ -797,6 +1079,7 @@ describe('SongDetailComponent', () => {
       imageTop: 0,
       imageBottom: 0,
       genreSearchTerm: '',
+      chordSearchTerm: '',
       capo: 0,
       firstNote: '',
       coverArtUrl: '',
@@ -908,6 +1191,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       imageTop: 0,
       imageBottom: 0,
       genreSearchTerm: '',
+      chordSearchTerm: '',
       capo: 0,
       firstNote: '',
       coverArtUrl: '',
@@ -955,6 +1239,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       flowered: false,
       imageName: 'new_song',
       genreSearchTerm: '',
+      chordSearchTerm: '',
       coverArtUrl: 'http://coverArtUrl',
       createdDate: ''
     });
@@ -1013,6 +1298,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       imageTop: 0,
       imageBottom: 0,
       genreSearchTerm: '',
+      chordSearchTerm: '',
       capo: 1,
       firstNote: 1,
       coverArtUrl: 'http://coverArtUrl',
@@ -1043,6 +1329,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       imageBottom: 0,
       genre: 'classics',
       genreSearchTerm: '',
+      chordSearchTerm: '',
       capo: 1,
       firstNote: 1,
       coverArtUrl: 'http://coverArtUrl',
@@ -1095,6 +1382,7 @@ describe('SongDetailComponent with Save and Fake Data', () => {
       stars: 3,
       flowered: false,
       genreSearchTerm: '',
+      chordSearchTerm: '',
       capo: 1,
       firstNote: 1,
       coverArtUrl: 'http://coverArtUrl',

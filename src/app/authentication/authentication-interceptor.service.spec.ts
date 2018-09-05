@@ -6,7 +6,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { SongsService } from '../songs-service/songs.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
-describe('AuthenticationInterceptorService', () => {
+fdescribe('AuthenticationInterceptorService', () => {
   const emitHttpStatus = [];
 
   beforeEach(() => {

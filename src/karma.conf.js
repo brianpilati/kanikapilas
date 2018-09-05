@@ -26,12 +26,14 @@ module.exports = function(config) {
         functions: 100
       }
     },
+    reportSlowerThan: 1000,
+    browserNoActivityTimeout: 20000,
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
-    singleRun: false
+    singleRun: false,
+    browsers: ['ChromeHeadless']
   });
 };

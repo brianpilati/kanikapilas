@@ -11,6 +11,7 @@ import { ImageCoordinates } from '../models/image-coordinates';
 import { FirstNotes } from '../models/first-notes';
 import { FirstNotesConstants } from '../constants/first-notes-constants';
 import { GenreConstants } from '../constants/genre-constants';
+import { ChordConstants } from '../constants/chord-constants';
 
 @Component({
   selector: 'app-song-detail',
@@ -32,13 +33,16 @@ export class SongDetailComponent implements OnInit {
 
   public stars: boolean[];
   public genres: string[];
+  public chords: string[];
   public songForm: FormGroup;
   private genreOptions: string[] = GenreConstants;
+  private chordOptions: string[] = ChordConstants;
   private isNewSong = true;
 
   firstNoteOptions: FirstNotes[] = FirstNotesConstants;
 
   filteredGenres: Observable<string[]>;
+  filteredChords: Observable<string[]>;
   filteredFirstNotes: Observable<FirstNotes[]>;
 
   constructor(
@@ -49,6 +53,7 @@ export class SongDetailComponent implements OnInit {
     private sanitizer: DomSanitizer
   ) {
     this.genres = [];
+    this.chords = [];
     this.stars = Array(5).fill(false);
     this.song = new Song();
     this.createForm();
@@ -71,6 +76,7 @@ export class SongDetailComponent implements OnInit {
       capo: [0, Validators.required],
       imageName: ['', [Validators.required, Validators.maxLength(355)]],
       genreSearchTerm: '',
+      chordSearchTerm: '',
       createdDate: '',
       imageTop: [0, Validators.min(0)],
       imageBottom: [0, Validators.min(0)],
@@ -89,6 +95,11 @@ export class SongDetailComponent implements OnInit {
       startWith(''),
       map(value => this._genreFilter(value))
     );
+
+    this.filteredChords = this.songForm.get('chordSearchTerm').valueChanges.pipe(
+      startWith(''),
+      map(value => this._chordFilter(value))
+    );
   }
 
   private _genreFilter(value: string): string[] {
@@ -99,11 +110,20 @@ export class SongDetailComponent implements OnInit {
       .filter(option => option.toLowerCase().indexOf(filterValue) === 0);
   }
 
+  private _chordFilter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.chordOptions
+      .filter(option => this.chords.indexOf(option) < 0)
+      .filter(option => option.toLowerCase().indexOf(filterValue) === 0);
+  }
+
   private setSongValues(): void {
     this.songForm.setValue(Object.assign(this.songForm.value, this.song));
 
     this.starsChanged();
     this.parseGenre();
+    this.parseChords();
   }
 
   private getSong(): void {
@@ -206,7 +226,6 @@ export class SongDetailComponent implements OnInit {
     const dbConstants = this.songForm.get('genre').value;
     if (dbConstants !== null) {
       this.genres = dbConstants.split(/,\s/g);
-      this.songForm.get('chords').setValue(dbConstants);
     }
   }
 
@@ -229,6 +248,34 @@ export class SongDetailComponent implements OnInit {
       this.parseGenre();
     }
     this.songForm.get('genreSearchTerm').setValue('');
+  }
+
+  private parseChords(): void {
+    const dbConstants = this.songForm.get('chords').value;
+    if (dbConstants !== null) {
+      this.chords = dbConstants.split(/,\s/g);
+    }
+  }
+
+  deleteChord(deleteInput: string): void {
+    const chordRegex = new RegExp(`(,\\s${deleteInput})|(${deleteInput}(,\\s)?)`, 'g');
+    this.songForm.get('chords').setValue(this.songForm.get('chords').value.replace(chordRegex, ''));
+
+    this.parseChords();
+  }
+
+  chordSearchTermSelected(): void {
+    const currentChords = this.songForm.get('chords').value || '';
+    const chordSearchTerm = this.songForm.get('chordSearchTerm').value;
+    if (currentChords.match(chordSearchTerm) === null) {
+      if (currentChords.length > 0) {
+        this.songForm.get('chords').setValue(`${currentChords}, ${chordSearchTerm}`);
+      } else {
+        this.songForm.get('chords').setValue(`${chordSearchTerm}`);
+      }
+      this.parseChords();
+    }
+    this.songForm.get('chordSearchTerm').setValue('');
   }
 
   save(): void {
