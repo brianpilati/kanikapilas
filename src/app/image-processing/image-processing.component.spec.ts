@@ -103,6 +103,18 @@ describe('ImageProcessingComponent', () => {
     expect(component.imageProcessingForm.get('fileName').value).toBe('fileName - set');
   });
 
+  it('should test resize', () => {
+    component.resize(
+      Object({
+        top: 33,
+        bottom: 22
+      })
+    );
+
+    expect(component.imageProcessingForm.get('imageBottom').value).toBe(22);
+    expect(component.imageProcessingForm.get('imageTop').value).toBe(33);
+  });
+
   it('should test resetForm', () => {
     component.imageProcessingForm.setValue({
       title: 'title',

@@ -108,3 +108,49 @@ describe('ImageResizeComponent', () => {
     });
   });
 });
+
+describe('ImageResizeComponent - no coordinates', () => {
+  let component: ImageResizeComponent;
+  let fixture: ComponentFixture<ImageResizeComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [AngularDraggableModule],
+      declarations: [ImageResizeComponent]
+    })
+      .compileComponents()
+      .then(() => {
+        fixture = TestBed.createComponent(ImageResizeComponent);
+        component = fixture.componentInstance;
+        component.fullImage = true;
+        fixture.detectChanges();
+      });
+  }));
+
+  it('should verify default values', () => {
+    expect(component.topIcon.nativeElement.style.top).toBe('');
+    expect(component.topIcon.nativeElement.style.left).toBe('');
+    expect(component.resizeBox.nativeElement.style.top).toBe('');
+
+    expect(component.bottomIcon.nativeElement.style.bottom).toBe('');
+    expect(component.bottomIcon.nativeElement.style.right).toBe('');
+    expect(component.resizeBox.nativeElement.style.bottom).toBe('');
+  });
+
+  it('should verify stoppedMoving values - even', () => {
+    let testCoordinates: ImageCoordinates;
+    component.resizeBox.nativeElement.style.top = '100px';
+    component.resizeBox.nativeElement.style.bottom = '400px';
+    component.resize.subscribe((_coordinates_: ImageCoordinates) => {
+      testCoordinates = _coordinates_;
+    });
+
+    component.stoppedMoving();
+    expect(testCoordinates).toEqual(<ImageCoordinates>{
+      top: 128,
+      left: 0,
+      right: 0,
+      bottom: 529
+    });
+  });
+});

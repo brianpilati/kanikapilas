@@ -27,7 +27,7 @@ export class ImageResizeComponent implements OnInit {
   coordinates: EventEmitter<ImageCoordinates>;
 
   @Input()
-  private fullImage: boolean;
+  fullImage: boolean;
 
   @Output()
   resize = new EventEmitter<ImageCoordinates>();
