@@ -5,6 +5,7 @@ const artistMatch = require('./artist-match');
 const fileResize = require('../utils/libs/images/fileResize');
 const imageFileBuilder = require('../utils/imageFileBuilder');
 const songDomain = require('../server/domains/song');
+const pool = require('../lib/database');
 
 const debug = true;
 //const testSong = 'Book_2_1-21.png';
@@ -39,11 +40,9 @@ function findSongs() {
                 moveSong(filePath, file);
               } else {
                 fileResize.processImage(filePath).then(results => {
-                  songDomain.insertSong(results).then(function(response) {
-                    songDomain.getSong(response.insertId).then(function(songs) {
-                      imageFileBuilder.processImage(songs.pop(), filePath, true).then(results => {
-                        resolve(results);
-                      });
+                  songDomain.replaceSong(results).then(function(song) {
+                    imageFileBuilder.processImage(song, filePath, true).then(results => {
+                      resolve(results);
                     });
                   });
                 });
@@ -72,7 +71,6 @@ module.exports = {
   findSongs() {
     return findSongs().then(
       result => {
-        console.log('all done', result);
         return result;
       },
       error => {
@@ -82,7 +80,11 @@ module.exports = {
   }
 };
 
-findSongs();
+findSongs().then(results => {
+  console.log('the end');
+  pool.end();
+  console.log('ending the pool');
+});
 
 /*
 function main() {

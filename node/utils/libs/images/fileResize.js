@@ -14,8 +14,8 @@ function getNewSize(image, location) {
   };
 }
 
-function getBottomAdjustment(isCommandline) {
-  return isCommandline ? 6 : -25;
+function getLineAdjustment() {
+  return 25;
 }
 
 function saveHeaderImage(song, songImage) {
@@ -63,7 +63,7 @@ function saveFooterImage(song, songImage) {
 }
 
 function getCorrectedImage(song, songImage, isCommandline) {
-  const height = songImage.height - (song.imageBottom + song.imageTop);
+  const height = songImage.height - song.imageBottom + song.imageTop - getLineAdjustment();
 
   const croppedImage = songImage.crop({
     y: song.imageTop,
@@ -138,7 +138,7 @@ class FileResize {
         let title = '';
 
         return saveHeaderImage(song, songImage).then(headerImagePath => {
-          return tesseractMatch.findTitle(headerImagePath).then(results => {
+          return tesseractMatch.findWords(headerImagePath).then(results => {
             title = beautifyTitle(results);
             return saveFooterImage(song, songImage).then(footerImagePath => {
               return artistMatch.artistMatch(footerImagePath).then(results => {
@@ -148,9 +148,10 @@ class FileResize {
                 });
 
                 return saveArtistImage(xyCoordinates, footerImagePath).then(artistImagePath => {
-                  return tesseractMatch.findTitle(artistImagePath, 1200).then(results => {
+                  return tesseractMatch.findWords(artistImagePath, 1200).then(results => {
                     song.title = title;
                     song.artist = parseOCRWord(results);
+                    song.imageName = title;
                     return song;
                   });
                 });

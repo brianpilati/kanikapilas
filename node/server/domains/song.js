@@ -67,6 +67,22 @@ module.exports = {
     );
   },
 
+  async replaceSong(song) {
+    return await pool
+      .query(`SELECT * FROM songs WHERE artist = '${song.artist}' and title = '${song.title}'`)
+      .then(songs => {
+        if (songs.length > 0) {
+          return songs[0];
+        } else {
+          return this.insertSong(song).then(response => {
+            return this.getSong(response.insertId).then(songs => {
+              return songs[0];
+            });
+          });
+        }
+      });
+  },
+
   async getSongsByArtist(artist) {
     return await pool.query(`SELECT * FROM songs WHERE artist = '${artist}'`);
   },
