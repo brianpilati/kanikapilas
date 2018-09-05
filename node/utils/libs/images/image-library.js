@@ -4,68 +4,24 @@ const coordinatesLibrary = require('./coordinates-library');
 
 let debug = false;
 
-function fixOddPixel(pixel) {
-  return pixel % 2 ? pixel - 1 : pixel;
-}
-
-function pixelMatch(pixel, isWhite) {
-  const pixelMax = 65535;
-  const result = pixel[0] < pixelMax || pixel[1] < pixelMax || pixel[2] < pixelMax;
-  if (isWhite) {
-    return !result;
-  }
-  return result;
-}
-
-function findAdditivePixel(image, xPoint, yPoint, isXPoint, isWhite) {
-  let continueFinding = true;
-
-  while (continueFinding) {
-    if (pixelMatch(image.getPixelXY(xPoint, yPoint), isWhite)) {
-      continueFinding = false;
-    } else {
-      isXPoint ? xPoint++ : yPoint++;
-    }
-  }
-
-  return isXPoint ? xPoint : yPoint;
-}
-
 function getImageTopBottom(image) {
-  let yStartPoint = fixOddPixel(image.height) / 2;
-  let xPoint = findAdditivePixel(image, 0, yStartPoint, true) + 1;
+  let yStartPoint = coordinatesLibrary.fixOddPixel(image.height) / 2;
+  let xPoint = coordinatesLibrary.findAdditiveNonWhiteXPixels(image, 0, yStartPoint).x;
 
-  let continueFinding = true;
-  let topYPoint = 0;
-  let yPoint = yStartPoint;
+  let topYPoint = coordinatesLibrary.findSubtractiveWhiteYPixels(image, xPoint, yStartPoint).y;
 
-  while (continueFinding) {
-    if (!pixelMatch(image.getPixelXY(xPoint, yPoint))) {
-      continueFinding = false;
-      topYPoint = yPoint;
-    } else {
-      yPoint--;
-    }
-  }
+  let bottomYPoint = coordinatesLibrary.findAdditiveWhiteYPixels(image, xPoint, yStartPoint).y;
 
-  continueFinding = true;
-  yPoint = yStartPoint;
-  let bottomYPoint = 0;
-
-  while (continueFinding) {
-    if (!pixelMatch(image.getPixelXY(xPoint, yPoint))) {
-      continueFinding = false;
-      bottomYPoint = yPoint;
-    } else {
-      yPoint++;
-    }
-  }
-
-  if (false) {
+  if (debug) {
     const tmpPath = '/tmp/size_image.png';
     image.save(tmpPath).then(function() {
       const imageMat = cv.imread(tmpPath);
-      imageMat.drawRectangle(new cv.Rect(0, topYPoint, image.width, height), new cv.Vec(0, 255, 0), 2, cv.LINE_8);
+      imageMat.drawRectangle(
+        new cv.Rect(xPoint, topYPoint, image.width - xPoint * 2, bottomYPoint - topYPoint),
+        new cv.Vec(0, 255, 0),
+        2,
+        cv.LINE_8
+      );
       cv.imshowWait('loaded', imageMat.resize(600, 800));
     });
   }
@@ -135,12 +91,7 @@ module.exports = {
     return getArtistCoordinates(artistImage, xyCoordinates);
   },
 
-  fixOddPixel: function(pixel) {
-    return fixOddPixel(pixel);
-  },
-
   getImageTopBottom: function(image) {
-    console.log(2, getImageTopBottom(image));
     return getImageTopBottom(image);
   },
 
@@ -173,6 +124,8 @@ Image.load('/tmp/post_crop.png').then(image => {
 });
 */
 
+/*
 Image.load('/Users/brianpilati/code/github/kanikapilas/node/utils/pdf/pdf-files/books/Book_2_1-19.png').then(image => {
   console.log(getImageTopBottom(image));
 });
+*/

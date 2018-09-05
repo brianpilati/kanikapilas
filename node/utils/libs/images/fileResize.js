@@ -2,6 +2,7 @@ const { Image } = require('image-js');
 const fs = require('fs');
 const filePath = require('../filePath');
 const imageLibrary = require('./image-library');
+const coordinatesLibrary = require('./coordinates-library');
 const artistMatch = require('../../image_recognition/artist-match');
 const tesseractMatch = require('../../image_recognition/tesseract-match');
 
@@ -9,8 +10,8 @@ function getNewSize(image, location) {
   return {
     x: 0,
     width: image.width,
-    y: location === 1 ? 0 : imageLibrary.fixOddPixel(image.height) / 2,
-    height: imageLibrary.fixOddPixel(image.height) / 2
+    y: location === 1 ? 0 : coordinatesLibrary.fixOddPixel(image.height) / 2,
+    height: coordinatesLibrary.fixOddPixel(image.height) / 2
   };
 }
 
@@ -127,7 +128,6 @@ class FileResize {
 
   processImage(originalSongPath) {
     if (fs.existsSync(originalSongPath)) {
-      console.log(1, originalSongPath);
       return Image.load(originalSongPath).then(function(image) {
         let songImage = image.clone();
         let song = imageLibrary.getImageTopBottom(songImage);

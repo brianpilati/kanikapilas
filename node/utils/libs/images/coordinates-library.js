@@ -65,8 +65,24 @@ function findAdditiveNonWhiteYPixels(image, xPoint, yPoint) {
   });
 }
 
+function findAdditiveWhiteYPixels(image, xPoint, yPoint) {
+  const y = findAdditivePixel(image, xPoint, yPoint, false, true);
+  return Object({
+    x: xPoint,
+    y: y
+  });
+}
+
 function findSubtractiveNonWhiteYPixels(image, xPoint, yPoint) {
   const y = findSubtractivePixel(image, xPoint, yPoint, false, false);
+  return Object({
+    x: xPoint,
+    y: y
+  });
+}
+
+function findSubtractiveWhiteYPixels(image, xPoint, yPoint) {
+  const y = findSubtractivePixel(image, xPoint, yPoint, false, true);
   return Object({
     x: xPoint,
     y: y
@@ -83,7 +99,7 @@ function findSubtractiveNonWhiteXPixels(image, xPoint, yPoint) {
 
 module.exports = {
   findWidthCoordinates(image) {
-    const yPoint = fixOddPixel(image.height / 2);
+    const yPoint = fixOddPixel(image.height) / 2;
     const x = findAdditiveNonWhiteXPixels(image, 0, yPoint).x;
 
     return {
@@ -93,13 +109,17 @@ module.exports = {
   },
 
   findHeightCoordinates(image) {
-    const x = fixOddPixel(image.width / 2);
+    const x = fixOddPixel(image.width) / 2;
     const y = findAdditiveNonWhiteYPixels(image, x, 0).y;
 
     return {
       y: y,
       height: findSubtractiveNonWhiteYPixels(image, x, image.height).y - y
     };
+  },
+
+  fixOddPixel: function(pixel) {
+    return fixOddPixel(pixel);
   },
 
   findAdditiveNonWhiteXPixels(image, xPoint, yPoint) {
@@ -114,8 +134,16 @@ module.exports = {
     return findAdditiveNonWhiteYPixels(image, xPoint, yPoint);
   },
 
+  findAdditiveWhiteYPixels(image, xPoint, yPoint) {
+    return findAdditiveWhiteYPixels(image, xPoint, yPoint);
+  },
+
   findSubtractiveNonWhiteYPixels(image, xPoint, yPoint) {
     return findSubtractiveNonWhiteYPixels(image, xPoint, yPoint);
+  },
+
+  findSubtractiveWhiteYPixels(image, xPoint, yPoint) {
+    return findSubtractiveWhiteYPixels(image, xPoint, yPoint);
   },
 
   findSubtractiveNonWhiteXPixels(image, xPoint, yPoint) {
