@@ -77,10 +77,17 @@ module.exports = {
     return `http://kanikapilas.com/${buildFilePath(song)}`;
   },
   getSourceImagePath: function(song) {
-    return getSourceImagePath(song);
+    const filePath = getSourceImagePath(song);
+    ensureDirectoryExistence(filePath);
+    return filePath;
   },
   getUnprocessedImagePath: function(fileName) {
     return encodePath(path.join('..', '..', 'deployment_local', 'unprocessed', fileName));
+  },
+  getProcessedImagePath: function(song) {
+    const processedImagePath = encodePath(path.join('..', '..', 'deployment_local', buildImagePath(song)));
+    ensureDirectoryExistence(processedImagePath);
+    return processedImagePath;
   },
   getDestinationImagePath: function(song, location) {
     const imageFilePath = path.join('..', '..', 'deployment', buildImagePath(song, location));
@@ -117,10 +124,14 @@ module.exports = {
     return encodePath(path);
   },
   getImageHeaderPath(song) {
-    return getSourceImageHeaderPath(song);
+    const imageHeaderPath = getSourceImageHeaderPath(song);
+    ensureDirectoryExistence(imageHeaderPath);
+    return imageHeaderPath;
   },
   getImageFooterPath(song) {
-    return getSourceImageFooterPath(song);
+    const imageFooterPath = getSourceImageFooterPath(song);
+    ensureDirectoryExistence(imageFooterPath);
+    return imageFooterPath;
   },
   getFileGuid() {
     function s4() {
