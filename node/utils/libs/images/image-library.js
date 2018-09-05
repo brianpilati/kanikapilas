@@ -1,5 +1,6 @@
 const cv = require('opencv4nodejs');
 const { Image } = require('image-js');
+const coordinatesLibrary = require('./coordinates-library');
 
 let debug = false;
 
@@ -28,71 +29,6 @@ function findAdditivePixel(image, xPoint, yPoint, isXPoint, isWhite) {
   }
 
   return isXPoint ? xPoint : yPoint;
-}
-
-function findAdditiveNonWhiteXPixels(image, xPoint, yPoint) {
-  const x = findAdditivePixel(image, xPoint, yPoint, true, false);
-  return Object({
-    x: x,
-    y: yPoint
-  });
-}
-
-function findAdditiveWhiteXPixels(image, xPoint, yPoint) {
-  const x = findAdditivePixel(image, xPoint, yPoint, true, true);
-  return Object({
-    x: x,
-    y: yPoint
-  });
-}
-
-function findAdditiveNonWhiteYPixels(image, xPoint, yPoint) {
-  const y = findAdditivePixel(image, xPoint, yPoint, false, false);
-  return Object({
-    x: xPoint,
-    y: y
-  });
-}
-
-function findSubtractivePixel(image, xPoint, yPoint, isXPoint, adjustedPoint, isWhite) {
-  let continueFinding = true;
-  let returnPoint = 0;
-
-  while (continueFinding) {
-    if (pixelMatch(image.getPixelXY(xPoint, yPoint), isWhite)) {
-      continueFinding = false;
-      returnPoint = isXPoint ? xPoint : yPoint;
-      returnPoint -= adjustedPoint;
-    } else {
-      isXPoint ? xPoint-- : yPoint--;
-    }
-  }
-
-  return returnPoint;
-}
-
-function findSubtractiveNonWhiteYPixels(image, xPoint, yPoint) {
-  const y = findSubtractivePixel(image, xPoint, yPoint, false, 0, false);
-  return Object({
-    x: xPoint,
-    y: y
-  });
-}
-
-function findWidthCoordinates(image) {
-  const x = findAdditivePixel(image, 0, fixOddPixel(image.height) / 2, true);
-  return {
-    x: x,
-    width: findSubtractivePixel(image, image.width, fixOddPixel(image.height) / 2, true, x)
-  };
-}
-
-function findHeightCoordinates(image) {
-  const y = findAdditivePixel(image, fixOddPixel(image.width) / 2, 0, false);
-  return {
-    y: y,
-    height: findSubtractivePixel(image, fixOddPixel(image.width) / 2, image.height, false, y)
-  };
 }
 
 function getImageTopBottom(image) {
@@ -145,23 +81,23 @@ function getArtistCoordinates(image, xyCoordinates) {
   let y = xyCoordinates.y - 3;
   let boundary = Object({});
 
-  let coordinates = findAdditiveNonWhiteXPixels(image, x, y);
+  let coordinates = coordinatesLibrary.findAdditiveNonWhiteXPixels(image, x, y);
 
   //Find LeftBoundary
-  coordinates = findAdditiveWhiteXPixels(image, coordinates.x, coordinates.y);
+  coordinates = coordinatesLibrary.findAdditiveWhiteXPixels(image, coordinates.x, coordinates.y);
   boundary.x = coordinates.x;
 
   //Find RightBoundary
-  coordinates = findAdditiveNonWhiteXPixels(image, boundary.x, coordinates.y);
+  coordinates = coordinatesLibrary.findAdditiveNonWhiteXPixels(image, boundary.x, coordinates.y);
   boundary.width = coordinates.x - boundary.x;
 
   //Find TopBoundary
-  coordinates = findSubtractiveNonWhiteYPixels(image, boundary.x + 1, y);
+  coordinates = coordinatesLibrary.findSubtractiveNonWhiteYPixels(image, boundary.x + 1, y);
   boundary.y = coordinates.y + 1;
 
   //Find BottomBoundary
   const startX = boundary.width - 1;
-  coordinates = findAdditiveNonWhiteYPixels(image, startX, y);
+  coordinates = coordinatesLibrary.findAdditiveNonWhiteYPixels(image, startX, y);
   boundary.height = coordinates.y - boundary.y;
 
   if (debug) {
@@ -178,18 +114,21 @@ function getArtistCoordinates(image, xyCoordinates) {
   return boundary;
 }
 
+function getCoordinates(image) {
+  const widthCoordinates = coordinatesLibrary.findWidthCoordinates(image);
+  const heightCoordinates = coordinatesLibrary.findHeightCoordinates(image);
+
+  return {
+    x: widthCoordinates.x,
+    y: heightCoordinates.y,
+    height: heightCoordinates.height,
+    width: widthCoordinates.width
+  };
+}
+
 module.exports = {
   getCoordinates: function(image) {
-    const widthCoordinates = findWidthCoordinates(image);
-
-    const heightCoordinates = findHeightCoordinates(image);
-
-    return {
-      x: widthCoordinates.x,
-      y: heightCoordinates.y,
-      height: heightCoordinates.height,
-      width: widthCoordinates.width
-    };
+    return getCoordinates(image);
   },
 
   getArtistCoordinates(artistImage, xyCoordinates) {
@@ -201,6 +140,7 @@ module.exports = {
   },
 
   getImageTopBottom: function(image) {
+    console.log(2, getImageTopBottom(image));
     return getImageTopBottom(image);
   },
 
@@ -226,3 +166,13 @@ module.exports = {
 };
 
 //getArtistCoordinates('/tmp/file-footer-e2484ad7-fb84-30f2-ebcc-c8df755d54a8.png', Object({x: 122, y: 79}));
+
+/*
+Image.load('/tmp/post_crop.png').then(image => {
+  console.log(getCoordinates(image));
+});
+*/
+
+Image.load('/Users/brianpilati/code/github/kanikapilas/node/utils/pdf/pdf-files/books/Book_2_1-19.png').then(image => {
+  console.log(getImageTopBottom(image));
+});

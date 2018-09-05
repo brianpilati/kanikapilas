@@ -15,7 +15,7 @@ function buildImages() {
   return songDomain.getSongs().then(songs => {
     const requests = songs.map(song => {
       return new Promise(resolve => {
-        fileResize.resizeImage(song, true).then(function(results) {
+        fileResize.resizeImage(song).then(function(results) {
           resolve(results);
           //waterMark.addWaterMark(song);
         });
@@ -30,12 +30,12 @@ class ImageFileBuilder {
   constructor() {}
 
   resizeImage(song) {
-    return fileResize.resizeImage(song, false).then(function(results) {
+    return fileResize.resizeImage(song).then(function(results) {
       return results;
     });
   }
 
-  processImage(song, originalFilePath, isCommandline) {
+  processImage(song, originalFilePath) {
     const _this = this;
     const destinationFilePath = path.join(__dirname, '..', '..', filePath.getSourceImagePath(song));
 
@@ -46,7 +46,7 @@ class ImageFileBuilder {
         originalFilePath,
         destinationFilePath,
         () => {
-          _this.resizeImage(song, isCommandline).then(result => {
+          _this.resizeImage(song).then(result => {
             chordMatch.chordMatch(result.images[0]).then(chords => {
               specialStrumMatch.specialStrumMatch(result.images[2]).then(hasSpecialStrumPattern => {
                 starMatch.starMatch(result.images[2]).then(starsFound => {

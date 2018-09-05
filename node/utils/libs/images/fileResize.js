@@ -54,15 +54,19 @@ function saveFooterImage(song, songImage) {
   });
 }
 
-function getCorrectedImage(song, songImage, isCommandline) {
+function getCorrectedImage(song, songImage) {
+  songImage.save('/tmp/pre_crop.png');
   const height = songImage.height - song.imageBottom;
   const croppedImage = songImage.crop({
     y: song.imageTop,
     height: height
   });
 
+  croppedImage.save('/tmp/post_crop.png');
+
   const correctedImage = croppedImage.crop(imageLibrary.getCoordinates(croppedImage));
 
+  correctedImage.save('/tmp/post_correction.png');
   correctedImage.flipX();
   correctedImage.flipY();
 
@@ -97,14 +101,14 @@ function beautifyTitle(title) {
 }
 
 class FileResize {
-  resizeImage(song, isCommandline) {
+  resizeImage(song) {
     const sourceFilePath = `../../${filePath.getSourceImagePath(song)}`;
 
     if (fs.existsSync(sourceFilePath)) {
       return Image.load(sourceFilePath).then(function(image) {
         let songImage = image.clone();
 
-        const correctedImage = getCorrectedImage(song, songImage, isCommandline);
+        const correctedImage = getCorrectedImage(song, songImage);
 
         return saveNewImageOne(song, correctedImage).then(function(destinationImagePath1) {
           return saveNewImageTwo(song, correctedImage).then(function(destinationImagePath2) {
@@ -123,6 +127,7 @@ class FileResize {
 
   processImage(originalSongPath) {
     if (fs.existsSync(originalSongPath)) {
+      console.log(1, originalSongPath);
       return Image.load(originalSongPath).then(function(image) {
         let songImage = image.clone();
         let song = imageLibrary.getImageTopBottom(songImage);
@@ -168,8 +173,7 @@ fileResize
       artist: 'Chris Deburgh',
       imageTop: 100,
       imageBottom: 230
-    }),
-    false
+    })
   )
   .then(result => {
     console.log(result);
