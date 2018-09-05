@@ -21,7 +21,9 @@ module.exports = {
         id = ${song.id}
     `,
       {
+        titlePrefix: song.titlePrefix,
         title: song.title,
+        artistPrefix: song.artistPrefix,
         artist: song.artist,
         stars: song.stars,
         flowered: song.flowered,
@@ -31,7 +33,6 @@ module.exports = {
         imageBottom: song.imageBottom,
         firstNote: song.firstNote,
         capo: song.capo,
-        titlePrefix: song.titlePrefix,
         chords: song.chords,
         octave: song.octave,
         coverArtUrl: song.coverArtUrl,
@@ -49,7 +50,9 @@ module.exports = {
         ?
     `,
       {
+        titlePrefix: song.titlePrefix,
         title: song.title,
+        artistPrefix: song.artistPrefix,
         artist: song.artist,
         stars: song.stars,
         flowered: song.flowered,
@@ -64,7 +67,6 @@ module.exports = {
           .replace('T', ' '),
         firstNote: song.firstNote,
         capo: song.capo,
-        titlePrefix: song.titlePrefix,
         chords: song.chords,
         octave: song.octave,
         coverArtUrl: song.coverArtUrl

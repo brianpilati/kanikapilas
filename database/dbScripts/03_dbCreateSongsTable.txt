@@ -10,8 +10,9 @@ DROP TABLE IF EXISTS `songs`;
 
 CREATE TABLE `songs` (
   `id` INT(10) UNSIGNED UNIQUE NOT NULL auto_increment,
-  `title` VARCHAR(255),
   `titlePrefix` VARCHAR(255),
+  `title` VARCHAR(255),
+  `artistPrefix` VARCHAR(255),
   `artist` VARCHAR(255),
   `stars` INT(1),
   `flowered` BOOLEAN,
@@ -31,5 +32,5 @@ CREATE TABLE `songs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='The Songs Table';
 
 LOCK TABLES `songs` WRITE;
-INSERT INTO `songs` VALUES (1,'Africa',NULL,'Toto',1,1,'pop, 80s','africa',77,224,3,4,'None','https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png',NULL,1,'2018-08-08 10:25:00'),(2,'Manic Monday',NULL,'The Bangles',3,0,'80s and 90s','manic-monday',74,339,0,0,'None','https://lastfm-img2.akamaized.net/i/u/174s/8ebc6b59161a054258f9dff0aa989b98.png',NULL,1,'2018-08-10 10:26:34');
+INSERT INTO `songs` VALUES (1,NULL,'Africa',NULL,'Toto',1,1,'pop, 80s','africa',77,224,3,4,'None','https://lastfm-img2.akamaized.net/i/u/174s/4cedc78e976e45d88452261993ccebcd.png',NULL,1,'2018-08-08 10:25:00'),(2,NULL,'Manic Monday',NULL,'The Bangles',3,0,'80s and 90s','manic-monday',74,339,0,0,'None','https://lastfm-img2.akamaized.net/i/u/174s/8ebc6b59161a054258f9dff0aa989b98.png',NULL,1,'2018-08-10 10:26:34');
 UNLOCK TABLES;
