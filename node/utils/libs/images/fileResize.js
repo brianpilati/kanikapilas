@@ -1,7 +1,7 @@
 const { Image } = require('image-js');
 const fs = require('fs');
 const filePath = require('../filePath');
-const coordinates = require('./coordinates');
+const imageLibrary = require('./image-library');
 const artistMatch = require('../../image_recognition/artist-match');
 const tesseractMatch = require('../../image_recognition/tesseract-match');
 
@@ -9,8 +9,8 @@ function getNewSize(image, location) {
   return {
     x: 0,
     width: image.width,
-    y: location === 1 ? 0 : coordinates.fixOddPixel(image.height) / 2,
-    height: coordinates.fixOddPixel(image.height) / 2
+    y: location === 1 ? 0 : imageLibrary.fixOddPixel(image.height) / 2,
+    height: imageLibrary.fixOddPixel(image.height) / 2
   };
 }
 
@@ -29,15 +29,11 @@ function saveHeaderImage(song, songImage) {
 
 function saveArtistImage(xyCoordinates, artistImagePath) {
   return Image.load(artistImagePath).then(function(image) {
-    const xOffset = xyCoordinates.x + 69;
-    const artistImage = image.crop({
-      x: xOffset,
-      width: image.width - (xOffset + 130),
-      y: xyCoordinates.y - 3,
-      height: 19
-    });
+    const boundary = imageLibrary.getArtistCoordinates(image, xyCoordinates);
 
-    const artistImagePath = `/tmp/file-artist-${filePath.getFileGuid()}.png`;
+    const artistImage = image.crop(boundary);
+
+    artistImagePath = `/tmp/file-artist-${filePath.getFileGuid()}.png`;
 
     return artistImage.save(artistImagePath).then(function() {
       return artistImagePath;
@@ -65,7 +61,7 @@ function getCorrectedImage(song, songImage, isCommandline) {
     height: height
   });
 
-  const correctedImage = croppedImage.crop(coordinates.getCoordinates(croppedImage));
+  const correctedImage = croppedImage.crop(imageLibrary.getCoordinates(croppedImage));
 
   correctedImage.flipX();
   correctedImage.flipY();
@@ -129,7 +125,7 @@ class FileResize {
     if (fs.existsSync(originalSongPath)) {
       return Image.load(originalSongPath).then(function(image) {
         let songImage = image.clone();
-        let song = coordinates.getImageTopBottom(songImage);
+        let song = imageLibrary.getImageTopBottom(songImage);
         let title = '';
 
         return saveHeaderImage(song, songImage).then(headerImagePath => {
