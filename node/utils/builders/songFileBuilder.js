@@ -1,10 +1,11 @@
+const options = require('../../lib/options');
 const fs = require('fs');
-const htmlBuilder = require('./libs/htmlBuilder');
-const FilePath = require('./libs/filePath');
-const alphabet = require('./libs/enums/alphabet-enums');
-const pool = require('../lib/database');
+const htmlBuilder = require('../libs/htmlBuilder');
+const FilePath = require('../libs/filePath');
+const alphabet = require('../libs/enums/alphabet-enums');
+const pool = require('../../lib/database');
 
-var songDomain = require('../server/domains/song');
+var songDomain = require('../../server/domains/song');
 
 function buildSongPages() {
   return songDomain.getActiveSongs().then(songs => {
@@ -29,7 +30,7 @@ function buildSongPages() {
 function getFilePath(letter) {
   let filePath;
 
-  filePath = `../../deployment/songs/${letter}/index.html`;
+  filePath = `../../../deployment/songs/${letter}/index.html`;
   FilePath.ensureDirectoryExistence(filePath);
   return FilePath.encodePath(filePath);
 }
@@ -50,22 +51,30 @@ function buildSongByLetterPages(letter) {
   });
 }
 
-function buildAllPages() {
-  const songRequests = buildSongPages();
+class SongFileBuilder {
+  buildAllPages() {
+    const songRequests = buildSongPages();
 
-  const songLetterRequests = alphabet.map(letter => {
-    return buildSongByLetterPages(letter);
-  });
-
-  return songRequests.then(results => {
-    return Promise.all(songLetterRequests).then(_results_ => {
-      return results.concat(_results_);
+    const songLetterRequests = alphabet.map(letter => {
+      return buildSongByLetterPages(letter);
     });
-  });
+
+    return songRequests.then(results => {
+      return Promise.all(songLetterRequests).then(_results_ => {
+        return results.concat(_results_);
+      });
+    });
+  }
 }
 
-buildAllPages().then(function(results) {
-  console.log(results);
-  pool.end();
-  console.log('closing the pool');
-});
+module.exports = new SongFileBuilder();
+
+if (options.isCommandLine()) {
+  const songFileBuilder = new songFileBuilder();
+
+  songFileBuilder.buildAllPages().then(function(results) {
+    console.log(results);
+    pool.end();
+    console.log('closing the pool');
+  });
+}
