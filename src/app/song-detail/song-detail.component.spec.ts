@@ -244,35 +244,6 @@ describe('SongDetailComponent', () => {
     });
   });
 
-  describe('updateImageName', () => {
-    it('should test updateImageName with no space', () => {
-      component.songForm.get('imageName').setValue('');
-      component.songForm.get('title').setValue('africa');
-
-      component.updateImageName();
-
-      expect(component.songForm.get('imageName').value).toBe('africa.png');
-    });
-
-    it('should test updateImageName with a space', () => {
-      component.songForm.get('title').setValue('MANIC MONDAY');
-
-      component.updateImageName();
-
-      expect(component.songForm.get('imageName').value).toBe('manic_monday.png');
-    });
-
-    it('should test not updateImageName with a space', () => {
-      component.songForm.get('title').setValue('MANIC MONDAY');
-      component.updateImageName();
-
-      component.songForm.get('title').setValue('MANIC MONDAY 2');
-      component.updateImageName();
-
-      expect(component.songForm.get('imageName').value).toBe('manic_monday.png');
-    });
-  });
-
   describe('genre', () => {
     it('should test deleteGenre', () => {
       component.songForm.get('genre').setValue('Pop, 80s and 90s, Spiritual');
