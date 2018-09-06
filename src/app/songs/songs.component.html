@@ -17,9 +17,14 @@
       </a>
     </div>
   </div>
-  <div class="song-list" fxLayout="row" fxLayout.xl="column" fxLayoutAlign="space-evenly center">
+  <div
+    class="song-list"
+    fxLayout="row wrap"
+    fxLayout.xl="column"
+     fxLayoutAlign="space-evenly center"
+  >
     <div *ngFor="let song of sortedSongs">
-      <mat-card class="example-card">
+      <mat-card class="song-card">
         <mat-card-header>
           <mat-card-title>
             <mat-card-title class="song-title">{{song.title}}</mat-card-title>
@@ -27,12 +32,30 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="song-content">
-          <img src="{{song.coverArtUrl}}">
+          <span *ngIf="song.coverArtUrl">
+            <img src="{{song.coverArtUrl}}">
+          </span>
+          <mat-icon *ngIf="!song.coverArtUrl">broken_image</mat-icon>
         </mat-card-content>
-        <mat-card-actions>
-          <a routerLink="/songs/{{song.id}}" class="click">
-            <button color="primary" mat-button>Edit</button>
-          </a>
+        <mat-card-actions
+          fxLayout="row"
+          fxLayoutAlign="space-evenly center"
+        >
+          <div>
+            <a routerLink="/songs/{{song.id}}" class="click">
+              <button color="primary" mat-button>Edit</button>
+            </a>
+          </div>
+          <div>
+            <mat-icon
+              *ngIf="!song.active"
+              color="warn"
+            >visibility_off</mat-icon>
+            <mat-icon
+              *ngIf="song.active"
+              class="green"
+            >visibility</mat-icon>
+          </div>
         </mat-card-actions>
       </mat-card>
     </div>

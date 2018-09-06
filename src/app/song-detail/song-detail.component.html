@@ -42,7 +42,7 @@
             (click)="deactivate()"
             [disabled]="!songForm.valid"
             mat-raised-button
-            color="primary"
+            color="warn"
           >
             Deactivate
           </button>
@@ -52,7 +52,7 @@
             (click)="activate()"
             [disabled]="!songForm.valid"
             mat-raised-button
-            color="primary"
+            [color]="'activate'"
           >
             Activate
           </button>

@@ -11,3 +11,12 @@ body {
 a {
   text-decoration: none;
 }
+
+.green {
+  color: green;
+}
+
+.mat-activate {
+  background-color: green;
+  color: white;
+}

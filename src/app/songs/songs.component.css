@@ -12,3 +12,15 @@
   font-weight: bold;
   line-height: normal;
 }
+
+.song-card {
+  margin: 5px;
+}
+
+.song-content {
+  height: 175px;
+  width: 175px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
