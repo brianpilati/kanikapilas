@@ -4,7 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { SongsComponent } from './songs.component';
 import { TestSongs } from '../../testing/test-songs';
-import { MatCardModule, MatButtonModule } from '@angular/material';
+import { MatCardModule, MatButtonModule, MatIconModule } from '@angular/material';
 import { Song } from '../models/song';
 
 describe('SongsComponent', () => {
@@ -13,7 +13,7 @@ describe('SongsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MatButtonModule, MatCardModule, RouterTestingModule, HttpClientTestingModule],
+      imports: [MatButtonModule, MatCardModule, MatIconModule, HttpClientTestingModule, RouterTestingModule],
       declarations: [SongsComponent]
     })
       .compileComponents()
