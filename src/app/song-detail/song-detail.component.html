@@ -37,6 +37,16 @@
             Reset
           </button>
         </div>
+        <div>
+          <button
+            (click)="activate()"
+            [disabled]="!songForm.valid"
+            mat-raised-button
+            color="primary"
+          >
+            Activate
+          </button>
+        </div>
       </div>
     </mat-card>
     <mat-card>
