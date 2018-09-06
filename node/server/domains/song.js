@@ -1,6 +1,14 @@
 const pool = require('../../lib/database');
 const filePath = require('../../utils/libs/filePath');
 
+function getFindByTitle(letter) {
+  return `(
+    title LIKE "${letter}%"
+    OR
+    SUBSTRING(title, LENGTH(titlePrefix) + 2, LENGTH(title)) LIKE "${letter}%"
+  )`;
+}
+
 module.exports = {
   async getSongs() {
     return await pool.query('SELECT * FROM songs');
@@ -111,13 +119,39 @@ module.exports = {
   },
 
   async getActiveSongsByLetter(letter) {
-    return await pool.query(`SELECT * FROM songs WHERE title LIKE "${letter}%" AND active = 1`);
+    return await pool.query(`
+      SELECT 
+        *
+      FROM 
+        songs
+      WHERE
+        ${getFindByTitle(letter)}
+        AND 
+        active = 1
+      GROUP BY title 
+    `);
   },
 
   async getActiveSongsCountByLetter(letter) {
-    return await pool.query(
-      `SELECT COUNT(title) as song_total FROM songs WHERE title LIKE "${letter}%" AND active = 1`
-    );
+    return await pool.query(`
+      SELECT 
+        SUM(titles) as song_total 
+      FROM (
+        SELECT
+          COUNT(title_groups) as titles 
+        FROM (
+          SELECT
+            title as title_groups
+          FROM
+            songs
+          WHERE 
+            ${getFindByTitle(letter)}
+            AND active = 1
+          GROUP BY title 
+        ) AS TILE_TABLE
+      )
+      AS COUNT_TABLE
+    `);
   },
 
   async getActiveSongsByGenre(genre) {

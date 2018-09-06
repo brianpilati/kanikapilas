@@ -9,7 +9,8 @@ function getFindByArtist(letter) {
 }
 
 module.exports = {
-  async getArtistFirstLetter() {
+  /*
+  async getActiveArtistFirstLetter() {
     return await pool.query(`
       SELECT
         SUBSTRING(artist, 1, 1) AS artistFirstLetter
@@ -20,6 +21,7 @@ module.exports = {
       GROUP BY artistFirstLetter
     `);
   },
+  */
 
   async getActiveArtistsByLetter(letter) {
     return await pool.query(`
