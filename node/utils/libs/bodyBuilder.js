@@ -59,12 +59,12 @@ module.exports = {
                       Capo
                     </div>
                     <div class="song-info-content">
-                      ${songBuilder.buildCapo(song.capo)}
+                      ${song.capo}
                     </div>
                   </div>
                   <div class="song-info">
                     <div class="song-info-header">
-                      Stars:
+                      Difficulty:
                     </div>
                     <div class="song-info-content">
                       ${songBuilder.buildStars(song.stars)}

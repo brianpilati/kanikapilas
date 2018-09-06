@@ -75,10 +75,6 @@ module.exports = {
     return Promise.all(requests).then(_results_ => _results_.join(''));
   },
 
-  buildCapo(capo) {
-    return capo === 0 ? 'none' : `${capo} fret`;
-  },
-
   buildStars(starCount) {
     let stars = '';
     for (let count = 0; count < starCount; count++) {
