@@ -53,7 +53,7 @@ class IndexFileBuilder {
 module.exports = new IndexFileBuilder();
 
 if (options.isCommandLine()) {
-  indexFileBuilder = new IndexFileBuilder();
+  const indexFileBuilder = new IndexFileBuilder();
   indexFileBuilder.buildPages().then(function(results) {
     console.log(results);
     pool.end();
