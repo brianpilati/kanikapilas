@@ -194,7 +194,7 @@ module.exports = {
               <article class="article">
                 ${breadCrumbBuilder.buildBreadCrumb()}
                 <div class="article-title">
-                  ${artistObject.count} Artists starting with '${letter.toUpperCase()}' 
+                  ${titleBuilder.title(`Artists starting with '${letter}'`, sizes.small)} &nbsp; (${artistObject.count})
                 </div>
                 <div class="artist-container">
                   ${artistObject.artists}
@@ -225,7 +225,7 @@ module.exports = {
               <article class="article">
                 ${breadCrumbBuilder.buildArtistBreadCrumb(artist)}
                 <div class="article-title">
-                  ${artist} (${songObject.count})
+                  ${titleBuilder.title(artist, sizes.small)}&nbsp; (${songObject.count})
                 </div>
                 <div class="artist-container">
                   ${songObject.songs}

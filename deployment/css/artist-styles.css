@@ -3,15 +3,12 @@
 }
 
 .article-title {
-  text-align: left;
-  font-size: 2em;
-  line-height: normal;
   width: 600px;
   padding: 10px;
   text-align: center;
   box-shadow: 5px 5px 5px #888888;
   margin-left: 10px;
-  justify-content: left;
+  align-items: baseline;
   display: flex;
 }
 
