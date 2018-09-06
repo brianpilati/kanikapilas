@@ -73,7 +73,7 @@ export class SongDetailComponent implements OnInit {
       artistPrefix: '',
       active: '',
       firstNote: ['', Validators.required],
-      capo: [0, Validators.required],
+      capo: [0, [Validators.required, Validators.min(0), Validators.max(10)]],
       imageName: ['', [Validators.required, Validators.maxLength(355)]],
       genreSearchTerm: '',
       chordSearchTerm: '',
@@ -209,17 +209,6 @@ export class SongDetailComponent implements OnInit {
 
   getImageDeploymentSrc(location): SafeResourceUrl {
     return this.isNewSong ? '' : this.getImageUrlPath(location);
-  }
-
-  updateImageName(): void {
-    if (this.songForm.get('imageName').value === '') {
-      this.songForm.get('imageName').setValue(
-        `${this.songForm
-          .get('title')
-          .value.replace(/\s+/g, '_')
-          .toLowerCase()}.png`
-      );
-    }
   }
 
   private parseGenre(): void {

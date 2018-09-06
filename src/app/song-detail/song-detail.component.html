@@ -94,7 +94,6 @@
                         matInput
                         formControlName="title"
                         placeholder="Title"
-                        (change)="updateImageName()"
                       >
                     </mat-form-field>
                     </div>
@@ -126,17 +125,6 @@
                 </div>
                 <div
                   class="song-form-container"
-                >
-                  <mat-form-field class="song-full-width">
-                    <input
-                      matInput
-                      formControlName="imageName"
-                      placeholder="Image Name"
-                    >
-                  </mat-form-field>
-                </div>
-                <div
-                  class="song-form-container"
                   fxLayout="rows"
                   fxLayoutAlign="space-evenly"
                 >
@@ -154,25 +142,17 @@
                     ></mat-slider>
                   </div>
                   <div fxFlex="10%"></div>
-                  <div fxFlex="17.5%">
-                    <label>Flower</label>
+                  <div fxFlex="45%">
+                    <label>Capo</label>
                     <br>
-                    <mat-slide-toggle
-                      class="flower-margin"
+                    <mat-slider
                       color="primary"
-                      formControlName="flowered"
-                    >
-                    </mat-slide-toggle>
-                  </div>
-                  <div fxFlex="10%"></div>
-                  <div fxFlex="17.5%">
-                    <mat-form-field>
-                      <input
-                        matInput
-                        formControlName="capo"
-                        placeholder="Capo"
-                      >
-                    </mat-form-field>
+                      thumbLabel=true
+                      formControlName="capo"
+                      min="0"
+                      max="10"
+                      placeholder="Capo"
+                    ></mat-slider>
                   </div>
                 </div>
                 <div
@@ -193,7 +173,7 @@
                     </mat-form-field>
                   </div>
                   <div fxFlex="10%"></div>
-                  <div fxFlex="45%">
+                  <div fxFlex="25%">
                     <mat-form-field>
                       <input
                         matInput
@@ -202,54 +182,74 @@
                       >
                     </mat-form-field>
                   </div>
-                </div>
-                <div
-                  class="song-form-container"
-                  fxLayout="rows"
-                  fxLayoutAlign="space-evenly"
-                >
-                </div>
-                <div
-                  fxLayout="row"
-                  fxLayoutAlign="space-evenly top"
-                  class="song-form-container"
-                >
-                  <div fxFlex="40%">
-                    <mat-form-field>
-                      <input
-                        type="text"
-                        placeholder="Genre"
-                        aria-label="Number"
-                        matInput
-                        formControlName="genreSearchTerm"
-                        [matAutocomplete]="genreSearch"
-                      >
-                      <mat-autocomplete
-                        autoActiveFirstOption
-                        #genreSearch="matAutocomplete"
-                        (optionSelected)="genreSearchTermSelected()"
-                      >
-                        <mat-option *ngFor="let option of filteredGenres | async" [value]="option">
-                          {{option}}
-                        </mat-option>
-                      </mat-autocomplete>
-                    </mat-form-field>
-                  </div>
-                  <div fxFlex="60%">
-                    <span *ngFor="let genre of genres">
-                      <app-song-genre
-                        (delete)="deleteGenre($event)"
-                        genre="{{genre}}"
-                      ></app-song-genre>
-                    </span>
+                  <div fxFlex="10%"></div>
+                  <div fxFlex="20%">
+                    <label>Flower</label>
+                    <br>
+                    <mat-slide-toggle
+                      class="flower-margin"
+                      color="primary"
+                      formControlName="flowered"
+                    >
+                    </mat-slide-toggle>
                   </div>
                 </div>
                 <div
                   fxLayout="row"
+                  fxLayoutAlign="space-evenly start"
+                  class="song-form-container"
+                >
+                  <div
+                    fxLayout="column"
+                    fxLayoutAlign="space-evenly top"
+                    class="song-form-container"
+                    fxFlex="65%"
+                  >
+                    <div>
+                      <mat-form-field>
+                        <input
+                          type="text"
+                          placeholder="Genre"
+                          aria-label="Number"
+                          matInput
+                          formControlName="genreSearchTerm"
+                          [matAutocomplete]="genreSearch"
+                        >
+                        <mat-autocomplete
+                          autoActiveFirstOption
+                          #genreSearch="matAutocomplete"
+                          (optionSelected)="genreSearchTermSelected()"
+                        >
+                          <mat-option *ngFor="let option of filteredGenres | async" [value]="option">
+                            {{option}}
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </div>
+                    <div>
+                      <span *ngFor="let genre of genres">
+                        <app-song-genre
+                          (delete)="deleteGenre($event)"
+                          genre="{{genre}}"
+                        ></app-song-genre>
+                      </span>
+                    </div>
+                  </div>
+                  <div fxFlex="35%">
+                    <label>Cover Art</label>
+                    <hr>
+                    <img
+                      class="coverart-image"
+                      [src]="songForm.get('coverArtUrl').value"
+                    >
+                  </div>
+                </div>
+                <div
+                  fxLayout="column"
                   fxLayoutAlign="space-evenly top"
                   class="song-form-container"
                 >
-                  <div fxFlex="40%">
+                  <div>
                     <mat-form-field>
                       <input
                         type="text"
@@ -270,7 +270,7 @@
                       </mat-autocomplete>
                     </mat-form-field>
                   </div>
-                  <div fxFlex="60%">
+                  <div>
                     <span *ngFor="let chord of chords">
                       <app-song-genre
                         (delete)="deleteChord($event)"
@@ -278,11 +278,6 @@
                       ></app-song-genre>
                     </span>
                   </div>
-                </div>
-                <div
-                  class="song-form-container"
-                >
-                  <img [src]="songForm.get('coverArtUrl').value">
                 </div>
               </div>
             </form>
