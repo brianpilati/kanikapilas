@@ -5,9 +5,14 @@
   text-align: center;
   margin: 5px;
   min-width: 75px;
-  height: 30px;
+  height: 25px;
   cursor: pointer;
   border-radius: 2px;
+  display: inherit;
+}
+
+.genre-text {
+  padding-top: 3px;
 }
 
 .genre-container .genre-delete {
@@ -20,7 +25,9 @@
 }
 
 .genre-container:hover .genre-delete {
-  position: absolute;
+  margin: auto;
+  display: flex;
+  margin-top: -21px;
   display: inherit;
   width: 24px;
   color: black;

@@ -195,11 +195,11 @@
                         aria-label="Number"
                         matInput
                         formControlName="genreSearchTerm"
-                        [matAutocomplete]="auto"
+                        [matAutocomplete]="genreSearch"
                       >
                       <mat-autocomplete
                         autoActiveFirstOption
-                        #auto="matAutocomplete"
+                        #genreSearch="matAutocomplete"
                         (optionSelected)="genreSearchTermSelected()"
                       >
                         <mat-option *ngFor="let option of filteredGenres | async" [value]="option">
@@ -229,25 +229,25 @@
                         placeholder="Chords"
                         aria-label="Chords"
                         matInput
-                        formControlName="genreSearchTerm"
-                        [matAutocomplete]="auto"
+                        formControlName="chordSearchTerm"
+                        [matAutocomplete]="chordSearch"
                       >
                       <mat-autocomplete
                         autoActiveFirstOption
-                        #auto="matAutocomplete"
-                        (optionSelected)="genreSearchTermSelected()"
+                        #chordSearch="matAutocomplete"
+                        (optionSelected)="chordSearchTermSelected()"
                       >
-                        <mat-option *ngFor="let option of filteredGenres | async" [value]="option">
+                        <mat-option *ngFor="let option of filteredChords | async" [value]="option">
                           {{option}}
                         </mat-option>
                       </mat-autocomplete>
                     </mat-form-field>
                   </div>
                   <div fxFlex="60%">
-                    <span *ngFor="let genre of genres">
+                    <span *ngFor="let chord of chords">
                       <app-song-genre
-                        (delete)="deleteGenre($event)"
-                        genre="{{genre}}"
+                        (delete)="deleteChord($event)"
+                        genre="{{chord}}"
                       ></app-song-genre>
                     </span>
                   </div>
