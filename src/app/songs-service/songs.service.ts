@@ -9,7 +9,7 @@ import { Song } from '../models/song';
 })
 export class SongsService {
   private songsCache$: Observable<Song[]>;
-  private apiUrl = 'http://localhost:3000/api/songs'; // URL to web api
+  private apiUrl = 'http://localhost:3000/api/songs';
   private CACHE_SIZE = 1;
 
   private httpOptions = {

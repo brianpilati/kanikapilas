@@ -1,15 +1,21 @@
 <div fxLayout="column" fxLayoutAlign="space-evenly center" class="song-container">
   <div>
-    <h1>Kanikapilas</h1>
+    <h1>Songs</h1>
   </div>
-  <div fxLayout="row" fxLayout.xl="column" fxLayoutAlign="space-evenly center">
+  <div
+    fxLayout="row"
+    fxLayout.xl="column" fxLayoutAlign="space-evenly center"
+    fxLayoutGap="10px"
+  >
     <div *ngFor="let songTitleLetter of songTitles;
     let last = last;
     ">
-      <span (click)="sortSongs(songTitleLetter)">
-        <span class="click hover">{{songTitleLetter}}</span>
-        <span *ngIf="!last">&nbsp;|&nbsp;</span>
-      </span>
+      <div
+        class="click hover letter-container"
+        (click)="sortSongs(songTitleLetter)"
+      >
+        {{songTitleLetter}}
+      </div>
     </div>
     <div>
       <a routerLink="/songs/new" class="click">

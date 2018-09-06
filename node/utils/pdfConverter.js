@@ -11,9 +11,9 @@ const debug = true;
 //const testSong = 'Book_2_1-19.png';
 //const testSong = 'Book_2_1-20.png';
 //const testSong = 'Book_2_1-21.png';
-//const testSong = 'Book_2_1-22.png';
+const testSong = 'Book_2_1-22.png';
 //const testSong = 'Book_2_1-23.png';
-const testSong = 'Book_2_1-24.png';
+//const testSong = 'Book_2_1-24.png';
 
 function parseSong(song) {
   return debug ? song === testSong : true;
