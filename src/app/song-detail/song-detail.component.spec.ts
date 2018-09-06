@@ -202,6 +202,36 @@ describe('SongDetailComponent', () => {
     expect(track).toBe('track changed');
   });
 
+  it('should test isActive', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+    component.songForm.get('active').setValue(false);
+    expect(component.isActive()).toBe(false);
+
+    component.songForm.get('active').setValue(true);
+    expect(component.isActive()).toBe(true);
+  }));
+
+  it('should test deactivate', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+    component.song.id = 33;
+    component.deactivate();
+
+    const request = httpMock.expectOne('http://localhost:3000/api/songs/33/deactivate');
+    expect(request.request.method).toEqual('PUT');
+    expect(request.request.body).toEqual({});
+    request.flush({});
+    expect(component.isActive()).toBe(false);
+  }));
+
+  it('should test activate', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+    component.song.id = 22;
+    component.activate();
+
+    const request = httpMock.expectOne('http://localhost:3000/api/songs/22/activate');
+    expect(request.request.method).toEqual('PUT');
+    expect(request.request.body).toEqual({});
+    request.flush({});
+    expect(component.isActive()).toBe(true);
+  }));
+
   it('should test artist emit', () => {
     let artist: string;
     component.artist.subscribe(_artist_ => (artist = _artist_));

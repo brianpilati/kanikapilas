@@ -35,8 +35,7 @@ module.exports = {
         capo: song.capo,
         chords: song.chords,
         octave: song.octave,
-        coverArtUrl: song.coverArtUrl,
-        active: song.active || 0
+        coverArtUrl: song.coverArtUrl
       }
     );
   },
@@ -60,7 +59,6 @@ module.exports = {
         imageName: filePath.encodePath(song.imageName),
         imagetop: song.imageTop,
         imageBottom: song.imageBottom,
-        active: song.active || 0,
         createdDate: new Date()
           .toJSON()
           .slice(0, 19)
@@ -88,6 +86,14 @@ module.exports = {
           });
         }
       });
+  },
+
+  async deactivateSong(songId) {
+    return await pool.query(`UPDATE songs SET active = 0 WHERE id = '${songId}'`);
+  },
+
+  async activateSong(songId) {
+    return await pool.query(`UPDATE songs SET active = 1 WHERE id = '${songId}'`);
   },
 
   async getSongsByArtist(artist) {

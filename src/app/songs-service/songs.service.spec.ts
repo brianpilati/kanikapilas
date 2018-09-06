@@ -287,4 +287,22 @@ describe('SongsService', () => {
     });
     request.flush([song]);
   }));
+
+  it('should test activate', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+    songsService.activate(22).subscribe();
+
+    const request = httpMock.expectOne('http://localhost:3000/api/songs/22/activate');
+    expect(request.request.method).toEqual('PUT');
+    expect(request.request.body).toEqual({});
+    request.flush({});
+  }));
+
+  it('should test deactivate', inject([HttpTestingController], (httpMock: HttpTestingController) => {
+    songsService.deactivate(33).subscribe();
+
+    const request = httpMock.expectOne('http://localhost:3000/api/songs/33/deactivate');
+    expect(request.request.method).toEqual('PUT');
+    expect(request.request.body).toEqual({});
+    request.flush({});
+  }));
 });

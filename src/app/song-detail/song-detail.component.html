@@ -37,7 +37,17 @@
             Reset
           </button>
         </div>
-        <div>
+        <div *ngIf="isActive()">
+          <button
+            (click)="deactivate()"
+            [disabled]="!songForm.valid"
+            mat-raised-button
+            color="primary"
+          >
+            Deactivate
+          </button>
+        </div>
+        <div *ngIf="!isActive()">
           <button
             (click)="activate()"
             [disabled]="!songForm.valid"

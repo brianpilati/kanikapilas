@@ -72,6 +72,14 @@ export class SongsService {
       */
   }
 
+  activate(id: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}/activate`, {}, this.httpOptions);
+  }
+
+  deactivate(id: number): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}/deactivate`, {}, this.httpOptions);
+  }
+
   private log(message: string) {
     // this.messageService.add(`HeroService: ${message}`);
   }

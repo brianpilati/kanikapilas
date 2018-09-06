@@ -289,4 +289,16 @@ export class SongDetailComponent implements OnInit {
   setCoverArt(coverArtImageUrl: string): void {
     this.songForm.get('coverArtUrl').setValue(coverArtImageUrl);
   }
+
+  activate(): void {
+    this.songsService.activate(this.song.id).subscribe(() => this.songForm.get('active').setValue(true));
+  }
+
+  deactivate(): void {
+    this.songsService.deactivate(this.song.id).subscribe(() => this.songForm.get('active').setValue(false));
+  }
+
+  isActive(): boolean {
+    return this.songForm.get('active').value;
+  }
 }

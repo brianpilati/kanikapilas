@@ -39,6 +39,20 @@ router.put('', cors(corsOptions), function(req, res) {
   });
 });
 
+router.put('/:songId/activate', cors(corsOptions), function(req, res) {
+  songDomain.activateSong(req.params.songId).then(function() {
+    res.status(200);
+    res.send();
+  });
+});
+
+router.put('/:songId/deactivate', cors(corsOptions), function(req, res) {
+  songDomain.deactivateSong(req.params.songId).then(function() {
+    res.status(200);
+    res.send();
+  });
+});
+
 router.post('', cors(corsOptions), function(req, res) {
   songDomain.insertSong(req.body).then(function(response) {
     songDomain.getSong(response.insertId).then(function(song) {
