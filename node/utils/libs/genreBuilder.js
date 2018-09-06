@@ -1,4 +1,6 @@
 const genreList = require('./enums/genre-enums');
+const titleBuilder = require('./titleBuilder');
+const sizes = require('./enums/font-sizes');
 const songDomain = require('../../server/domains/song');
 const FilePath = require('./filePath');
 
@@ -20,7 +22,10 @@ module.exports = {
     return await songDomain.getActiveSongsByGenre(genre).then(function(songs) {
       let genres = '';
       songs.forEach(function(song) {
-        genres += `<a href="/${FilePath.getRelativeFileUrl(song)}"><div class="artist">${song.title}</div></a>`;
+        genres += `<div class="artist"><a href="/${FilePath.getRelativeFileUrl(song)}">${titleBuilder.title(
+          song.title,
+          sizes.small
+        )} by ${titleBuilder.title(song.artist, sizes.small)}</a></div>`;
       });
 
       return genres;

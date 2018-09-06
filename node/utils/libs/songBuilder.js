@@ -39,7 +39,7 @@ module.exports = {
         songObject.songs += `<div class="artist"><a href="/${link}">${titleBuilder.title(
           song.title,
           sizes.small
-        )}</a></div>`;
+        )} by ${titleBuilder.title(song.artist, sizes.small)}</a></div>`;
       });
 
       songObject.count = songs.length;
