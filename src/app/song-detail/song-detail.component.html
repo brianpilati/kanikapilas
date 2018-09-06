@@ -75,22 +75,58 @@
                 </div>
                 <div
                   class="song-form-container"
+                  fxLayout="rows"
+                  fxLayoutAlign="space-evenly"
                 >
-                  <mat-form-field class="song-full-width">
-                    <input
-                      matInput
-                      formControlName="title"
-                      placeholder="Title"
-                      (change)="updateImageName()"
-                    >
-                  </mat-form-field>
-                  <mat-form-field class="song-full-width">
-                    <input
-                      matInput
-                      formControlName="artist"
-                      placeholder="Artist"
-                    >
-                  </mat-form-field>
+                  <div fxFlex="25%">
+                    <mat-form-field>
+                      <input
+                        matInput
+                        formControlName="titlePrefix"
+                        placeholder="Title Prefix"
+                      >
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="10%"></div>
+                  <div fxFlex="65%">
+                    <mat-form-field class="song-full-width">
+                      <input
+                        matInput
+                        formControlName="title"
+                        placeholder="Title"
+                        (change)="updateImageName()"
+                      >
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div
+                  class="song-form-container"
+                  fxLayout="rows"
+                  fxLayoutAlign="space-evenly"
+                >
+                  <div fxFlex="25%">
+                    <mat-form-field>
+                      <input
+                        matInput
+                        formControlName="artistPrefix"
+                        placeholder="Artist Prefix"
+                      >
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="10%"></div>
+                  <div fxFlex="65%">
+                    <mat-form-field class="song-full-width">
+                      <input
+                        matInput
+                        formControlName="artist"
+                        placeholder="Artist"
+                      >
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div
+                  class="song-form-container"
+                >
                   <mat-form-field class="song-full-width">
                     <input
                       matInput
@@ -118,8 +154,8 @@
                     ></mat-slider>
                   </div>
                   <div fxFlex="10%"></div>
-                  <div fxFlex="45%">
-                    <label>Flowered</label>
+                  <div fxFlex="17.5%">
+                    <label>Flower</label>
                     <br>
                     <mat-slide-toggle
                       class="flower-margin"
@@ -127,6 +163,16 @@
                       formControlName="flowered"
                     >
                     </mat-slide-toggle>
+                  </div>
+                  <div fxFlex="10%"></div>
+                  <div fxFlex="17.5%">
+                    <mat-form-field>
+                      <input
+                        matInput
+                        formControlName="capo"
+                        placeholder="Capo"
+                      >
+                    </mat-form-field>
                   </div>
                 </div>
                 <div
@@ -151,8 +197,8 @@
                     <mat-form-field>
                       <input
                         matInput
-                        formControlName="capo"
-                        placeholder="Capo"
+                        formControlName="octave"
+                        placeholder="Octave"
                       >
                     </mat-form-field>
                   </div>
@@ -162,25 +208,6 @@
                   fxLayout="rows"
                   fxLayoutAlign="space-evenly"
                 >
-                  <div fxFlex="45%">
-                    <mat-form-field>
-                      <input
-                        matInput
-                        formControlName="titlePrefix"
-                        placeholder="Title Prefix"
-                      >
-                    </mat-form-field>
-                  </div>
-                  <div fxFlex="10%"></div>
-                  <div fxFlex="45%">
-                    <mat-form-field>
-                      <input
-                        matInput
-                        formControlName="octave"
-                        placeholder="Octave"
-                      >
-                    </mat-form-field>
-                  </div>
                 </div>
                 <div
                   fxLayout="row"
