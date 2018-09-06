@@ -47,8 +47,8 @@ module.exports = {
     });
   },
 
-  async getSongsByRecommendation() {
-    return await songDomain.getSongs();
+  async getActiveSongsByRecommendation() {
+    return await songDomain.getActiveSongs();
   },
 
   getActiveSongs() {

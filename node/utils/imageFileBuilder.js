@@ -82,11 +82,13 @@ class ImageFileBuilder {
 
 module.exports = new ImageFileBuilder();
 
+/*
 buildImages().then(function(results) {
   console.log(results);
   pool.end();
   console.log('closing the pool');
 });
+*/
 
 /*
 imageFileBuilder = new ImageFileBuilder();

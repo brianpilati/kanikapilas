@@ -2,9 +2,9 @@ const songBuilder = require('./songBuilder');
 const FilePath = require('../libs/filePath');
 
 module.exports = {
-  getRecommendedSongs: function() {
+  getActiveRecommendedSongs: function() {
     let recommendedSongs = '';
-    return songBuilder.getSongsByRecommendation().then(function(songs) {
+    return songBuilder.getActiveSongsByRecommendation().then(function(songs) {
       songs.forEach(function(song) {
         recommendedSongs += `<a href="/${FilePath.getRelativeFileUrl(song)}">
           <div class="track">

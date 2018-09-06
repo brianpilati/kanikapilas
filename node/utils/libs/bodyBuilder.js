@@ -113,7 +113,7 @@ module.exports = {
   },
 
   buildIndexBody(artists, songs) {
-    return recommendedSongsBuilder.getRecommendedSongs().then(function(recommendedSongs) {
+    return recommendedSongsBuilder.getActiveRecommendedSongs().then(function(recommendedSongs) {
       return `
         <body>
           <div class="background-splash"></div>
