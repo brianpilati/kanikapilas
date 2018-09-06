@@ -2,6 +2,8 @@ const { Image } = require('image-js');
 const fs = require('fs');
 const filePath = require('../filePath');
 const imageLibrary = require('./image-library');
+const MatchLibrary = require('../../image_recognition/lib/match-library');
+const matchLibrary = new MatchLibrary(0, false, false);
 const coordinatesLibrary = require('./coordinates-library');
 const artistMatch = require('../../image_recognition/artist-match');
 const tesseractMatch = require('../../image_recognition/tesseract-match');
@@ -25,20 +27,6 @@ function saveHeaderImage(song, songImage) {
 
   return headerImage.save(headerImagePath).then(function() {
     return headerImagePath;
-  });
-}
-
-function saveArtistImage(xyCoordinates, artistImagePath) {
-  return Image.load(artistImagePath).then(function(image) {
-    const boundary = imageLibrary.getArtistCoordinates(image, xyCoordinates);
-
-    const artistImage = image.crop(boundary);
-
-    artistImagePath = `/tmp/file-artist-${filePath.getFileGuid()}.png`;
-
-    return artistImage.save(artistImagePath).then(function() {
-      return artistImagePath;
-    });
   });
 }
 
@@ -90,15 +78,9 @@ function saveNewImageTwo(song, correctedImage) {
   });
 }
 
-function parseOCRWord(sentence) {
-  const regex = new RegExp('\n', 'g');
-
-  return sentence.replace(regex, '');
-}
-
 function beautifyTitle(title) {
   title = title.split('-')[0];
-  return parseOCRWord(title.replace(/\s+$/g, ''));
+  return matchLibrary.parseOCRWord(title.replace(/\s+$/g, ''));
 }
 
 class FileResize {
@@ -137,20 +119,11 @@ class FileResize {
           return tesseractMatch.findWords(headerImagePath).then(results => {
             title = beautifyTitle(results);
             return saveFooterImage(song, songImage).then(footerImagePath => {
-              return artistMatch.artistMatch(footerImagePath).then(results => {
-                const xyCoordinates = Object({
-                  x: results.x,
-                  y: results.y
-                });
-
-                return saveArtistImage(xyCoordinates, footerImagePath).then(artistImagePath => {
-                  return tesseractMatch.findWords(artistImagePath, 1200).then(results => {
-                    song.title = title;
-                    song.artist = parseOCRWord(results);
-                    song.imageName = title;
-                    return song;
-                  });
-                });
+              return artistMatch.getArtistNameByImage(footerImagePath).then(artist => {
+                song.title = title;
+                song.artist = artist;
+                song.imageName = title;
+                return song;
               });
             });
           });

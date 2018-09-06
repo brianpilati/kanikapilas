@@ -17,6 +17,11 @@ class MatchLibrary {
     }
   }
 
+  parseOCRWord(sentence) {
+    const regex = new RegExp('\n', 'g');
+    return sentence.replace(regex, '');
+  }
+
   findWaldos(originalMat, waldoMat) {
     this.resetFoundWaldos();
     // Match template (the brightest locations indicate the highest match)

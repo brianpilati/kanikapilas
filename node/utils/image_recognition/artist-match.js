@@ -1,13 +1,42 @@
 const cv = require('opencv4nodejs');
 const timer = require('../../lib/time');
 const MatchLibrary = require('./lib/match-library');
+const imageLibrary = require('../libs/images/image-library');
 const path = require('path');
+const { Image } = require('image-js');
+const filePath = require('../libs/filePath');
+const tesseractMatch = require('./tesseract-match');
 
 const maxTolerance = 0.55;
 const debug = false;
 const displayOutput = false;
 
 const startTime = new Date();
+
+function artistNameFix(artist) {
+  const artistCorrections = Object({
+    'BilVy Joel': 'Billy Joel'
+  });
+
+  return artistCorrections.hasOwnProperty(artist) ? artistCorrections[artist] : artist;
+}
+
+function getArtistNameByImage(xyCoordinates, artistImagePath) {
+  const matchLibrary = new MatchLibrary(0, false, false);
+  return Image.load(artistImagePath).then(function(image) {
+    const boundary = imageLibrary.getArtistCoordinates(image, xyCoordinates);
+
+    const artistImage = image.crop(boundary);
+
+    artistImagePath = `/tmp/file-artist-${filePath.getFileGuid()}.png`;
+
+    return artistImage.save(artistImagePath).then(function() {
+      return tesseractMatch.findWords(artistImagePath, 1200).then(results => {
+        return artistNameFix(matchLibrary.parseOCRWord(results));
+      });
+    });
+  });
+}
 
 function artistsMatch(songPath, tolerance) {
   const matchLibrary = new MatchLibrary(tolerance, debug, displayOutput);
@@ -48,6 +77,17 @@ module.exports = {
         return error;
       }
     );
+  },
+
+  getArtistNameByImage(imagePath) {
+    return artistMatch(imagePath, maxTolerance).then(results => {
+      const xyCoordinates = Object({
+        x: results.x,
+        y: results.y
+      });
+
+      return getArtistNameByImage(xyCoordinates, imagePath);
+    });
   },
 
   artistsMatch(songImagePath, tolerance) {
