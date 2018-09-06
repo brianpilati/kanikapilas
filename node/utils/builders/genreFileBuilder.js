@@ -6,7 +6,7 @@ const genreBuilder = require('../libs/genreBuilder');
 const pool = require('../../lib/database');
 
 function getFilePath(genre) {
-  let filePath = `../../../deployment/genres/${genre}/index.html`;
+  let filePath = `${FilePath.getBasePath()}/deployment/genres/${genre}/index.html`;
   FilePath.ensureDirectoryExistence(filePath);
   return FilePath.encodePath(filePath);
 }

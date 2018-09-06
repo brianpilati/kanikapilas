@@ -11,9 +11,9 @@ const pagesToBuild = 50;
 function getFilePath(index) {
   let filePath;
   if (index === 1) {
-    filePath = '../../deployment/index.html';
+    filePath = `${FilePath.getBasePath()}/deployment/index.html`;
   } else {
-    filePath = `../../deployment/page/${index}/index.html`;
+    filePath = `${FilePath.getBasePath()}/deployment/page/${index}/index.html`;
     FilePath.ensureDirectoryExistence(filePath);
   }
 

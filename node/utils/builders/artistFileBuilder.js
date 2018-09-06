@@ -11,9 +11,9 @@ function getFilePath(letter, artist) {
   let filePath;
 
   if (artist) {
-    filePath = `../../../deployment/artists/${letter}/${artist}/index.html`;
+    filePath = `${FilePath.getBasePath()}/deployment/artists/${letter}/${artist}/index.html`;
   } else {
-    filePath = `../../../deployment/artists/${letter}/index.html`;
+    filePath = `${FilePath.getBasePath()}/deployment/artists/${letter}/index.html`;
   }
   FilePath.ensureDirectoryExistence(filePath);
   return FilePath.encodePath(filePath);

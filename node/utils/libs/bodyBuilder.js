@@ -124,6 +124,12 @@ module.exports = {
             <div class="page-body">
               <article class="article">
                 <div class="article-title">
+                  Genres  <hr>
+                </div>
+                <div class="genres">
+                  ${genreBuilder.getGenres()}
+                </div>
+                <div class="article-title">
                   Artists By Name  <hr>
                 </div>
                 <div class="artists">
@@ -134,12 +140,6 @@ module.exports = {
                 </div>
                 <div class="artists">
                   ${songs}
-                </div>
-                <div class="article-title">
-                  Genres  <hr>
-                </div>
-                <div class="genres">
-                  ${genreBuilder.getGenres()}
                 </div>
                 <div class="article-title">
                   Recommended Songs <hr>

@@ -12,6 +12,7 @@ function buildSongPages() {
     const requests = songs.map(song => {
       return new Promise(resolve => {
         const songFileName = FilePath.buildFilePath(song);
+        console.log(songFileName);
 
         fs.writeFile(songFileName, htmlBuilder.buildSongHtml(song), err => {
           if (err) {
@@ -30,7 +31,7 @@ function buildSongPages() {
 function getFilePath(letter) {
   let filePath;
 
-  filePath = `../../../deployment/songs/${letter}/index.html`;
+  filePath = `${FilePath.getBasePath()}/deployment/songs/${letter}/index.html`;
   FilePath.ensureDirectoryExistence(filePath);
   return FilePath.encodePath(filePath);
 }
@@ -70,7 +71,7 @@ class SongFileBuilder {
 module.exports = new SongFileBuilder();
 
 if (options.isCommandLine()) {
-  const songFileBuilder = new songFileBuilder();
+  const songFileBuilder = new SongFileBuilder();
 
   songFileBuilder.buildAllPages().then(function(results) {
     console.log(results);

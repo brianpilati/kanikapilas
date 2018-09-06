@@ -1,6 +1,10 @@
 var path = require('path');
 var fs = require('fs');
 
+function getBasePath() {
+  return path.join(__dirname, '..', '..', '..');
+}
+
 function encodePath(path) {
   return typeof path === 'string' ? path.replace(/\s+|'/g, '-').toLowerCase() : '';
 }
@@ -47,7 +51,7 @@ function buildImagePath(song, location) {
 }
 
 function getSourceImagePath(song) {
-  return path.join('..', '..', 'deployment_local', buildImagePath(song));
+  return path.join(getBasePath(), 'deployment_local', buildImagePath(song));
 }
 
 function getSourceImageHeaderPath(song) {
@@ -71,7 +75,7 @@ module.exports = {
     return buildFileName(name);
   },
   getFilePath: function(song) {
-    return path.join('..', '..', 'deployment', buildFilePath(song));
+    return path.join(getBasePath(), 'deployment', buildFilePath(song));
   },
   getUrlPath: function(song) {
     return `http://kanikapilas.com/${buildFilePath(song)}`;
@@ -82,15 +86,15 @@ module.exports = {
     return filePath;
   },
   getUnprocessedImagePath: function(fileName) {
-    return encodePath(path.join('..', '..', 'deployment_local', 'unprocessed', fileName));
+    return encodePath(path.join(getBasePath(), 'deployment_local', 'unprocessed', fileName));
   },
   getProcessedImagePath: function(song) {
-    const processedImagePath = encodePath(path.join('..', '..', 'deployment_local', buildImagePath(song)));
+    const processedImagePath = encodePath(path.join(getBasePath(), 'deployment_local', buildImagePath(song)));
     ensureDirectoryExistence(processedImagePath);
     return processedImagePath;
   },
   getDestinationImagePath: function(song, location) {
-    const imageFilePath = path.join('..', '..', 'deployment', buildImagePath(song, location));
+    const imageFilePath = path.join(getBasePath(), 'deployment', buildImagePath(song, location));
     ensureDirectoryExistence(imageFilePath);
     return imageFilePath;
   },
@@ -140,5 +144,8 @@ module.exports = {
         .substring(1);
     }
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+  },
+  getBasePath() {
+    return getBasePath();
   }
 };
