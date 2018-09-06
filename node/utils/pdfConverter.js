@@ -8,8 +8,10 @@ const songDomain = require('../server/domains/song');
 const pool = require('../lib/database');
 
 const debug = true;
+//const testSong = 'Book_2_1-12.png'; //Africa
+const testSong = 'Book_2_1-13.png'; //Blue Savannah
 //const testSong = 'Book_2_1-19.png';
-const testSong = 'Book_2_1-20.png'; //The Longest Time
+//const testSong = 'Book_2_1-20.png'; //The Longest Time
 //const testSong = 'Book_2_1-21.png'; //Manic Monday
 //nst testSong = 'Book_2_1-22.png'; //The Piano Man
 //const testSong = 'Book_2_1-23.png';

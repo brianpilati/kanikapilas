@@ -1,9 +1,10 @@
+const options = require('../../lib/options');
 const fs = require('fs');
-const htmlBuilder = require('./libs/htmlBuilder');
-const FilePath = require('./libs/filePath');
-const artistBuilder = require('./libs/artistBuilder');
-const songBuilder = require('./libs/songBuilder');
-const pool = require('../lib/database');
+const htmlBuilder = require('../libs/htmlBuilder');
+const FilePath = require('../libs/filePath');
+const artistBuilder = require('../libs/artistBuilder');
+const songBuilder = require('../libs/songBuilder');
+const pool = require('../../lib/database');
 
 const pagesToBuild = 50;
 
@@ -43,8 +44,19 @@ function buildPages() {
   });
 }
 
-buildPages().then(function(results) {
-  console.log(results);
-  pool.end();
-  console.log('closing the pool');
-});
+class IndexFileBuilder {
+  buildPages() {
+    return buildPages();
+  }
+}
+
+module.exports = new IndexFileBuilder();
+
+if (options.isCommandLine()) {
+  indexFileBuilder = new IndexFileBuilder();
+  indexFileBuilder.buildPages().then(function(results) {
+    console.log(results);
+    pool.end();
+    console.log('closing the pool');
+  });
+}
