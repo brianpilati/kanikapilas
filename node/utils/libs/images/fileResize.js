@@ -6,6 +6,7 @@ const MatchLibrary = require('../../image_recognition/lib/match-library');
 const matchLibrary = new MatchLibrary(0, false, false);
 const coordinatesLibrary = require('./coordinates-library');
 const artistMatch = require('../../image_recognition/artist-match');
+const capoMatch = require('../../image_recognition/capo-match');
 const tesseractMatch = require('../../image_recognition/tesseract-match');
 
 function getNewSize(image, location) {
@@ -120,10 +121,13 @@ class FileResize {
             title = beautifyTitle(results);
             return saveFooterImage(song, songImage).then(footerImagePath => {
               return artistMatch.getArtistNameByImage(footerImagePath).then(artist => {
-                song.title = title;
-                song.artist = artist;
-                song.imageName = title;
-                return song;
+                return capoMatch.getCapoByImage(footerImagePath).then(capo => {
+                  song.title = title;
+                  song.artist = artist;
+                  song.capo = capo;
+                  song.imageName = title;
+                  return song;
+                });
               });
             });
           });

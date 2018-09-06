@@ -89,7 +89,10 @@ module.exports = {
       .query(`SELECT * FROM songs WHERE artist = '${song.artist}' and title = '${song.title}'`)
       .then(songs => {
         if (songs.length > 0) {
-          return songs[0];
+          song = Object.assign(songs[0], song);
+          return this.updateSong(song).then(() => {
+            return song;
+          });
         } else {
           return this.insertSong(song).then(response => {
             return this.getSong(response.insertId).then(songs => {

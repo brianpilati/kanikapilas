@@ -18,7 +18,7 @@ class MatchLibrary {
   }
 
   parseOCRWord(sentence) {
-    const regex = new RegExp('\n', 'g');
+    const regex = new RegExp('\n|(\\s+$)', 'g');
     return sentence.replace(regex, '');
   }
 

@@ -91,6 +91,10 @@ module.exports = {
     return getRegionCoordinates(artistImage, xyCoordinates);
   },
 
+  getCapoCoordinates(capoImage, xyCoordinates) {
+    return getRegionCoordinates(capoImage, xyCoordinates);
+  },
+
   getImageTopBottom: function(image) {
     return getImageTopBottom(image);
   },
