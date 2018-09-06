@@ -6,12 +6,12 @@ const alphabet = require('../libs/enums/alphabet-enums');
 const firstNotes = require('./enums/first-notes-enums');
 
 module.exports = {
-  async getSongsByArtist(artist) {
+  async getActiveSongsByArtist(artist) {
     const songObject = Object({
       songs: '',
       count: 0
     });
-    return await songDomain.getSongsByArtist(artist).then(function(songs) {
+    return await songDomain.getActiveSongsByArtist(artist).then(function(songs) {
       songs.forEach(function(song) {
         const link = FilePath.getRelativeFileUrl(song);
 
@@ -26,13 +26,13 @@ module.exports = {
     });
   },
 
-  async getSongsByLetter(letter) {
+  async getActiveSongsByLetter(letter) {
     const songObject = Object({
       songs: '',
       count: 0
     });
 
-    return await songDomain.getSongsByLetter(letter).then(function(songs) {
+    return await songDomain.getActiveSongsByLetter(letter).then(function(songs) {
       songs.forEach(function(song) {
         const link = FilePath.getRelativeFileUrl(song);
 
@@ -51,10 +51,10 @@ module.exports = {
     return await songDomain.getSongs();
   },
 
-  getSongs() {
+  getActiveSongs() {
     let requests = alphabet.map(letter => {
       return new Promise(resolve => {
-        songDomain.getSongsCountByLetter(letter).then(function(result) {
+        songDomain.getActiveSongsCountByLetter(letter).then(function(result) {
           const songTotal = result.length ? result[0].song_total : 0;
 
           let countFontClass = 'count-large';

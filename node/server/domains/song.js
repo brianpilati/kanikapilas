@@ -6,6 +6,10 @@ module.exports = {
     return await pool.query('SELECT * FROM songs');
   },
 
+  async getActiveSongs() {
+    return await pool.query('SELECT * FROM songs WHERE active = 1');
+  },
+
   async getSong(songId) {
     return await pool.query(`SELECT * FROM songs WHERE id = ${songId}`);
   },
@@ -96,23 +100,27 @@ module.exports = {
     return await pool.query(`UPDATE songs SET active = 1 WHERE id = '${songId}'`);
   },
 
-  async getSongsByArtist(artist) {
-    return await pool.query(`SELECT * FROM songs WHERE artist = '${artist}'`);
+  async getActiveSongsByArtist(artist) {
+    return await pool.query(`SELECT * FROM songs WHERE artist = '${artist}' AND active = 1`);
   },
 
-  async getSongsFirstLetter() {
-    return await pool.query('SELECT SUBSTRING(title, 1, 1) AS songFirstLetter FROM songs GROUP BY songFirstLetter');
+  async getActiveSongsFirstLetter() {
+    return await pool.query(
+      'SELECT SUBSTRING(title, 1, 1) AS songFirstLetter FROM songs WHERE active = 1 GROUP BY songFirstLetter'
+    );
   },
 
-  async getSongsByLetter(letter) {
-    return await pool.query(`SELECT * FROM songs where title like "${letter}%"`);
+  async getActiveSongsByLetter(letter) {
+    return await pool.query(`SELECT * FROM songs WHERE title LIKE "${letter}%" AND active = 1`);
   },
 
-  async getSongsCountByLetter(letter) {
-    return await pool.query(`SELECT COUNT(title) as song_total FROM songs where title like "${letter}%"`);
+  async getActiveSongsCountByLetter(letter) {
+    return await pool.query(
+      `SELECT COUNT(title) as song_total FROM songs WHERE title LIKE "${letter}%" AND active = 1`
+    );
   },
 
-  async getSongsByGenre(genre) {
-    return await pool.query(`SELECT * FROM songs where genre like "%${genre}%"`);
+  async getActiveSongsByGenre(genre) {
+    return await pool.query(`SELECT * FROM songs WHERE genre LIKE "%${genre}%" AND active = 1`);
   }
 };

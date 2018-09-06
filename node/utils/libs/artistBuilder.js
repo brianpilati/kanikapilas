@@ -5,13 +5,13 @@ const FilePath = require('../libs/filePath');
 const alphabet = require('../libs/enums/alphabet-enums');
 
 module.exports = {
-  async getArtistsByLetter(letter) {
+  async getActiveArtistsByLetter(letter) {
     const artistObject = Object({
       artists: '',
       count: 0
     });
 
-    return await artistDomain.getArtistsByLetter(letter).then(function(artists) {
+    return await artistDomain.getActiveArtistsByLetter(letter).then(function(artists) {
       artists.forEach(function(song) {
         const link = FilePath.getArtistUrl(song.artist);
 
@@ -26,10 +26,10 @@ module.exports = {
     });
   },
 
-  getArtists() {
+  getActiveArtists() {
     let requests = alphabet.map(letter => {
       return new Promise(resolve => {
-        artistDomain.getArtistsCountByLetter(letter).then(function(result) {
+        artistDomain.getActiveArtistsCountByLetter(letter).then(function(result) {
           const artistTotal = result.length ? result[0].artist_total : 0;
 
           let countFontClass = 'count-large';

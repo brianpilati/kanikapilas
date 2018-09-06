@@ -21,8 +21,8 @@ function getFilePath(index) {
 const pages = Array.apply(null, { length: pagesToBuild }).map(Number.call, Number);
 
 function buildPages() {
-  return artistBuilder.getArtists().then(function(artists) {
-    return songBuilder.getSongs().then(function(songs) {
+  return artistBuilder.getActiveArtists().then(function(artists) {
+    return songBuilder.getActiveSongs().then(function(songs) {
       const requests = pages.map(index => {
         index++;
         const indexFilePath = getFilePath(index);

@@ -34,7 +34,7 @@ function buildArtistPages(letter) {
 }
 
 function buildArtistByLetterPages(letter) {
-  return artistDomain.getArtistsByLetter(letter).then(songs => {
+  return artistDomain.getActiveArtistsByLetter(letter).then(songs => {
     const requests = songs.map(song => {
       return new Promise(resolve => {
         const artistFileSongPath = getFilePath(letter, song.artist);

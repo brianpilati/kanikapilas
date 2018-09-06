@@ -1,4 +1,5 @@
 const waterMark = require('./libs/images/waterMark');
+const pool = require('../lib/database');
 const fileResize = require('./libs/images/fileResize');
 const filePath = require('../utils/libs/filePath');
 const path = require('path');
@@ -12,9 +13,10 @@ const firstNoteMatch = require('./image_recognition/first-note-match');
 var songDomain = require('../server/domains/song');
 
 function buildImages() {
-  return songDomain.getSongs().then(songs => {
+  return songDomain.getActiveSongs().then(songs => {
     const requests = songs.map(song => {
       return new Promise(resolve => {
+        console.log(`Processings Song for ${song.artist} - ${song.title}`);
         fileResize.resizeImage(song).then(function(results) {
           resolve(results);
           //waterMark.addWaterMark(song);
@@ -38,6 +40,8 @@ class ImageFileBuilder {
   processImage(song, originalFilePath) {
     const _this = this;
     const destinationFilePath = path.join(__dirname, filePath.getSourceImagePath(song));
+
+    console.log(`Processings Song for ${song.artist} - ${song.title}`);
 
     filePath.ensureDirectoryExistence(destinationFilePath);
     //fs.rename(
@@ -78,9 +82,15 @@ class ImageFileBuilder {
 
 module.exports = new ImageFileBuilder();
 
-imageFileBuilder = new ImageFileBuilder();
+buildImages().then(function(results) {
+  console.log(results);
+  pool.end();
+  console.log('closing the pool');
+});
 
 /*
+imageFileBuilder = new ImageFileBuilder();
+
 imageFileBuilder.processImage(
   Object({
     title: 'Manic Monday',
@@ -128,10 +138,3 @@ imageFileBuilder
     console.log('Song', song);
   });
   */
-/*
-buildImages().then(function(results) {
-  console.log(results);
-  pool.end();
-  console.log('closing the pool');
-});
-*/

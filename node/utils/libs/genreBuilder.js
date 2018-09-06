@@ -16,8 +16,8 @@ module.exports = {
     return genres;
   },
 
-  async getSongsByGenre(genre) {
-    return await songDomain.getSongsByGenre(genre).then(function(songs) {
+  async getActiveSongsByGenre(genre) {
+    return await songDomain.getActiveSongsByGenre(genre).then(function(songs) {
       let genres = '';
       songs.forEach(function(song) {
         genres += `<a href="/${FilePath.getRelativeFileUrl(song)}"><div class="artist">${song.title}</div></a>`;

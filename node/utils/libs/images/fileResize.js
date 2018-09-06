@@ -103,7 +103,7 @@ function beautifyTitle(title) {
 
 class FileResize {
   resizeImage(song) {
-    const sourceFilePath = `../../${filePath.getSourceImagePath(song)}`;
+    const sourceFilePath = `${filePath.getSourceImagePath(song)}`;
 
     if (fs.existsSync(sourceFilePath)) {
       return Image.load(sourceFilePath).then(function(image) {

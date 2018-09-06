@@ -7,7 +7,7 @@ const pool = require('../lib/database');
 var songDomain = require('../server/domains/song');
 
 function buildSongPages() {
-  return songDomain.getSongs().then(songs => {
+  return songDomain.getActiveSongs().then(songs => {
     const requests = songs.map(song => {
       return new Promise(resolve => {
         const songFileName = FilePath.buildFilePath(song);

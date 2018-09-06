@@ -179,7 +179,7 @@ module.exports = {
   },
 
   buildArtistBody(letter) {
-    return artistBuilder.getArtistsByLetter(letter).then(function(artistObject) {
+    return artistBuilder.getActiveArtistsByLetter(letter).then(function(artistObject) {
       return `
         <body>
           <div class="background-splash"></div>
@@ -210,7 +210,7 @@ module.exports = {
   },
 
   buildArtistSongBody(artist) {
-    return songBuilder.getSongsByArtist(artist).then(function(songObject) {
+    return songBuilder.getActiveSongsByArtist(artist).then(function(songObject) {
       return `
         <body>
           <div class="background-splash"></div>
@@ -241,7 +241,7 @@ module.exports = {
   },
 
   buildSongsBody(letter) {
-    return songBuilder.getSongsByLetter(letter).then(function(songsObject) {
+    return songBuilder.getActiveSongsByLetter(letter).then(function(songsObject) {
       return `
         <body>
           <div class="background-splash"></div>
@@ -272,7 +272,7 @@ module.exports = {
   },
 
   buildGenreBody(genre) {
-    return genreBuilder.getSongsByGenre(genre).then(function(genres) {
+    return genreBuilder.getActiveSongsByGenre(genre).then(function(genres) {
       return `
         <body>
           <div class="background-splash"></div>
