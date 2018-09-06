@@ -32,7 +32,7 @@ function getImageTopBottom(image) {
   });
 }
 
-function getArtistCoordinates(image, xyCoordinates) {
+function getRegionCoordinates(image, xyCoordinates) {
   let x = xyCoordinates.x;
   let y = xyCoordinates.y - 3;
   let boundary = Object({});
@@ -88,7 +88,7 @@ module.exports = {
   },
 
   getArtistCoordinates(artistImage, xyCoordinates) {
-    return getArtistCoordinates(artistImage, xyCoordinates);
+    return getRegionCoordinates(artistImage, xyCoordinates);
   },
 
   getImageTopBottom: function(image) {
