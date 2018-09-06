@@ -1,6 +1,7 @@
 const pool = require('../lib/database');
 const indexFileBuilder = require('./builders/indexFileBuilder');
 const artistFileBuilder = require('./builders/artistFileBuilder');
+const genreFileBuilder = require('./builders/genreFileBuilder');
 
 function closeThePool() {
   console.log('\n\nclosing the pool\n\n');
@@ -17,6 +18,9 @@ indexFileBuilder.buildPages().then(indexFileBuilderResults => {
   outputResults('IndexFileBulder', indexFileBuilderResults);
   artistFileBuilder.buildAllPages().then(artistFileBuilderResults => {
     outputResults('ArtistFileBulder', artistFileBuilderResults);
-    closeThePool();
+    genreFileBuilder.buildPages().then(genreFileBuilderResults => {
+      outputResults('GenreFileBulder', genreFileBuilderResults);
+      closeThePool();
+    });
   });
 });
