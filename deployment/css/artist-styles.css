@@ -1,0 +1,33 @@
+.article {
+  display: block;
+}
+
+.article-title {
+  text-align: left;
+  font-size: 2em;
+  line-height: normal;
+  width: 600px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 5px 5px 5px #888888;
+  margin-left: 10px;
+  justify-content: left;
+  display: flex;
+}
+
+.artist-container {
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.artist {
+  padding: 10px;
+  font-weight: bold;
+  line-height: normal;
+}
+
+@media all and (max-width: 700px) {
+  .page-body {
+    flex-direction: column;
+  }
+}

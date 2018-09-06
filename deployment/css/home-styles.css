@@ -1,0 +1,221 @@
+.page-body {
+  display: block;
+}
+
+.artist-container {
+  width: 35px;
+  position: absolute;
+  box-shadow: 4px 4px 4px #888888;
+}
+
+.letter {
+  text-align: center;
+  z-index: 2;
+  position: relative;
+  font-weight: bold;
+  line-height: normal;
+  font-size: 1.85em;
+}
+
+.count {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #fff;
+  position: absolute;
+  right: -11px;
+  bottom: -11px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  z-index: 1;
+  font-weight: bold;
+  box-shadow: 3px 3px 3px #888888;
+}
+
+.count-large {
+  font-size: 1em;
+}
+
+.count-medium {
+  font-size: 0.85em;
+}
+
+.count-small {
+  font-size: 0.7em;
+}
+
+.article-title {
+  width: 100%;
+  padding: 10px;
+  font-weight: bold;
+  line-height: normal;
+  font-size: 1.5em;
+}
+
+.recommended,
+.artists {
+  flex-direction: row;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  width: 100%;
+  align-content: space-evenly;
+  flex: auto;
+}
+
+.genres {
+  flex-direction: row;
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  align-content: space-evenly;
+  flex: auto;
+}
+
+.artists {
+  width: 750px;
+}
+
+.genre {
+  width: 125px;
+  height: 125px;
+  background-color: #8ad0f6;
+  border-radius: 62.5px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  line-height: normal;
+  font-size: 1.5em;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 4px 4px 4px #888888;
+}
+
+.track {
+  margin: 10px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 5px 5px 5px #888888;
+}
+
+.track-title-container {
+  position: absolute;
+  z-index: 1;
+  text-align: center;
+  word-wrap: break-word;
+  width: 170px;
+}
+
+.track-title {
+  font-weight: bold;
+  line-height: normal;
+  font-size: 1.5em;
+}
+
+.track-sub-title {
+  font-weight: normal;
+  line-height: normal;
+  font-size: 1em;
+}
+
+.track-image-container {
+  opacity: 0.35;
+  display: flex;
+}
+
+.track-image {
+  height: 174px;
+  width: 174px;
+}
+
+.artist {
+  width: 35px;
+  height: 35px;
+  background-color: #8ad0f6;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .artists {
+    width: 400px;
+    min-width: 400px;
+  }
+
+  .genres {
+    width: 325px;
+  }
+
+  .genre {
+    width: 75px;
+    height: 75px;
+    background-color: #8ad0f6;
+    border-radius: 37.5px;
+    font-size: 0.75em;
+  }
+
+  .track-image-container,
+  .track-image {
+    height: 100px;
+    width: 100px;
+  }
+
+  .track-title {
+    font-size: 0.75em;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .artists {
+    width: 500px;
+  }
+
+  .genres {
+    width: 500px;
+  }
+
+  .recommended {
+    width: 500px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .artists {
+    width: 750px;
+  }
+
+  .genres {
+    width: 680px;
+  }
+
+  .recommended {
+    width: 700px;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .genres {
+    width: 900px;
+  }
+
+  .recommended {
+    width: 900px;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+}

@@ -84,9 +84,9 @@ class ImageFileBuilder {
 module.exports = new ImageFileBuilder();
 
 if (options.isCommandLine()) {
-  const imageFileBuilder = new imageFileBuilder();
+  const imageFileBuilder = new ImageFileBuilder();
 
-  iamgeFileBuilder.buildImages().then(function(results) {
+  imageFileBuilder.buildImages().then(function(results) {
     console.log(results);
     pool.end();
     console.log('closing the pool');

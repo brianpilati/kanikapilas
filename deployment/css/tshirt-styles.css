@@ -1,0 +1,50 @@
+.tshirt-container {
+  justify-content: space-between;
+  flex-direction: column;
+  display: flex;
+}
+
+.tshirt-container > * {
+  margin-bottom: 10px;
+  background-color: #fae3b6;
+}
+
+.tshirt {
+  padding: 10px;
+  height: 240px;
+  width: 120px;
+  box-shadow: 5px 5px 5px #888888;
+}
+
+.tshirt-divider {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  background-color: inherit;
+  align-items: center;
+}
+
+.tshirt:last-child {
+  margin-bottom: 0;
+}
+
+@media all and (max-width: 700px) {
+  .tshirt-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    display: flex;
+  }
+}
+
+@media only screen and (min-width: 0) {
+  .tshirt {
+    padding: 0;
+  }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 650px) {
+  .tshirt-divider {
+    display: none;
+  }
+}

@@ -1,0 +1,182 @@
+.song-page-title {
+  font-weight: bold;
+  font-size: inherit;
+}
+
+.song-title {
+  font-weight: bold;
+  position: relative;
+  z-index: 1;
+  width: 600px;
+  background-color: white;
+  height: 43px;
+  padding-top: 6px;
+}
+
+.song-page-artist {
+  font-size: inherit;
+}
+
+.copyright {
+  display: none;
+}
+
+.article {
+  display: block;
+}
+
+.article-title {
+  width: 600px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 5px 5px 5px #888888;
+  margin-left: 10px;
+}
+
+.song-image-container {
+  width: 600px;
+  background-color: #fff;
+  padding-bottom: 20px;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 5px 5px 5px #888888;
+  margin: 10px;
+}
+
+.song-image {
+  -moz-transform: scale(-1, -1);
+  -o-transform: scale(-1, -1);
+  -webkit-transform: scale(-1, -1);
+  transform: scaleX(-1, -1);
+  filter: FlipH FlipV;
+  -ms-filter: 'FlipH FlipV';
+}
+
+.fair-use-policy {
+  text-align: left;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 0.75em;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: row;
+  width: 600px;
+  height: 190px;
+  box-shadow: 5px 5px 5px #888888;
+  background-color: #fff;
+}
+
+.song-info-container {
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+  height: 225px;
+}
+
+.song-info {
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+}
+
+.song-info-header {
+  display: flex;
+  flex: 2;
+  align-items: flex-end;
+  color: #8ad0f6;
+}
+
+.song-info-content {
+  display: flex;
+  flex: 4;
+  align-items: flex-end;
+}
+
+.first-note-image-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.first-note {
+  height: 75px;
+  display: flex;
+  align-items: center;
+}
+
+.first-note-image {
+  height: 65px;
+}
+
+.first-note-display {
+  width: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.song-info-strum-pattern {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  height: 150px;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.strum-pattern {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media all and (max-width: 800px) {
+  .page-body {
+    flex-direction: column;
+  }
+
+  .tshirt-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    display: flex;
+  }
+}
+
+@media all and (max-width: 675px) {
+  .song-image,
+  .song-image-container,
+  .info-container,
+  .article-title {
+    width: 500px;
+  }
+}
+
+@media all and (max-width: 600px) {
+  .song-image,
+  .song-image-container,
+  .article-title,
+  .info-container {
+    width: 380px;
+    box-shadow: none;
+  }
+}
+
+@media print {
+  .article {
+    display: none;
+  }
+
+  .copyright {
+    display: flex;
+    justify-content: center;
+  }
+}
