@@ -3,7 +3,7 @@ const path = require('path');
 const timer = require('../lib/time');
 const artistMatch = require('./image_recognition/artist-match');
 const fileResize = require('./libs/images/fileResize');
-const imageFileBuilder = require('./imageFileBuilder');
+const imageFileBuilder = require('./builders/imageFileBuilder');
 const songDomain = require('../server/domains/song');
 const pool = require('../lib/database');
 

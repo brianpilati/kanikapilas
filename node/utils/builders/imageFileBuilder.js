@@ -1,35 +1,36 @@
-const waterMark = require('./libs/images/waterMark');
-const pool = require('../lib/database');
-const fileResize = require('./libs/images/fileResize');
-const filePath = require('../utils/libs/filePath');
+const waterMark = require('../libs/images/waterMark');
+const options = require('../../lib/options');
+const pool = require('../../lib/database');
+const fileResize = require('../libs/images/fileResize');
+const filePath = require('../../utils/libs/filePath');
 const path = require('path');
-const chordMatch = require('./image_recognition/chord-match');
+const chordMatch = require('../image_recognition/chord-match');
 const fs = require('fs');
-const specialStrumMatch = require('./image_recognition/special-strum-match');
-const octaveMatch = require('./image_recognition/octave-match');
-const starMatch = require('./image_recognition/star-match');
-const firstNoteMatch = require('./image_recognition/first-note-match');
+const specialStrumMatch = require('../image_recognition/special-strum-match');
+const octaveMatch = require('../image_recognition/octave-match');
+const starMatch = require('../image_recognition/star-match');
+const firstNoteMatch = require('../image_recognition/first-note-match');
 
-var songDomain = require('../server/domains/song');
-
-function buildImages() {
-  return songDomain.getActiveSongs().then(songs => {
-    const requests = songs.map(song => {
-      return new Promise(resolve => {
-        console.log(`Processings Song for ${song.artist} - ${song.title}`);
-        fileResize.resizeImage(song).then(function(results) {
-          resolve(results);
-          //waterMark.addWaterMark(song);
-        });
-      });
-    });
-
-    return Promise.all(requests);
-  });
-}
+var songDomain = require('../../server/domains/song');
 
 class ImageFileBuilder {
   constructor() {}
+
+  buildImages() {
+    return songDomain.getActiveSongs().then(songs => {
+      const requests = songs.map(song => {
+        return new Promise(resolve => {
+          console.log(`Processings Song for ${song.artist} - ${song.title}`);
+          fileResize.resizeImage(song).then(function(results) {
+            resolve(results);
+            //waterMark.addWaterMark(song);
+          });
+        });
+      });
+
+      return Promise.all(requests);
+    });
+  }
 
   resizeImage(song) {
     return fileResize.resizeImage(song).then(function(results) {
@@ -82,13 +83,15 @@ class ImageFileBuilder {
 
 module.exports = new ImageFileBuilder();
 
-/*
-buildImages().then(function(results) {
-  console.log(results);
-  pool.end();
-  console.log('closing the pool');
-});
-*/
+if (options.isCommandLine()) {
+  const imageFileBuilder = new imageFileBuilder();
+
+  iamgeFileBuilder.buildImages().then(function(results) {
+    console.log(results);
+    pool.end();
+    console.log('closing the pool');
+  });
+}
 
 /*
 imageFileBuilder = new ImageFileBuilder();

@@ -3,6 +3,7 @@ const indexFileBuilder = require('./builders/indexFileBuilder');
 const artistFileBuilder = require('./builders/artistFileBuilder');
 const genreFileBuilder = require('./builders/genreFileBuilder');
 const songFileBuilder = require('./builders/songFileBuilder');
+const imageFileBuilder = require('./builders/imageFileBuilder');
 
 function closeThePool() {
   console.log('\n\nclosing the pool\n\n');
@@ -23,7 +24,10 @@ indexFileBuilder.buildPages().then(indexFileBuilderResults => {
       outputResults('GenreFileBulder', genreFileBuilderResults);
       songFileBuilder.buildAllPages().then(songFileBuilderResults => {
         outputResults('SongFileBulder', songFileBuilderResults);
-        closeThePool();
+        imageFileBuilder.buildImages().then(imageFileBuilderResults => {
+          outputResults('ImageFileBulder', imageFileBuilderResults);
+          closeThePool();
+        });
       });
     });
   });
