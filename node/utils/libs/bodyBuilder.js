@@ -89,6 +89,7 @@ module.exports = {
               </div>
             </article>
           </div>
+          ${adBuilder.buildFooterAd()}
           <footer class="legal">
             <div class="fair-use-policy">
               <p>
@@ -196,6 +197,7 @@ module.exports = {
                 </div>
                 </div>
               </article>
+              ${adBuilder.buildFooterAd()}
               <footer class="footer">Footer</footer>
             </div>
           </div>
@@ -225,6 +227,7 @@ module.exports = {
                 </div>
                 </div>
               </article>
+              ${adBuilder.buildFooterAd()}
               <footer class="footer">Footer</footer>
             </div>
           </div>
@@ -254,6 +257,7 @@ module.exports = {
                 </div>
                 </div>
               </article>
+              ${adBuilder.buildFooterAd()}
               <footer class="footer">Footer</footer>
             </div>
           </div>
@@ -283,6 +287,7 @@ module.exports = {
                 </div>
                 </div>
               </article>
+              ${adBuilder.buildFooterAd()}
               <footer class="footer">Footer</footer>
             </div>
           </div>

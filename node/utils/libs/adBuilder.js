@@ -167,5 +167,13 @@ module.exports = {
         </div>
       </div>
     `;
+  },
+
+  buildFooterAd: function() {
+    return `
+      <div class="bottom-banner-container">
+        <iframe src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=48&l=ur1&category=musicandentertainmentrot&f=ifr&linkID=bd67bf9862ab2fc67ab0f29d66a2d1cf&t=kanikapilas-20&tracking_id=kanikapilas-20" width="728" height="90" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
+      </div>
+    `;
   }
 };
