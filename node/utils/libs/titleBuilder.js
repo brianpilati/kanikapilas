@@ -17,7 +17,7 @@ function convertSecondarySize(size) {
 }
 
 function isValidLetter(letter) {
-  return letter.match(/'/) ? false : true;
+  return letter.match(/'|\(/) ? false : true;
 }
 
 function convertWord(word, size) {
@@ -38,12 +38,14 @@ function convertWord(word, size) {
   const remainingLetters = word.substring(letterCount, word.length).toUpperCase();
   let preLetterString = '';
   if (preLetters.length) {
-    preLetterString = `<span class="${convertSecondarySize(size)}">${preLetters.join('')}</span>`;
+    preLetterString = `<span class="${convertSecondarySize(size)} tiki-tropic">${preLetters.join('')}</span>`;
   }
 
   return `${preLetterString}<span class="${convertPrimarySize(
     size
-  )}">${firstLetter}</span><span class="${convertSecondarySize(size)}">${remainingLetters}</span>`;
+  )} tiki-tropic">${firstLetter}</span><span class="${convertSecondarySize(
+    size
+  )} tiki-tropic">${remainingLetters}</span>`;
 }
 
 function convertSentence(sentence, size) {
@@ -57,6 +59,7 @@ function convertSentence(sentence, size) {
 
 module.exports = {
   title(sentence, size) {
+    size = size || sizes.small;
     return convertSentence(sentence, size);
   },
 

@@ -57,6 +57,8 @@ class ImageFileBuilder {
                 starMatch.starMatch(result.images[2]).then(starsFound => {
                   octaveMatch.octaveMatch(result.images[3]).then(octaveFound => {
                     firstNoteMatch.firstNoteMatch(result.images[3]).then(firstNoteFound => {
+                      console.log(firstNoteFound);
+                      console.log(result.images[3]);
                       song.firstNote = firstNoteFound;
                       song.flowered = hasSpecialStrumPattern;
                       song.chords = chords.chords.join(', ');

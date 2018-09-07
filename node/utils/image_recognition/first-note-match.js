@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const timer = require('../../lib/time');
 const MatchLibrary = require('./lib/match-library');
+const filePath = require('../libs/filePath');
 
 const maxTolerance = 0.6;
 const debug = false;
@@ -30,7 +31,7 @@ function firstNoteMatch(songPath) {
   });
 
   return matchLibrary.processImage(songPath, processImageOptions).then(function(originalMat) {
-    const pdfFolder = path.join(__dirname, '..', '..', 'deployment', 'assets', 'first-notes');
+    const pdfFolder = path.join(filePath.getBasePath(), 'deployment', 'assets', 'first-notes');
     let firstNoteCount = 0;
     const allFirstNotes = fs.readdirSync(pdfFolder);
     const resultObject = Object({

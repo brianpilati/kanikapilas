@@ -17,9 +17,8 @@ module.exports = {
       <body>
         <div class="background-splash"></div>
         <div class="page-container">
-          <header class="page-header">
-            ${headerBuilder.getHeader()}
           </header>
+          ${headerBuilder.getHeader()}
           <div class="page-body">
             <aside>
               ${adBuilder.buildAsideAds()}
@@ -118,31 +117,29 @@ module.exports = {
         <body>
           <div class="background-splash"></div>
           <div class="page-container">
-            <header class="page-header">
-              ${headerBuilder.getHeader()}
-            </header>
+            ${headerBuilder.getHeader()}
             <div class="page-body">
               <article class="article">
                 <div class="article-title">
-                  Genres  <hr>
+                  ${titleBuilder.title('Genres')} <hr>
                 </div>
                 <div class="genres">
                   ${genreBuilder.getGenres()}
                 </div>
                 <div class="article-title">
-                  Artists By Name  <hr>
+                  ${titleBuilder.title('Artist By Name')} <hr>
                 </div>
                 <div class="artists">
                   ${artists}
                 </div>
                 <div class="article-title">
-                  Songs By Name  <hr>
+                  ${titleBuilder.title('Song By Name')} <hr>
                 </div>
                 <div class="artists">
                   ${songs}
                 </div>
                 <div class="article-title">
-                  Recommended Songs <hr>
+                  ${titleBuilder.title('Recommended Songs')} <hr>
                 </div>
                 <div class="recommended">
                   ${recommendedSongs}
@@ -184,9 +181,7 @@ module.exports = {
         <body>
           <div class="background-splash"></div>
           <div class="page-container">
-            <header class="page-header">
-              ${headerBuilder.getHeader()}
-            </header>
+            ${headerBuilder.getHeader()}
             <div class="page-body">
               <aside>
                 ${adBuilder.buildAsideAds()}
@@ -194,7 +189,7 @@ module.exports = {
               <article class="article">
                 ${breadCrumbBuilder.buildBreadCrumb()}
                 <div class="article-title">
-                  ${titleBuilder.title(`Artists starting with '${letter}'`, sizes.small)} &nbsp; (${artistObject.count})
+                  ${titleBuilder.title(`Artists starting with '${letter}' (${artistObject.count})`, sizes.small)}
                 </div>
                 <div class="artist-container">
                   ${artistObject.artists}
@@ -215,9 +210,7 @@ module.exports = {
         <body>
           <div class="background-splash"></div>
           <div class="page-container">
-            <header class="page-header">
-              ${headerBuilder.getHeader()}
-            </header>
+            ${headerBuilder.getHeader()}
             <div class="page-body">
               <aside>
                 ${adBuilder.buildAsideAds()}
@@ -225,7 +218,7 @@ module.exports = {
               <article class="article">
                 ${breadCrumbBuilder.buildArtistBreadCrumb(artist)}
                 <div class="article-title">
-                  ${titleBuilder.title(artist, sizes.small)}&nbsp; (${songObject.count})
+                  ${titleBuilder.title(`${artist} (${songObject.count})`, sizes.small)}
                 </div>
                 <div class="artist-container">
                   ${songObject.songs}
@@ -246,9 +239,7 @@ module.exports = {
         <body>
           <div class="background-splash"></div>
           <div class="page-container">
-            <header class="page-header">
-              ${headerBuilder.getHeader()}
-            </header>
+            ${headerBuilder.getHeader()}
             <div class="page-body">
               <aside>
                 ${adBuilder.buildAsideAds()}
@@ -277,9 +268,7 @@ module.exports = {
         <body>
           <div class="background-splash"></div>
           <div class="page-container">
-            <header class="page-header">
-              ${headerBuilder.getHeader()}
-            </header>
+            ${headerBuilder.getHeader()}
             <div class="page-body">
               <aside>
                 ${adBuilder.buildAsideAds()}

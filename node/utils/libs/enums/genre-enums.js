@@ -1,7 +1,7 @@
 module.exports = [
   'Country',
   'Classics',
-  '80s and 90s',
+  '80s<br>&<br>90s',
   'Pop',
   'Oldies',
   'Spiritual',

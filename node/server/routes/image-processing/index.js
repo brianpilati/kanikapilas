@@ -5,7 +5,7 @@ const corsOptions = require('../../libs/cors');
 const fs = require('fs');
 const path = require('path');
 const songDomain = require('../../domains/song');
-const imageFileBuilder = require('../../../utils/imageFileBuilder');
+const imageFileBuilder = require('../../../utils/builders/imageFileBuilder');
 
 router.get('', cors(corsOptions), function(req, res) {
   const images = [];
