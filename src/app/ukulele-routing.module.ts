@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SongDetailComponent } from './song-detail/song-detail.component';
 import { SongsComponent } from './songs/songs.component';
 import { ImageProcessingComponent } from './image-processing/image-processing.component';
+import { TwitterComponent } from './communication/twitter/twitter.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: 'image-processing',
     component: ImageProcessingComponent
+  },
+  {
+    path: 'twitter',
+    component: TwitterComponent
   },
   {
     path: 'songs',

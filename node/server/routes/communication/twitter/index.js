@@ -7,17 +7,17 @@ const corsOptions = require('../../../libs/cors');
 var client = new Twitter(twitterConfiguration);
 
 router.get('', cors(corsOptions), function(req, res) {
-  const tweets = [];
+  const allTweets = [];
   client.get('statuses/user_timeline.json?screen_name=kanikapilas&count=2', function(error, tweets) {
     if (error) throw error;
     tweets.forEach(tweet => {
-      tweets.push({
-        text: tweet.text,
+      allTweets.push({
+        tweet: tweet.text,
         created: tweet.created_at
       });
     });
 
-    res.status(200).json(tweets);
+    res.status(200).json(allTweets);
   });
 });
 

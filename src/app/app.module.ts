@@ -37,6 +37,8 @@ import { ImageProcessingService } from './image-processing/services/image-proces
 import { LoadingSpinnerComponent } from './http/spinner/loading-spinner/loading-spinner.component';
 import { HttpStatusService } from './http/http-status.service';
 import { AuthenticationInterceptorService } from './authentication/authentication-interceptor.service';
+import { TwitterComponent } from './communication/twitter/twitter.component';
+import { TwitterService } from 'node/server/communication/services/twitter.service';
 
 @NgModule({
   imports: [
@@ -71,7 +73,8 @@ import { AuthenticationInterceptorService } from './authentication/authenticatio
     },
     ImageProcessingService,
     LastFmService,
-    SongsService
+    SongsService,
+    TwitterService
   ],
   declarations: [
     AppComponent,
@@ -82,7 +85,8 @@ import { AuthenticationInterceptorService } from './authentication/authenticatio
     SongDetailComponent,
     SongGenreComponent,
     SongsComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    TwitterComponent
   ],
   bootstrap: [AppComponent]
 })
