@@ -1,4 +1,17 @@
-const ads = [
+const footerAds = [
+  {
+    description: 'Custom',
+    code:
+      '<div id="amzn-assoc-ad-dee30cf8-0720-473c-8405-4b37ec5eebc6"></div><script async src="//z-na.amazon-adsystem.com/widgets/onejs?MarketPlace=US&adInstanceId=dee30cf8-0720-473c-8405-4b37ec5eebc6"></script>'
+  },
+  {
+    description: 'Static',
+    code:
+      '<iframe src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=48&l=ur1&category=musicandentertainmentrot&f=ifr&linkID=bd67bf9862ab2fc67ab0f29d66a2d1cf&t=kanikapilas-20&tracking_id=kanikapilas-20" width="728" height="90" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>'
+  }
+];
+
+const tshirtAds = [
   {
     description: 'Ukulele Ace',
     code:
@@ -121,18 +134,31 @@ const ads = [
   }
 ];
 
-let decisionAds = Array.from(ads);
+let decisionTShirtAds = Array.from(tshirtAds);
+
+let decisionFooterAds = Array.from(footerAds);
 
 function getRandomArbitrary(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-function buildAd() {
-  const adIndex = getRandomArbitrary(0, decisionAds.length);
-  const ad = decisionAds.splice(adIndex, 1);
+function buildTShirtAd() {
+  const adIndex = getRandomArbitrary(0, decisionTShirtAds.length);
+  const ad = decisionTShirtAds.splice(adIndex, 1);
 
-  if (decisionAds.length === 0) {
-    decisionAds = Array.from(ads);
+  if (decisionTShirtAds.length === 0) {
+    decisionTShirtAds = Array.from(tshirtAds);
+  }
+
+  return ad.pop().code;
+}
+
+function buildFooterAd() {
+  const adIndex = getRandomArbitrary(0, decisionFooterAds.length);
+  const ad = decisionFooterAds.splice(adIndex, 1);
+
+  if (decisionFooterAds.length === 0) {
+    decisionFooterAds = Array.from(footerAds);
   }
 
   return ad.pop().code;
@@ -151,19 +177,19 @@ module.exports = {
     return `
       <div class="tshirt-container">
         <div class="tshirt">
-          ${buildAd()}
+          ${buildTShirtAd()}
         </div>
         <div class="tshirt-divider">
           ${adDivider()}
         </div>
         <div class="tshirt">
-          ${buildAd()}
+          ${buildTShirtAd()}
         </div>
         <div class="tshirt-divider">
           ${adDivider()}
         </div>
         <div class="tshirt">
-          ${buildAd()}
+          ${buildTShirtAd()}
         </div>
       </div>
     `;
@@ -172,7 +198,7 @@ module.exports = {
   buildFooterAd: function() {
     return `
       <div class="bottom-banner-container">
-        <iframe src="//rcm-na.amazon-adsystem.com/e/cm?o=1&p=48&l=ur1&category=musicandentertainmentrot&f=ifr&linkID=bd67bf9862ab2fc67ab0f29d66a2d1cf&t=kanikapilas-20&tracking_id=kanikapilas-20" width="728" height="90" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>
+        ${buildFooterAd()}
       </div>
     `;
   }

@@ -12,6 +12,10 @@ class Options {
   isCommandLine() {
     return this.__getArgument('c') === true || this.__getArgument('commandline') === true;
   }
+
+  isBuildImage() {
+    return this.__getArgument('i') === true || this.__getArgument('buildImages') === true;
+  }
 }
 
 module.exports = new Options();

@@ -1,4 +1,5 @@
 const pool = require('../lib/database');
+const options = require('../lib/options');
 const indexFileBuilder = require('./builders/indexFileBuilder');
 const artistFileBuilder = require('./builders/artistFileBuilder');
 const genreFileBuilder = require('./builders/genreFileBuilder');
@@ -24,10 +25,14 @@ indexFileBuilder.buildPages().then(indexFileBuilderResults => {
       outputResults('GenreFileBulder', genreFileBuilderResults);
       songFileBuilder.buildAllPages().then(songFileBuilderResults => {
         outputResults('SongFileBulder', songFileBuilderResults);
-        imageFileBuilder.buildImages().then(imageFileBuilderResults => {
-          outputResults('ImageFileBulder', imageFileBuilderResults);
+        if (options.isBuildImage()) {
+          imageFileBuilder.buildImages().then(imageFileBuilderResults => {
+            outputResults('ImageFileBulder', imageFileBuilderResults);
+            closeThePool();
+          });
+        } else {
           closeThePool();
-        });
+        }
       });
     });
   });

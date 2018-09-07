@@ -28,6 +28,11 @@
   margin-bottom: 0;
 }
 
+.bottom-banner-container {
+  justify-content: center;
+  display: flex;
+}
+
 @media all and (max-width: 700px) {
   .tshirt-container {
     flex-direction: row;
