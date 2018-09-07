@@ -1,5 +1,5 @@
 const Twitter = require('twitter');
-const twitterConfiguration = require('../../../lib/secrets/twitter_configuration');
+const twitterConfiguration = require('../../../../lib/secrets/twitter_configuration');
 const router = require('express').Router();
 const cors = require('cors');
 const corsOptions = require('../../libs/cors');
