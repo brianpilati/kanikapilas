@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var util = require('util');
-var mysql = require('./db_configuration');
+var mysql = require('./secrets/db_configuration');
 
 var pool = mysql;
 

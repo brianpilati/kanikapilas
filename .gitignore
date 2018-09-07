@@ -38,7 +38,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
-db_configuration.js
+/node/lib/secrets/*
 *.swp
 deployment
 src/environments/keys.ts

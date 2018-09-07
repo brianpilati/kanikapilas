@@ -36,7 +36,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 https://medium.com/@matthagemann/create-a-mysql-database-middleware-with-node-js-8-and-async-await-6984a09d49f4
 
-## You will need to have a server/db_configuration.js file in the following format
+## You will need to have a node/lib/secrets/db_configuration.js file in the following format
 
 ```
 var mysql = require('mysql')
@@ -49,4 +49,15 @@ module.exports = mysql.createPool({
   database: 'database_name',
   socketPath: '/opt/local/var/run/mysql56/mysqld.sock'
 });
+```
+
+## You will need to have a node/lib/secrets/twitter_configuration.js file in the following format
+
+```
+module.exports = {
+  consumer_key: '<consumer_key>',
+  consumer_secret: '<consumer_secret>',
+  access_token_key: '<access_token_key>',
+  access_token_secret: '<access_token_secret>'
+};
 ```
