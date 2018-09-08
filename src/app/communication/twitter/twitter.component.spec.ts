@@ -25,7 +25,7 @@ describe('TwitterComponent', () => {
   }));
 
   it('should test getSong and default values', inject([HttpTestingController], (httpMock: HttpTestingController) => {
-    expect(component.tweets).toEqual([]);
+    expect(component.tweets).toBeUndefined();
 
     const request = httpMock.expectOne('http://localhost:3000/api/twitter');
     expect(request.request.method).toEqual('GET');
