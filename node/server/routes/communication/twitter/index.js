@@ -12,6 +12,8 @@ router.get('', cors(corsOptions), function(req, res) {
     if (error) throw error;
     tweets.forEach(tweet => {
       allTweets.push({
+        id: tweet.id,
+        truncated: tweet.truncated,
         tweet: tweet.text,
         created: tweet.created_at
       });

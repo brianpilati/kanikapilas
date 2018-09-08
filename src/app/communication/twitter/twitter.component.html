@@ -1,3 +1,39 @@
-<p>
-  twitter works!
-</p>
+<div
+  class="tweet-container"
+>
+  <table
+    mat-table
+    [dataSource]="tweets"
+    class="mat-elevation-z8"
+  >
+    <ng-container matColumnDef="tweet">
+      <th mat-header-cell *matHeaderCellDef> Tweet </th>
+      <td class="tweet-column" mat-cell *matCellDef="let element">
+        <div class="tweet">
+          {{element.tweet}}
+        </div>
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="truncated">
+      <th mat-header-cell *matHeaderCellDef> Truncated </th>
+      <td class="truncated" mat-cell *matCellDef="let element"> 
+        <div>
+          {{element.truncated}}
+        </div>
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="created">
+      <th mat-header-cell *matHeaderCellDef> Created </th>
+      <td class="created" mat-cell *matCellDef="let element">
+        <div>
+          {{element.created}}
+        </div>
+      </td>
+    </ng-container>
+    
+    <tr class="headers2" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr class="headers" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

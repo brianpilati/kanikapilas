@@ -1,0 +1,39 @@
+.tweet-container {
+  height: 570px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+table th {
+  text-align: center;
+  font-weight: bold;
+}
+
+.tweet-column {
+  width: 55%;
+  margin: auto;
+  padding: 10px;
+  display: flex;
+}
+
+.tweet {
+  width: 400px;
+  border: 10px solid #8ad0f6;
+  padding: 10px;
+  text-align: left;
+}
+
+.truncated {
+  text-align: center;
+  width: 10%;
+}
+
+.created {
+  text-align: center;
+  width: 35%;
+}

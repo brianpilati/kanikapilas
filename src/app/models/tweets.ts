@@ -1,5 +1,6 @@
 export class Tweet {
   public id: number;
-  public createdAt: string;
+  public truncated: boolean;
+  public created: string;
   public tweet: string;
 }
